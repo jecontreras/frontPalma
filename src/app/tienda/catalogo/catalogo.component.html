@@ -105,8 +105,12 @@ font-size: 18px;
 text-align: center;
 }
 } </style><div class=headline-inner style="height: 70px;">
-<h2 style="text-align: center;"><span style="color: white; background-color: rgba(0, 0, 0, 0); font-size: 200%;">{{ data['pro_categoria']?.cat_nombre }}</span>
+<h2 style="text-align: center;">
+  <span style="color: white; background-color: rgba(0, 0, 0, 0); font-size: 200%;">{{ data['pro_categoria']?.cat_nombre }}</span>
 </h2>
+</div>
+<div *ngIf="data.pro_vendedor === 0">
+  <app-alert-banner></app-alert-banner>
 </div>
 </div>
 </div>
@@ -160,6 +164,9 @@ style="color: white; font-size: 14px;"> </strong><strong style="color: white; fo
 style="font-size: 178%; line-height: 1; border-style: none; border-width: medium; color: rgb(255, 0, 0); margin: 0px; padding: 0px 5px 5px; box-shadow: transparent 0px 0px 0px 0px; text-shadow: transparent 0px 0px 0px;"><div class=headline-inner style="    text-align: center;">
 <h3><span style="font-size: 25px;">⭐️⭐️⭐️⭐️⭐️</span></h3>
 <p><strong class=ql-font-archivo>CALIDAD GARANTIZADA</strong>
+</div>
+<div *ngIf="data.pro_vendedor === 0">
+  <app-alert-banner></app-alert-banner>
 </div>
 </div>
 </div>
@@ -539,12 +546,15 @@ style="line-height: 1; margin: 10px 0px; padding: 5px; text-shadow: transparent 
                   <div class="os-row">
                       <div class="os-name">ENVIO NACIONAL
                       </div>
-                      <div class="os-price"><p style="text-align: center;"><strong>$15.000</strong></p></div>
+                      <div class="os-price"><p style="text-align: center;"><strong> {{ ( this._tools.monedaChange( 3, 2, data.pro_vendedor || 0 ) ) || 'Gratis' }}</strong></p></div>
                   </div>
                 </div>
     <div class="os-total os-row" style="color: rgb(7, 7, 7); font-weight: bold; font-size: 14px;">
       <div class="os-name">TOTAL</div>
-      <div class="os-price">{{this._tools.monedaChange( 3, 2, data.pro_uni_venta + 15000 ) }} </div>
+      <div class="os-price">{{ this._tools.monedaChange( 3, 2, data.pro_uni_venta + ( data.pro_vendedor || 0 ) ) }} </div>
+    </div>
+    <div *ngIf="data.pro_vendedor === 0">
+      <app-alert-banner></app-alert-banner>
     </div>
   </div>
   <label data-selected=true class=order-bump

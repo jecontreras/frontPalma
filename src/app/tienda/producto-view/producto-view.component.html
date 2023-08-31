@@ -56,6 +56,9 @@
                       }}</span>
                     <p class="aa-product-avilability">Disponibilidad: <span>En stock</span></p>
                   </div>
+                  <div class="col-12">
+                    <app-alert-banner></app-alert-banner>
+                  </div>
                   <p [innerHtml]="data.pro_descripcion "></p>
                   <section *ngIf="data['listTallas']?.length > 0 ">
                     <h4>Talla</h4>

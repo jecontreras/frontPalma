@@ -50,6 +50,9 @@
             <div class="pbutton">
               <i class="material-icons pointer" (click)="buscar()" *ngIf="!loader" >search</i>
             </div>
+            <div class="col-12">
+              <app-alert-banner></app-alert-banner>
+            </div>
           </div>
           <div class="aa-product-catg-body" infiniteScroll [infiniteScrollDistance]="3" [infiniteScrollThrottle]="50"
             (scrolled)="onScroll()">

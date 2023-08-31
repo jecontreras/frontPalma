@@ -175,7 +175,7 @@ export class CatalogoComponent implements OnInit {
           Cantidad: 1
           Talla: ${ this.form.talla }
           Color: ${ this.form.color }
-          Total a pagar: ${ this.data.pro_uni_venta } (PAGO CONTRA ENTREGA)
+          Total a pagar: ${ this.data.pro_uni_venta + ( this.data.pro_vendedor || 0 )  } (PAGO CONTRA ENTREGA)
           Envío de 4 -8 días hábiles
       EN ESPERA DE LA GUÍA DE DESPACHO.
     `)}`;
@@ -194,8 +194,8 @@ export class CatalogoComponent implements OnInit {
       "ven_direccion_cliente": this.form.direccion,
       "ven_cantidad": 1,
       "ven_tallas": this.form.talla,
-      "ven_precio": this.data.pro_uni_venta,
-      "ven_total": this.data.pro_uni_venta || 0,
+      "ven_precio": ( this.data.pro_uni_venta + ( this.data.pro_vendedor || 0 ) || 0),
+      "ven_total": ( this.data.pro_uni_venta + ( this.data.pro_vendedor || 0 ) ) || 0,
       "ven_ganancias": 0,
       "ven_observacion": "ok la talla es " + this.form.talla + " y el color " + this.form.color,
       "nombreProducto": "ok la talla es " + this.form.talla + " y el color " + this.form.color,
