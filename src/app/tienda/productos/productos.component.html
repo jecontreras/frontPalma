@@ -1,7 +1,7 @@
 <!-- catg header banner section -->
 <section id="aa-catg-head-banner">
   <img [src]=" tiendaInfo.portada2 || './assets/img/fashion/fashion-header-bg-8.jpg'" alt="fashion img" class="anchosBanner">
-  <div class="aa-catg-head-banner-area">
+  <!--<div class="aa-catg-head-banner-area">
     <div class="container">
       <div class="aa-catg-head-banner-content">
         <h2>Productos exclusivos</h2>
@@ -11,7 +11,7 @@
         </ol>
       </div>
     </div>
-  </div>
+  </div>-->
 </section>
 <!-- / catg header banner section -->
 
@@ -51,7 +51,10 @@
               <i class="material-icons pointer" (click)="buscar()" *ngIf="!loader" >search</i>
             </div>
             <div class="col-12">
-              <app-alert-banner></app-alert-banner>
+              <!--<app-alert-banner></app-alert-banner>-->
+              <div class="scrollmenu" style="    border-radius: 3px;" #toolbar>
+                <a class="pointer" (click)="SeleccionCategoria( item )" *ngFor="let item of listCategorias">{{ item.cat_nombre }} </a>
+              </div>
             </div>
           </div>
           <div class="aa-product-catg-body" infiniteScroll [infiniteScrollDistance]="3" [infiniteScrollThrottle]="50"
@@ -183,4 +186,19 @@
     </div>
   </div>
 </section>
+<footer #nav style="position: fixed; top: 92%; left: auto;">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="d-flex justify-content-center">
+          <div>
+            <a (click)="handleAsesor()" class="aa-add-to-cart-btn pointer"
+              style="    font-size: 210%; background: #008116; color: white; border-radius: 11px;"><span
+                class="fa fab fa-whatsapp"></span>Chatear con un asesor</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
 <!-- / product category -->
