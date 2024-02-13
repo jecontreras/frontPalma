@@ -7,7 +7,7 @@ export const environment = {
   //url: "http://localhost:1338",
   url: "https://backpalma.herokuapp.com",
   urlFront: "http://localhost:4200",
-  URLFILE: "https://lokomproaqui.herokuapp.com",
+  URLFILE: "https://apilokomprojs-46c477c2e9f6.herokuapp.com",
 };
 
 /*
