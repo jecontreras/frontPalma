@@ -66,7 +66,7 @@ text-align: center;
 font-weight: normal;
 font-style: normal;
 text-decoration: none;} </style><ul data-expire data-expire-url class="timer-id-272680 timer">
-<li><span data-hours=0 class=timer_number>{{ timeot.hora }} </span><span class=timer_label>Horas</span>
+<!-- <li><span data-hours=0 class=timer_number>{{ timeot.hora }} </span><span class=timer_label>Horas</span> -->
 <li><span data-minutes=14 class=timer_number>{{ timeot.minuto }} </span><span class=timer_label>Minutos</span>
 <li><span data-seconds=15 class=timer_number>{{ timeot.milesegundo }} </span><span class=timer_label>Segundos</span>
 </ul>
@@ -130,7 +130,7 @@ text-align: center;
 <div class=element-wrapper>
 <div
 style="font-size: 178%; line-height: 1; color: rgb(0, 0, 0); margin: 0px; padding: 5px; background-color: white; text-shadow: transparent 0px 0px 0px;"><div class=headline-inner style="    text-align: center;">
-<h3><strong>ANTES <s>$150.000</s></strong></h3>
+<h3><strong>ANTES <s>{{ _tools.monedaChange( 3, 2, data.pro_uni_venta + (data.pro_uni_venta * 40 /100)) }}</s></strong></h3>
 </div>
 </div>
 </div>
@@ -490,7 +490,7 @@ style="line-height: 1; margin: 10px 0px; padding: 5px; text-shadow: transparent 
                   <span class="top-tag" style="background: rgb(255, 0, 0);">EL MAS VENDIDO 🔥</span></span>
               </div>
               <div class="pl-price">
-                  <span class="pl-pvalue"><p style="text-align: center;"><s>$150.000</s></p><p style="text-align: center;"><strong style="color: rgb(230, 0, 0);">{{ _tools.monedaChange( 3, 2, data.pro_uni_venta ) }} </strong></p></span>
+                  <span class="pl-pvalue"><p style="text-align: center;"><s>{{ _tools.monedaChange( 3, 2, data.pro_uni_venta + (data.pro_uni_venta * 40 /100)) }}</s></p><p style="text-align: center;"><strong style="color: rgb(230, 0, 0);">{{ _tools.monedaChange( 3, 2, data.pro_uni_venta ) }} </strong></p></span>
               </div>
           </label>
           <!--<div class="pl-variants">
@@ -539,9 +539,18 @@ style="line-height: 1; margin: 10px 0px; padding: 5px; text-shadow: transparent 
     </div>
     <div class="os-items" style="color: rgb(37, 42, 50); font-size: 14px;">
       <div class="os-row">
-                      <div class="os-name">TENIS HOMBRE<span class="os-voption">&nbsp;&nbsp; ● &nbsp;&nbsp;</span>
+                      <div class="os-name">
+                        <span class="os-voption">&nbsp;&nbsp; ● &nbsp;&nbsp;</span>
+                        {{ data['pro_categoria']?.cat_nombre }}
                       </div>
-                      <div class="os-price"><p style="text-align: center;"><s>$150.000</s></p><p style="text-align: center;"><strong style="color: rgb(230, 0, 0);"> {{ _tools.monedaChange( 3, 2, data.pro_uni_venta ) }} </strong></p></div>
+                      <div class="os-price">
+                        <p style="text-align: center;">
+                          <s>{{ _tools.monedaChange( 3, 2, data.pro_uni_venta + (data.pro_uni_venta * 40 /100)) }}</s>
+                        </p>
+                        <p style="text-align: center;">
+                            <strong style="color: rgb(230, 0, 0);"> {{ _tools.monedaChange( 3, 2, data.pro_uni_venta ) }} </strong>
+                        </p>
+                      </div>
                   </div>
                   <div class="os-row">
                       <div class="os-name">ENVIO NACIONAL
