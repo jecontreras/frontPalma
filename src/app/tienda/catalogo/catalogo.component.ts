@@ -119,6 +119,20 @@ export class CatalogoComponent implements OnInit {
   ngOnInit(): void {
     this.id = ( this.activate.snapshot.paramMap.get('id') );
     this.getArticulos();
+
+    //animacion de las imagenes
+    let imageIndex = 0
+    let imagen = {}
+    setInterval(()=>{
+      let imageL =  this.listGaleria.length
+      // console.log("cambio imagen" , imageL)
+      imagen = this.listGaleria[imageIndex].foto
+      // console.log("imagen", imagen)
+      this.data.foto = imagen
+      imageIndex++
+      if(imageIndex >= imageL)
+        imageIndex = 0
+    }, 3000 );
   }
 
   getArticulos(){
