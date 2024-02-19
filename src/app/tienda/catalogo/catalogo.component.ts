@@ -132,7 +132,7 @@ export class CatalogoComponent implements OnInit {
       imageIndex++
       if(imageIndex >= imageL)
         imageIndex = 0
-    }, 3000 );
+    }, 1000 );
   }
 
   getArticulos(){
