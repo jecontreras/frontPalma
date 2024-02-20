@@ -541,7 +541,11 @@ style="line-height: 1; margin: 10px 0px; padding: 5px; text-shadow: transparent 
       <div class="os-row">
                       <div class="os-name">TENIS HOMBRE<span class="os-voption">&nbsp;&nbsp; ● &nbsp;&nbsp;</span>
                       </div>
-                      <div class="os-price"><p style="text-align: center;"><s>$150.000</s></p><p style="text-align: center;"><strong style="color: rgb(230, 0, 0);"> {{ _tools.monedaChange( 3, 2, data.pro_uni_venta ) }} </strong></p></div>
+                      <div class="os-price">
+                        <p style="text-align: center;"><s>{{ _tools.monedaChange( 3, 2, data.pro_uni_venta + (data.pro_uni_venta * 40 /100)) }}</s></p><p style="text-align: center;">
+                          <strong style="color: rgb(230, 0, 0);"> {{ _tools.monedaChange( 3, 2, data.pro_uni_venta ) }} </strong>
+                        </p>
+                      </div>
                   </div>
                   <div class="os-row">
                       <div class="os-name">ENVIO NACIONAL
