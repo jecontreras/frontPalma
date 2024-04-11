@@ -2,10 +2,11 @@
   <div id=render-table class="main_wrapper_main mobile_grid" style="background-color: white; background-size: auto; background-repeat: no-repeat; padding: 20px; border-color: transparent; border-style: solid; border-width: 0px; color: rgb(37, 42, 50); font-family: Roboto; font-size: 14px;">
     <main class=main-wrapper>
       <section id=54198 class="section full" style="background-size: auto; background-repeat: no-repeat;">
-        <div id=46695 class=section_row style="border-color: transparent; border-style: solid; border-width: 0px; color: rgb(48, 48, 48); font-size: 14px; text-align: initial; margin: 0px; padding: 0px; background-size: auto; background-repeat: no-repeat;">
+        <div id=46695 class=section_row style="border-color: transparent; border-style: solid; border-width: 0px; color: rgb(8, 8, 8); font-size: 14px; text-align: initial; margin: 0px; padding: 0px; background-size: auto; background-repeat: no-repeat;">
           <div class=row-column style="width: 100%;">
             <div class=element-wrapper>
-              <div  style="width: 100%; line-height: 1; color: white; margin: 10px 0px 0px; padding: 5px; background-color: rgb(255 64 129); text-shadow: transparent 0px 0px 0px;">
+              <!-- rgb(255 64 129); -->
+              <div  style="width: 100%; line-height: 1; color: white; margin: 10px 0px 0px; padding: 5px; background-color: rgb(8 8 8); text-shadow: transparent 0px 0px 0px;">
                 <style> .el-89628  {
                       font-size: calc(16px + 8 * ((100vw - 320px) / 960));
                       text-align: center;
@@ -36,11 +37,11 @@
   </div>
 </div>
 <div id=259692 class=section_row
-style="border-color: transparent; border-style: solid; border-width: 0px; color: rgb(48, 48, 48); font-size: 14px; text-align: initial; margin: 0px; padding: 0px; background-color: transparent; background-size: auto; background-repeat: no-repeat;">
+style="border-color: transparent; border-style: solid; border-width: 0px; color: rgb(8, 8, 8); font-size: 14px; text-align: initial; margin: 0px; padding: 0px; background-color: transparent; background-size: auto; background-repeat: no-repeat;">
 <div class=row-column style="width: 100%;">
 <div class=element-wrapper>
 <div class="timer-container el-272680"
-style="border-color: rgb(21, 215, 174); border-style: solid; border-width: 0px; border-radius: 0px; margin: 5px 0px 0px; padding: 10px 0px 0px; background-color: rgb(255 64 129);">
+style="border-color: rgb(21, 215, 174); border-style: solid; border-width: 0px; border-radius: 0px; margin: 5px 0px 0px; padding: 10px 0px 0px; background-color: rgb(8 8 8);">
 <style>
 .el-272680 {
 align-items: center;
@@ -81,31 +82,33 @@ text-decoration: none;} </style><ul data-expire data-expire-url class="timer-id-
 </div>
 </section>
 <section id=40710 class="section half"
-style="color: transparent; font-size: 14px; text-align: initial; padding: 0px; background-color: rgb(255 64 129); background-size: auto; background-repeat: no-repeat;">
+style="color: transparent; font-size: 14px; text-align: initial; padding: 0px; background-color: rgb(8 8 8); background-size: auto; background-repeat: no-repeat;">
 <div id=54455 class=section_row
   style="margin: 0px; background-color: white; background-size: auto; background-repeat: no-repeat;">
   <div class=row-column style="width: 100%;">
     <div class=element-wrapper>
       <div
-        style="width: 100%; line-height: 1; color: rgb(21, 215, 174); font-family: Bebas Neue; margin: 0px; padding: 5px; background-color: rgb(255 64 129); text-shadow: transparent 0px 0px 0px;">
+        style="width: 100%; line-height: 1; color: rgb(21, 215, 174); font-family: Bebas Neue; margin: 0px; padding: 5px; background-color: rgb(8 8 8); text-shadow: transparent 0px 0px 0px;">
         <style>
           .el-815933 {
-font-size: calc(40px + 8 * ((100vw - 320px) / 960));
-text-align: center;
-}
-@media screen and (min-width: 480px) {
-.el-815933  {
-font-size: calc(36px + 8 * ((100vw - 320px) / 960));
-text-align: center;
-}
-}
-@media screen and (min-width: 1024px) {
-.el-815933  {
-font-size: 18px;
-text-align: center;
-}
-} </style><div class=headline-inner style="height: 70px;">
-<h2 style="text-align: center;">
+            font-size: calc(40px + 8 * ((100vw - 320px) / 960));
+            text-align: center;
+            }
+            @media screen and (min-width: 480px) {
+            .el-815933  {
+            font-size: calc(36px + 8 * ((100vw - 320px) / 960));
+            text-align: center;
+            }
+            }
+            @media screen and (min-width: 1024px) {
+            .el-815933  {
+            font-size: 18px;
+            text-align: center;
+            }
+            }
+        </style>
+  <div class=headline-inner style="height: 70px;">
+<h2 style="text-align: center;padding-top: 10px;;">
   <span style="color: white; background-color: rgba(0, 0, 0, 0); font-size: 200%;">{{ data['pro_categoria']?.cat_nombre }}</span>
 </h2>
 </div>
@@ -130,7 +133,7 @@ text-align: center;
 <div class=element-wrapper>
 <div
 style="font-size: 178%; line-height: 1; color: rgb(0, 0, 0); margin: 0px; padding: 5px; background-color: white; text-shadow: transparent 0px 0px 0px;"><div class=headline-inner style="    text-align: center;">
-<h3><strong>ANTES <s>$150.000</s></strong></h3>
+<h3><strong>ANTES <s>{{ _tools.monedaChange( 3, 2, data.pro_uni_venta + (data.pro_uni_venta * 40 /100)) }}</s></strong></h3>
 </div>
 </div>
 </div>
@@ -140,6 +143,16 @@ style="font-size: 178%; line-height: 1; border-style: none; border-width: medium
 <h3><strong>AHORA {{ this._tools.monedaChange( 3, 2, data.pro_uni_venta ) }} </strong></h3>
 </div>
 </div>
+
+</div>
+<div class=element-wrapper>
+  <div class="kreep">
+    <!-- <a target=_self (click)="buyArticulo( 1, false )" class=btn style="border-radius: 0px; margin: 30px 0px 20px; padding: 15px; background-color: rgb(255 64 129);"> -->
+    <a target=_self (click)="buyArticulo( 1, false )" class=btn style="border-radius: 0px; margin: 10px 0px 20px; padding: 15px; background-color: rgb(34 206 90);">
+      <span class=btn-headline style="font-weight: bold; font-size: 20px; text-align: center;color: white;">¡HACER PEDIDO AHORA!
+      </span>
+    </a>
+  </div>
 </div>
 <div class=element-wrapper>
 <div
@@ -259,7 +272,7 @@ align-items: center;
 align-items: center;
 }
 } </style><a target=_self class=btn
-style="border-radius: 0px; margin: 0px 0px 10px; padding: 15px; background-color: rgb(255 64 129);"><span
+style="border-radius: 0px; margin: 0px 0px 10px; padding: 15px; background-color: rgb(8 8 8);"><span
 class=btn-headline style="font-weight: bold; font-size: 20px; text-align: center;color: white;">¡SELECCIONA TU TALLA!</span>
 <div class=btn-sub-headline style="color: rgb(253, 204, 94); font-size: 12px; text-align: center; margin-top: 1.5px;">
 EN LA CONFIRMACIÓN DE TU ORDEN</div>
@@ -281,10 +294,14 @@ align-items: center;
 align-items: center;
 }
 } </style>
-  <a target=_self (click)="buyArticulo( 1, false )" class=btn style="border-radius: 0px; margin: 30px 0px 20px; padding: 15px; background-color: rgb(255 64 129);">
-    <span class=btn-headline style="font-weight: bold; font-size: 20px; text-align: center;color: white;">¡HACER PEDIDO AHORA!
-    </span>
-  </a>
+  <div class="kreep">
+    <!-- <a target=_self (click)="buyArticulo( 1, false )" class=btn style="border-radius: 0px; margin: 30px 0px 20px; padding: 15px; background-color: rgb(255 64 129);"> -->
+    <a target=_self (click)="buyArticulo( 1, false )" class=btn style="border-radius: 0px; margin: 30px 0px 20px; padding: 15px; background-color: rgb(34 206 90);">
+      <span class=btn-headline style="font-weight: bold; font-size: 20px; text-align: center;color: white;">¡HACER PEDIDO AHORA!
+      </span>
+    </a>
+  </div>
+
   <br>
   <!--<a target=_self (click)="buyArticulo( 2, true )" class=btn style="border-radius: 0px; margin: 30px 0px 20px; padding: 15px; background-color: rgb(0, 0, 0);">
     <span class=btn-headline style="font-weight: bold; font-size: 20px; text-align: center;color: rgb(255, 42, 0);">⚠ LLEVA 2 PARES <br> POR {{ _formato.monedaChange( 3, 2, ( ( data.pro_uni_venta * 2 ) - 20000 ) || 0 ) }}
@@ -490,7 +507,7 @@ style="line-height: 1; margin: 10px 0px; padding: 5px; text-shadow: transparent 
                   <span class="top-tag" style="background: rgb(255, 0, 0);">EL MAS VENDIDO 🔥</span></span>
               </div>
               <div class="pl-price">
-                  <span class="pl-pvalue"><p style="text-align: center;"><s>$150.000</s></p><p style="text-align: center;"><strong style="color: rgb(230, 0, 0);">{{ _tools.monedaChange( 3, 2, data.pro_uni_venta ) }} </strong></p></span>
+                  <span class="pl-pvalue"><p style="text-align: center;"><s>{{ _tools.monedaChange( 3, 2, data.pro_uni_venta + (data.pro_uni_venta * 40 /100)) }}</s></p><p style="text-align: center;"><strong style="color: rgb(230, 0, 0);">{{ _tools.monedaChange( 3, 2, data.pro_uni_venta ) }} </strong></p></span>
               </div>
           </label>
           <!--<div class="pl-variants">
@@ -539,9 +556,18 @@ style="line-height: 1; margin: 10px 0px; padding: 5px; text-shadow: transparent 
     </div>
     <div class="os-items" style="color: rgb(37, 42, 50); font-size: 14px;">
       <div class="os-row">
-                      <div class="os-name">TENIS HOMBRE<span class="os-voption">&nbsp;&nbsp; ● &nbsp;&nbsp;</span>
+                      <div class="os-name">
+                        <span class="os-voption">&nbsp;&nbsp; ● &nbsp;&nbsp;</span>
+                        {{ data['pro_categoria']?.cat_nombre }}
                       </div>
-                      <div class="os-price"><p style="text-align: center;"><s>$150.000</s></p><p style="text-align: center;"><strong style="color: rgb(230, 0, 0);"> {{ _tools.monedaChange( 3, 2, data.pro_uni_venta ) }} </strong></p></div>
+                      <div class="os-price">
+                        <p style="text-align: center;">
+                          <s>{{ _tools.monedaChange( 3, 2, data.pro_uni_venta + (data.pro_uni_venta * 40 /100)) }}</s>
+                        </p>
+                        <p style="text-align: center;">
+                            <strong style="color: rgb(230, 0, 0);"> {{ _tools.monedaChange( 3, 2, data.pro_uni_venta ) }} </strong>
+                        </p>
+                      </div>
                   </div>
                   <div class="os-row">
                       <div class="os-name">ENVIO NACIONAL
@@ -569,9 +595,12 @@ style="line-height: 1; margin: 10px 0px; padding: 5px; text-shadow: transparent 
     <div class=ob-content>
       <p><span class=ql-font-montserrat>Selecciona el envío para que tu orden pueda ser despachada!</span>
     </div>
-  </label><a (click)="handleSubmit()" class="btn block"
+  </label>
+  <div class="wiggle" style="width: 100%;">
+    <a (click)="handleSubmit()" class="btn block"
     style="margin: 20px 0px 0px; padding: 15px 30px; background-color: rgb(34, 206, 90); display: block; color: rgb(246, 249, 254); font-size: 18px; text-align: center; font-weight: bold; font-style: inherit; text-decoration: inherit;"
     index=5 step=2><span class=btn-headline>🤝 Confirmar Mi Pedido!</span></a>
+  </div>
   <div class="paragraph el-32936" style="color: rgb(0, 0, 0); margin: 15px 0px 0px; padding: 5px 0px;"
     index=6 step=2>
     <style>
@@ -651,8 +680,8 @@ align-items: flex-end;
 </section>
 </main>
 </div>
-<style id=el-hover-styles></style>
 
+<style id=el-hover-styles></style>
   <!-- Apps Body -->
   <div>
     <div class="aa-product-review-area">
@@ -678,6 +707,21 @@ align-items: flex-end;
         </div>
       </div>
     </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <div class="d-flex justify-content-center">
+            <div>
+              <a (click)="comprarArticulo( )" class="aa-add-to-cart-btn pointer"
+                style="    font-size: 210%; background: #008116; color: white; border-radius: 11px;"><span
+                  class="fa fab fa-whatsapp"></span>Chatear con un asesor</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="aa-product-review-area">
       <h4>Comentarios</h4>
       <ul class="aa-review-nav">
@@ -709,20 +753,9 @@ align-items: flex-end;
   <!-- Popups -->
 
 
-  <script src="./assets/js/core.min.js" type="application/javascript"></script>
-<footer #nav style="position: fixed; top: 87%; left: auto;">
-  <div class="container">
-    <div class="row">
-      <div class="col-12">
-        <div class="d-flex justify-content-center">
-          <div>
-            <a (click)="comprarArticulo( )" class="aa-add-to-cart-btn pointer"
-              style="    font-size: 210%; background: #008116; color: white; border-radius: 11px;"><span
-                class="fa fab fa-whatsapp"></span>Chatear con un asesor</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+<script src="./assets/js/core.min.js" type="application/javascript"></script>
+<!-- <footer #nav style="position: fixed; top: 87%; left: auto;"></footer> -->
+<footer #nav style="left: auto;">
+
 </footer>
 </body>

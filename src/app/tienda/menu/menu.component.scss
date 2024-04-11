@@ -6,13 +6,13 @@
 .block{
     text-align:center;
 }
-    
+
 .list{
     text-align: left;
     display:inline-block;
 }
 .colorFondo{
-    background-color: #ff4081;
+    background-color: #080808;
 }
 
 div {
@@ -27,8 +27,8 @@ div ul {
     display: inline-block;
     list-style: none;
     background-color: #ff4081;
-    border-bottom: 5px solid #ddd;
-    border-top: 1px solid #ccc;
+    // border-bottom: 5px solid #ddd;
+    // border-top: 1px solid #ccc;
 }
 div li a {
     display: block;

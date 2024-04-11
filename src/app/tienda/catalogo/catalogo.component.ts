@@ -119,6 +119,20 @@ export class CatalogoComponent implements OnInit {
   ngOnInit(): void {
     this.id = ( this.activate.snapshot.paramMap.get('id') );
     this.getArticulos();
+
+    //animacion de las imagenes
+    let imageIndex = 0
+    let imagen = {}
+    setInterval(()=>{
+      let imageL =  this.listGaleria.length
+      // console.log("cambio imagen" , imageL)
+      imagen = this.listGaleria[imageIndex].foto
+      // console.log("imagen", imagen)
+      this.data.foto = imagen
+      imageIndex++
+      if(imageIndex >= imageL)
+        imageIndex = 0
+    }, 1000 );
   }
 
   getArticulos(){
@@ -126,6 +140,7 @@ export class CatalogoComponent implements OnInit {
     this._producto.get( { where: { id: this.id } } ).subscribe(( res:any )=>{
       this.data = res.data[0] || {}
       try {
+        console.log("this.data.listComentarios",this.data.listComentarios)
         if( this.data.listComentarios ) this.listComentario.push( ...this.data.listComentarios )
       } catch (error) { }
       this.urlFoto = this.data.foto;
