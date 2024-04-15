@@ -11,7 +11,7 @@ export class ProductoService {
   ) { }
 
   get(query:any){
-    return this._model.querys('tblproductos/querys',query, 'post');
+    return this._model.querys('tblproductos/querys',query, 'get');
   }
   create(query:any){
     return this._model.querys('tblproductos',query, 'post');

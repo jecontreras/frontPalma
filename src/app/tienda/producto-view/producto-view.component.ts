@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { CART } from 'src/app/interfaces/sotarage';
 import { ToolsService } from 'src/app/services/tools.service';
 import { Store } from '@ngrx/store';
-import { SeleccionCategoriaAction, CartAction, ProductoHistorialAction } from 'src/app/redux/app.actions';
+import { SeleccionCategoriaAction, CartAction, ProductoHistorialAction, UserCabezaAction } from 'src/app/redux/app.actions';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductoService } from 'src/app/servicesComponents/producto.service';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -13,6 +13,8 @@ import { NgImageSliderComponent } from 'ng-image-slider';
 import { FormatosService } from 'src/app/services/formatos.service';
 import * as moment from 'moment';
 import { ChecktDialogComponent } from '../checkt-dialog/checkt-dialog.component';
+import { UsuariosService } from 'src/app/servicesComponents/usuarios.service';
+import { TestimoniosService } from 'src/app/servicesComponents/testimonios.service';
 
 @Component({
   selector: 'app-producto-view',
@@ -23,7 +25,7 @@ export class ProductosViewComponent implements OnInit {
 
   id:any;
   data:any = {
-    listComentarios: []
+    listTestimonios: []
   };
   pedido:any = { cantidad:1 };
   view:string = "descripcion";
@@ -34,7 +36,14 @@ export class ProductosViewComponent implements OnInit {
       pro_activo: 0
     },
     page: 0,
-    limit: 10
+    limit: 30
+  };
+  queryId:any = {
+    where:{
+      pro_activo: 0
+    },
+    page: 0,
+    limit: 1
   };
   loader:boolean = false;
   notEmptyPost:boolean = true;
@@ -80,7 +89,7 @@ export class ProductosViewComponent implements OnInit {
   sliderArrowShow: Boolean = true;
   sliderInfinite: Boolean = true;
   sliderImagePopup: Boolean = false;
-  sliderAutoSlide: Number = 0;
+  sliderAutoSlide: Number = 1;
   sliderSlideImage: Number = 1;
   sliderAnimationSpeed: any = 1;
   userId:any = {};
@@ -88,6 +97,8 @@ export class ProductosViewComponent implements OnInit {
   urlwhat:string
   listGaleria:any = [];
   viewsImagen:string;
+  listTallas:any = [];
+  number:any;
 
   constructor(
     private _store: Store<CART>,
@@ -98,6 +109,8 @@ export class ProductosViewComponent implements OnInit {
     private spinner: NgxSpinnerService,
     public dialog: MatDialog,
     public _formato: FormatosService,
+    private _user: UsuariosService,
+    private _testimonio: TestimoniosService
 
   ) {
     this._store.subscribe((store: any) => {
@@ -108,93 +121,87 @@ export class ProductosViewComponent implements OnInit {
       this.dataUser = store.user || {};
       this.listProductosHistorial = _.orderBy(store.productoHistorial, ['createdAt'], ['DESC']);
       this.tiendaInfo = store.configuracion || {};
+      if( store.usercabeza ) {
+        this.queryId.where.idPrice = store.usercabeza.id;
+        this.query.where.idPrice = store.usercabeza.id;
+       }
     });
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    console.log("**127", this.activate.snapshot.params)
     if((this.activate.snapshot.paramMap.get('id'))){
       this.id = this.activate.snapshot.paramMap.get('id');
       this.getProducto();
       this.getProductos();
     }
-    setTimeout(()=>{window.document.scrollingElement.scrollTop=0},2000);
+    this.number = this.activate.snapshot.paramMap.get('cel');
+    if( this.number ) this.dataUser = await this.getUser();
+    setTimeout(()=>{
+      window.document.scrollingElement.scrollTop=0;
+    });
 
+  }
+
+  getUser(){
+    return new Promise( resolve =>{
+      this._user.get({ where:{ usu_telefono: this.number }, limit: 1 } ).subscribe( item =>{
+        item = item.data[0];
+        if( item ) {
+          this.GuardarStoreUser( item );
+          this.query.where.idPrice = item.id;
+        }
+        resolve( item );
+      },()=> resolve( false ) );
+    })
+  }
+
+  GuardarStoreUser( data:any ) {
+    let accion = new UserCabezaAction( data , 'post');
+    this._store.dispatch(accion);
   }
 
   getProducto(){
-    this._producto.get({ where: { id: this.id}}).subscribe((res:any)=>{ this.data = res.data[0] || {};
+    this.queryId.where.id = this.id;
+    this._producto.get( this.queryId ).subscribe((res:any)=>{
+      this.data = res.data[0] || {};
+      this.getTestimonios();
+      this.data.listComentarios = this.data.listComment || [];
+      console.log("***165", this.data.listComentarios)
       try {
         this.data.listTallas = this.data.listColor[0].tallaSelect.filter( item => item.cantidad );
-        for( let row of this.data.listTallas ) row.tal_descripcion = Number( row.tal_descripcion );
-        this.data.listTallas = _.orderBy( this.data.listTallas , ['tal_descripcion'], ['DEC'] );
+        //for( let row of this.data.listTallas ) row.tal_descripcion = ( Number( row.tal_descripcion ) || row.tal_descripcion );
+        //this.data.listTallas = _.orderBy( this.data.listTallas , ['tal_descripcion'], ['DEC'] );
         console.log( "129", this.data )
       } catch (error) {}
-    this.viewsImagen = this.data.foto;
-    if( !this.data.listComentarios[0] ) this.data.listComentarios = [];
-    this.listGaleria = this.data.galeria || [];
-    this.listGaleria.push( { id: 1000, pri_imagen: this.data.foto }) }, error=> { console.error(error); this._tools.presentToast('Error de servidor'); });
+      this.viewsImagen = this.data.foto;
+      if( !this.data.listComentarios ) this.data.listComentarios = [];
+      this.listGaleria = this.data.galeria || [];
+      if( !this.data.listColor ) this.data.listColor = [];
+      for( let row of this.data.listColor){
+        this.listTallas.push( ... ( _.filter( row.tallaSelect, off=> off.check == true ) ) );
+        this.listTallas = _.unionBy( this.listTallas || [], this.listTallas, 'id');
+      }
+      for( let row of this.data.listColor ) {
+        let filtro = this.listGaleria.find( item => item.pri_imagen == row.foto );
+        if( !filtro ) this.listGaleria.push( { id: this._tools.codigo(), pri_imagen: row.foto } );
+      }
+      this.listGaleria.push( { id: this._tools.codigo(), pri_imagen: this.data.foto})
+    }, error=> { console.error(error); this._tools.presentToast('Error de servidor'); });
   }
 
-  verImagen( data:any ){
-    this.viewsImagen = data.pri_imagen;
-    let filter = _.findIndex(this.data.listColor, ['foto',this.viewsImagen] );
-    if( filter >=0 ) this.handleSelect( this.data.listColor[filter] );
+  verImagen( img:any ){
+    console.log("***",img)
+    this.viewsImagen = img.pri_imagen || this.data.foto;
   }
 
   async getProductos(){
-    this.query = {
-      where:{
-        pro_activo: 0,
-        codigo: this.data.codigo
-      },
-      page: 0,
-      limit: 20
-    };
+    this.query.where.codigo = this.data.codigo;
+    delete this.query.where.id;
     let resultado:any = await this.getArticulos();
+    this.imageObject = [];
     for( let row of resultado ){
       this.imageObject.push(
-        {
-          image: row.foto,
-          thumbImage: row.foto,
-          alt: '',
-          check: true,
-          id: row.id,
-          ids: row.id,
-          title: this._formato.monedaChange( 3, 2, row.pro_uni_venta || 0 )
-        }
-      );
-    }
-    this.query = {
-      where:{
-        pro_activo: 0
-      },
-      page: 1,
-      limit: 20
-    };
-    resultado = await this.getArticulos();
-    for( let row of resultado ){
-      this.imageObject2.push(
-        {
-          image: row.foto,
-          thumbImage: row.foto,
-          alt: '',
-          check: true,
-          id: row.id,
-          ids: row.id,
-          title: this._formato.monedaChange( 3, 2, row.pro_uni_venta || 0 )
-        }
-      );
-    }
-    this.query = {
-      where:{
-        pro_activo: 0
-      },
-      page: 2,
-      limit: 20
-    };
-    resultado = await this.getArticulos();
-    for( let row of resultado ){
-      this.imageObject3.push(
         {
           image: row.foto,
           thumbImage: row.foto,
@@ -210,10 +217,24 @@ export class ProductosViewComponent implements OnInit {
 
   getArticulos(){
     return new Promise (resolve =>{
+      this.query.where.idPrice = this.userId.id;
+      console.log("***210", this.query)
       this._producto.get( this.query ).subscribe((res:any)=>{
         resolve( res.data )
       }, ( error )=> { console.error(error); resolve( [] ); } );
     })
+  }
+
+  getTestimonios(){ console.log("get TEstimonios", this.id, this.query)
+    this._testimonio.get({ where: { productos:this.id }, limit: 100, page: 0 })
+    .subscribe(
+      (response: any) => {
+        console.log("getTestimonios repsonse",response);
+        this.data.listTestimonios = response.data
+      },
+      error => {
+        console.log('Error', error);
+      });
   }
 
   suma(){
@@ -250,7 +271,7 @@ export class ProductosViewComponent implements OnInit {
   }
 
   viewProducto( obj:any ){
-    const dialogRef = this.dialog.open(InfoProductoComponent,{
+    /*const dialogRef = this.dialog.open(InfoProductoComponent,{
       width: '855px',
       maxHeight: "665px",
       data: { datos: obj }
@@ -258,11 +279,17 @@ export class ProductosViewComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
-    });
+    });*/
     let filtro = this.listProductosHistorial.filter( ( row:any ) => row.id == obj.id );
-    if(filtro) return false;
-    let accion = new ProductoHistorialAction( obj , 'post');
-    this._store.dispatch( accion );
+    if(!filtro) {
+      let accion = new ProductoHistorialAction( obj , 'post');
+      this._store.dispatch( accion );
+    }
+    this.Router.navigate(['/tienda/productosView', obj.id ]);
+    setTimeout(()=>{
+      window.document.scrollingElement.scrollTop=0;
+      location.reload()
+    }, 200)
   }
 
   AgregarCart2( item:any ){
@@ -282,10 +309,23 @@ export class ProductosViewComponent implements OnInit {
     this._tools.presentToast("Agregado al Carro");
   }
 
-  imageOnClick(obj:any) {
-    let data =  this.listProductos.find( (row:any )=> row.id == this.imageObject[obj].id);
+  async imageOnClick(obj:any) {
+    //let data =  this.listProductosHistorial.find( (row:any )=> row.id == this.imageObject[obj].id);
+    let data = await this.getProducId( { where: {
+      idPrice: this.query.where.idPrice,
+      pro_activo: 0
+    } } );
+    console.log("**++",obj, data, this.imageObject, this.listProductosHistorial)
     if( !data ) return false;
     this.viewProducto( data );
+  }
+
+  getProducId( query){
+    return new Promise( resolve=>{
+      this._producto.get( query ).subscribe((res:any)=>{
+        resolve( res.data[0] || {});
+      });
+    })
   }
 
   arrowOnClick(event) {
@@ -346,23 +386,23 @@ export class ProductosViewComponent implements OnInit {
     this.suma();
     //this.AgregarCart();
     this.data.cantidadAd = opt == true ? cantidad : this.pedido.cantidad || cantidad;
-    this.data.talla = this.pedido.talla;
+    try {
+      this.data.talla = this.pedido.talla || this.data.listTallas[0].tal_descripcion;
+    } catch (error) { }
     this.data.opt = opt;
     this.data.foto = this.viewsImagen;
-    this.data.color = this.data.colorSelect;
     const dialogRef = this.dialog.open(ChecktDialogComponent,{
       //width: '855px',
       //maxHeight: "665px",
       data: { datos: this.data }
     });
-
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
     });
   }
 
   validarNumero(){
-    return this.tiendaInfo.numeroCelular || "3223519032";
+    return this.tiendaInfo.numeroCelular || "3156027551";
   }
 
   handleSelect( item ){
@@ -377,16 +417,14 @@ export class ProductosViewComponent implements OnInit {
     this.pedido.talla = item.tal_descripcion;
     for( let row of this.data.listTallas ) row.check1 = false;
     item.check1 = !item.check1;
-
   }
 
   handleAdviser(){
-    let number = this.tiendaInfo.numeroCelular;
+    let number = this.userId.usu_telefono;
     if(number.length == 12 ) number;
     else number='57'+number;
     let url = `https://wa.me/${ number }?text=${encodeURIComponent(`👉Hola buenas! 🎉 Me gustaria mas informacion gracias 👈`)}`;
     window.open( url, "Mas Informacion", "width=640, height=480");
   }
-
-
+  
 }

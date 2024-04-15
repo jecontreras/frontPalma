@@ -4,10 +4,11 @@
 
 export const environment = {
   production: false,
+  //url: "http://localhost:1338",
   url: "http://localhost:1337",
-  // url: "https://backpalma.herokuapp.com",
+  // https://backpalmaapi-3fb9b6588743.herokuapp.com",
   urlFront: "http://localhost:4200",
-  URLFILE: "https://apilokomprojs-46c477c2e9f6.herokuapp.com",
+  URLFILE: "https://apilokomproaqui1-9219656b6da1.herokuapp.com",
 };
 
 /*

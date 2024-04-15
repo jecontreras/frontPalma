@@ -39,6 +39,8 @@ import { HeaderComponent } from './components/header/header.component';
 import { ConfigComponent } from './components/config/config.component';
 import { NgxCurrencyModule } from 'ngx-currency';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { TestimonioComponent } from './components/testimonio/testimonio.component';
+import { FormTestimonioComponent } from './form/form-testimonio/form-testimonio.component';
 
 
 @NgModule({
@@ -50,7 +52,8 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     FormventasComponent,
     FormcobrosComponent,
     FormpuntosComponent,
-    ViewProductosComponent
+    ViewProductosComponent,
+    FormTestimonioComponent
   ],
   declarations: [
     MainsComponent,
@@ -74,7 +77,9 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     PedidosComponent,
     ViewProductosComponent,
     HeaderComponent,
-    ConfigComponent
+    ConfigComponent,
+    TestimonioComponent,
+    FormTestimonioComponent
   ],
   imports: [
     CommonModule,
