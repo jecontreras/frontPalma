@@ -357,6 +357,7 @@ export class FormproductosComponent implements OnInit {
     this.data = _.omit(this.data, [ 'pro_usu_creacion' ])
     this.data = _.omitBy(this.data, _.isNull);
     if( this.rolUser == 'administrador' ) this.data.pro_activo = 0;
+    console.log("updates", this.data)
     this._productos.update(this.data).subscribe((res: any) => {
       this._tools.presentToast("Actualizado");
       res.listColor = this.data.listColor;
@@ -645,6 +646,43 @@ export class FormproductosComponent implements OnInit {
 
   eventoDescripcion() {
     // console.log("HP")
+  }
+
+  async cargarVideo(imageInput){ console.log("Cargar video ev")
+    //  try{
+    const file: File = imageInput.files[0];
+      console.log("file", file)
+      await this._archivos.VideoFirebase(file, this.data.pro_codigo)
+      .then(async (resultado)=>{
+        console.log(" VideoFirebase token",resultado)
+        let data = { id: this.data.id,
+                pro_video_token : resultado
+              }
+        await this._productos.updateVideoToken(data).subscribe((res)=>{
+          console.log("updateVideoTokeres",res)  
+        })
+            
+      })
+    // }catch(err){
+    //   this._tools.presentToast("No se pudo subir el video ");
+    // }
+      
+      
+       
+    
+
+    
+      // if(token=="no"){
+      //   this._tools.presentToast("No se pudo subir el video ");
+      // }else{
+      //   console.log("token" , token)
+      //   if(token){
+      //     // guardar url del video
+      //    
+      //     })
+      //   }
+      // }
+  // })
   }
 
 }

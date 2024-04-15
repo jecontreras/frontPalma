@@ -119,6 +119,28 @@ export class CatalogoComponent implements OnInit {
   ngOnInit(): void {
     this.id = ( this.activate.snapshot.paramMap.get('id') );
     this.getArticulos();
+
+    //animacion de las imagenes
+    let imageIndex = 0
+    let imagen = {}
+    
+    setInterval(()=>{
+      let imageL =  this.listGaleria.length
+      console.log("cantidad imgs" , imageL)
+      imagen = this.listGaleria[imageIndex].foto
+      console.log("imagen", imagen)
+      if(imagen){
+          this.data.foto = imagen
+      }
+      imageIndex++
+      if(imageIndex >= imageL)
+        imageIndex = 0
+    }, 1000 );
+    console.log("video token", this.data.pro_video_token)
+    let videoEl = document.querySelector('video');
+    if (videoEl) {
+        videoEl.muted = true;
+    }
   }
 
   getArticulos(){
@@ -126,6 +148,7 @@ export class CatalogoComponent implements OnInit {
     this._producto.get( { where: { id: this.id } } ).subscribe(( res:any )=>{
       this.data = res.data[0] || {}
       try {
+        console.log("this.data.listComentarios",this.data.listComentarios)
         if( this.data.listComentarios ) this.listComentario.push( ...this.data.listComentarios )
       } catch (error) { }
       this.urlFoto = this.data.foto;
@@ -318,7 +341,9 @@ export class CatalogoComponent implements OnInit {
     });*/
   }
 
-
+  toggleVideo(){
+    console.log("tooglevideo")
+  }
 
 }
 
@@ -378,4 +403,7 @@ export class PizzaPartyComponent {
     sonido.play();
   }
   // Expected output: 0, 1 or 2
+
+
+  
 }

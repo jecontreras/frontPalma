@@ -432,14 +432,27 @@
                         <option type="number" value="1">Eliminado</option>
                     </select>
                 </div>
+                <div class="form-group col-12">
+                    <label for="exampleFormControlInput1">Video</label>
+                    <div class="col">
+                        <input #imageInput type="file" value="cargar" >
+                        <input type="submit" (click)="cargarVideo(imageInput)" value="subir">
+                    </div>
+                    <div *ngIf="data.pro_video_token">
+                        <a target="_blank" href="https://firebasestorage.googleapis.com/v0/b/shoppalmastore.appspot.com/o/3DBG1F11?alt=media&token={{data.pro_video_token}}">
+                            <h2>Ver Video</h2>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </mat-dialog-content>
+
 <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close>Cerrar</button>
     <button mat-button cdkFocusInitial (click)="submit()" *ngIf="( this.id ) ">
         <span *ngIf="!id">Guardar Cambios</span>
-        <span *ngIf="id">Actulizar Cambios</span>
+        <span *ngIf="id">Actualizar Cambios</span>
     </button>
 </mat-dialog-actions>
