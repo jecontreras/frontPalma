@@ -135,6 +135,8 @@ export class ProductosViewComponent implements OnInit {
       this.getProducto();
       this.getProductos();
     }
+    this.urlwhat = `https://api.whatsapp.com/send?phone=57${ this.tiendaInfo.numeroCelular }&amp;text=Hola%2C%20estoy%20interesado%20en%20los%20tenis%20NIKE%2C%20gracias...`
+
     this.number = this.activate.snapshot.paramMap.get('cel');
     if( this.number ) this.dataUser = await this.getUser();
     setTimeout(()=>{

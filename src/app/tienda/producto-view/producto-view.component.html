@@ -166,11 +166,15 @@
                 </ul>
               </div>
             </div>
+            
           </div>
-          <div>
-            <a (click)="comprarArticulo( 1, false )" class="aa-add-to-cart-btn pointer"
+          <div class="container">
+            <div class="d-flex justify-content-center">
+              <a [href]="urlwhat" target="_blank"
+              class="aa-add-to-cart-btn pointer"
               style="    font-size: 210%; background: #008116; color: white; border-radius: 11px;"><span
                 class="fa fab fa-whatsapp"></span>CHATEA CON UN ASESOR</a>
+            </div>
           </div>
           <!--<div class="aa-product-related-item" *ngIf="listEvidencia.length">
             <div class="d-flex justify-content-center">
@@ -187,20 +191,12 @@
           <div class="aa-product-related-item">
             <h3 class="related-products-title">Productos Relacionados</h3>
             <ul class="aa-product-catg aa-related-item-slider">
-              <!-- start single product item -->
-              <li *ngFor="let product of imageObject" class="aa-product-item pointer" (click)="viewProducto( product )">
-                <div class="product-image-container">
-                  <div class="image-zoom">
-                    <img [src]="product.image" alt="Product Image" style="    height: 325px; width: 100%;">
-                  </div>
-                </div>
-
-                <div class="product-description">
-                  <h4 class="product-title">{{ product.title }}</h4>
-                  <p class="product-price">{{ product.pro_uni_venta }}</p>
-                </div>
-              </li>
-              <!-- end single product item -->
+              <ng-image-slider [images]="imageObject" [infinite]="sliderInfinite" [imagePopup]="sliderImagePopup"
+                [showArrow]="sliderArrowShow" [imageSize]="{width: sliderImageWidth, height: sliderImageHeight}"
+                [autoSlide]="sliderAutoSlide ? 1 : 0" [slideImage]="sliderSlideImage"
+                [animationSpeed]="sliderAnimationSpeed" (imageClick)="imageOnClick($event)"
+                (arrowClick)="arrowOnClick($event)" (lightboxArrowClick)="lightboxArrowClick($event)" #nav>
+            </ng-image-slider>
             </ul>
           </div>
         </div>
