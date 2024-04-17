@@ -85,7 +85,9 @@ export class ProductosViewComponent implements OnInit {
   @ViewChild('nav', {static: true}) ds: NgImageSliderComponent;
   sliderWidth: Number = 1119;
   sliderImageWidth: Number = 250;
+  sliderImageWidth1: Number = 60;
   sliderImageHeight: Number = 200;
+  sliderImageHeight1: Number = 60;
   sliderArrowShow: Boolean = true;
   sliderInfinite: Boolean = true;
   sliderImagePopup: Boolean = false;
@@ -96,9 +98,11 @@ export class ProductosViewComponent implements OnInit {
   dataUser:any = {};
   urlwhat:string
   listGaleria:any = [];
+  listGaleria1:any = [];
   viewsImagen:string;
   listTallas:any = [];
   number:any;
+  isClicked: boolean = false;
 
   constructor(
     private _store: Store<CART>,
@@ -178,7 +182,7 @@ export class ProductosViewComponent implements OnInit {
       } catch (error) {}
       this.viewsImagen = this.data.foto;
       if( !this.data.listComentarios ) this.data.listComentarios = [];
-      this.listGaleria = this.data.galeria || [];
+      this.listGaleria1 = this.data.listaGaleria || [];
       if( !this.data.listColor ) this.data.listColor = [];
       for( let row of this.data.listColor){
         this.listTallas.push( ... ( _.filter( row.tallaSelect, off=> off.check == true ) ) );
@@ -189,11 +193,39 @@ export class ProductosViewComponent implements OnInit {
         if( !filtro ) this.listGaleria.push( { id: this._tools.codigo(), pri_imagen: row.foto } );
       }
       this.listGaleria.push( { id: this._tools.codigo(), pri_imagen: this.data.foto})
+      this.imageObject2 = _.map( this.listGaleria, ( item )=>{
+        return {
+          image: item.pri_imagen,
+          thumbImage: item.pri_imagen,
+          alt: '',
+          check: true,
+          id: item.id,
+          title: ""
+        }
+      });
+      this.bucleImg();
     }, error=> { console.error(error); this._tools.presentToast('Error de servidor'); });
   }
 
+  async bucleImg(){
+      let idx = 0;
+    while( true ){
+      let dataFoto = this.listGaleria[idx];
+      if( !dataFoto ) { idx = 0; dataFoto = this.listGaleria[idx]; }
+      await this.sleep( 5 )
+      this.viewsImagen = dataFoto.pri_imagen;
+      idx++;
+
+    }
+  }
+
+  async sleep(minutos){
+    return new Promise(resolve => {
+        setTimeout(async () => { resolve(true) }, minutos * 1000);
+    });
+}
+
   verImagen( img:any ){
-    console.log("***",img)
     this.viewsImagen = img.pri_imagen || this.data.foto;
   }
 
@@ -239,7 +271,7 @@ export class ProductosViewComponent implements OnInit {
       });
   }
 
-  suma(){
+  suma( data:any ){
     this.data.costo = Number( this.pedido.cantidad ) * this.data.pro_uni_venta;
   }
 
@@ -254,7 +286,7 @@ export class ProductosViewComponent implements OnInit {
   }
 
   AgregarCart(){
-    this.suma();
+    this.suma( this.data );
     let data = {
       articulo: this.data.id,
       codigo: this.data.pro_codigo,
@@ -309,6 +341,12 @@ export class ProductosViewComponent implements OnInit {
     let accion = new CartAction(data, 'post');
     this._store.dispatch(accion);
     this._tools.presentToast("Agregado al Carro");
+  }
+
+  handlePhoto(obj:any) {
+    console.log("***173", obj)
+    console.log("***", this.imageObject2[obj])
+    this.viewsImagen = this.imageObject2[obj].image;
   }
 
   async imageOnClick(obj:any) {
@@ -384,23 +422,32 @@ export class ProductosViewComponent implements OnInit {
     },()=> this._tools.tooast( { title: "Error al crear el Comentario" } ) );
   }
 
-  comprarArticulo( cantidad:number, opt ){
-    this.suma();
+  comprarArticulo( cantidad:number, opt, price:number = 0 ){
+    this.isClicked = true;
+    let datar = this.data;
+    this.suma( datar );
     //this.AgregarCart();
-    this.data.cantidadAd = opt == true ? cantidad : this.pedido.cantidad || cantidad;
+    datar.cantidadAd = opt === true ? cantidad : this.pedido.cantidad || cantidad;
+    datar.priceSelect = opt === true ? price: this.pedido.pro_uni_venta || price;
+    datar.priceSelect = Number( datar.priceSelect );
     try {
-      this.data.talla = this.pedido.talla || this.data.listTallas[0].tal_descripcion;
+      datar.talla = this.pedido.talla || datar.listTallas[0].tal_descripcion;
     } catch (error) { }
-    this.data.opt = opt;
-    this.data.foto = this.viewsImagen;
+    datar.opt = opt;
+    datar.foto = this.viewsImagen;
     const dialogRef = this.dialog.open(ChecktDialogComponent,{
       //width: '855px',
       //maxHeight: "665px",
-      data: { datos: this.data }
+      data: { datos: datar }
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
     });
+  }
+
+  resetAnimation() {
+    // Después de que la animación termine, restablece la variable para que la animación solo se ejecute una vez
+    this.isClicked = false;
   }
 
   validarNumero(){
@@ -428,5 +475,5 @@ export class ProductosViewComponent implements OnInit {
     let url = `https://wa.me/${ number }?text=${encodeURIComponent(`👉Hola buenas! 🎉 Me gustaria mas informacion gracias 👈`)}`;
     window.open( url, "Mas Informacion", "width=640, height=480");
   }
-  
+
 }

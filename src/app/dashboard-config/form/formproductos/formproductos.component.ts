@@ -13,6 +13,7 @@ import { Store } from '@ngrx/store';
 import { Fruit } from 'src/app/interfaces/interfaces';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {MatChipInputEvent} from '@angular/material/chips';
+import { FormTestimonioComponent } from '../form-testimonio/form-testimonio.component';
 
 const URL = environment.url;
 
@@ -231,6 +232,7 @@ export class FormproductosComponent implements OnInit {
     this.files = [];
     this.files2 = [];
     this.files3 = [];
+    if( !item ) return false;
     item.checkFotoGaleri = false;
     item.checkFoto = false;
   }
@@ -581,6 +583,16 @@ export class FormproductosComponent implements OnInit {
     }
   }
 
+  handleTestimonios(){
+    const dialogRef = this.dialog.open(FormTestimonioComponent,{
+      data: {datos: { idProduct: this.data.id }}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
   editor() {
     let config: AngularEditorConfig = {
       editable: true,
@@ -659,26 +671,26 @@ export class FormproductosComponent implements OnInit {
                 pro_video_token : resultado
               }
         await this._productos.updateVideoToken(data).subscribe((res)=>{
-          console.log("updateVideoTokeres",res)  
+          console.log("updateVideoTokeres",res)
         })
-            
+
       })
     // }catch(err){
     //   this._tools.presentToast("No se pudo subir el video ");
     // }
-      
-      
-       
-    
 
-    
+
+
+
+
+
       // if(token=="no"){
       //   this._tools.presentToast("No se pudo subir el video ");
       // }else{
       //   console.log("token" , token)
       //   if(token){
       //     // guardar url del video
-      //    
+      //
       //     })
       //   }
       // }

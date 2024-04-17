@@ -30,12 +30,16 @@ export class FormTestimonioComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    if(Object.keys(this.datas.datos).length > 0) {
+    console.log("*", this.datas)
+    if(this.datas.datos.id)  {
       this.data = _.clone(this.datas.datos);
       this.id = this.data.id;
       this.titulo = "Actualizar";
       if(this.data.cat_activo === 0) this.data.cat_activo = true;
-    }else{this.id = ""}
+    }else{
+      this.id = "";
+      this.data.productos = this.datas.datos.idProduct;
+    }
     this.getProductos();
   }
 
@@ -50,33 +54,47 @@ export class FormTestimonioComponent implements OnInit {
   }
 
   getProductos(){
-    this._producto.get({where:{cat_activo: 0}}).subscribe((res:any)=>{
+    this._producto.getSimply({where:{pro_activo: 0}}).subscribe((res:any)=>{
       //console.log("prods", res.data)
       this.listProductos = res.data;
     }, error=> this._tools.presentToast("error Obteniendo Productos"));
   }
 
-  subirFile(){ console.log("subirFile")
-    let form:any = new FormData();
-    form.append('file', this.files[0]);
-    this._tools.ProcessTime({});
-    this._archivos.create(form).subscribe((res:any)=>{
-      console.log("_archivos.create",res);
-      this.data.foto = res.files;//URL+`/${res}`;
-      this._tools.presentToast("Exitoso");
-      if(this.id)this.submit();
-    },(error)=>{console.error(error); this._tools.presentToast("Error de servidor")});
+  subirFile( opt:string ){
+
+    return new Promise( resolve =>{
+      let form:any = new FormData();
+      form.append('file', this.files[0]);
+      this._tools.ProcessTime({});
+      this._archivos.create(form).subscribe((res:any)=>{
+        console.log("_archivos.create",res);
+        this.data[opt] = res.files;//URL+`/${res}`;
+        this._tools.presentToast("Exitoso");
+        if( this.id )this.submit();
+        resolve( true );
+        this.files = [];
+      },(error)=>{console.error(error); this._tools.presentToast("Error de servidor"); resolve( false ); });
+    })
 
   }
 
-  submit(){
+  handleFileOne($event){
+    let url = $event.target.files[0];
+    this.files.push( url );
+    if( url ) this.subirFile('foto');
+  }
+
+  async submit(){
     console.log(this.data.cat_activo)
     // if(this.data.cat_activo) this.data.cat_activo = 0;
     // else this.data.cat_activo = 1;
     if(this.id) {
       this.updates();
     }
-    else { this.guardar(); }
+    else {
+      if( this.files[0] ) await this.subirFile('fotoEvidence');
+      this.guardar();
+    }
   }
 
   guardar(){ //console.log("guardar this.data",this.data)
@@ -92,7 +110,10 @@ export class FormTestimonioComponent implements OnInit {
     // this.data = _.omit(this.data, [ 'cat_usu_actualiz' ])
     // this.data = _.omitBy(this.data, _.isNull);
     console.log("update data", this.data)
-    this._testimonios.update(this.data).subscribe((res:any)=>{
+    let data = this.data;
+    data = _.omit(data, ['usu_perfil', 'cabeza', 'nivel']);
+    data = _.omitBy( data, _.isNull);
+    this._testimonios.update( data ).subscribe((res:any)=>{
       this._tools.presentToast("Actualizado");
     },(error)=>{console.error(error); this._tools.presentToast("Error de servidor")});
   }

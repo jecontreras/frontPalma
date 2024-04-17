@@ -43,6 +43,13 @@ export class ProductosComponent implements OnInit {
 
   tiendaInfo:any = {};
   durationInSeconds = 5;
+  dataSelectCategory:any = [];
+  listBanner: any = [
+    {image: "https://lokomproaqui.com/assets/imagenes/banner5.png"},
+    {image: "https://lokomproaqui.com/assets/imagenes/banner4.png"}
+  ];
+  breakpoint: number = 6;
+  urlCategory:string;
 
   constructor(
     private _productos: ProductoService,
@@ -67,7 +74,9 @@ export class ProductosComponent implements OnInit {
     this.getProductos();
     this.getCategorias();
     this.getProductosRecomendado();
+    this.urlCategory = 'tienda/index/';
     setInterval(()=>{
+      this.breakpoint = (window.innerWidth <= 500) ? 1 : 6;
       this.openSnackBar();
     }, 50000 );
   }
@@ -89,6 +98,17 @@ export class ProductosComponent implements OnInit {
     this.dataSeleccionda = obj.cat_nombre;
   }
 
+  eventorOver( item:any, drawer:any ){
+    //console.log( item )
+    item.check = !item.check;
+    for( let row of this.listCategorias ) { if( row.id != item.id ) row.check = false; }
+    if( !item.subCategoria ) item.subCategoria = [];
+    if( item.subCategoria.length === 0 ) {
+      this.SeleccionCategoria( item );
+      drawer.toggle();
+    }else this.dataSelectCategory = item.subCategoria;
+  }
+
   searchColor( color:string ){
     this.query.where.color= color;
   }
@@ -100,6 +120,14 @@ export class ProductosComponent implements OnInit {
        this.getProductos();
      }
    }
+
+   handlePageNext(){
+    this.notscrolly = false;
+    this.query.page++;
+    this.query.limit = 30;
+    this.getProductos();
+  }
+
 
   getProductos(){
     this.spinner.show();

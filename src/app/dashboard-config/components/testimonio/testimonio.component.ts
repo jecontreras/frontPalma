@@ -25,7 +25,9 @@ export class TestimonioComponent implements OnInit {
   paginas = 0;
   loader = true;
   query:any = {
-    where:{},
+    where:{
+      estado: 0
+    },
     limit: 100
   };
   Header:any = [ 'Acciones','Imagen','Nombre','Descripcion','Producto','Estado' ];

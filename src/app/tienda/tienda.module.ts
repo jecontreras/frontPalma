@@ -22,11 +22,12 @@ import { ChecktDialogComponent } from './checkt-dialog/checkt-dialog.component';
 import { DetallePedidoComponent } from './detalle-pedido/detalle-pedido.component';
 import { CatalogoComponent } from './catalogo/catalogo.component';
 import { AlertBannerComponent } from './alert-banner/alert-banner.component';
-
+import { SwiperModule } from 'swiper/angular';
+import { SliderComponent } from './slider/slider.component';
 
 @NgModule({
   entryComponents: [ InfoProductoComponent,ChecktDialogComponent ],
-  declarations: [MainsComponent, TiendaComponent, ProductosComponent, FooterComponent, MenuComponent, InfoProductoComponent, ProductosViewComponent, ContactoComponent, ChecktComponent, CarritoComponent, CompletarComponent, ChecktDialogComponent, DetallePedidoComponent, CatalogoComponent, AlertBannerComponent],
+  declarations: [MainsComponent, TiendaComponent, ProductosComponent, FooterComponent, MenuComponent, InfoProductoComponent, ProductosViewComponent, ContactoComponent, ChecktComponent, CarritoComponent, CompletarComponent, ChecktDialogComponent, DetallePedidoComponent, CatalogoComponent, AlertBannerComponent, SliderComponent ],
   imports: [
     TiendaRoutingModule,
     CommonModule,
@@ -35,8 +36,9 @@ import { AlertBannerComponent } from './alert-banner/alert-banner.component';
     MyOwnCustomMaterialModule,
     FormsModule,
     NgxImageZoomModule,
-    NgImageSliderModule
+    NgImageSliderModule,
+    SwiperModule
   ],
-  exports: [ InfoProductoComponent ]
+  exports: [ InfoProductoComponent, SliderComponent ]
 })
 export class TiendaModule { }

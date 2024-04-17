@@ -10,8 +10,12 @@ export class ProductoService {
     private _model: ServiciosService
   ) { }
 
+  getSimply(query:any){
+    return this._model.querys('tblproductos/getSimply',query, 'post');
+  }
+
   get(query:any){
-    return this._model.querys('tblproductos/querys',query, 'get');
+    return this._model.querys('tblproductos/querys',query, 'post');
   }
   create(query:any){
     return this._model.querys('tblproductos',query, 'post');

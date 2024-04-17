@@ -39,12 +39,30 @@
                   </div>
                 </div>
                 <div class="d-flex justify-content-center">
-                  <a href="https://wa.me/57{{ this.tiendaInfo.numeroCelular }}?text=Hola, Servicio al cliente necesito más información gracias" class="aa-add-to-cart-btn pointer ov-btn-slide-close">Comprar y pagar en casa</a>
-                </div>
-                <div class="row image-list">
-                  <div class="col-3 pointer" *ngFor="let item of listGaleria" (click)="verImagen(item)">
-                    <img [src]="item.pri_imagen" alt="" class="thumbnail-image">
+                  <div>
+                    <a (click)="comprarArticulo( 1, false )" class="aa-add-to-cart-btn pointer ov-btn-slide-close">Comprar y pagar en casa</a>
+                    <div style="text-align: center;"
+                      *ngFor="let item of data.listPrecios"
+                    >
+                    <a (click)="comprarArticulo(item.cantidad, true, item.precios)"
+                      [ngClass]="{ 'jump-animation': isClicked  }"
+                      style="background: #eddd00 !important; color: #000000 !important;"
+                      class="aa-add-to-cart-btn pointer ov-btn-slide-close">
+                      LLEVA {{ item.cantidad }} PARES POR {{ _formato.monedaChange(3, 2, item.precios || 0) }}
+                    </a>
+                    </div>
                   </div>
+                </div>
+                <div class="image-list">
+                  <ng-image-slider [images]="imageObject2" [infinite]="sliderInfinite" [imagePopup]="sliderImagePopup"
+                    [showArrow]="sliderArrowShow" [imageSize]="{width: sliderImageWidth1, height: sliderImageHeight1}"
+                    [autoSlide]="0" [slideImage]="sliderSlideImage"
+                    [animationSpeed]="sliderAnimationSpeed" (imageClick)="handlePhoto($event)"
+                    (arrowClick)="arrowOnClick($event)" (lightboxArrowClick)="lightboxArrowClick($event)" #nav>
+                  </ng-image-slider>
+                  <!--<div class="col-3 pointer" *ngFor="let item of listGaleria" (click)="verImagen(item)">
+                    <img [src]="item.pri_imagen" alt="" class="thumbnail-image">
+                  </div>-->
                 </div>
               </div>
               <!-- Modal view content -->
@@ -52,8 +70,10 @@
                 <div class="aa-product-view-content p-3">
                   <h3>{{ data.pro_nombre }}</h3>
                   <div class="aa-price-block">
-                    <span class="aa-product-view-price precio">{{ _formato.monedaChange( 3, 2, data.pro_uni_venta || 0 )
-                      }}</span>
+                    <!--<span class="aa-product-view-price precio">{{ _formato.monedaChange( 3, 2, data.pro_uni_venta || 0 )
+                      }}</span>-->
+                      <span class="aa-product-price precio">{{ _formato.monedaChange( 3, 2, data.pro_uni_venta || 0) }}</span><span
+                      class="aa-product-price price2"><del>{{ _formato.monedaChange( 3, 2, ( data.pro_uni_venta*2 ) || 0 ) }}</del></span>
                       <div class="aa-product-rating">
                         <span class="lnr lnr-star"></span>
                         <span class="lnr lnr-star"></span>
@@ -80,6 +100,16 @@
                     </div>
                   </section>
                   <a (click)="comprarArticulo( 1, false )" class="aa-add-to-cart-btn pointer ov-btn-slide-close">Comprar y pagar en casa</a>
+                  <div
+                    *ngFor="let item of data.listPrecios"
+                  >
+                    <a (click)="comprarArticulo(item.cantidad, true, item.precios)"
+                    [ngClass]="{ 'jump-animation': isClicked  }"
+                    style="background: #eddd00 !important; color: #000000 !important;"
+                    class="aa-add-to-cart-btn pointer ov-btn-slide-close">
+                    LLEVA {{ item.cantidad }} PARES POR {{ _formato.monedaChange(3, 2, item.precios || 0) }}
+                  </a>
+                  </div>
                   <h2 class="text-success" *ngIf="data['pro_categoria']?.id == 16">
                     <a (click)="comprarArticulo( 2, true )" class="aa-add-to-cart-btn pointer"
                     style="font-size: 130%; background: #fbff00; color: #212529; border-radius: 11px;"><span
@@ -89,7 +119,7 @@
                     </a>
                   </h2>
                   <br>
-                  <img src="./assets/imagenes/enviosG.jpg" alt="" style="width: 45px;">&nbsp; <span class="text-success">Envio Gratis</span>
+                  <!--<img src="./assets/imagenes/enviosG.jpg" alt="" style="width: 45px;">&nbsp; <span class="text-success">Envio Gratis</span>-->
                     <br>
                   <p [innerHtml]="data.pro_descripcion "></p>
                   <!--<div class="aa-prod-quantity">
@@ -129,51 +159,92 @@
                       <img src="./assets/imagenes/camara.webp" alt="Imagen 2">
                       <div class="image-caption">Compra segura</div>
                     </div>
+                    <div class="image-container">
+                      <img src="./assets/img/pagos.png" alt="Imagen 2">
+                      <div class="image-caption">Compra segura</div>
+                    </div>
                   </div>
-                  <div class="col-12" *ngIf="data['pro_categoria']?.pro_categoria == 16">
-                    <h5> 🚚 ENVIO GRATIS Y PAGAS CUANDO RECIBES EL PRODUCTO 🚚
-                      Nuestro tallaje es nacional, un poco pequeño sugerimos solicitar una talla más a la que te de en
-                      la siguiente tabla
-                    </h5>
+                  <div class="col-12">
+                    <div class="d-flex justify-content-center" style="width: 100%;">
+                      <div>
+                        <h5> 🚚 ENVIO A TODA COLOMBIA Y PAGAS CUANDO RECIBES EL PRODUCTO 🚚</h5>
+                      </div>
+                    </div>
                   </div>
                   <div class="col-12" *ngIf="data['pro_categoria']?.id == 16">
                     <img src="./assets/img/tallas.jpg" style="width: 320px;">
                   </div>
                 </div>
               </div>
-              <div class="testimonial-section">
+              <div class="aa-product-review-area">
+                <div class="row">
+                  <div class="col-12 col-sm-6 pointer" *ngFor="let item of listGaleria1; let i = index" (click)="verImagen(item)">
+
+                    <img [src]="item.foto" data-srcset="{{item.foto}}?auto=compress,format&optimize=medium&fit=clip&w=100%&h=auto 1x"
+                        alt data-sizes=auto data-src="{{item.foto}}?auto=compress,format&optimize=medium&fit=clip&w=100%&h=auto"
+                        class="lazyload" id="product-image" style="object-fit: contain; height: 445px;" width="100%" height="auto">
+                    <div class="d-flex justify-content-center">
+                      <div>
+                        <a (click)="comprarArticulo( 1, false )" class="aa-add-to-cart-btn pointer ov-btn-slide-close pointer">Comprar y pagar en casa</a>
+                        <div
+                          *ngFor="let item of data.listPrecios"
+                        >
+                        <a (click)="comprarArticulo(item.cantidad, true, item.precios)"
+                          [ngClass]="{ 'jump-animation': isClicked  }"
+                          style="background: #eddd00 !important; color: #000000 !important;"
+                          class="aa-add-to-cart-btn pointer ov-btn-slide-close">
+                          LLEVA {{ item.cantidad }} PARES POR {{ _formato.monedaChange(3, 2, item.precios || 0) }}
+                        </a>
+                      </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="testimonial-section" style="width: 100%;">
                 <h2>Testimonios de nuestros clientes</h2>
                 <ul class="testimonial-list">
                   <li *ngFor="let item of data.listTestimonios">
-                    <div class="testimonial-item">
-                      <div class="testimonial-image">
-                        <img src="{{ item.foto }}" alt="{{ item.nombre }}">
-                      </div>
-                      <div class="testimonial-content">
-                        <h4 class="testimonial-author">{{ item.nombre }}</h4>
-                        <p class="testimonial-date">{{ item.fecha }}</p>
-                        <div class="aa-product-rating">
-                          <span class="lnr lnr-star"></span>
-                          <span class="lnr lnr-star"></span>
-                          <span class="lnr lnr-star"></span>
-                          <span class="lnr lnr-star"></span>
-                          <span class="lnr lnr-star-empty"></span>
+                    <div class="row">
+                      <div class="col-12">
+                        <div class="testimonial-item">
+                          <div class="testimonial-image">
+                            <img src="{{ item.foto }}" alt="{{ item.nombre }}">
+                          </div>
+                          <div class="testimonial-content">
+                            <h4 class="testimonial-author">{{ item.nombre }}</h4>
+                            <p class="testimonial-date">{{ item.createdAt | date:'medium' }}</p>
+                            <div class="aa-product-rating">
+                              <span class="lnr lnr-star"></span>
+                              <span class="lnr lnr-star"></span>
+                              <span class="lnr lnr-star"></span>
+                              <span class="lnr lnr-star"></span>
+                              <span class="lnr lnr-star-empty"></span>
+                            </div>
+                            <p class="testimonial-description">
+                              <span>{{ item.descripcion }}</span>
+                            </p>
+                          </div>
                         </div>
-                        <p class="testimonial-description">{{ item.descripcion }}</p>
+                      </div>
+                      <div class=" col-12">
+                        <img [src]="item.fotoEvidence" alt=""> <br>
                       </div>
                     </div>
                   </li>
                 </ul>
               </div>
             </div>
-            
+
           </div>
           <div class="container">
-            <div class="d-flex justify-content-center">
-              <a [href]="urlwhat" target="_blank"
-              class="aa-add-to-cart-btn pointer"
-              style="    font-size: 210%; background: #008116; color: white; border-radius: 11px;"><span
-                class="fa fab fa-whatsapp"></span>CHATEA CON UN ASESOR</a>
+            <div class="d-flex justify-content-center" style="width: 100%;">
+              <div>
+                <a [href]="urlwhat" target="_blank"
+                  class="aa-add-to-cart-btn pointer"
+                  style="    font-size: 210%; background: #008116; color: white; border-radius: 11px;"><span
+                  class="fa fab fa-whatsapp"></span>CHATEA CON UN ASESOR</a>
+              </div>
             </div>
           </div>
           <!--<div class="aa-product-related-item" *ngIf="listEvidencia.length">
@@ -198,6 +269,29 @@
                 (arrowClick)="arrowOnClick($event)" (lightboxArrowClick)="lightboxArrowClick($event)" #nav>
             </ng-image-slider>
             </ul>
+          </div>
+          <div class="aa-product-related-item">
+            <div class="d-flex justify-content-center">
+              <div>
+                <h3 class="related-products-title">Productos Relacionados</h3>
+                <ul class="aa-related-item-slider">
+                  <!-- start single product item -->
+                  <li *ngFor="let product of imageObject" class="aa-product-item pointer" (click)="viewProducto( product )">
+                    <div class="product-image-container">
+                      <div class="image-zoom">
+                        <img [src]="product.image" alt="Product Image" style="    height: 325px; width: 100%;">
+                      </div>
+                    </div>
+
+                    <div class="product-description">
+                      <h4 class="product-title">{{ product.title }}</h4>
+                      <p class="product-price">{{ product.pro_uni_venta }}</p>
+                    </div>
+                  </li>
+                  <!-- end single product item -->
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
       </div>

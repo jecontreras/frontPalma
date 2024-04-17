@@ -5,10 +5,10 @@
     </div>
     <div class="row" *ngIf="!disableSpinner">
         <div class="col" *ngIf="!id">
-            <ngx-dropzone (change)="onSelects($event, 'foto')">
+            <ngx-dropzone (change)="onSelects($event, 'foto')" accept="image/jpeg,image/jpg,image/png">
                 <ngx-dropzone-label>Subir Fotos</ngx-dropzone-label>
                 <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f"
-                    [removable]="true" (removed)="onRemoves(f)" multiple="false" accept="image/jpeg,image/jpg,image/png"
+                    [removable]="true" (removed)="onRemoves(f)" multiple="false"
                     maxFileSize="1500000">
                     <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
                 </ngx-dropzone-image-preview>
@@ -158,7 +158,7 @@
               </div>
                 <div class="form-group col-md-6 col-sm-6 col-lg-6 col-xs-6" *ngIf="data.checkMayor">
                     <header class="main-box-header clearfix col-12 row">
-                        <h2 class="col">Precios por cantidad Vendedor</h2>
+                        <h2 class="col">Precios Por Cantidad</h2>
                         <div>
                             <button type="button" class="btn btn-success" (click)="PrecioPush('vendedor')">
                                 <i class="fa fa-plus" aria-hidden="true"></i>
@@ -192,7 +192,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="form-group col-md-6 col-sm-6 col-lg-6 col-xs-6" *ngIf="data.checkMayor">
+                <!--<div class="form-group col-md-6 col-sm-6 col-lg-6 col-xs-6" *ngIf="data.checkMayor">
                     <header class="main-box-header clearfix col-12 row">
                         <h2 class="col">Precios por cantidad Cliente</h2>
                         <div>
@@ -227,7 +227,7 @@
                             </div>
                         </li>
                     </ul>
-                </div>
+                </div>-->
                 <div class="form-group col-md-6 col-sm-4 col-lg-4 col-xs-6">
                     <label for="exampleFormControlSelect1">Tipo de medida:</label>
                     <select class="form-control form-control-sm" [(ngModel)]="data.pro_sw_tallas"
@@ -290,7 +290,7 @@
                                         <button type="button" (click)="item.checkFoto = false"
                                             class="btn btn-success">Ocultar</button>
                                     </div>
-                                    <ngx-dropzone (change)="onSelect( $event, item )">
+                                    <ngx-dropzone (change)="onSelect( $event, item )" accept="image/jpeg,image/jpg,image/png">
                                         <ngx-dropzone-label>Abrir archivos</ngx-dropzone-label>
                                         <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview"
                                             *ngFor="let f of files" [file]="f" [removable]="true"
@@ -332,7 +332,7 @@
                                         <button type="button" (click)="item.checkFotoGaleri = false"
                                             class="btn btn-success">Ocultar</button>
                                     </div>
-                                    <ngx-dropzone (change)="onSelect2( $event, item )">
+                                    <ngx-dropzone (change)="onSelect2( $event, item )" accept="image/jpeg,image/jpg,image/png">
                                         <ngx-dropzone-label>Abrir archivos</ngx-dropzone-label>
                                         <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview"
                                             *ngFor="let f of files3" [file]="f" [removable]="true"
@@ -388,7 +388,7 @@
                     <label for="exampleFormControlSelect1">Galeria:</label>
                     <div class="row">
                         <div class="col-12">
-                            <ngx-dropzone (change)="onSelects($event, 'galeria')">
+                            <ngx-dropzone (change)="onSelects($event, 'galeria')" accept="image/jpeg,image/jpg,image/png">
                                 <ngx-dropzone-label>Subir Fotos de galeria</ngx-dropzone-label>
                                 <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files2"
                                     [file]="f" [removable]="true" (removed)="onRemoves(f, 'galeria')" multiple="true">
@@ -432,7 +432,7 @@
                         <option type="number" value="1">Eliminado</option>
                     </select>
                 </div>
-                <div class="form-group col-12">
+                <!--<div class="form-group col-12">
                     <label for="exampleFormControlInput1">Video</label>
                     <div class="col">
                         <input #imageInput type="file" value="cargar" >
@@ -443,7 +443,7 @@
                             <h2>Ver Video</h2>
                         </a>
                     </div>
-                </div>
+                </div>-->
             </div>
         </div>
     </div>
@@ -451,7 +451,10 @@
 
 <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close>Cerrar</button>
-    <button mat-button cdkFocusInitial (click)="submit()" *ngIf="( this.id ) ">
+    <button mat-button cdkFocusInitial (click)="handleTestimonios()" color="warn">
+      <span>Crear Testimonio</span>
+  </button>
+    <button mat-button cdkFocusInitial (click)="submit()" *ngIf="( this.id ) " color="primary">
         <span *ngIf="!id">Guardar Cambios</span>
         <span *ngIf="id">Actualizar Cambios</span>
     </button>

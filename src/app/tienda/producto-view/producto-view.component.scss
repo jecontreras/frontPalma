@@ -1,5 +1,5 @@
 .anchos{
-  margin: 25px;
+  margin: 0 9px;
 }
 
 .selecciono {
@@ -62,6 +62,23 @@ left: 0;
 left: 50%;
 }
 
+.jump-animation {
+  animation: jump 0.5s ease;
+}
+
+@keyframes jump {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+
 
 /* Add your styles for product view here */
 #product-image:hover {
@@ -85,9 +102,15 @@ left: 50%;
 }
 
 .precio {
-  font-size: 20px;
+  font-size: 30px;
   font-weight: bold;
   color: #4CAF50; /* Green color for price */
+}
+
+.price2 {
+  font-size: 30px;
+  font-weight: bold;
+  color: #ff0000;
 }
 
 .special-offer {
@@ -271,8 +294,4 @@ left: 50%;
 
 .product-image-container:hover .image-zoom {
   transform: scale(1.2);
-}
-
-li{ 
-  width: 100%;
 }

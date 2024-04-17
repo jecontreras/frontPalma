@@ -1,9 +1,14 @@
 <h2 mat-dialog-title>{{ titulo }} Testimonio</h2>
 <mat-dialog-content class="mat-typography">
     <div class="form row">
-        <div class="form-group col-md-12" *ngIf="data.cat_imagen">
-            <div class="mx-auto" style="width: 200px;">
-                <img [src]="data.cat_imagen" class="fotoCategoria">
+        <div class="form-group col-md-12">
+            <div class="mx-auto" style="width: 200px;" *ngIf="data.foto">
+              <h4>Foto de perfil</h4>
+                <img style="    width: 100%; height: auto;" [src]="data.foto" class="fotoCategoria">
+            </div>
+            <div class="form-group">
+              <label for="exampleFormControlFile1">Subir foto perfil</label>
+              <input type="file" class="form-control-file" id="exampleFormControlFile1" (change)="handleFileOne($event)" accept="image/*">
             </div>
         </div>
         <div class="form-group col-12">
@@ -20,12 +25,15 @@
                 <option [value]="item.id" *ngFor="let item of listProductos">{{ item.pro_nombre }}</option>
             </select>
         </div>
+        <div class="form-group col-12" *ngIf="data.fotoEvidence">
+          <img [src]="data.fotoEvidence" alt="">
+        </div>
         <div class="form-group col-12">
-            
+
             <div class="row">
-                <label class="col" >Subir Imagen</label>
-                <button class="btn btn-success btn-just-icon btn-round" (click)="subirFile()" *ngIf="files.length > 0">
-                    Subir Imagen
+                <label class="col" >Subir Evidencia</label>
+                <button class="btn btn-success btn-just-icon btn-round" (click)="subirFile('fotoEvidence')" *ngIf="files.length > 0">
+                    Subir Evidencia
                 </button>
             </div>
 
