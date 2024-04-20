@@ -97,7 +97,6 @@ export class CatalogoComponent implements OnInit {
 
     setInterval(()=>{
       try {
-        this.countBuy++;
         let imageL =  this.listGaleria.length;
         imagen = this.listGaleria[imageIndex].foto;
         if(imagen){
@@ -105,7 +104,8 @@ export class CatalogoComponent implements OnInit {
         }
         imageIndex++
         if(imageIndex >= imageL)
-          imageIndex = 0
+          imageIndex = 0;
+        this.countBuy++;
       } catch (error) {  }
     }, 1000 );
     let videoEl = document.querySelector('video');
@@ -150,21 +150,43 @@ export class CatalogoComponent implements OnInit {
   }
 
   validateListPrice(){
-    if( this.data.listPrecios ) {return this.onChangeCheck( true, this.data.listPrecios[0] );}
-    if( !this.data.listPrecios ) this.data.listPrecios = [];
-    this.data.listPrecios.push(
-      {
-        cantidad: 1,
-        check1: true,
-        precios: this.data.pro_uni_venta || 0,
+    if( this.data.listPrecios ) {this.onChangeCheck( true, this.data.listPrecios[0] );}
+    else {
+      if( !this.data.listPrecios ) this.data.listPrecios = [];
+      this.data.listPrecios.push(
+        {
+          cantidad: 1,
+          check1: true,
+          precios: this.data.pro_uni_venta || 0,
 
+        }
+      );
+      this.onChangeCheck( true, this.data.listPrecios[0] );
+    }
+    for( let row of this.data.listPrecios ){
+      for (let i = 0; i < row.cantidad; i++) {
+        if( !row.listDetail ) row.listDetail = [];
+        row.listDetail.push(
+          {
+            title: "Opciones",
+            talla: "",
+            color: ""
+          }
+        )
       }
-    );
-    this.onChangeCheck( true, this.data.listPrecios[0] );
+    }
+  }
+
+  handleEventCheck(selectedValue: string){
+    let filtro = _.find(this.data.listPrecios,  row => row.cantidad == selectedValue );
+    console.log('Opción seleccionada:', selectedValue, filtro);
+    if ( !filtro ) return false;
+    this.onChangeCheck( true, filtro );
   }
 
   onChangeCheck($event, item){
     item.check1= $event;
+    console.log("**168", item)
     for( let row of this.data.listPrecios ){
       if( row.cantidad !== item.cantidad ) row.check1 = false;
     }
@@ -185,8 +207,9 @@ export class CatalogoComponent implements OnInit {
           Ciudad: ${ this.form.ciudad }
           Foto: ${ this.urlFoto }
           Cantidad: ${ this.summaryData.cantidad }
-          Talla: ${ this.form.talla }
-          Color: ${ this.form.color }
+          Talla: ${ this.form.talla|| '' }
+          Color: ${ this.form.color || '' }
+          NOTA: ${ this.textFormatNote() }
           Total a pagar: ${ this.summaryData.precios + ( this.data.pro_vendedor || 0 )  } (PAGO CONTRA ENTREGA)
           Envío de 4 -8 días hábiles
       EN ESPERA DE LA GUÍA DE DESPACHO.
@@ -208,22 +231,35 @@ export class CatalogoComponent implements OnInit {
       "ven_precio": ( this.summaryData.precios + ( this.data.pro_vendedor || 0 ) || 0),
       "ven_total": ( this.summaryData.precios + ( this.data.pro_vendedor || 0 ) ) || 0,
       "ven_ganancias": 0,
-      "ven_observacion": "ok la talla es " + this.form.talla + " y el color " + this.form.color,
-      "nombreProducto": "ok la talla es " + this.form.talla + " y el color " + this.form.color,
+      "ven_observacion": "ok la talla es " + this.form.talla + " y el color " + this.form.color + " INFORMACION COMPLETA: "+ this.textFormatNote(),
+      "nombreProducto": "ok la talla es " + this.form.talla + " y el color " + this.form.color + " INFORMACION COMPLETA: "+ this.textFormatNote(),
       "ven_estado": 0,
       "create": moment().format("DD/MM/YYYY"),
       "apartamento": '',
       "departamento":'',
       "ven_imagen_producto": this.data.foto
     };
-
     this._ventas.create( formsData ).subscribe(( res:any )=>{
       this._tools.presentToast("Exitoso Tu pedido esta en proceso. un accesor se pondra en contacto contigo!");
     },( error:any )=> { } );
 
   }
+
+  textFormatNote(){
+    let txt:string = "";
+    for(let item of this.data.listPrecios ){
+      if( item.check1 ){
+        for( let row of item.listDetail )
+        txt+=`
+            cantidad: ${ row.cantidad|| '' }  talla: ${ row.talla || '' } color: ${ row.color || ''}
+        `;
+      }
+    txt+= this.form.nota;
+
+    }
+    return txt;
+  }
   handleColor(){
-    console.log("***", this.data, this.form)
     this.urlFoto = ( this.data.listColor.find( item => item.talla == this.form.color ) ).foto;
     this._tools.openFotoAlert( this.urlFoto );
   }
@@ -311,7 +347,7 @@ export class CatalogoComponent implements OnInit {
   }
 
   buyArticulo( cantidad:number, opt ){
-    window.document.scrollingElement.scrollTop=3000;
+    window.document.scrollingElement.scrollTop=2500;
     /*this.suma();
     //this.AgregarCart();
     this.data.cantidadAd = opt == true ? cantidad : this.pedido.cantidad || cantidad;

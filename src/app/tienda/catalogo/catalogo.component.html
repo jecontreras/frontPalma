@@ -138,7 +138,9 @@
                                     }
                                 </style>
                                 <a target="_self">
-                                    <img src="{{data.foto}}" data-srcset="{{data.foto}} 1x" alt data-sizes=auto data-src="{{data.foto}}" class="lazyload" width=100% height=auto>
+                                    <div class="image-container">
+                                      <img src="{{data.foto}}" data-srcset="{{data.foto}} 1x" alt data-sizes=auto data-src="{{data.foto}}" class="lazyload" width=100% height=auto>
+                                    </div>
                                 </a>
                             </div>
                         </div>
@@ -423,6 +425,12 @@ EN LA CONFIRMACIÓN DE TU ORDEN</div>
                                             </div>
                                         </div>
                                         <div>
+                                          <div class="form-element required input" style="margin: 10px 0px 0px;" index=3 step=1>
+                                              <label class=fe-label style="color: rgb(37, 42, 50); text-align: left; font-weight: normal; font-style: normal;">Cantidad&nbsp; </label>
+                                              <input name=phone data-type=phone placeholder="Ingresa Tu cantidad adquirir" [(ngModel)]="form.cantidad" style="background-color: rgb(255, 255, 255); color: rgb(37, 42, 50); text-align: left; font-weight: normal; font-style: normal;">
+                                          </div>
+                                        </div>
+                                        <div>
                                             <div class="form-element required input" style="margin: 10px 0px 0px;" index=3 step=1>
                                                 <label class=fe-label style="color: rgb(37, 42, 50); text-align: left; font-weight: normal; font-style: normal;">Talla &nbsp;
         </label>
@@ -441,6 +449,22 @@ EN LA CONFIRMACIÓN DE TU ORDEN</div>
         </select>
                                             </div>
                                         </div>
+                                        <div>
+                                          <div class="form-element required input" style="margin: 10px 0px 0px;" index=3 step=1>
+                                              <label class=fe-label style="color: rgb(37, 42, 50); text-align: left; font-weight: normal; font-style: normal;">SELECCIONE TU OFERTA👇 &nbsp;
+      </label>
+                                              <select
+                                                class="form-control" id="exampleFormControlSelect1" [(ngModel)]="form.offer" style="background-color: rgb(255, 255, 255); color: rgb(37, 42, 50); text-align: left; font-weight: normal; font-style: normal; height: 44px; border-radius: 5px;"
+                                                (change)="handleEventCheck($event.target.value)"
+                                              >
+                                                <option *ngFor="let row of data.listPrecios "
+                                                  [value]="row.cantidad "
+                                                >
+                                                  {{ row.cantidad }} - $ {{ row.precios }}
+                                                </option>
+                                              </select>
+                                          </div>
+                                      </div>
                                         <div>
                                             <div class="form-element required input" style="margin: 10px 0px 0px;" index=5 step=1><label class=fe-label style="color: rgb(37, 42, 50); text-align: left; font-weight: normal; font-style: normal;">Dirección y Barrio
           Completa&nbsp; &nbsp; </label><input name=shipping_address data-type=shipping_address [(ngModel)]="form.direccion" placeholder="Incluye, Torre, Apto, Casa" style="background-color: rgb(255, 255, 255); color: rgb(37, 42, 50); text-align: left; font-weight: normal; font-style: normal;">
@@ -474,11 +498,11 @@ EN LA CONFIRMACIÓN DE TU ORDEN</div>
                                             </style>
                                             <div class=paragraph-inner>
                                                 <p>🔥 <strong>{{ countBuy }}</strong><span style="background-color: transparent; color: rgb(37, 42, 50);">
-          Vendidos HOY</span>
+          Vendidos HOY</span></p>
                                                     <p><span style="background-color: transparent; color: rgb(30, 29, 29);">Solo Pocas Unidades
-          Disponibles!</span>
+          Disponibles!</span></p>
                                                         <p><br>
-                                                            <p><strong style="color: rgb(255, 0, 0); font-size: 14px;">﻿SELECCIONA TU TALLA👇</strong>
+                                                            <h4><strong style="color: rgb(255, 0, 0); font-size: 14px;">﻿SELECCIONA TU OFERTA👇</strong></h4>
                                             </div>
                                         </div>
                                         <div id="13668" data-selecta="&nbsp;" class="product-list el-13668" style="border-radius: 0px; margin: 15px 0px 0px; padding: 10px 5px;" index="1" step="2">
@@ -505,6 +529,30 @@ EN LA CONFIRMACIÓN DE TU ORDEN</div>
                                                         <span class="pl-pvalue"><p style="text-align: center;"><s>{{ _tools.monedaChange( 3, 2, item.precios + ( item.precios * 40 /100) ) }}</s></p><p style="text-align: center;"><strong style="color: rgb(230, 0, 0);">{{ _tools.monedaChange( 3, 2, item.precios ) }} </strong></p></span>
                                                     </div>
                                                   </label>
+                                                  <div class="row">
+                                                    <div class="col-12">
+                                                      <h3>Opciones</h3>
+                                                    </div>
+                                                    <div class="col-12" *ngFor="let detail of item.listDetail">
+                                                      <div class="row">
+                                                        <div class="col-6">
+                                                          <label class=fe-label style="color: rgb(37, 42, 50); text-align: left; font-weight: normal; font-style: normal;">Color &nbsp;
+                                                          </label>
+                                                          <select class="form-control" id="exampleFormControlSelect1" [(ngModel)]="detail.color" placeholder="Ingresa tu Color Preferido" style="background-color: rgb(255, 255, 255); color: rgb(37, 42, 50); text-align: left; font-weight: normal; font-style: normal; height: 44px; border-radius: 5px;">
+                                                            <option *ngFor="let row of data.listColor " [value]="row.talla ">{{ row.talla }} </option>
+                                                          </select>
+                                                        </div>
+                                                        <div class="col-6">
+                                                          <label class=fe-label style="color: rgb(37, 42, 50); text-align: left; font-weight: normal; font-style: normal;">
+                                                            Talla &nbsp;
+                                                          </label>
+                                                           <select class="form-control" id="exampleFormControlSelect1" [(ngModel)]="detail.talla" placeholder="Ingresa tu Talla ( Nacional )" style="background-color: rgb(255, 255, 255); color: rgb(37, 42, 50); text-align: left; font-weight: normal; font-style: normal; height: 44px; border-radius: 5px;">
+                                                              <option *ngFor="let row of data.listTallas" [value]="row.tal_descripcion">{{ row.tal_descripcion }} </option>
+                                                            </select>
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                  </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -545,6 +593,12 @@ EN LA CONFIRMACIÓN DE TU ORDEN</div>
                                             <div *ngIf="data.pro_vendedor === 0">
                                                 <app-alert-banner></app-alert-banner>
                                             </div>
+                                        </div>
+                                        <div>
+                                          <div class="form-element required input" style="margin: 10px 0px 0px;" index=3 step=1>
+                                              <label class=fe-label style="color: rgb(37, 42, 50); text-align: left; font-weight: normal; font-style: normal;">Nota&nbsp; </label>
+                                              <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" [(ngModel)]="form.nota"></textarea>
+                                          </div>
                                         </div>
                                         <label data-selected=true class=order-bump style="border-color: rgb(253, 204, 94); border-style: dashed; border-width: 2px; margin: 15px 0px 0px; padding: 5px 5px 5px 10px; background-color: rgb(255, 250, 162);" index=4 step=2>
     <div class=ob-header
