@@ -227,8 +227,12 @@
                           </div>
                         </div>
                       </div>
-                      <div class=" col-12">
-                        <img [src]="item.fotoEvidence" alt=""> <br>
+                      <div class="row" *ngIf="item.fotoEvidence">
+                        <div class="col-12">
+                          <div class="image-container">
+                            <img style="    width: 390px !important ;" [src]="item.fotoEvidence" alt="">
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </li>

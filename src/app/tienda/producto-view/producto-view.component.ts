@@ -437,7 +437,7 @@ export class ProductosViewComponent implements OnInit {
     datar.foto = this.viewsImagen;
     const dialogRef = this.dialog.open(ChecktDialogComponent,{
       //width: '855px',
-      //maxHeight: "665px",
+      maxHeight: "665px",
       data: { datos: datar }
     });
     dialogRef.afterClosed().subscribe(result => {

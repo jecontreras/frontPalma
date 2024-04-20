@@ -12,14 +12,14 @@
                                         font-size: calc(16px + 8 * ((100vw - 320px) / 960));
                                         text-align: center;
                                     }
-                                    
+
                                     @media screen and (min-width: 480px) {
                                         .el-89628 {
                                             font-size: calc(18px + 8 * ((100vw - 320px) / 960));
                                             text-align: center;
                                         }
                                     }
-                                    
+
                                     @media screen and (min-width: 1024px) {
                                         .el-89628 {
                                             font-size: 18px;
@@ -46,7 +46,7 @@
                                     .el-272680 {
                                         align-items: center;
                                     }
-                                    
+
                                     .timer-id-272680 li .timer_number {
                                         color: #0A0A0A;
                                         border-top: 0px solid null;
@@ -63,7 +63,7 @@
                                         font-style: normal;
                                         text-decoration: none;
                                     }
-                                    
+
                                     .timer-id-272680 li .timer_label {
                                         color: white;
                                         font-family: inherit;
@@ -99,14 +99,14 @@
                                         font-size: calc(40px + 8 * ((100vw - 320px) / 960));
                                         text-align: center;
                                     }
-                                    
+
                                     @media screen and (min-width: 480px) {
                                         .el-815933 {
                                             font-size: calc(36px + 8 * ((100vw - 320px) / 960));
                                             text-align: center;
                                         }
                                     }
-                                    
+
                                     @media screen and (min-width: 1024px) {
                                         .el-815933 {
                                             font-size: 18px;
@@ -215,7 +215,7 @@
                                             <img alt [src]="row.foto" data-src="{{row.foto}}?auto=compress,format&fit=clip&w=100%&h=auto" loading=lazy class=lazyload>
                                         </div>
                                     </div>
-                                    <div *ngIf="imageObject.length >= 5">
+                                    <div *ngIf="listGaleria.length >= 5">
                                         <ng-image-slider [images]="imageObject" [infinite]="sliderInfinite" [imagePopup]="sliderImagePopup" [showArrow]="sliderArrowShow" [imageSize]="{width: sliderImageWidth, height: sliderImageHeight}" [autoSlide]="sliderAutoSlide ? 1 : 0" [slideImage]="sliderSlideImage"
                                             [animationSpeed]="sliderAnimationSpeed" (imageClick)="imageOnClick($event)" (arrowClick)="arrowOnClick($event)" (lightboxArrowClick)="lightboxArrowClick($event)" #nav>
                                         </ng-image-slider>
@@ -243,9 +243,9 @@
 
                         <div class=element-wrapper>
                             <div style="font-size: 178%; line-height: 1; color: white; margin: 10px 0px 0px; padding: 5px; text-shadow: transparent 0px 0px 0px;">
-                                <h3 style="text-align: center;"><strong class=ql-font-montserrat style="color: rgb(255 64 129);">TALLAS DISPONIBLES</strong></h3>
-                                <p *ngIf="data['pro_categoria']?.id == 16" style="text-align: center;"><span style="background-color: rgb(255 64 129); font-size: 24px;">37 | 38 | 39</span><span style="background-color: rgb(255 64 129); font-size: 24px; color: rgb(255, 255, 255);"> | 40 | 41 | 42 | 43</span>
-                                    <p *ngIf="data['pro_categoria']?.id == 14" style="text-align: center;"><span style="background-color: rgb(255 64 129); font-size: 24px;">6 | 8 | 10</span><span style="background-color: rgb(255 64 129); font-size: 24px; color: rgb(255, 255, 255);"> | 11 | 12 | 14 | 16</span>
+                                <h3 style="text-align: center;"><strong class=ql-font-montserrat style="color: rgb(0, 0, 0);">TALLAS DISPONIBLES</strong></h3>
+                                <p *ngIf="listTallasS" style="text-align: center;"><span style="background-color: rgb(0, 0, 0); font-size: 24px;">
+                                  {{ listTallasS }} </span>
                                         <h3><br></h3>
                             </div>
                         </div>
@@ -266,13 +266,13 @@
                                     .el-16716 {
                                         align-items: stretch;
                                     }
-                                    
+
                                     @media screen and (min-width: 480px) {
                                         .el-16716 {
                                             align-items: center;
                                         }
                                     }
-                                    
+
                                     @media screen and (min-width: 1024px) {
                                         .el-16716 {
                                             align-items: center;
@@ -290,13 +290,13 @@ EN LA CONFIRMACIÓN DE TU ORDEN</div>
                                     .el-409988 {
                                         align-items: stretch;
                                     }
-                                    
+
                                     @media screen and (min-width: 480px) {
                                         .el-409988 {
                                             align-items: center;
                                         }
                                     }
-                                    
+
                                     @media screen and (min-width: 1024px) {
                                         .el-409988 {
                                             align-items: center;
@@ -348,14 +348,14 @@ EN LA CONFIRMACIÓN DE TU ORDEN</div>
                                         font-size: calc(20px + 8 * ((100vw - 320px) / 960));
                                         text-align: center;
                                     }
-                                    
+
                                     @media screen and (min-width: 480px) {
                                         .el-27153 {
                                             font-size: calc(18px + 8 * ((100vw - 320px) / 960));
                                             text-align: center;
                                         }
                                     }
-                                    
+
                                     @media screen and (min-width: 1024px) {
                                         .el-27153 {
                                             font-size: 18px;
@@ -388,14 +388,14 @@ EN LA CONFIRMACIÓN DE TU ORDEN</div>
                                                         font-size: calc(15px + 8 * ((100vw - 320px) / 960));
                                                         text-align: center;
                                                     }
-                                                    
+
                                                     @media screen and (min-width: 480px) {
                                                         .el-34706 {
                                                             font-size: calc(14px + 8 * ((100vw - 320px) / 960));
                                                             text-align: center;
                                                         }
                                                     }
-                                                    
+
                                                     @media screen and (min-width: 1024px) {
                                                         .el-34706 {
                                                             font-size: 14px;
@@ -405,7 +405,7 @@ EN LA CONFIRMACIÓN DE TU ORDEN</div>
                                                 </style>
                                                 <div class=paragraph-inner>
                                                     <p><strong style="color: rgb(255, 15, 15);">¡APRESÚRATE!</strong>
-                                                        <p><strong style="background-color: transparent;">🔥 293 Vendidos Hoy</strong>
+                                                        <p><strong style="background-color: transparent;">🔥 {{ countBuy }} Vendidos Hoy</strong>
                                                             <p><strong style="background-color: transparent;">Pocas Unidades Disponibles!</strong>
                                                 </div>
                                             </div>
@@ -457,14 +457,14 @@ EN LA CONFIRMACIÓN DE TU ORDEN</div>
                                                     font-size: calc(15px + 8 * ((100vw - 320px) / 960));
                                                     text-align: center;
                                                 }
-                                                
+
                                                 @media screen and (min-width: 480px) {
                                                     .el-22903 {
                                                         font-size: calc(14px + 8 * ((100vw - 320px) / 960));
                                                         text-align: center;
                                                     }
                                                 }
-                                                
+
                                                 @media screen and (min-width: 1024px) {
                                                     .el-22903 {
                                                         font-size: 14px;
@@ -473,7 +473,7 @@ EN LA CONFIRMACIÓN DE TU ORDEN</div>
                                                 }
                                             </style>
                                             <div class=paragraph-inner>
-                                                <p>🔥 <strong>295</strong><span style="background-color: transparent; color: rgb(37, 42, 50);">
+                                                <p>🔥 <strong>{{ countBuy }}</strong><span style="background-color: transparent; color: rgb(37, 42, 50);">
           Vendidos HOY</span>
                                                     <p><span style="background-color: transparent; color: rgb(30, 29, 29);">Solo Pocas Unidades
           Disponibles!</span>
@@ -487,53 +487,24 @@ EN LA CONFIRMACIÓN DE TU ORDEN</div>
                                                 <div class="editable_wrpr"><span>PRECIO</span></div>
                                             </div>
                                             <div data-type="single" class="pl-items" style="color: rgb(8, 8, 8); font-weight: bold; font-size: 13px;">
-                                                <div class="pl-item top_tag selected" data-pid="105798"><label class="pl-inner">
-              <div class="pl-name">
-                  <input type="radio" class="pl-radio" name="product-id" value="105798">
-                  <div class="pl-image">
-          <img alt="" src="{{urlFoto}}?height=220&amp;width=220&amp;auto=webp&amp;fit=bounds">
-      </div>
-                  <span class="pl-nvalue">
-                      <span class="name">{{ data['pro_categoria']?.cat_nombre }} </span>
-                  <span class="top-tag" style="background: rgb(255, 0, 0);">EL MAS VENDIDO 🔥</span></span>
-              </div>
-              <div class="pl-price">
-                  <span class="pl-pvalue"><p style="text-align: center;"><s>{{ _tools.monedaChange( 3, 2, data.pro_uni_venta + (data.pro_uni_venta * 40 /100)) }}</s></p><p style="text-align: center;"><strong style="color: rgb(230, 0, 0);">{{ _tools.monedaChange( 3, 2, data.pro_uni_venta ) }} </strong></p></span>
-              </div>
-          </label>
-                                                    <!--<div class="pl-variants">
-            <div class="pl-variant">
-              <span class="pl-variant-name">
-              <span>
-              <span class="select-a">&nbsp;</span>
-            <b>SELECCIONAR TALLA</b>
-            </span>
-            </span>
-            <div class="pl-variant-options">
-            <label class="pl-variant-option">
-              <input name="variants[105798][SELECCIONAR TALLA]" type="radio" value="37" [(ngModel)]="form.talla" data-variant="SELECCIONAR TALLA"/> 37
-            </label>
-            <label class="pl-variant-option">
-              <input name="variants[105798][SELECCIONAR TALLA]" type="radio" value="38" [(ngModel)]="form.talla" data-variant="SELECCIONAR TALLA"/> 38
-            </label>
-            <label class="pl-variant-option">
-              <input name="variants[105798][SELECCIONAR TALLA]" type="radio" value="39" [(ngModel)]="form.talla" data-variant="SELECCIONAR TALLA"/> 39
-            </label>
-            <label class="pl-variant-option">
-              <input name="variants[105798][SELECCIONAR TALLA]" type="radio" value="40" [(ngModel)]="form.talla" data-variant="SELECCIONAR TALLA"/> 40
-            </label>
-            <label class="pl-variant-option">
-              <input name="variants[105798][SELECCIONAR TALLA]" type="radio" value="41" [(ngModel)]="form.talla" data-variant="SELECCIONAR TALLA"/> 41
-            </label>
-            <label class="pl-variant-option">
-              <input name="variants[105798][SELECCIONAR TALLA]" type="radio" value="42" [(ngModel)]="form.talla" data-variant="SELECCIONAR TALLA"/> 42
-            </label>
-              <label class="pl-variant-option">
-                <input name="variants[105798][SELECCIONAR TALLA]" type="radio" value="43" [(ngModel)]="form.talla" data-variant="SELECCIONAR TALLA"/> 43
-              </label>
-            </div>
-          </div>
-          </div>-->
+                                                <div class="pl-item top_tag selected" data-pid="105798"
+                                                  *ngFor="let item of data.listPrecios"
+                                                >
+                                                  <label class="pl-inner">
+                                                    <div class="pl-name">
+                                                      <mat-checkbox class="example-margin" (ngModelChange)="onChangeCheck($event, item)" [(ngModel)]="item.check1"></mat-checkbox>
+                                                        <div class="pl-image">
+                                                          <img alt="" src="{{urlFoto}}?height=220&amp;width=220&amp;auto=webp&amp;fit=bounds">
+                                                        </div>
+                                                        <span class="pl-nvalue">
+                                                            <span class="name">{{ data['pro_categoria']?.cat_nombre }} </span> <br>
+                                                            <span class="name">{{ item.cantidad }} Pares</span>
+                                                        <span class="top-tag" style="background: rgb(255, 0, 0);">EL MAS VENDIDO 🔥</span></span>
+                                                    </div>
+                                                    <div class="pl-price">
+                                                        <span class="pl-pvalue"><p style="text-align: center;"><s>{{ _tools.monedaChange( 3, 2, item.precios + ( item.precios * 40 /100) ) }}</s></p><p style="text-align: center;"><strong style="color: rgb(230, 0, 0);">{{ _tools.monedaChange( 3, 2, item.precios ) }} </strong></p></span>
+                                                    </div>
+                                                  </label>
                                                 </div>
                                             </div>
                                         </div>
@@ -552,10 +523,10 @@ EN LA CONFIRMACIÓN DE TU ORDEN</div>
                                                     </div>
                                                     <div class="os-price">
                                                         <p style="text-align: center;">
-                                                            <s>{{ _tools.monedaChange( 3, 2, data.pro_uni_venta + (data.pro_uni_venta * 40 /100)) }}</s>
+                                                            <s>{{ _tools.monedaChange( 3, 2, summaryData.precios + (summaryData.precios * 40 /100)) }}</s>
                                                         </p>
                                                         <p style="text-align: center;">
-                                                            <strong style="color: rgb(230, 0, 0);"> {{ _tools.monedaChange( 3, 2, data.pro_uni_venta ) }} </strong>
+                                                            <strong style="color: rgb(230, 0, 0);"> {{ _tools.monedaChange( 3, 2, summaryData.precios ) }} </strong>
                                                         </p>
                                                     </div>
                                                 </div>
@@ -569,7 +540,7 @@ EN LA CONFIRMACIÓN DE TU ORDEN</div>
                                             </div>
                                             <div class="os-total os-row" style="color: rgb(7, 7, 7); font-weight: bold; font-size: 14px;">
                                                 <div class="os-name">TOTAL</div>
-                                                <div class="os-price">{{ this._tools.monedaChange( 3, 2, data.pro_uni_venta + ( data.pro_vendedor || 0 ) ) }} </div>
+                                                <div class="os-price">{{ this._tools.monedaChange( 3, 2, summaryData.precios + ( data.pro_vendedor || 0 ) ) }} </div>
                                             </div>
                                             <div *ngIf="data.pro_vendedor === 0">
                                                 <app-alert-banner></app-alert-banner>
@@ -598,7 +569,7 @@ EN LA CONFIRMACIÓN DE TU ORDEN</div>
                                                 }
                                             </style>
                                             <div class=paragraph-inner>
-                                                <p><strong>PAGO CONTRA ENTREGA</strong>
+                                                <p><strong>PAGO CONTRA ENTREGA</strong></p>
                                             </div>
                                         </div>
                                     </div>
@@ -648,13 +619,13 @@ reservados</span>
                                     .el-507165 {
                                         align-items: flex-end;
                                     }
-                                    
+
                                     @media screen and (min-width: 480px) {
                                         .el-507165 {
                                             align-items: flex-end;
                                         }
                                     }
-                                    
+
                                     @media screen and (min-width: 1024px) {
                                         .el-507165 {
                                             align-items: flex-end;
@@ -674,28 +645,29 @@ reservados</span>
 
     <style id=el-hover-styles></style>
     <!-- Apps Body -->
-    <div>
-        <div class="aa-product-review-area">
-            <h4>Detalles</h4>
-            <div class="row">
-                <div class="col-12">
-                    <div class="d-flex justify-content-center">
-                        <div>
-                            <img src="./assets/img/envios.png" style="width: 320px;">
-                            <img src="./assets/img/compra.jpg" style="width: 320px;">
-                            <img src="./assets/img/comercio.png" style="width: 320px;">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12" *ngIf="data['pro_categoria']?.pro_categoria == 16">
-                    <h5> 🚚 ENVIO NACIONALES Y PAGAS CUANDO RECIBES EL PRODUCTO 🚚 Nuestro tallaje es nacional, un poco pequeño sugerimos solicitar una talla más a la que te de en la siguiente tabla
-                    </h5>
-                </div>
-                <div class="col-12" *ngIf="data['pro_categoria']?.id == 16">
-                    <img src="./assets/img/tallas.jpg" style="width: 320px;">
-                </div>
-            </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="d-flex justify-content-center">
+          <div>
+            <h2 style="text-align: center;"><strong>DETALLES</strong></h2>
+            <h5> 🚚 ENVIO NACIONALES Y PAGAS CUANDO RECIBES EL PRODUCTO 🚚 </h5>
+          </div>
+          <div class="col-12" *ngIf="data['pro_categoria']?.id == 16">
+            <img src="./assets/img/tallas.jpg" style="width: 320px;">
+          </div>
         </div>
+        <div class="d-flex justify-content-center">
+          <div>
+            <div class="image-container">
+              <img src="./assets/img/envios.png">
+              <img src="./assets/img/compra.jpg">
+              <img src="./assets/img/comercio.png">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
 
         <div class="container">
             <div class="row">
@@ -711,30 +683,75 @@ reservados</span>
         </div>
 
         <div class="aa-product-review-area">
-            <h4>Comentarios</h4>
-            <ul class="aa-review-nav">
-                <li *ngFor="let item of data.listComentarios ">
-                    <div class="media">
-                        <div class="media-left">
-                            <a href="#">
-                                <img class="media-object" style="    width: 60px;" [src]="item.foto" alt="girl image">
-                            </a>
+          <div class="row">
+            <div class="col-12">
+              <div class="d-flex justify-content-center">
+                <div>
+                  <h2><strong>COMENTARIÓS</strong></h2>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <ul class="aa-review-nav">
+                  <li *ngFor="let item of data.listComentarios ">
+                      <div class="media">
+                          <div class="media-left">
+                              <a href="#">
+                                  <img class="media-object" style="    width: 60px; border-radius: 40px; " [src]="item.foto" alt="girl image">
+                              </a>
+                          </div>
+                          <div class="media-body">
+                              <h4 class="media-heading"><strong>{{ item.nombre }}</strong> - <span> {{ item.fecha }} </span>
+                              </h4>
+                              <div class="aa-product-rating">
+                                  <span class="fa fa-star"></span>
+                                  <span class="fa fa-star"></span>
+                                  <span class="fa fa-star"></span>
+                                  <span class="fa fa-star"></span>
+                                  <span class="fa fa-star-o"></span>
+                              </div>
+                              <p>{{ item.descripcion }}</p>
+                          </div>
+                      </div>
+                      <div class="row" *ngIf="item.fotoEvidence">
+                        <div class="col-12">
+                          <div class="image-container">
+                            <img style="    width: 390px !important ;" [src]="item.fotoEvidence" alt="">
+                          </div>
                         </div>
-                        <div class="media-body">
-                            <h4 class="media-heading"><strong>{{ item.nombre }}</strong> - <span> {{ item.fecha }} </span>
-                            </h4>
-                            <div class="aa-product-rating">
-                                <span class="fa fa-star"></span>
-                                <span class="fa fa-star"></span>
-                                <span class="fa fa-star"></span>
-                                <span class="fa fa-star"></span>
-                                <span class="fa fa-star-o"></span>
-                            </div>
-                            <p>{{ item.descripcion }}</p>
-                        </div>
+                      </div>
+                  </li>
+              </ul>
+            </div>
+            <div class="col-12">
+              <br><br>
+            </div>
+          </div>
+        </div>
+        <div class="aa-product-review-area">
+          <div class="row">
+            <div class="col-12">
+              <div class="d-flex justify-content-center">
+                <div>
+                  <h2><strong>MAS FOTOS</strong></h2>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <ul class="aa-review-nav">
+                  <li *ngFor="let item of listGaleria ">
+                    <div class="image-container">
+                      <div class="kreep">
+                        <img style="width: 370px !important;" alt [src]="item.foto" data-src="{{item.foto}}?auto=compress,format&fit=clip&w=100%&h=auto" loading=lazy class=lazyload>
+                        <a target=_self (click)="buyArticulo( 1, false )" class=btn style="width: 100%; border-radius: 0px; margin: 10px 0px 20px; padding: 15px; background-color: rgb(34 206 90);">
+                          <span class=btn-headline style="font-weight: bold; font-size: 20px; text-align: center;color: white;">¡HACER PEDIDO AHORA!</span>
+                        </a>
+                      </div>
                     </div>
-                </li>
-            </ul>
+                  </li>
+              </ul>
+            </div>
+          </div>
         </div>
     </div>
 

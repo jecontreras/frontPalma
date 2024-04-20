@@ -24,6 +24,21 @@ html, body {
   width: 14pc !important;
 }
 
+.image-container {
+  display: grid;
+  justify-content: space-between; /* Distribuye las imágenes uniformemente */
+}
+
+.image-container img {
+  width: 100%; /* Ancho fijo */
+  height: auto; /* Altura ajustada automáticamente */
+  border: 2px solid #ccc; /* Borde sólido de 2px */
+  border-radius: 5px; /* Borde redondeado */
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Sombra */
+  margin-right: 10px; /* Espacio entre imágenes */
+}
+
+
 .centerAncho{
   width: 20pc;
 }

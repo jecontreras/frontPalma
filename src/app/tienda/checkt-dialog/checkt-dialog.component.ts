@@ -21,6 +21,7 @@ export class ChecktDialogComponent implements OnInit {
   disabled:boolean = false;
   valor:number = 0;
   dataUser:any = {};
+  ShopConfig:any = {};
 
   constructor(
     public dialogRef: MatDialogRef<ChecktDialogComponent>,
@@ -37,6 +38,7 @@ export class ChecktDialogComponent implements OnInit {
       store = store.name;
       if( !store ) return false;
       this.dataUser = store.user || {};
+      this.ShopConfig = store.configuracion || {};
     });
   }
 
@@ -151,7 +153,7 @@ export class ChecktDialogComponent implements OnInit {
 
   mensajeWhat(){
     let mensaje: string = ``;
-    mensaje = `https://wa.me/573223519032?text=${encodeURIComponent(`
+    mensaje = `https://wa.me/57${ this.ShopConfig.numeroCelular }?text=${encodeURIComponent(`
       Hola Servicio al cliente, como esta, saludo cordial,
       para confirmar adquiere este producto
       Nombre de cliente: ${ this.data.nombre }
