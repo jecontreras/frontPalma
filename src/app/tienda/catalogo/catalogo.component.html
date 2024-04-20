@@ -741,8 +741,8 @@ reservados</span>
               <ul class="aa-review-nav">
                   <li *ngFor="let item of listGaleria ">
                     <div class="image-container">
+                      <img style="width: 370px !important;" alt [src]="item.foto" data-src="{{item.foto}}?auto=compress,format&fit=clip&w=100%&h=auto" loading=lazy class=lazyload>
                       <div class="kreep">
-                        <img style="width: 370px !important;" alt [src]="item.foto" data-src="{{item.foto}}?auto=compress,format&fit=clip&w=100%&h=auto" loading=lazy class=lazyload>
                         <a target=_self (click)="buyArticulo( 1, false )" class=btn style="width: 100%; border-radius: 0px; margin: 10px 0px 20px; padding: 15px; background-color: rgb(34 206 90);">
                           <span class=btn-headline style="font-weight: bold; font-size: 20px; text-align: center;color: white;">¡HACER PEDIDO AHORA!</span>
                         </a>
