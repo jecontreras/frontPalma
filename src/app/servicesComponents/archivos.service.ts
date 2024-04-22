@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ServiciosService } from '../services/servicios.service';
 import * as firebase from "firebase/app";
-import 'firebase/storage'; 
+import 'firebase/storage';
 // import { getApp } from "firebase/app";
 // import { getStorage } from "firebase/storage";
 @Injectable({
@@ -12,11 +12,16 @@ export class ArchivosService {
   constructor(
     private _model: ServiciosService
   ) { }
-  
+
   create(query:any){
     //this.FileFirebase( query );
     //return this._model.querys('archivos/file',query, 'post');
     return this._model.querys2('archivos/file',query, 'post');
+  }
+
+  createGif(query:any){
+    //this.FileFirebase( query );
+    return this._model.querys2('archivos/fileGif',query, 'post');
   }
 
   FileFirebase( ev:any ){
@@ -61,16 +66,16 @@ export class ArchivosService {
             rta =  "no"
             reject(rta)
           }
-          
+
         });
     //   }catch(err){  console.log("err",err)
     //     rta= "Ocurrió un problema, recarga la página."
     //     reject(rta)
     //  }
     })
-  }  
-    
-     
+  }
+
+
 }
 
 

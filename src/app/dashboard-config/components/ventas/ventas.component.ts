@@ -75,9 +75,29 @@ export class VentasComponent implements OnInit {
       data: {datos: obj || {}}
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe( async ( result ) => {
       console.log(`Dialog result: ${result}`);
+      if(result == 'creo') this.cargarTodos();
+      if( obj.id ) {
+        let filtro:any = await this.getDetallado( obj.id );
+          if( !filtro ) return false;
+          let idx = _.findIndex( this.dataTable.dataRows, [ 'id', obj.id ] );
+          console.log("**",idx)
+          if( idx >= 0 ) {
+            console.log("**",this.dataTable['dataRows'][idx], filtro)
+            this.dataTable['dataRows'][idx] = { ven_estado: filtro.ven_estado, ...filtro};
+          }
+      }
     });
+  }
+
+  async getDetallado( id:any ){
+    return new Promise( resolve => {
+      this._ventas.get( { where: { id: id } } ).subscribe(( res:any )=>{
+        res = res.data[0];
+        resolve( res || false )
+      },()=> resolve( false ) );
+    })
   }
 
   darPuntos(){
@@ -125,7 +145,7 @@ export class VentasComponent implements OnInit {
         this.dataTable.dataRows = _.unionBy(this.dataTable.dataRows || [], this.dataTable.dataRows, 'id');
         this.loader = false;
           this.spinner.hide();
-          
+
           if (response.data.length === 0 ) {
             this.notEmptyPost =  false;
           }
@@ -138,7 +158,7 @@ export class VentasComponent implements OnInit {
 
   buscar() {
     this.loader = false;
-    this.notscrolly = true 
+    this.notscrolly = true
     this.notEmptyPost = true;
     this.dataTable.dataRows = [];
     //console.log(this.datoBusqueda);

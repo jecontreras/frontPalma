@@ -223,7 +223,8 @@ export class FormproductosComponent implements OnInit {
       let form: any = new FormData();
       form.append('file', row );
       this._tools.ProcessTime({});
-      await this.fileNext( item, opt, form );
+      if( row.type === "image/gif") await this.fileNextGift( item, opt, form );
+      else await this.fileNext( item, opt, form );
       if( this.id ) if( opt == 'galeria' ) { this.data.listaGaleria = this.listFotos; this.updates(); }
       if( opt == 'foto' ) this.updates();
       //this._archivos.create( this.files[0] );
@@ -240,6 +241,28 @@ export class FormproductosComponent implements OnInit {
   fileNext( item, opt, form:any ){
     return new Promise( resolve =>{
       this._archivos.create( form ).subscribe( async ( res: any ) => {
+        // console.log(res);
+        if ( item == false ) {
+          if( opt !== 'galeria' ) this.data.foto = res.files;//URL+`/${res}`;
+          else await this.validadorGaleria( res.files );
+          if ( this.id ) this.submit();
+        }
+        else {
+          if( opt == 'colorGaleria' ) {
+            item.galeriaList.push( { id: this._tools.codigo( ), foto: res.files } );
+          }else item.foto = res.files;
+          this.submit();
+        }
+        this._tools.presentToast("Exitoso");
+        console.log(item);
+        resolve( true );
+      }, (error) => { console.error(error); this._tools.presentToast("Error de servidor"); resolve( false ); });
+    } );
+  }
+
+  fileNextGift( item, opt, form:any ){
+    return new Promise( resolve =>{
+      this._archivos.createGif( form ).subscribe( async ( res: any ) => {
         // console.log(res);
         if ( item == false ) {
           if( opt !== 'galeria' ) this.data.foto = res.files;//URL+`/${res}`;

@@ -134,7 +134,7 @@ export class CatalogoComponent implements OnInit {
       }
       for( let row of ArrayTallasCheck ) this.listTallasS+=`${ row.tal_descripcion } | `;
       if( this.data.galeria ) for( let key of this.data.galeria ) this.listGaleria.push( { ...key, foto:key.pri_imagen  } );
-      if( this.data.listaGaleria ) for( let key of this.data.listaGaleria ) this.listGaleria.push( { ...key, foto:key.foto  } );
+      //if( this.data.listaGaleria ) for( let key of this.data.listaGaleria ) this.listGaleria.push( { ...key, foto:key.foto  } );
       for( let row of this.listGaleria ) this.imageObject.push( {
         image: row.foto,
         thumbImage: row.foto,

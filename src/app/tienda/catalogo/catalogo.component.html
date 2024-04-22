@@ -791,9 +791,9 @@ reservados</span>
                 </div>
               </div>
             </div>
-            <div class="col-12">
+            <div class="col-12" *ngIf="data.listaGaleria">
               <ul class="aa-review-nav">
-                  <li *ngFor="let item of listGaleria ">
+                  <li *ngFor="let item of data.listaGaleria ">
                     <div class="image-container">
                       <img style="width: 370px !important;" alt [src]="item.foto" data-src="{{item.foto}}?auto=compress,format&fit=clip&w=100%&h=auto" loading=lazy class=lazyload>
                       <div class="kreep">

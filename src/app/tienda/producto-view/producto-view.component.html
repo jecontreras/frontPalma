@@ -148,6 +148,21 @@
                 <h5 [innerHtml]="data.pro_descripcion"></h5>
               </div>-->
               <div class="aa-product-review-area">
+                <div class="row">
+                  <div class="col-12 col-sm-6 pointer" *ngFor="let item of listGaleria1; let i = index" (click)="verImagen(item)">
+
+                    <img [src]="item.foto" data-srcset="{{item.foto}}?auto=compress,format&optimize=medium&fit=clip&w=100%&h=auto 1x"
+                        alt data-sizes=auto data-src="{{item.foto}}?auto=compress,format&optimize=medium&fit=clip&w=100%&h=auto"
+                        class="lazyload" id="product-image" style="object-fit: contain; height: 445px;" width="100%" height="auto">
+                    <div class="d-flex justify-content-center">
+                      <div>
+                        <a (click)="comprarArticulo( 1, false )" class="aa-add-to-cart-btn pointer ov-btn-slide-close pointer">Comprar y pagar en casa</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="aa-product-review-area">
                 <h4>Detalles</h4>
                 <div class="row">
                   <div class="col-12">
@@ -173,31 +188,6 @@
                   </div>
                   <div class="col-12" *ngIf="data['pro_categoria']?.id == 16">
                     <img src="./assets/img/tallas.jpg" style="width: 320px;">
-                  </div>
-                </div>
-              </div>
-              <div class="aa-product-review-area">
-                <div class="row">
-                  <div class="col-12 col-sm-6 pointer" *ngFor="let item of listGaleria1; let i = index" (click)="verImagen(item)">
-
-                    <img [src]="item.foto" data-srcset="{{item.foto}}?auto=compress,format&optimize=medium&fit=clip&w=100%&h=auto 1x"
-                        alt data-sizes=auto data-src="{{item.foto}}?auto=compress,format&optimize=medium&fit=clip&w=100%&h=auto"
-                        class="lazyload" id="product-image" style="object-fit: contain; height: 445px;" width="100%" height="auto">
-                    <div class="d-flex justify-content-center">
-                      <div>
-                        <a (click)="comprarArticulo( 1, false )" class="aa-add-to-cart-btn pointer ov-btn-slide-close pointer">Comprar y pagar en casa</a>
-                        <div
-                          *ngFor="let item of data.listPrecios"
-                        >
-                        <a (click)="comprarArticulo(item.cantidad, true, item.precios)"
-                          [ngClass]="{ 'jump-animation': isClicked  }"
-                          style="background: #eddd00 !important; color: #000000 !important;"
-                          class="aa-add-to-cart-btn pointer ov-btn-slide-close">
-                          LLEVA {{ item.cantidad }} PARES POR {{ _formato.monedaChange(3, 2, item.precios || 0) }}
-                        </a>
-                      </div>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </div>

@@ -388,7 +388,7 @@
                     <label for="exampleFormControlSelect1">Galeria:</label>
                     <div class="row">
                         <div class="col-12">
-                            <ngx-dropzone (change)="onSelects($event, 'galeria')" accept="image/jpeg,image/jpg,image/png">
+                            <ngx-dropzone (change)="onSelects($event, 'galeria')" accept="image/jpeg,image/jpg,image/png/,image/gif">
                                 <ngx-dropzone-label>Subir Fotos de galeria</ngx-dropzone-label>
                                 <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files2"
                                     [file]="f" [removable]="true" (removed)="onRemoves(f, 'galeria')" multiple="true">
