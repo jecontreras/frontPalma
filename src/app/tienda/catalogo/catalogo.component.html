@@ -415,26 +415,26 @@ EN LA CONFIRMACIÓN DE TU ORDEN</div>
                                         <div>
                                             <div class="form-element required input" style="margin: 10px 0px 0px;" index=1 step=1><label class=fe-label style="color: rgb(37, 42, 50); text-align: left; font-weight: normal; font-style: normal;">Nombre&nbsp;
           &nbsp;
-        </label><input name=first_name data-type=first_name placeholder="Nombre Completo" [(ngModel)]="form.nombre" style="background-color: rgb(255, 255, 255); color: rgb(37, 42, 50); text-align: left; font-weight: normal; font-style: normal;">
+        </label><input name=first_name data-type=first_name placeholder="Nombre Completo" [(ngModel)]="form.nombre" style="background-color: rgb(255, 255, 255); color: rgb(37, 42, 50); text-align: left; font-weight: normal; font-style: normal;" (change)="validadorInput()">
                                             </div>
                                         </div>
                                         <div>
                                             <div class="form-element required input" style="margin: 10px 0px 0px;" index=3 step=1>
                                                 <label class=fe-label style="color: rgb(37, 42, 50); text-align: left; font-weight: normal; font-style: normal;">Numero ( whatsapp ) de Celular&nbsp; </label>
-                                                <input name=phone data-type=phone placeholder="Ingresa tu Celular ( whatsapp)" [(ngModel)]="form.celular" style="background-color: rgb(255, 255, 255); color: rgb(37, 42, 50); text-align: left; font-weight: normal; font-style: normal;">
+                                                <input name=phone data-type=phone placeholder="Ingresa tu Celular ( whatsapp)" [(ngModel)]="form.celular" style="background-color: rgb(255, 255, 255); color: rgb(37, 42, 50); text-align: left; font-weight: normal; font-style: normal;" (change)="validadorInput()">
                                             </div>
                                         </div>
                                         <div>
                                           <div class="form-element required input" style="margin: 10px 0px 0px;" index=3 step=1>
                                               <label class=fe-label style="color: rgb(37, 42, 50); text-align: left; font-weight: normal; font-style: normal;">Cantidad&nbsp; </label>
-                                              <input name=phone data-type=phone placeholder="Ingresa Tu cantidad adquirir" [(ngModel)]="form.cantidad" style="background-color: rgb(255, 255, 255); color: rgb(37, 42, 50); text-align: left; font-weight: normal; font-style: normal;">
+                                              <input name=phone data-type=phone placeholder="Ingresa Tu cantidad adquirir" [(ngModel)]="form.cantidad" style="background-color: rgb(255, 255, 255); color: rgb(37, 42, 50); text-align: left; font-weight: normal; font-style: normal;" (change)="validadorInput()">
                                           </div>
                                         </div>
                                         <div>
                                             <div class="form-element required input" style="margin: 10px 0px 0px;" index=3 step=1>
                                                 <label class=fe-label style="color: rgb(37, 42, 50); text-align: left; font-weight: normal; font-style: normal;">Talla &nbsp;
         </label>
-                                                <select class="form-control" id="exampleFormControlSelect1" [(ngModel)]="form.talla" placeholder="Ingresa tu Talla ( Nacional )" style="background-color: rgb(255, 255, 255); color: rgb(37, 42, 50); text-align: left; font-weight: normal; font-style: normal; height: 44px; border-radius: 5px;">
+                                                <select class="form-control" id="exampleFormControlSelect1" [(ngModel)]="form.talla" placeholder="Ingresa tu Talla ( Nacional )" style="background-color: rgb(255, 255, 255); color: rgb(37, 42, 50); text-align: left; font-weight: normal; font-style: normal; height: 44px; border-radius: 5px;" (change)="validadorInput()">
           <option *ngFor="let row of data.listTallas" [value]="row.tal_descripcion">{{ row.tal_descripcion }} </option>
         </select>
                                             </div>
@@ -444,7 +444,7 @@ EN LA CONFIRMACIÓN DE TU ORDEN</div>
                                                 <label class=fe-label style="color: rgb(37, 42, 50); text-align: left; font-weight: normal; font-style: normal;">Color &nbsp;
         </label>
                                                 <select class="form-control" id="exampleFormControlSelect1" [(ngModel)]="form.color" placeholder="Ingresa tu Color Preferido" style="background-color: rgb(255, 255, 255); color: rgb(37, 42, 50); text-align: left; font-weight: normal; font-style: normal; height: 44px; border-radius: 5px;"
-                                                    (change)="handleColor()">
+                                                    (change)="handleColor(); validadorInput()">
           <option *ngFor="let row of data.listColor " [value]="row.talla ">{{ row.talla }} </option>
         </select>
                                             </div>
@@ -467,14 +467,29 @@ EN LA CONFIRMACIÓN DE TU ORDEN</div>
                                       </div>
                                         <div>
                                             <div class="form-element required input" style="margin: 10px 0px 0px;" index=5 step=1><label class=fe-label style="color: rgb(37, 42, 50); text-align: left; font-weight: normal; font-style: normal;">Dirección y Barrio
-          Completa&nbsp; &nbsp; </label><input name=shipping_address data-type=shipping_address [(ngModel)]="form.direccion" placeholder="Incluye, Torre, Apto, Casa" style="background-color: rgb(255, 255, 255); color: rgb(37, 42, 50); text-align: left; font-weight: normal; font-style: normal;">
+          Completa&nbsp; &nbsp; </label><input name=shipping_address data-type=shipping_address [(ngModel)]="form.direccion" placeholder="Incluye, Torre, Apto, Casa" style="background-color: rgb(255, 255, 255); color: rgb(37, 42, 50); text-align: left; font-weight: normal; font-style: normal;" (change)="validadorInput()">
                                             </div>
                                         </div>
                                         <div>
                                             <div class="form-element required input" style="margin: 10px 0px 0px;" index=6 step=1><label class=fe-label style="color: rgb(37, 42, 50); text-align: left; font-weight: normal; font-style: normal;">Ciudad y departamento&nbsp;
-        </label><input name=shipping_city data-type=shipping_city placeholder="Ciudad y departamento" [(ngModel)]="form.ciudad" style="background-color: rgb(255, 255, 255); color: rgb(37, 42, 50); text-align: left; font-weight: normal; font-style: normal;">
+        </label><input name=shipping_city data-type=shipping_city placeholder="Ciudad y departamento" [(ngModel)]="form.ciudad" style="background-color: rgb(255, 255, 255); color: rgb(37, 42, 50); text-align: left; font-weight: normal; font-style: normal;" (change)="validadorInput()">
                                             </div>
                                         </div>
+                                        <div class="wiggle" style="width: 100%;">
+                                          <button [disabled]="btnDisabled" (click)="handleSubmit()" class="btn block" style="margin: 20px 0px 0px; padding: 15px 30px; background-color: rgb(34, 206, 90); display: block; color: rgb(246, 249, 254); font-size: 18px; text-align: center; font-weight: bold; font-style: inherit; text-decoration: inherit;"
+                                              index=5 step=2><span class=btn-headline>🤝 Confirmar Mi Pedido!</span></button>
+                                      </div>
+                                      <div class="paragraph el-32936" style="color: rgb(0, 0, 0); margin: 15px 0px 0px; padding: 5px 0px;" index=6 step=2>
+                                          <style>
+                                              .el-32936 {
+                                                  font-size: 15px;
+                                                  text-align: center;
+                                              }
+                                          </style>
+                                          <div class=paragraph-inner>
+                                              <p><strong>PAGO CONTRA ENTREGA</strong></p>
+                                          </div>
+                                      </div>
                                         <div style="font-family: Montserrat; line-height: 1.5; margin: 15px 0px 0px;" index=0 step=2>
                                             <style>
                                                 .el-22903 {
@@ -502,25 +517,10 @@ EN LA CONFIRMACIÓN DE TU ORDEN</div>
                                                     <p><span style="background-color: transparent; color: rgb(30, 29, 29);">Solo Pocas Unidades
           Disponibles!</span></p>
                                                         <p><br>
-                                                            <h4><strong style="color: rgb(255, 0, 0); font-size: 14px;">﻿SELECCIONA TU OFERTA👇</strong></h4>
+                                                            <!--<h4><strong style="color: rgb(255, 0, 0); font-size: 14px;">﻿SELECCIONA TU OFERTA👇</strong></h4>-->
                                             </div>
                                         </div>
-                                        <div class="wiggle" style="width: 100%;">
-                                            <a (click)="handleSubmit()" class="btn block" style="margin: 20px 0px 0px; padding: 15px 30px; background-color: rgb(34, 206, 90); display: block; color: rgb(246, 249, 254); font-size: 18px; text-align: center; font-weight: bold; font-style: inherit; text-decoration: inherit;"
-                                                index=5 step=2><span class=btn-headline>🤝 Confirmar Mi Pedido!</span></a>
-                                        </div>
-                                        <div class="paragraph el-32936" style="color: rgb(0, 0, 0); margin: 15px 0px 0px; padding: 5px 0px;" index=6 step=2>
-                                            <style>
-                                                .el-32936 {
-                                                    font-size: 15px;
-                                                    text-align: center;
-                                                }
-                                            </style>
-                                            <div class=paragraph-inner>
-                                                <p><strong>PAGO CONTRA ENTREGA</strong></p>
-                                            </div>
-                                        </div>
-                                        <!--
+
                                         <div id="13668" data-selecta="&nbsp;" class="product-list el-13668" style="border-radius: 0px; margin: 15px 0px 0px; padding: 10px 5px;" index="1" step="2">
                                             <div class="pl-header" style="color: rgb(5, 5, 5); font-weight: bold; font-size: 14px;">
                                                 <div class="editable_wrpr"><span>PRODUCTO</span></div>
@@ -628,8 +628,8 @@ EN LA CONFIRMACIÓN DE TU ORDEN</div>
                                           </div>
                                         </label>
                                         <div class="wiggle" style="width: 100%;">
-                                            <a (click)="handleSubmit()" class="btn block" style="margin: 20px 0px 0px; padding: 15px 30px; background-color: rgb(34, 206, 90); display: block; color: rgb(246, 249, 254); font-size: 18px; text-align: center; font-weight: bold; font-style: inherit; text-decoration: inherit;"
-                                                index=5 step=2><span class=btn-headline>🤝 Confirmar Mi Pedido!</span></a>
+                                            <button [disabled]="btnDisabled" (click)="handleSubmit()" class="btn block" style="margin: 20px 0px 0px; padding: 15px 30px; background-color: rgb(34, 206, 90); display: block; color: rgb(246, 249, 254); font-size: 18px; text-align: center; font-weight: bold; font-style: inherit; text-decoration: inherit;"
+                                                index=5 step=2><span class=btn-headline>🤝 Confirmar Mi Pedido!</span></button>
                                         </div>
                                         <div class="paragraph el-32936" style="color: rgb(0, 0, 0); margin: 15px 0px 0px; padding: 5px 0px;" index=6 step=2>
                                             <style>
@@ -641,7 +641,7 @@ EN LA CONFIRMACIÓN DE TU ORDEN</div>
                                             <div class=paragraph-inner>
                                                 <p><strong>PAGO CONTRA ENTREGA</strong></p>
                                             </div>
-                                        </div>-->
+                                        </div>
                                     </div>
                                 </div>
                             </div>
