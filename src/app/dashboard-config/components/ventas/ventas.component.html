@@ -60,7 +60,18 @@
                     </tr>
                   </tfoot>
                   <tbody>
-                    <tr *ngFor="let row of dataTable.dataRows; let idx=index">
+                    <tr
+                      *ngFor="let row of dataTable.dataRows; let idx=index"
+                      [ngClass]="{
+                        'colorFondo':row['ven_estado'] == 1,
+                        'colorCompletado':row['ven_estado'] == 1,
+                        'colorDespachado':row['ven_estado'] == 3,
+                        'colorEntrante':row['ven_estado'] == 0,
+                        'colorDevolucion':row['ven_estado'] == 2,
+                        'colorEliminado':row['ven_estado'] == 5,
+                        'colorPagado':row['ven_retiro'] >= 1
+                      }"
+                    >
 
                       <td>
                         <button (click)="crear(row)" class="btn btn-primary btn-just-icon btn-round">

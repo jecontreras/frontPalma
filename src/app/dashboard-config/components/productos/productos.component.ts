@@ -59,7 +59,7 @@ export class ProductosComponent implements OnInit {
   crear(obj:any){
     const dialogRef = this.dialog.open(FormproductosComponent,{
       data: {datos: obj || {}},
-      height:  '550px',
+      height:  '',
       width: '100%'
     });
 
@@ -114,7 +114,7 @@ export class ProductosComponent implements OnInit {
 
   buscar() {
     this.loader = false;
-    this.notscrolly = true 
+    this.notscrolly = true
     this.notEmptyPost = true;
     this.dataTable.dataRows = [];
     //console.log(this.datoBusqueda);

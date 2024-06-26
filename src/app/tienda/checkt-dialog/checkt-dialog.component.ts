@@ -9,6 +9,7 @@ import { ToolsService } from 'src/app/services/tools.service';
 import { UsuariosService } from 'src/app/servicesComponents/usuarios.service';
 import { VentasService } from 'src/app/servicesComponents/ventas.service';
 import  { SocialAuthService, FacebookLoginProvider, SocialUser }  from 'angularx-social-login';
+import { FormatosService } from 'src/app/services/formatos.service';
 
 @Component({
   selector: 'app-checkt-dialog',
@@ -20,6 +21,7 @@ export class ChecktDialogComponent implements OnInit {
   disabled:boolean = false;
   valor:number = 0;
   dataUser:any = {};
+  ShopConfig:any = {};
 
   constructor(
     public dialogRef: MatDialogRef<ChecktDialogComponent>,
@@ -30,11 +32,13 @@ export class ChecktDialogComponent implements OnInit {
     private _router: Router,
     private _store: Store<STORAGES>,
     private socialAuthService: SocialAuthService,
+    public _formato: FormatosService,
   ) {
     this._store.subscribe((store: any) => {
       store = store.name;
       if( !store ) return false;
       this.dataUser = store.user || {};
+      this.ShopConfig = store.configuracion || {};
     });
   }
 
@@ -43,9 +47,11 @@ export class ChecktDialogComponent implements OnInit {
     this.datas = this.datas.datos || {};
     this.data.talla = this.datas.talla;
     this.data.cantidadAd = this.datas.cantidadAd || 1;
+    this.data.priceSelect = this.datas.priceSelect || this.data.costo;
     this.data.costo = this.datas.costo || 105000;
     this.data.opt = this.datas.opt;
-    this.data.color = this.datas.color;
+    this.data.color = this.datas.colorSelect;
+    this.data.pro_vendedor = this.datas.pro_vendedor;
     this.suma();
     this.socialAuthService.authState.subscribe( async (user) => {
       let result = await this._user.initProcess( user );
@@ -89,7 +95,7 @@ export class ChecktDialogComponent implements OnInit {
     this._tools.presentToast("Exitoso Tu pedido esta en proceso. un accesor se pondra en contacto contigo!");
     setTimeout(()=>this._tools.tooast( { title: "Tu pedido esta siendo procesado "}) ,3000);
     this.mensajeWhat();
-    this._router.navigate(['/tienda/detallepedido']);
+    //this._router.navigate(['/tienda/detallepedido']);
     //this.dialogRef.close('creo');
 
   }
@@ -141,13 +147,13 @@ export class ChecktDialogComponent implements OnInit {
   }
 
   suma(){
-    this.data.costo = ( this.data.opt == true ? ( this.datas.pro_uni_venta * 2 || 210000 ) - 20000 : ( this.datas.pro_uni_venta * this.data.cantidadAd )  || 105000 )
-    console.log( this.datas )
+    this.data.costo = ( this.data.opt === true ? ( this.datas.priceSelect )  : ( this.datas.pro_uni_venta * this.data.cantidadAd ) )
+    console.log( this.data.costo )
   }
 
   mensajeWhat(){
     let mensaje: string = ``;
-    mensaje = `https://wa.me/573223519032?text=${encodeURIComponent(`
+    mensaje = `https://wa.me/57${ this.ShopConfig.numeroCelular }?text=${encodeURIComponent(`
       Hola Servicio al cliente, como esta, saludo cordial,
       para confirmar adquiere este producto
       Nombre de cliente: ${ this.data.nombre }

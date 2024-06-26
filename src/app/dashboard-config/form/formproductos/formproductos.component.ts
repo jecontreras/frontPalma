@@ -13,6 +13,7 @@ import { Store } from '@ngrx/store';
 import { Fruit } from 'src/app/interfaces/interfaces';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {MatChipInputEvent} from '@angular/material/chips';
+import { FormTestimonioComponent } from '../form-testimonio/form-testimonio.component';
 
 const URL = environment.url;
 
@@ -222,7 +223,8 @@ export class FormproductosComponent implements OnInit {
       let form: any = new FormData();
       form.append('file', row );
       this._tools.ProcessTime({});
-      await this.fileNext( item, opt, form );
+      if( row.type === "image/gif") await this.fileNextGift( item, opt, form );
+      else await this.fileNext( item, opt, form );
       if( this.id ) if( opt == 'galeria' ) { this.data.listaGaleria = this.listFotos; this.updates(); }
       if( opt == 'foto' ) this.updates();
       //this._archivos.create( this.files[0] );
@@ -231,6 +233,7 @@ export class FormproductosComponent implements OnInit {
     this.files = [];
     this.files2 = [];
     this.files3 = [];
+    if( !item ) return false;
     item.checkFotoGaleri = false;
     item.checkFoto = false;
   }
@@ -238,6 +241,28 @@ export class FormproductosComponent implements OnInit {
   fileNext( item, opt, form:any ){
     return new Promise( resolve =>{
       this._archivos.create( form ).subscribe( async ( res: any ) => {
+        // console.log(res);
+        if ( item == false ) {
+          if( opt !== 'galeria' ) this.data.foto = res.files;//URL+`/${res}`;
+          else await this.validadorGaleria( res.files );
+          if ( this.id ) this.submit();
+        }
+        else {
+          if( opt == 'colorGaleria' ) {
+            item.galeriaList.push( { id: this._tools.codigo( ), foto: res.files } );
+          }else item.foto = res.files;
+          this.submit();
+        }
+        this._tools.presentToast("Exitoso");
+        console.log(item);
+        resolve( true );
+      }, (error) => { console.error(error); this._tools.presentToast("Error de servidor"); resolve( false ); });
+    } );
+  }
+
+  fileNextGift( item, opt, form:any ){
+    return new Promise( resolve =>{
+      this._archivos.createGif( form ).subscribe( async ( res: any ) => {
         // console.log(res);
         if ( item == false ) {
           if( opt !== 'galeria' ) this.data.foto = res.files;//URL+`/${res}`;
@@ -357,6 +382,7 @@ export class FormproductosComponent implements OnInit {
     this.data = _.omit(this.data, [ 'pro_usu_creacion' ])
     this.data = _.omitBy(this.data, _.isNull);
     if( this.rolUser == 'administrador' ) this.data.pro_activo = 0;
+    console.log("updates", this.data)
     this._productos.update(this.data).subscribe((res: any) => {
       this._tools.presentToast("Actualizado");
       res.listColor = this.data.listColor;
@@ -580,6 +606,16 @@ export class FormproductosComponent implements OnInit {
     }
   }
 
+  handleTestimonios(){
+    const dialogRef = this.dialog.open(FormTestimonioComponent,{
+      data: {datos: { idProduct: this.data.id }}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
   editor() {
     let config: AngularEditorConfig = {
       editable: true,
@@ -645,6 +681,43 @@ export class FormproductosComponent implements OnInit {
 
   eventoDescripcion() {
     // console.log("HP")
+  }
+
+  async cargarVideo(imageInput){ console.log("Cargar video ev")
+    //  try{
+    const file: File = imageInput.files[0];
+      console.log("file", file)
+      await this._archivos.VideoFirebase(file, this.data.pro_codigo)
+      .then(async (resultado)=>{
+        console.log(" VideoFirebase token",resultado)
+        let data = { id: this.data.id,
+                pro_video_token : resultado
+              }
+        await this._productos.updateVideoToken(data).subscribe((res)=>{
+          console.log("updateVideoTokeres",res)
+        })
+
+      })
+    // }catch(err){
+    //   this._tools.presentToast("No se pudo subir el video ");
+    // }
+
+
+
+
+
+
+      // if(token=="no"){
+      //   this._tools.presentToast("No se pudo subir el video ");
+      // }else{
+      //   console.log("token" , token)
+      //   if(token){
+      //     // guardar url del video
+      //
+      //     })
+      //   }
+      // }
+  // })
   }
 
 }
