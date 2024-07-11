@@ -60,6 +60,14 @@ export class ChecktDialogComponent implements OnInit {
     );
   }
 
+  handleTallaSelect(event){
+    let filtro = this.datas.listColor.find( row => row.talla === event);
+    if( !filtro ) return false;
+    this.datas.listTallaSelect = filtro.tallaSelect.filter( row => row.check === true );
+    this.datas.foto = filtro.foto;
+    this._tools.openFotoAlert( filtro.foto );
+  }
+
   async finalizando(){
     if( this.disabled ) return false;
     this.disabled = true;
