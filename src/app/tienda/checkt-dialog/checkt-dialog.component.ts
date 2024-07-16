@@ -18,7 +18,7 @@ import { FormatosService } from 'src/app/services/formatos.service';
 })
 export class ChecktDialogComponent implements OnInit {
   data:any = {};
-  disabled:boolean = false;
+  disabled:boolean = true;
   valor:number = 0;
   dataUser:any = {};
   ShopConfig:any = {};
@@ -58,6 +58,17 @@ export class ChecktDialogComponent implements OnInit {
       console.log("**********", user, result )
       }
     );
+  }
+
+  validadorInput(){
+    if( !this.data.nombre ) return this.disabled = true;
+    if( !this.data.telefono ) return this.disabled = true;
+    if( !this.data.direccion ) return this.disabled = true;
+    if( !this.data.barrio ) return this.disabled = true;
+    if( !this.data.ciudad  ) return this.disabled = true;
+    if( !this.data.talla ) return this.disabled = true;
+    if( !this.data.color ) return this.disabled = true;
+    this.disabled = false;
   }
 
   async finalizando(){
