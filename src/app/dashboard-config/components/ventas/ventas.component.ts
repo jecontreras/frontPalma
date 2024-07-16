@@ -44,6 +44,7 @@ export class VentasComponent implements OnInit {
   notEmptyPost:boolean = true;
   dataUser:any = {};
   activando:boolean = false;
+  ShopConfig:any = {};
 
   constructor(
     public dialog: MatDialog,
@@ -56,6 +57,7 @@ export class VentasComponent implements OnInit {
       store = store.name;
       this.dataUser = store.user || {};
       this.activando = false;
+      this.ShopConfig = store.configuracion || {};
       if(this.dataUser.usu_perfil.prf_descripcion != 'administrador') this.query.where.usu_clave_int = this.dataUser.id;
       if(this.dataUser.usu_perfil.prf_descripcion == 'administrador') this.activando = true;
     });
@@ -136,6 +138,7 @@ export class VentasComponent implements OnInit {
 
   cargarTodos() {
     this.spinner.show();
+    this.query.where.empresa = this.ShopConfig.id;
     this._ventas.get(this.query)
     .subscribe(
       (response: any) => {

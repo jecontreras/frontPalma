@@ -17,7 +17,7 @@ import { FormatosService } from 'src/app/services/formatos.service';
   styleUrls: ['./checkt-dialog.component.scss']
 })
 export class ChecktDialogComponent implements OnInit {
-  data:any = {};
+  data:any = { };
   disabled:boolean = true;
   valor:number = 0;
   dataUser:any = {};
@@ -97,7 +97,8 @@ export class ChecktDialogComponent implements OnInit {
       "create": moment().format("DD/MM/YYYY"),
       "apartamento": this.data.apartamento || '',
       "departamento": this.data.departamento || '',
-      "ven_imagen_producto": this.datas.foto
+      "ven_imagen_producto": this.datas.foto,
+      "empresa": this.ShopConfig.id
     };
     await this.crearUser();
     data.usu_clave_int = this.dataUser.id;
