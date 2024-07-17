@@ -4,7 +4,7 @@
   <mat-drawer #drawer class="example-sidenav" mode="over">
     <mat-toolbar style="width: 100%; background: #292929; color: white;">
       <div class="d-flex bd-highlight mb-3" style="width: 100%;">
-        <div class="me-auto p-2 bd-highlight"><h3 style="margin-top: 10px;">{{ tiendaInfo.nombreTienda }} </h3></div>
+        <div class="me-auto p-2 bd-highlight"><h3 style="margin-top: 10px; width: 100%;">{{ tiendaInfo.nombreTienda }} </h3></div>
         <div class="p-2 bd-highlight">
           <button mat-icon-button color="warn" (click)="drawer.toggle()" aria-label="Example icon button with a heart icon" style="margin-top: 6px; color: #ffffff;">
             <i class="material-icons" aria-hidden="true">close</i>
@@ -21,7 +21,7 @@
               <div class="p-2 bd-highlight" *ngIf="item.cat_imagen">
                 <img [src]="item.cat_imagen" style="    height: 40px;" alt="">
               </div>
-              <div class="p-2 bd-highlight text-dark " style="    margin-top: 10px;"><h6>{{ item.cat_nombre || item.title }}</h6></div>
+              <div class="p-2 bd-highlight text-dark " style="    margin-top: 10px; width: 100%;"><h6>{{ item.cat_nombre || item.title }}</h6></div>
               <div class="ms-auto p-2 bd-highlight"><mat-icon>send</mat-icon></div>
             </div>
           </li>

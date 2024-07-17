@@ -65,6 +65,7 @@ export class CatalogoComponent implements OnInit {
     precios: 0,
     cantidad: 0
   };
+  btnDisabled:boolean = true;
 
   constructor(
     private activate: ActivatedRoute,
@@ -271,6 +272,16 @@ export class CatalogoComponent implements OnInit {
     if( !this.form.talla ) { this._tools.tooast( { title: "Error falta la talla ", icon: "error"}); return false; }
     if( !this.form.color ) { this._tools.tooast( { title: "Error falta el color ", icon: "error"}); return false; }
     return true;
+  }
+  validadorInput(){
+    if( !this.form.nombre ) return this.btnDisabled = true;
+    if( !this.form.celular ) return this.btnDisabled = true;
+    if( !this.form.direccion ) return this.btnDisabled = true;
+    if( !this.form.cantidad ) return this.btnDisabled = true;
+    if( !this.form.ciudad  ) return this.btnDisabled = true;
+    if( !this.form.talla ) return this.btnDisabled = true;
+    if( !this.form.color ) return this.btnDisabled = true;
+    this.btnDisabled = false;
   }
 
   handleNewPhoto( row ){

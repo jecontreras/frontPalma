@@ -1,6 +1,6 @@
 <!-- catg header banner section -->
 <section id="aa-catg-head-banner">
-  <img [src]="tiendaInfo.portada3 || 'https://lokomproaqui.com/assets/img/banner.jpg'" class="anchosBanner"
+  <img [src]="'https://lokomproaqui.com/assets/img/banner.jpg'" class="anchosBanner"
     alt="fashion img">
   <!--<div class="aa-catg-head-banner-area">
     <div class="container">
@@ -41,15 +41,16 @@
                 <div class="d-flex justify-content-center">
                   <div>
                     <a (click)="comprarArticulo( 1, false )" class="aa-add-to-cart-btn pointer ov-btn-slide-close">Comprar y pagar en casa</a>
-                    <div style="text-align: center;"
-                      *ngFor="let item of data.listPrecios"
+                    <div
+                      *ngFor="let item of data.listPrecios; let i = index"
                     >
-                    <a (click)="comprarArticulo(item.cantidad, true, item.precios)"
-                      [ngClass]="{ 'jump-animation': isClicked  }"
-                      style="background: #eddd00 !important; color: #000000 !important;"
-                      class="aa-add-to-cart-btn pointer ov-btn-slide-close">
-                      LLEVA {{ item.cantidad }} PARES POR {{ _formato.monedaChange(3, 2, item.precios || 0) }}
-                    </a>
+                      <a (click)="comprarArticulo(item.cantidad, true, item.precios)"
+                        [ngClass]="{ 'jump-animation': isClicked  }"
+                        style="background: #eddd00 !important; color: #000000 !important;"
+                        class="aa-add-to-cart-btn pointer ov-btn-slide-close">
+                        <span *ngIf="item.cantidad === 1">LLEVA {{ item.cantidad }} PAR POR {{ _formato.monedaChange(3, 2, item.precios || 0) }}</span>
+                        <span *ngIf="item.cantidad != 1">LLEVA {{ item.cantidad }} PARES POR {{ _formato.monedaChange(3, 2, item.precios || 0) }}</span>
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -101,14 +102,15 @@
                   </section>
                   <a (click)="comprarArticulo( 1, false )" class="aa-add-to-cart-btn pointer ov-btn-slide-close">Comprar y pagar en casa</a>
                   <div
-                    *ngFor="let item of data.listPrecios"
+                    *ngFor="let item of data.listPrecios; let i = index"
                   >
                     <a (click)="comprarArticulo(item.cantidad, true, item.precios)"
-                    [ngClass]="{ 'jump-animation': isClicked  }"
-                    style="background: #eddd00 !important; color: #000000 !important;"
-                    class="aa-add-to-cart-btn pointer ov-btn-slide-close">
-                    LLEVA {{ item.cantidad }} PARES POR {{ _formato.monedaChange(3, 2, item.precios || 0) }}
-                  </a>
+                      [ngClass]="{ 'jump-animation': isClicked  }"
+                      style="background: #eddd00 !important; color: #000000 !important;"
+                      class="aa-add-to-cart-btn pointer ov-btn-slide-close">
+                      <span *ngIf="item.cantidad === 1">LLEVA {{ item.cantidad }} PAR POR {{ _formato.monedaChange(3, 2, item.precios || 0) }}</span>
+                      <span *ngIf="item.cantidad != 1">LLEVA {{ item.cantidad }} PARES POR {{ _formato.monedaChange(3, 2, item.precios || 0) }}</span>
+                    </a>
                   </div>
                   <h2 class="text-success" *ngIf="data['pro_categoria']?.id == 16">
                     <a (click)="comprarArticulo( 2, true )" class="aa-add-to-cart-btn pointer"
