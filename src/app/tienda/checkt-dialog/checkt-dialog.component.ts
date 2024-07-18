@@ -17,8 +17,8 @@ import { FormatosService } from 'src/app/services/formatos.service';
   styleUrls: ['./checkt-dialog.component.scss']
 })
 export class ChecktDialogComponent implements OnInit {
-  data:any = {};
-  disabled:boolean = false;
+  data:any = { };
+  disabled:boolean = true;
   valor:number = 0;
   dataUser:any = {};
   ShopConfig:any = {};
@@ -60,12 +60,15 @@ export class ChecktDialogComponent implements OnInit {
     );
   }
 
-  handleTallaSelect(event){
-    let filtro = this.datas.listColor.find( row => row.talla === event);
-    if( !filtro ) return false;
-    this.datas.listTallaSelect = filtro.tallaSelect.filter( row => row.check === true );
-    this.datas.foto = filtro.foto;
-    this._tools.openFotoAlert( filtro.foto );
+  validadorInput(){
+    if( !this.data.nombre ) return this.disabled = true;
+    if( !this.data.telefono ) return this.disabled = true;
+    if( !this.data.direccion ) return this.disabled = true;
+    if( !this.data.barrio ) return this.disabled = true;
+    if( !this.data.ciudad  ) return this.disabled = true;
+    if( !this.data.talla ) return this.disabled = true;
+    if( !this.data.color ) return this.disabled = true;
+    this.disabled = false;
   }
 
   async finalizando(){
@@ -94,7 +97,8 @@ export class ChecktDialogComponent implements OnInit {
       "create": moment().format("DD/MM/YYYY"),
       "apartamento": this.data.apartamento || '',
       "departamento": this.data.departamento || '',
-      "ven_imagen_producto": this.datas.foto
+      "ven_imagen_producto": this.datas.foto,
+      "empresa": this.ShopConfig.id
     };
     await this.crearUser();
     data.usu_clave_int = this.dataUser.id;

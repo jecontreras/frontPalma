@@ -5,6 +5,8 @@ import { ProductoService } from 'src/app/servicesComponents/producto.service';
 import { TestimoniosService } from 'src/app/servicesComponents/testimonios.service';
 import { ArchivosService } from 'src/app/servicesComponents/archivos.service';
 import * as _ from 'lodash';
+import { STORAGES } from 'src/app/interfaces/sotarage';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-form-testimonio',
@@ -18,6 +20,7 @@ export class FormTestimonioComponent implements OnInit {
   listProductos:any = [];
   id:any;
   titulo:string = "Crear";
+  ShopConfig:any = {};
 
   constructor(
     public dialog: MatDialog,
@@ -26,8 +29,15 @@ export class FormTestimonioComponent implements OnInit {
     private _tools: ToolsService,
     public dialogRef: MatDialogRef<FormTestimonioComponent>,
     @Inject(MAT_DIALOG_DATA) public datas: any,
-    private _archivos: ArchivosService
-  ) { }
+    private _archivos: ArchivosService,
+    private _store: Store<STORAGES>,
+  ) { 
+    this._store.subscribe((store: any) => {
+      store = store.name;
+      if( !store ) return false;
+      this.ShopConfig = store.configuracion || {};
+    });
+  }
 
   ngOnInit() {
     console.log("*", this.datas)
@@ -86,6 +96,7 @@ export class FormTestimonioComponent implements OnInit {
 
   async submit(){
     console.log(this.data.cat_activo)
+    this.data.empresa = this.ShopConfig.id;
     // if(this.data.cat_activo) this.data.cat_activo = 0;
     // else this.data.cat_activo = 1;
     if(this.id) {

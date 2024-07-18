@@ -66,6 +66,7 @@ export class CatalogoComponent implements OnInit {
     cantidad: 0
   };
   btnDisabled:boolean = true;
+  viewsImagen:string;
 
   constructor(
     private activate: ActivatedRoute,
@@ -113,6 +114,10 @@ export class CatalogoComponent implements OnInit {
     if (videoEl) {
         videoEl.muted = true;
     }
+  }
+  
+  verImagen( img:any ){
+    this.viewsImagen = img.pri_imagen || this.data.foto;
   }
 
   getArticulos(){
@@ -238,7 +243,8 @@ export class CatalogoComponent implements OnInit {
       "create": moment().format("DD/MM/YYYY"),
       "apartamento": '',
       "departamento":'',
-      "ven_imagen_producto": this.data.foto
+      "ven_imagen_producto": this.data.foto,
+      "empresa": this.tiendaInfo.id
     };
     this._ventas.create( formsData ).subscribe(( res:any )=>{
       this._tools.presentToast("Exitoso Tu pedido esta en proceso. un accesor se pondra en contacto contigo!");

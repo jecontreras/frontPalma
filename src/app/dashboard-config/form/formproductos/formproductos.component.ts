@@ -59,6 +59,7 @@ export class FormproductosComponent implements OnInit {
 
   imageChangedEvent: any = '';
   croppedImage: any = '';
+  ShopConfig:any = {};
 
   constructor(
     public dialog: MatDialog,
@@ -78,6 +79,7 @@ export class FormproductosComponent implements OnInit {
       if( !store ) return false;
       this.dataUser = store.user || {};
       if(Object.keys( this.dataUser ).length > 0 ) this.rolUser = this.dataUser.usu_perfil.prf_descripcion;
+      this.ShopConfig = store.configuracion || {};
     });
   }
 
@@ -369,6 +371,7 @@ export class FormproductosComponent implements OnInit {
       if( this.data.opt == 'demo' ) this.data.pro_mp_venta = 1;
       if( this.rolUser != 'administrador') this.data.pro_activo = 3;
       this.data.pro_usu_creacion = this.dataUser.id;
+      this.data.empresa = this.ShopConfig.id;
       this._productos.create(this.data).subscribe((res: any) => {
         //console.log(res);
         this._tools.presentToast("Exitoso");
@@ -383,6 +386,7 @@ export class FormproductosComponent implements OnInit {
     this.data = _.omitBy(this.data, _.isNull);
     if( this.rolUser == 'administrador' ) this.data.pro_activo = 0;
     console.log("updates", this.data)
+    this.data.empresa = this.ShopConfig.id;
     this._productos.update(this.data).subscribe((res: any) => {
       this._tools.presentToast("Actualizado");
       res.listColor = this.data.listColor;

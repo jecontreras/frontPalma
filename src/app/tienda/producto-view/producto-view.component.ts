@@ -169,6 +169,7 @@ export class ProductosViewComponent implements OnInit {
 
   getProducto(){
     this.queryId.where.id = this.id;
+    if( this.tiendaInfo.id ) this.query.where.empresa = this.tiendaInfo.id;
     this._producto.get( this.queryId ).subscribe((res:any)=>{
       this.data = res.data[0] || {};
       this.getTestimonios();
@@ -253,6 +254,7 @@ export class ProductosViewComponent implements OnInit {
     return new Promise (resolve =>{
       this.query.where.idPrice = this.userId.id;
       console.log("***210", this.query)
+      if( this.tiendaInfo.id ) this.query.where.empresa = this.tiendaInfo.id;
       this._producto.get( this.query ).subscribe((res:any)=>{
         resolve( res.data )
       }, ( error )=> { console.error(error); resolve( [] ); } );
