@@ -5,6 +5,8 @@ import { ProductoService } from 'src/app/servicesComponents/producto.service';
 import { FormproductosComponent } from '../../form/formproductos/formproductos.component';
 import { NgxSpinnerService } from 'ngx-spinner';
 import * as _ from 'lodash';
+import { CART } from 'src/app/interfaces/sotarage';
+import { Store } from '@ngrx/store';
 
 declare interface DataTable {
   headerRow: string[];
@@ -39,13 +41,21 @@ export class ProductosComponent implements OnInit {
   public datoBusqueda = '';
   notscrolly:boolean=true;
   notEmptyPost:boolean = true;
+  tiendaInfo:any = {};
 
   constructor(
     public dialog: MatDialog,
     private _tools: ToolsService,
     private _productos: ProductoService,
-    private spinner: NgxSpinnerService
-  ) { }
+    private spinner: NgxSpinnerService,
+    private _store: Store<CART>,
+  ) {
+    this._store.subscribe((store: any) => {
+      store = store.name;
+      if(!store) return false;
+      this.tiendaInfo = store.configuracion || {};
+    });
+  }
 
   ngOnInit() {
     this.dataTable = {
@@ -91,6 +101,7 @@ export class ProductosComponent implements OnInit {
 
   cargarTodos() {
     this.spinner.show();
+    if( this.tiendaInfo.id ) this.query.where.empresa = this.tiendaInfo.id;
     this._productos.get(this.query)
     .subscribe(
       (response: any) => {
