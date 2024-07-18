@@ -25,6 +25,13 @@
               </ngx-spinner>
             </div>
             <div id="datatables_filter" class="dataTables_filter row">
+              <div class="col-12">
+                <div class="d-flex justify-content-center">
+                  <div>
+                    <h3> Cantidad de Ventas de Hoy {{ dateHoy }} <span class="text-danger">{{ sumCantidad }}</span> </h3>
+                  </div>
+                </div>
+              </div>
               <label class="form-group col">
                 <input [(ngModel)]="datoBusqueda" type="search" class="form-control form-control-sm" (change)="buscar()"
                   placeholder="Buscar Retiros" aria-controls="datatables"></label>

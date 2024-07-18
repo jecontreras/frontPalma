@@ -8,6 +8,7 @@ import * as _ from 'lodash';
 import { STORAGES } from 'src/app/interfaces/sotarage';
 import { Store } from '@ngrx/store';
 import { FormpuntosComponent } from '../../form/formpuntos/formpuntos.component';
+import * as moment from 'moment';
 
 declare interface DataTable {
   headerRow: string[];
@@ -45,6 +46,8 @@ export class VentasComponent implements OnInit {
   dataUser:any = {};
   activando:boolean = false;
   ShopConfig:any = {};
+  dateHoy = moment().format("DD/MM/YYYY");
+  sumCantidad:any = 0;
 
   constructor(
     public dialog: MatDialog,
@@ -63,13 +66,29 @@ export class VentasComponent implements OnInit {
     });
    }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.dataTable = {
       headerRow: this.Header,
       footerRow: this.Header,
       dataRows: []
     };
     this.cargarTodos();
+    this.sumCantidad = await this.getVentasHoy();
+  }
+
+  getVentasHoy(){
+    return new Promise( resolve =>{
+      this._ventas.getCount( {
+        "where": {
+          "ven_sw_eliminado": 0,
+          "ven_estado": {
+              "!=": 4
+          },
+          "empresa": 1,
+          "create": this.dateHoy
+      }
+      } ).subscribe( res => resolve( res.data ) )
+    })
   }
 
   crear(obj:any){

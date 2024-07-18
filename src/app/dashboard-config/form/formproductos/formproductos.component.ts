@@ -578,7 +578,7 @@ export class FormproductosComponent implements OnInit {
     let filtro = this.listColor.filter(( item:any ) => item.talla == value );
     if( filtro ) if( filtro.length > 0 ) return false;
     // Add our fruit
-    for( let row of this.data.listaTallas ) listas.push( { tal_descripcion: row.tal_descripcion, id: row.id, tal_sw_activo: row.tal_sw_activo } );
+    for( let row of this.data.listaTallas ) listas.push( { check: true, cantidad: 99, tal_descripcion: row.tal_descripcion, id: row.id, tal_sw_activo: row.tal_sw_activo } );
     console.log( listas );
     if (value) {
       let data:any = {
@@ -592,7 +592,11 @@ export class FormproductosComponent implements OnInit {
       this.listColor.push( data );
     }
     console.log( event )
+    const input = event.input;
     event.value = "";
+    if (input) {
+      input.value = '';
+    }
     this.guardarColor( );
     // Clear the input value
     try {
