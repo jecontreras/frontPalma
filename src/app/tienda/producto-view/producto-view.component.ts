@@ -7,7 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProductoService } from 'src/app/servicesComponents/producto.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import * as _ from 'lodash';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { InfoProductoComponent } from '../info-producto/info-producto.component';
 import { NgImageSliderComponent } from 'ng-image-slider';
 import { FormatosService } from 'src/app/services/formatos.service';
@@ -15,6 +15,7 @@ import * as moment from 'moment';
 import { ChecktDialogComponent } from '../checkt-dialog/checkt-dialog.component';
 import { UsuariosService } from 'src/app/servicesComponents/usuarios.service';
 import { TestimoniosService } from 'src/app/servicesComponents/testimonios.service';
+import { PizzaPartyComponent } from '../catalogo/catalogo.component';
 
 @Component({
   selector: 'app-producto-view',
@@ -40,7 +41,7 @@ export class ProductosViewComponent implements OnInit {
   };
   queryId:any = {
     where:{
-      pro_activo: 0
+      //pro_activo: 0
     },
     page: 0,
     limit: 1
@@ -103,6 +104,13 @@ export class ProductosViewComponent implements OnInit {
   listTallas:any = [];
   number:any;
   isClicked: boolean = false;
+  viewsImagen2:string;
+  durationInSeconds = 5;
+  timeot= {
+    hora: 0,
+    minuto: 15,
+    milesegundo: 15
+  };
 
   constructor(
     private _store: Store<CART>,
@@ -114,7 +122,8 @@ export class ProductosViewComponent implements OnInit {
     public dialog: MatDialog,
     public _formato: FormatosService,
     private _user: UsuariosService,
-    private _testimonio: TestimoniosService
+    private _testimonio: TestimoniosService,
+    private _snackBar: MatSnackBar,
 
   ) {
     this._store.subscribe((store: any) => {
@@ -130,6 +139,10 @@ export class ProductosViewComponent implements OnInit {
         this.query.where.idPrice = store.usercabeza.id;
        }
     });
+    setInterval(()=>{
+      this.openSnackBar();
+    }, 50000 );
+    this.configTime();
   }
 
   async ngOnInit() {
@@ -147,6 +160,28 @@ export class ProductosViewComponent implements OnInit {
       window.document.scrollingElement.scrollTop=0;
     });
 
+  }
+
+  configTime(){
+    let minuto = 15;
+    let milegundo = 15;
+    setInterval(()=>{
+      if( minuto === 0 ) return false;
+      milegundo--;
+      if(milegundo == 0 ) {
+        minuto--;
+        milegundo = 60;
+      }
+      this.timeot.hora = 0;
+      this.timeot.minuto = minuto;
+      this.timeot.milesegundo = milegundo;
+    }, 1000 );
+  }
+
+  openSnackBar() {
+    this._snackBar.openFromComponent(PizzaPartyComponent, {
+      duration: this.durationInSeconds * 1000,
+    });
   }
 
   getUser(){
@@ -169,7 +204,6 @@ export class ProductosViewComponent implements OnInit {
 
   getProducto(){
     this.queryId.where.id = this.id;
-    if( this.tiendaInfo.id ) this.query.where.empresa = this.tiendaInfo.id;
     this._producto.get( this.queryId ).subscribe((res:any)=>{
       this.data = res.data[0] || {};
       this.getTestimonios();
@@ -182,6 +216,7 @@ export class ProductosViewComponent implements OnInit {
         console.log( "129", this.data )
       } catch (error) {}
       this.viewsImagen = this.data.foto;
+      this.viewsImagen2 = this.data.foto;
       if( !this.data.listComentarios ) this.data.listComentarios = [];
       this.listGaleria1 = this.data.listaGaleria || [];
       if( !this.data.listColor ) this.data.listColor = [];
@@ -214,7 +249,7 @@ export class ProductosViewComponent implements OnInit {
       let dataFoto = this.listGaleria[idx];
       if( !dataFoto ) { idx = 0; dataFoto = this.listGaleria[idx]; }
       await this.sleep( 5 )
-      this.viewsImagen = dataFoto.pri_imagen;
+      this.viewsImagen2 = dataFoto.pri_imagen;
       idx++;
 
     }
@@ -254,7 +289,6 @@ export class ProductosViewComponent implements OnInit {
     return new Promise (resolve =>{
       this.query.where.idPrice = this.userId.id;
       console.log("***210", this.query)
-      if( this.tiendaInfo.id ) this.query.where.empresa = this.tiendaInfo.id;
       this._producto.get( this.query ).subscribe((res:any)=>{
         resolve( res.data )
       }, ( error )=> { console.error(error); resolve( [] ); } );
@@ -262,7 +296,7 @@ export class ProductosViewComponent implements OnInit {
   }
 
   getTestimonios(){ console.log("get TEstimonios", this.id, this.query)
-    this._testimonio.get({ where: { productos:this.id }, limit: 100, page: 0 })
+    this._testimonio.get({ where: { /*productos:this.id*/ }, limit: 100, page: 0 })
     .subscribe(
       (response: any) => {
         console.log("getTestimonios repsonse",response);
@@ -439,7 +473,7 @@ export class ProductosViewComponent implements OnInit {
     datar.foto = this.viewsImagen;
     const dialogRef = this.dialog.open(ChecktDialogComponent,{
       //width: '855px',
-      maxHeight: "665px",
+      //maxHeight: "665px",
       data: { datos: datar }
     });
     dialogRef.afterClosed().subscribe(result => {

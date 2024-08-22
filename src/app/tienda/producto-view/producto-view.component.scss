@@ -15,7 +15,7 @@
 }
 .precio {
 font-size: 25px;
-background: #76ffb3;
+background: #000000;
 color: white;
 padding: 6px;
 border-radius: 10px;
@@ -25,7 +25,7 @@ border-radius: 10px;
 /*** ESTILOS BOTÓN SLIDE LEFT ***/
 
 .ov-btn-slide-close {
-background: #008116; /* color de fondo */
+background: #000000; /* color de fondo */
 color: #f2f4f3 !important; /* color de fuente */
 border: 2px solid #008116; /* tamaño y color de borde */
 padding: 16px 20px;
@@ -104,7 +104,8 @@ left: 50%;
 .precio {
   font-size: 30px;
   font-weight: bold;
-  color: #4CAF50; /* Green color for price */
+  color: #ffffff; /* Green color for price */
+  padding: 10px;
 }
 
 .price2 {

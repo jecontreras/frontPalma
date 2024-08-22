@@ -71,14 +71,9 @@ export class ProductosComponent implements OnInit {
   }
 
   ngOnInit() {
-    let interval = setInterval( ()=>{
-      if( this.tiendaInfo.id ){
-        this.getProductos();
-        this.getCategorias();
-        this.getProductosRecomendado();
-        clearInterval( interval );
-      }
-    } );
+    this.getProductos();
+    this.getCategorias();
+    this.getProductosRecomendado();
     this.urlCategory = 'tienda/index/';
     setInterval(()=>{
       this.breakpoint = (window.innerWidth <= 500) ? 1 : 6;
@@ -136,7 +131,6 @@ export class ProductosComponent implements OnInit {
 
   getProductos(){
     this.spinner.show();
-    if( this.tiendaInfo.id ) this.query.where.empresa = this.tiendaInfo.id;
     this._productos.get(this.query).subscribe((res:any)=>{
       this.listProductos = _.unionBy(this.listProductos || [], res.data, 'id');
       console.log("******",res)

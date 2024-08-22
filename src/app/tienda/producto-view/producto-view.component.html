@@ -1,26 +1,103 @@
-<!-- catg header banner section -->
-<section id="aa-catg-head-banner">
-  <img [src]="tiendaInfo.portada1 || 'https://lokomproaqui.com/assets/img/banner.jpg'" class="anchosBanner"
-    alt="fashion img">
-  <!--<div class="aa-catg-head-banner-area">
-    <div class="container">
-      <div class="aa-catg-head-banner-content">
-        <h2>{{ data.pro_nombre }}</h2>
-        <ol class="breadcrumb">
-          <li><a href="#" [routerLink]="[ '/front' ]">Inicio</a></li>
-          <li><a href="#" [routerLink]="[ '/front/productos' ]">Productos</a></li>
-          <li class="active">{{ data.pro_nombre }}</li>
-        </ol>
-      </div>
-    </div>
-  </div>-->
-</section>
-<!-- / catg header banner section -->
 
 <!-- product category -->
+<section id=54198 class="section full" style="background-size: auto; background-repeat: no-repeat;">
+  <div id=46695 class=section_row style="border-color: transparent; border-style: solid; border-width: 0px; color: rgb(8, 8, 8); font-size: 14px; text-align: initial; margin: 0px; padding: 0px; background-size: auto; background-repeat: no-repeat;">
+      <div class=row-column style="width: 100%;">
+          <div class=element-wrapper>
+              <!-- rgb(255 64 129); -->
+              <div style="width: 100%; line-height: 1; color: white; margin: 10px 0px 0px; padding: 5px; background-color: rgb(8 8 8); text-shadow: transparent 0px 0px 0px;">
+                  <style>
+                      .el-89628 {
+                          font-size: calc(16px + 8 * ((100vw - 320px) / 960));
+                          text-align: center;
+                      }
+
+                      @media screen and (min-width: 480px) {
+                          .el-89628 {
+                              font-size: calc(18px + 8 * ((100vw - 320px) / 960));
+                              text-align: center;
+                          }
+                      }
+
+                      @media screen and (min-width: 1024px) {
+                          .el-89628 {
+                              font-size: 18px;
+                              text-align: center;
+                          }
+                      }
+                  </style>
+                  <div class=headline-inner>
+                      <h2 style="text-align: center;">
+                          <span style="color: rgb(255, 255, 255);">FALTA POCO TIEMPO PARA</span>
+                      </h2>
+                      <h2 style="text-align: center;">
+                          <span style="color: rgb(255, 255, 255);">QUE ESTA </span><strong style="color: rgb(253, 204, 94);">OFERTA</strong><strong style="color: rgb(255, 255, 255);"> </strong><span style="color: rgb(255, 255, 255);">TERMINE:</span></h2>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div id=259692 class=section_row style="border-color: transparent; border-style: solid; border-width: 0px; color: rgb(8, 8, 8); font-size: 14px; text-align: initial; margin: 0px; padding: 0px; background-color: transparent; background-size: auto; background-repeat: no-repeat;">
+      <div class=row-column style="width: 100%;">
+          <div class=element-wrapper>
+              <div class="timer-container el-272680" style="border-color: rgb(21, 215, 174); border-style: solid; border-width: 0px; border-radius: 0px; margin: 5px 0px 0px; padding: 10px 0px 0px; background-color: rgb(8 8 8);">
+                  <style>
+                      .el-272680 {
+                          align-items: center;
+                      }
+
+                      .timer-id-272680 li .timer_number {
+                          color: #0A0A0A;
+                          border-top: 0px solid null;
+                          border-left: 0px solid null;
+                          border-right: 0px solid null;
+                          border-bottom: 0px solid null;
+                          border-radius: 15px 15px 15px 15px;
+                          border-color: null;
+                          background-color: white;
+                          font-family: inherit;
+                          font-size: 36px;
+                          text-align: center;
+                          font-weight: normal;
+                          font-style: normal;
+                          text-decoration: none;
+                      }
+
+                      .timer-id-272680 li .timer_label {
+                          color: white;
+                          font-family: inherit;
+                          font-size: 16px;
+                          text-align: center;
+                          font-weight: normal;
+                          font-style: normal;
+                          text-decoration: none;
+                      }
+                  </style>
+                  <ul data-expire data-expire-url class="timer-id-272680 timer">
+                      <li><span data-hours=0 class=timer_number>{{ timeot.hora }} </span><span class=timer_label>Horas</span>
+                          <li><span data-minutes=14 class=timer_number>{{ timeot.minuto }} </span><span class=timer_label>Minutos</span>
+                              <li><span data-seconds=15 class=timer_number>{{ timeot.milesegundo }} </span><span class=timer_label>Segundos</span>
+                  </ul>
+              </div>
+          </div>
+          <div class=element-wrapper>
+              <div class="spacer form_group with_edit_btn" style="margin: 0px; padding: 0px;">
+                  <div class=inner-spacer style="border-top: 2px solid white;"></div>
+              </div>
+          </div>
+      </div>
+  </div>
+</section>
 <section id="aa-product-details">
   <div class="anchos">
     <div class="row">
+      <div class="col-12">
+        <div class="d-flex justify-content-center">
+          <div>
+            <h1 class="aa-product-price precio">{{ data.pro_nombre }}</h1>
+          </div>
+        </div>
+      </div>
       <div class="col-md-12">
         <div class="aa-product-details-area">
           <div class="aa-product-details-content">
@@ -134,6 +211,27 @@
                   </div>-->
                 </div>
               </div>
+              <div class="col-md-7 col-sm-7 col-xs-12">
+                <div class="aa-product-view-slider">
+                  <div id="demo-1" class="simpleLens-gallery-container">
+                    <div class="simpleLens-container">
+                      <div class="image-resize img">
+                        <img [src]="viewsImagen2" data-srcset="{{viewsImagen2}}?auto=compress,format&optimize=medium&fit=clip&w=100%&h=auto 1x"
+                          alt data-sizes=auto data-src="{{viewsImagen2}}?auto=compress,format&optimize=medium&fit=clip&w=100%&h=auto"
+                          class="lazyload" id="product-image" style="object-fit: contain; height: 445px;" width="100%" height="auto">
+                      </div>
+                      <div class="d-flex justify-content-center">
+                        <div>
+                          <a (click)="verImagen(viewsImagen2);handleSelect( { foto: viewsImagen2} ); comprarArticulo( 1, false )" class="aa-add-to-cart-btn pointer ov-btn-slide-close pointer">
+                            <span class="aa-product-price precio">{{ _formato.monedaChange( 3, 2, data.pro_uni_venta || 0) }}</span>
+                            <span>Comprar y pagar en casa</span>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <div class="aa-product-details-bottom">
@@ -158,7 +256,10 @@
                         class="lazyload" id="product-image" style="object-fit: contain; height: 445px;" width="100%" height="auto">
                     <div class="d-flex justify-content-center">
                       <div>
-                        <a (click)="comprarArticulo( 1, false )" class="aa-add-to-cart-btn pointer ov-btn-slide-close pointer">Comprar y pagar en casa</a>
+                        <a (click)="verImagen(item);handleSelect( item ); comprarArticulo( 1, false )" class="aa-add-to-cart-btn pointer ov-btn-slide-close pointer">
+                          <span class="aa-product-price precio">{{ _formato.monedaChange( 3, 2, data.pro_uni_venta || 0) }}</span>
+                          <span>Comprar y pagar en casa</span>
+                        </a>
                       </div>
                     </div>
                   </div>
@@ -181,20 +282,20 @@
                       <div class="image-caption">Compra segura</div>
                     </div>
                   </div>
-                  <div class="col-12">
+                  <!--<div class="col-12">
                     <div class="d-flex justify-content-center" style="width: 100%;">
                       <div>
                         <h5> 🚚 ENVIO A TODA COLOMBIA Y PAGAS CUANDO RECIBES EL PRODUCTO 🚚</h5>
                       </div>
                     </div>
-                  </div>
-                  <div class="col-12" *ngIf="data['pro_categoria']?.id == 16">
-                    <img src="./assets/img/tallas.jpg" style="width: 320px;">
+                  </div>-->
+                  <div class="col-12">
+                    <img class="lazyload" src="./assets/img/tallas.jpg" style="width: 100%;">
                   </div>
                 </div>
               </div>
-              <div class="testimonial-section" style="width: 100%;">
-                <h2>Testimonios de nuestros clientes</h2>
+              <!--<div class="testimonial-section" style="width: 100%;">
+                <h2 style="color: white !important;">Testimonios de nuestros clientes</h2>
                 <ul class="testimonial-list">
                   <li *ngFor="let item of data.listTestimonios">
                     <div class="row">
@@ -229,7 +330,7 @@
                     </div>
                   </li>
                 </ul>
-              </div>
+              </div>-->
             </div>
 
           </div>
@@ -255,40 +356,6 @@
             </div>
           </div>-->
           <!-- Related product -->
-          <div class="aa-product-related-item">
-            <h3 class="related-products-title">Productos Relacionados</h3>
-            <ul class="aa-product-catg aa-related-item-slider">
-              <ng-image-slider [images]="imageObject" [infinite]="sliderInfinite" [imagePopup]="sliderImagePopup"
-                [showArrow]="sliderArrowShow" [imageSize]="{width: sliderImageWidth, height: sliderImageHeight}"
-                [autoSlide]="sliderAutoSlide ? 1 : 0" [slideImage]="sliderSlideImage"
-                [animationSpeed]="sliderAnimationSpeed" (imageClick)="imageOnClick($event)"
-                (arrowClick)="arrowOnClick($event)" (lightboxArrowClick)="lightboxArrowClick($event)" #nav>
-            </ng-image-slider>
-            </ul>
-          </div>
-          <div class="aa-product-related-item">
-            <div class="d-flex justify-content-center">
-              <div>
-                <h3 class="related-products-title">Productos Relacionados</h3>
-                <ul class="aa-related-item-slider">
-                  <!-- start single product item -->
-                  <li *ngFor="let product of imageObject" class="aa-product-item pointer" (click)="viewProducto( product )">
-                    <div class="product-image-container">
-                      <div class="image-zoom">
-                        <img [src]="product.image" alt="Product Image" style="    height: 325px; width: 100%;">
-                      </div>
-                    </div>
-
-                    <div class="product-description">
-                      <h4 class="product-title">{{ product.title }}</h4>
-                      <p class="product-price">{{ product.pro_uni_venta }}</p>
-                    </div>
-                  </li>
-                  <!-- end single product item -->
-                </ul>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>

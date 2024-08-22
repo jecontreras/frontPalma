@@ -17,7 +17,7 @@ import { FormatosService } from 'src/app/services/formatos.service';
   styleUrls: ['./checkt-dialog.component.scss']
 })
 export class ChecktDialogComponent implements OnInit {
-  data:any = { };
+  data:any = {};
   disabled:boolean = true;
   valor:number = 0;
   dataUser:any = {};
@@ -52,6 +52,7 @@ export class ChecktDialogComponent implements OnInit {
     this.data.opt = this.datas.opt;
     this.data.color = this.datas.colorSelect;
     this.data.pro_vendedor = this.datas.pro_vendedor;
+    this.data.envioT = "priorida";
     this.suma();
     this.socialAuthService.authState.subscribe( async (user) => {
       let result = await this._user.initProcess( user );
@@ -60,7 +61,21 @@ export class ChecktDialogComponent implements OnInit {
     );
   }
 
+  isInvalid(form: any, fieldName: string): boolean {
+    return form.controls[fieldName] && form.controls[fieldName].invalid && form.controls[fieldName].touched;
+  }
+
+  onSubmit(form: any) {
+    if (form.valid) {
+      // Lógica para enviar el formulario
+      console.log('Formulario enviado', this.data);
+    } else {
+      console.log('Formulario no válido');
+    }
+  }
+
   validadorInput(){
+    console.log("*********", this.data)
     if( !this.data.nombre ) return this.disabled = true;
     if( !this.data.telefono ) return this.disabled = true;
     if( !this.data.direccion ) return this.disabled = true;
@@ -97,8 +112,7 @@ export class ChecktDialogComponent implements OnInit {
       "create": moment().format("DD/MM/YYYY"),
       "apartamento": this.data.apartamento || '',
       "departamento": this.data.departamento || '',
-      "ven_imagen_producto": this.datas.foto,
-      "empresa": this.ShopConfig.id
+      "ven_imagen_producto": this.datas.foto
     };
     await this.crearUser();
     data.usu_clave_int = this.dataUser.id;
@@ -160,7 +174,8 @@ export class ChecktDialogComponent implements OnInit {
 
   suma(){
     this.data.costo = ( this.data.opt === true ? ( this.datas.priceSelect )  : ( this.datas.pro_uni_venta * this.data.cantidadAd ) )
-    console.log( this.data.costo )
+    if( this.data.envioT === 'priorida' ) this.data.costo+=7000;
+    console.log( this.data )
   }
 
   mensajeWhat(){
