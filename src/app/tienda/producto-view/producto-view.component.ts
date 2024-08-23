@@ -268,6 +268,7 @@ export class ProductosViewComponent implements OnInit {
   async getProductos(){
     this.query.where.codigo = this.data.codigo;
     delete this.query.where.id;
+    if( this.tiendaInfo.id ) this.query.where.empresa = this.tiendaInfo.id;
     let resultado:any = await this.getArticulos();
     this.imageObject = [];
     for( let row of resultado ){

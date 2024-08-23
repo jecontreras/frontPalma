@@ -131,6 +131,7 @@ export class ProductosComponent implements OnInit {
 
   getProductos(){
     this.spinner.show();
+    if( this.tiendaInfo.id ) this.query.where.empresa = this.tiendaInfo.id;
     this._productos.get(this.query).subscribe((res:any)=>{
       this.listProductos = _.unionBy(this.listProductos || [], res.data, 'id');
       console.log("******",res)

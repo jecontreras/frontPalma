@@ -93,7 +93,7 @@ export class ChecktDialogComponent implements OnInit {
     if( !validador ) { this.disabled = false; return false;}
     let data:any = {
       "ven_tipo": "whatsapp",
-      "usu_clave_int": 1,
+      "usu_clave_int": this.dataUser.id,
       "ven_usu_creacion": "arleytienda@gmail.com",
       "ven_fecha_venta": moment().format("DD/MM/YYYY"),
       "cob_num_cedula_cliente": this.data.cedula,
@@ -112,7 +112,8 @@ export class ChecktDialogComponent implements OnInit {
       "create": moment().format("DD/MM/YYYY"),
       "apartamento": this.data.apartamento || '',
       "departamento": this.data.departamento || '',
-      "ven_imagen_producto": this.datas.foto
+      "ven_imagen_producto": this.datas.foto,
+      "empresa": this.ShopConfig.id
     };
     await this.crearUser();
     data.usu_clave_int = this.dataUser.id;
