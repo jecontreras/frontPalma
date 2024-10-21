@@ -17,6 +17,9 @@ import { UsuariosService } from 'src/app/servicesComponents/usuarios.service';
 import { TestimoniosService } from 'src/app/servicesComponents/testimonios.service';
 import { PizzaPartyComponent } from '../catalogo/catalogo.component';
 
+
+// Declara jQuery para que Angular lo reconozca
+declare var $: any;
 @Component({
   selector: 'app-producto-view',
   templateUrl: './producto-view.component.html',
@@ -127,7 +130,7 @@ export class ProductosViewComponent implements OnInit {
 
   ) {
     this._store.subscribe((store: any) => {
-      console.log(store);
+      //console.log(store);
       store = store.name;
       if(!store) return false;
       this.userId = store.usercabeza || {};
@@ -146,11 +149,11 @@ export class ProductosViewComponent implements OnInit {
   }
 
   async ngOnInit() {
-    console.log("**127", this.activate.snapshot.params)
+    //console.log("**127", this.activate.snapshot.params)
     if((this.activate.snapshot.paramMap.get('id'))){
       this.id = this.activate.snapshot.paramMap.get('id');
       this.getProducto();
-      this.getProductos();
+      //this.getProductos();
     }
     this.urlwhat = `https://api.whatsapp.com/send?phone=57${ this.tiendaInfo.numeroCelular }&amp;text=Hola%2C%20estoy%20interesado%20en%20los%20tenis%20NIKE%2C%20gracias...`
 
@@ -160,6 +163,14 @@ export class ProductosViewComponent implements OnInit {
       window.document.scrollingElement.scrollTop=0;
     });
 
+  }
+
+  prev() {
+    $('#productCarousel').carousel('prev');
+  }
+
+  next() {
+    $('#productCarousel').carousel('next');
   }
 
   configTime(){
@@ -208,12 +219,12 @@ export class ProductosViewComponent implements OnInit {
       this.data = res.data[0] || {};
       this.getTestimonios();
       this.data.listComentarios = this.data.listComment || [];
-      console.log("***165", this.data.listComentarios)
+      //console.log("***165", this.data.listComentarios)
       try {
         this.data.listTallas = this.data.listColor[0].tallaSelect.filter( item => item.cantidad );
         //for( let row of this.data.listTallas ) row.tal_descripcion = ( Number( row.tal_descripcion ) || row.tal_descripcion );
         //this.data.listTallas = _.orderBy( this.data.listTallas , ['tal_descripcion'], ['DEC'] );
-        console.log( "129", this.data )
+        //console.log( "129", this.data )
       } catch (error) {}
       this.viewsImagen = this.data.foto;
       this.viewsImagen2 = this.data.foto;
@@ -239,6 +250,16 @@ export class ProductosViewComponent implements OnInit {
           title: ""
         }
       });
+      for( let row of this.listGaleria1 ) this.imageObject2.push(
+        {
+          image: row.foto,
+          thumbImage: row.foto,
+          alt: '',
+          check: true,
+          id: row.id,
+          title: ""
+        }
+      )
       this.bucleImg();
     }, error=> { console.error(error); this._tools.presentToast('Error de servidor'); });
   }
@@ -289,18 +310,18 @@ export class ProductosViewComponent implements OnInit {
   getArticulos(){
     return new Promise (resolve =>{
       this.query.where.idPrice = this.userId.id;
-      console.log("***210", this.query)
+      //console.log("***210", this.query)
       this._producto.get( this.query ).subscribe((res:any)=>{
         resolve( res.data )
       }, ( error )=> { console.error(error); resolve( [] ); } );
     })
   }
 
-  getTestimonios(){ console.log("get TEstimonios", this.id, this.query)
+  getTestimonios(){
     this._testimonio.get({ where: { /*productos:this.id*/ }, limit: 100, page: 0 })
     .subscribe(
       (response: any) => {
-        console.log("getTestimonios repsonse",response);
+        //console.log("getTestimonios repsonse",response);
         this.data.listTestimonios = response.data
       },
       error => {
@@ -381,8 +402,8 @@ export class ProductosViewComponent implements OnInit {
   }
 
   handlePhoto(obj:any) {
-    console.log("***173", obj)
-    console.log("***", this.imageObject2[obj])
+    //console.log("***173", obj)
+    //console.log("***", this.imageObject2[obj])
     this.viewsImagen = this.imageObject2[obj].image;
   }
 
@@ -392,7 +413,7 @@ export class ProductosViewComponent implements OnInit {
       idPrice: this.query.where.idPrice,
       pro_activo: 0
     } } );
-    console.log("**++",obj, data, this.imageObject, this.listProductosHistorial)
+    //console.log("**++",obj, data, this.imageObject, this.listProductosHistorial)
     if( !data ) return false;
     this.viewProducto( data );
   }
@@ -474,6 +495,7 @@ export class ProductosViewComponent implements OnInit {
     datar.foto = this.viewsImagen;
     const dialogRef = this.dialog.open(ChecktDialogComponent,{
       //width: '855px',
+      maxWidth: '100%',
       //maxHeight: "665px",
       data: { datos: datar }
     });

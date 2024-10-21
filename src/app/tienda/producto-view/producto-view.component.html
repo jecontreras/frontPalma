@@ -1,228 +1,163 @@
+<section style="background: #696969;">
 
-<!-- product category -->
-<section id=54198 class="section full" style="background-size: auto; background-repeat: no-repeat;">
-  <div id=46695 class=section_row style="border-color: transparent; border-style: solid; border-width: 0px; color: rgb(8, 8, 8); font-size: 14px; text-align: initial; margin: 0px; padding: 0px; background-size: auto; background-repeat: no-repeat;">
-      <div class=row-column style="width: 100%;">
-          <div class=element-wrapper>
-              <!-- rgb(255 64 129); -->
-              <div style="width: 100%; line-height: 1; color: white; margin: 10px 0px 0px; padding: 5px; background-color: rgb(8 8 8); text-shadow: transparent 0px 0px 0px;">
-                  <style>
-                      .el-89628 {
-                          font-size: calc(16px + 8 * ((100vw - 320px) / 960));
-                          text-align: center;
-                      }
-
-                      @media screen and (min-width: 480px) {
-                          .el-89628 {
-                              font-size: calc(18px + 8 * ((100vw - 320px) / 960));
-                              text-align: center;
-                          }
-                      }
-
-                      @media screen and (min-width: 1024px) {
-                          .el-89628 {
-                              font-size: 18px;
-                              text-align: center;
-                          }
-                      }
-                  </style>
-                  <div class=headline-inner>
-                      <h2 style="text-align: center;">
-                          <span style="color: rgb(255, 255, 255);">FALTA POCO TIEMPO PARA</span>
-                      </h2>
-                      <h2 style="text-align: center;">
-                          <span style="color: rgb(255, 255, 255);">QUE ESTA </span><strong style="color: rgb(253, 204, 94);">OFERTA</strong><strong style="color: rgb(255, 255, 255);"> </strong><span style="color: rgb(255, 255, 255);">TERMINE:</span></h2>
-                  </div>
+  <section id="aa-product-details">
+    <div class="anchos">
+      <div class="row">
+        <div class="col-12">
+        </div>
+        <div class="col-12">
+          <div class="d-flex flex-row bd-highlight mb-3">
+            <div class="p-2 bd-highlight" style="width: 100%;">
+              <div class="d-flex justify-content-center" style="    background: #15d7ae;">
+                <div>
+                  <h1 class="aa-product-price precio" style="text-align: center;">{{ data.pro_nombre }}</h1>
+                </div>
               </div>
-          </div>
-      </div>
-  </div>
-  <div id=259692 class=section_row style="border-color: transparent; border-style: solid; border-width: 0px; color: rgb(8, 8, 8); font-size: 14px; text-align: initial; margin: 0px; padding: 0px; background-color: transparent; background-size: auto; background-repeat: no-repeat;">
-      <div class=row-column style="width: 100%;">
-          <div class=element-wrapper>
-              <div class="timer-container el-272680" style="border-color: rgb(21, 215, 174); border-style: solid; border-width: 0px; border-radius: 0px; margin: 5px 0px 0px; padding: 10px 0px 0px; background-color: rgb(8 8 8);">
-                  <style>
-                      .el-272680 {
-                          align-items: center;
-                      }
-
-                      .timer-id-272680 li .timer_number {
-                          color: #0A0A0A;
-                          border-top: 0px solid null;
-                          border-left: 0px solid null;
-                          border-right: 0px solid null;
-                          border-bottom: 0px solid null;
-                          border-radius: 15px 15px 15px 15px;
-                          border-color: null;
-                          background-color: white;
-                          font-family: inherit;
-                          font-size: 36px;
-                          text-align: center;
-                          font-weight: normal;
-                          font-style: normal;
-                          text-decoration: none;
-                      }
-
-                      .timer-id-272680 li .timer_label {
-                          color: white;
-                          font-family: inherit;
-                          font-size: 16px;
-                          text-align: center;
-                          font-weight: normal;
-                          font-style: normal;
-                          text-decoration: none;
-                      }
-                  </style>
-                  <ul data-expire data-expire-url class="timer-id-272680 timer">
-                      <li><span data-hours=0 class=timer_number>{{ timeot.hora }} </span><span class=timer_label>Horas</span>
-                          <li><span data-minutes=14 class=timer_number>{{ timeot.minuto }} </span><span class=timer_label>Minutos</span>
-                              <li><span data-seconds=15 class=timer_number>{{ timeot.milesegundo }} </span><span class=timer_label>Segundos</span>
-                  </ul>
-              </div>
-          </div>
-          <div class=element-wrapper>
-              <div class="spacer form_group with_edit_btn" style="margin: 0px; padding: 0px;">
-                  <div class=inner-spacer style="border-top: 2px solid white;"></div>
-              </div>
-          </div>
-      </div>
-  </div>
-</section>
-<section id="aa-product-details">
-  <div class="anchos">
-    <div class="row">
-      <div class="col-12">
-        <div class="d-flex justify-content-center">
-          <div>
-            <h1 class="aa-product-price precio">{{ data.pro_nombre }}</h1>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="col-md-12">
-        <div class="aa-product-details-area">
-          <div class="aa-product-details-content">
-            <div class="row">
-              <!-- Modal view slider -->
-              <div class="col-md-7 col-sm-7 col-xs-12">
-                <div class="aa-product-view-slider">
-                  <div id="demo-1" class="simpleLens-gallery-container">
-                    <div class="simpleLens-container">
-                      <div class="image-resize img">
-                        <img [src]="viewsImagen" data-srcset="{{viewsImagen}}?auto=compress,format&optimize=medium&fit=clip&w=100%&h=auto 1x"
-                          alt data-sizes=auto data-src="{{viewsImagen}}?auto=compress,format&optimize=medium&fit=clip&w=100%&h=auto"
-                          class="lazyload" id="product-image" style="object-fit: contain; height: 445px;" width="100%" height="auto">
+        <div class="col-md-12">
+          <div class="aa-product-details-area">
+            <div class="aa-product-details-content">
+              <div class="row">
+                <!-- Modal view slider -->
+                <div class="col-md-7 col-sm-7 col-xs-12">
+                  <div id="productCarousel" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                      <div class="carousel-item" *ngFor="let image of imageObject2; let i = index" [class.active]="i === 0">
+                        <img [src]="image.image" class="d-block w-100" alt="Product Image" style="border-radius: 10px;">
                       </div>
                     </div>
+                    <button class="carousel-control-prev" type="button" (click)="prev()">
+                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                      <span class="sr-only">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" (click)="next()">
+                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                      <span class="sr-only">Next</span>
+                    </button>
                   </div>
+
                 </div>
-                <div class="d-flex justify-content-center">
-                  <div>
+                <!-- Modal view content -->
+                <div class="col-md-5 col-sm-5 col-xs-12">
+                  <div class="aa-product-view-content p-3">
+                    <h3>{{ data.pro_nombre }}</h3>
+                    <div class="aa-price-block">
+                      <!--<span class="aa-product-view-price precio">{{ _formato.monedaChange( 3, 2, data.pro_uni_venta || 0 )
+                        }}</span>-->
+                        <span class="aa-product-price precio" style="background: rgb(21 215 174);">{{ _formato.monedaChange( 3, 2, data.pro_uni_venta || 0) }}</span><span
+                        class="aa-product-price price2"><del>{{ _formato.monedaChange( 3, 2, ( data.pro_uni_venta*2 ) || 0 ) }}</del></span>
+                        <div class="aa-product-rating">
+                          <span class="lnr lnr-star"></span>
+                          <span class="lnr lnr-star"></span>
+                          <span class="lnr lnr-star"></span>
+                          <span class="lnr lnr-star"></span>
+                          <span class="lnr lnr-star-empty"></span>
+                        </div>
+                      <p class="aa-product-avilability">Disponibilidad: <span>En stock</span></p>
+                    </div>
+                    <section *ngIf="data['listTallas']?.length > 0 ">
+                      <h4>Talla</h4>
+                      <div class="aa-prod-view-size">
+                        <a class="pointer" *ngFor="let item of data.listTallas" [ngClass]="{selecciono: item.check1}"
+                          (click)="checkTalla( item );">{{
+                          item.tal_descripcion }}</a>
+                      </div>
+                    </section>
+                    <section *ngIf="data['listColor']?.length > 0 ">
+                      <h4>Color</h4>
+                      <div class="aa-prod-view-size">
+                        <a class="pointer" *ngFor="let item of data.listColor" [ngClass]="{selecciono: item.check1}"
+                          (click)="handleSelect( item );">{{
+                            item.talla }}</a>
+                      </div>
+                    </section>
                     <a (click)="comprarArticulo( 1, false )" class="aa-add-to-cart-btn pointer ov-btn-slide-close">Comprar y pagar en casa</a>
                     <div
                       *ngFor="let item of data.listPrecios; let i = index"
                     >
                       <a (click)="comprarArticulo(item.cantidad, true, item.precios)"
                         [ngClass]="{ 'jump-animation': isClicked  }"
-                        style="background: #eddd00 !important; color: #000000 !important;"
+                        style="background: #00ed61  !important; color: #ffffff !important;"
                         class="aa-add-to-cart-btn pointer ov-btn-slide-close">
                         <span *ngIf="item.cantidad === 1">LLEVA {{ item.cantidad }} PAR POR {{ _formato.monedaChange(3, 2, item.precios || 0) }}</span>
                         <span *ngIf="item.cantidad != 1">LLEVA {{ item.cantidad }} PARES POR {{ _formato.monedaChange(3, 2, item.precios || 0) }}</span>
                       </a>
                     </div>
-                  </div>
-                </div>
-                <div class="image-list">
-                  <ng-image-slider [images]="imageObject2" [infinite]="sliderInfinite" [imagePopup]="sliderImagePopup"
-                    [showArrow]="sliderArrowShow" [imageSize]="{width: sliderImageWidth1, height: sliderImageHeight1}"
-                    [autoSlide]="0" [slideImage]="sliderSlideImage"
-                    [animationSpeed]="sliderAnimationSpeed" (imageClick)="handlePhoto($event)"
-                    (arrowClick)="arrowOnClick($event)" (lightboxArrowClick)="lightboxArrowClick($event)" #nav>
-                  </ng-image-slider>
-                  <!--<div class="col-3 pointer" *ngFor="let item of listGaleria" (click)="verImagen(item)">
-                    <img [src]="item.pri_imagen" alt="" class="thumbnail-image">
-                  </div>-->
-                </div>
-              </div>
-              <!-- Modal view content -->
-              <div class="col-md-5 col-sm-5 col-xs-12">
-                <div class="aa-product-view-content p-3">
-                  <h3>{{ data.pro_nombre }}</h3>
-                  <div class="aa-price-block">
-                    <!--<span class="aa-product-view-price precio">{{ _formato.monedaChange( 3, 2, data.pro_uni_venta || 0 )
-                      }}</span>-->
-                      <span class="aa-product-price precio">{{ _formato.monedaChange( 3, 2, data.pro_uni_venta || 0) }}</span><span
-                      class="aa-product-price price2"><del>{{ _formato.monedaChange( 3, 2, ( data.pro_uni_venta*2 ) || 0 ) }}</del></span>
-                      <div class="aa-product-rating">
-                        <span class="lnr lnr-star"></span>
-                        <span class="lnr lnr-star"></span>
-                        <span class="lnr lnr-star"></span>
-                        <span class="lnr lnr-star"></span>
-                        <span class="lnr lnr-star-empty"></span>
-                      </div>
-                    <p class="aa-product-avilability">Disponibilidad: <span>En stock</span></p>
-                  </div>
-                  <section *ngIf="data['listTallas']?.length > 0 ">
-                    <h4>Talla</h4>
-                    <div class="aa-prod-view-size">
-                      <a class="pointer" *ngFor="let item of data.listTallas" [ngClass]="{selecciono: item.check1}"
-                        (click)="checkTalla( item );">{{
-                        item.tal_descripcion }}</a>
-                    </div>
-                  </section>
-                  <section *ngIf="data['listColor']?.length > 0 ">
-                    <h4>Color</h4>
-                    <div class="aa-prod-view-size">
-                      <a class="pointer" *ngFor="let item of data.listColor" [ngClass]="{selecciono: item.check1}"
-                        (click)="handleSelect( item );">{{
-                          item.talla }}</a>
-                    </div>
-                  </section>
-                  <a (click)="comprarArticulo( 1, false )" class="aa-add-to-cart-btn pointer ov-btn-slide-close">Comprar y pagar en casa</a>
-                  <div
-                    *ngFor="let item of data.listPrecios; let i = index"
-                  >
-                    <a (click)="comprarArticulo(item.cantidad, true, item.precios)"
-                      [ngClass]="{ 'jump-animation': isClicked  }"
-                      style="background: #eddd00 !important; color: #000000 !important;"
-                      class="aa-add-to-cart-btn pointer ov-btn-slide-close">
-                      <span *ngIf="item.cantidad === 1">LLEVA {{ item.cantidad }} PAR POR {{ _formato.monedaChange(3, 2, item.precios || 0) }}</span>
-                      <span *ngIf="item.cantidad != 1">LLEVA {{ item.cantidad }} PARES POR {{ _formato.monedaChange(3, 2, item.precios || 0) }}</span>
-                    </a>
-                  </div>
-                  <h2 class="text-success" *ngIf="data['pro_categoria']?.id == 16">
-                    <a (click)="comprarArticulo( 2, true )" class="aa-add-to-cart-btn pointer"
-                    style="font-size: 130%; background: #fbff00; color: #212529; border-radius: 11px;"><span
-                      class="fa fab fa-whatsapp"></span>
-                      LLEVA 2 PARES POR {{ _formato.monedaChange( 3, 2, ( ( data.pro_uni_venta * 2 ) - 20000 ) || 0 ) }}
-                      DESCUENTO 18%
-                    </a>
-                  </h2>
-                  <br>
-                  <!--<img src="./assets/imagenes/enviosG.jpg" alt="" style="width: 45px;">&nbsp; <span class="text-success">Envio Gratis</span>-->
+                    <h2 class="text-success" *ngIf="data['pro_categoria']?.id == 16">
+                      <a (click)="comprarArticulo( 2, true )" class="aa-add-to-cart-btn pointer"
+                      style="font-size: 130%; background: #fbff00; color: #212529; border-radius: 11px;"><span
+                        class="fa fab fa-whatsapp"></span>
+                        LLEVA 2 PARES POR {{ _formato.monedaChange( 3, 2, ( ( data.pro_uni_venta * 2 ) - 20000 ) || 0 ) }}
+                        DESCUENTO 18%
+                      </a>
+                    </h2>
                     <br>
-                  <p [innerHtml]="data.pro_descripcion "></p>
-                  <!--<div class="aa-prod-quantity">
-                    <h4>Cantidad</h4>
-                    <input class="form-control form-control-sm" type="number" placeholder=".form-control-sm" [(ngModel)]="pedido.cantidad">
-                    <p class="aa-prod-category">
-                      Categoria: <a class="pointer" (click)="categoriasVer()">{{ data['pro_categoria']?.cat_nombre
-                        }}</a>
-                    </p>
-                  </div>-->
+                    <!--<img src="./assets/imagenes/enviosG.jpg" alt="" style="width: 45px;">&nbsp; <span class="text-success">Envio Gratis</span>-->
+                      <br>
+                    <p [innerHtml]="data.pro_descripcion "></p>
+                    <!--<div class="aa-prod-quantity">
+                      <h4>Cantidad</h4>
+                      <input class="form-control form-control-sm" type="number" placeholder=".form-control-sm" [(ngModel)]="pedido.cantidad">
+                      <p class="aa-prod-category">
+                        Categoria: <a class="pointer" (click)="categoriasVer()">{{ data['pro_categoria']?.cat_nombre
+                          }}</a>
+                      </p>
+                    </div>-->
+                  </div>
                 </div>
-              </div>
-              <div class="col-md-7 col-sm-7 col-xs-12">
-                <div class="aa-product-view-slider">
-                  <div id="demo-1" class="simpleLens-gallery-container">
-                    <div class="simpleLens-container">
-                      <div class="image-resize img">
-                        <img [src]="viewsImagen2" data-srcset="{{viewsImagen2}}?auto=compress,format&optimize=medium&fit=clip&w=100%&h=auto 1x"
-                          alt data-sizes=auto data-src="{{viewsImagen2}}?auto=compress,format&optimize=medium&fit=clip&w=100%&h=auto"
-                          class="lazyload" id="product-image" style="object-fit: contain; height: 445px;" width="100%" height="auto">
+                <div class="col-12">
+                  <img style="    width: 100%;
+                  height: 9pc;
+                  border-radius: 20px;" src="./assets/imagenes/1.jpg" alt="">
+                </div>
+                <!--<div class="col-md-7 col-sm-7 col-xs-12">
+                  <div class="aa-product-view-slider">
+                    <div id="demo-1" class="simpleLens-gallery-container">
+                      <div class="simpleLens-container">
+                        <div class="image-resize img">
+                          <img [src]="viewsImagen2" data-srcset="{{viewsImagen2}}?auto=compress,format&optimize=medium&fit=clip&w=100%&h=auto 1x"
+                            alt data-sizes=auto data-src="{{viewsImagen2}}?auto=compress,format&optimize=medium&fit=clip&w=100%&h=auto"
+                            class="lazyload" id="product-image" style="object-fit: contain; height: 445px;" width="100%" height="auto">
+                        </div>
+                        <div class="d-flex justify-content-center">
+                          <div>
+                            <a (click)="verImagen(viewsImagen2);handleSelect( { foto: viewsImagen2} ); comprarArticulo( 1, false )" class="aa-add-to-cart-btn pointer ov-btn-slide-close pointer">
+                              <span class="aa-product-price precio">{{ _formato.monedaChange( 3, 2, data.pro_uni_venta || 0) }}</span>
+                              <span>Comprar y pagar en casa</span>
+                            </a>
+                          </div>
+                        </div>
                       </div>
+                    </div>
+                  </div>
+                </div>-->
+              </div>
+            </div>
+            <div class="aa-product-details-bottom">
+              <!--<div class="mx-auto" style="width: 200px;">
+                <ul class="nav nav-tabs centerAncho" id="myTab2">
+                  <li><a href="#description" data-toggle="tab" (click)="this.view = 'descripcion'">Descripcion</a></li>
+                  <li><a href="#review" data-toggle="tab" (click)="this.view = 'comentarios'">Comentarios</a></li>
+                </ul>
+              </div>-->
+
+              <!-- Tab panes -->
+              <div class="container">
+                <!--<div *ngIf="view == 'descripcion'">
+                  <h5 [innerHtml]="data.pro_descripcion"></h5>
+                </div>-->
+                <div class="aa-product-review-area">
+                  <div class="row">
+                    <div class="col-12 col-sm-6 pointer" *ngFor="let item of listGaleria1; let i = index" (click)="verImagen(item)">
+
+                      <img [src]="item.foto" data-srcset="{{item.foto}}?auto=compress,format&optimize=medium&fit=clip&w=100%&h=auto 1x"
+                          alt data-sizes=auto data-src="{{item.foto}}?auto=compress,format&optimize=medium&fit=clip&w=100%&h=auto"
+                          class="lazyload" id="product-image" style="object-fit: contain; height: 445px;" width="100%" height="auto">
                       <div class="d-flex justify-content-center">
                         <div>
-                          <a (click)="verImagen(viewsImagen2);handleSelect( { foto: viewsImagen2} ); comprarArticulo( 1, false )" class="aa-add-to-cart-btn pointer ov-btn-slide-close pointer">
+                          <a (click)="verImagen(item);handleSelect( item ); comprarArticulo( 1, false )" class="aa-add-to-cart-btn pointer ov-btn-slide-close pointer">
                             <span class="aa-product-price precio">{{ _formato.monedaChange( 3, 2, data.pro_uni_venta || 0) }}</span>
                             <span>Comprar y pagar en casa</span>
                           </a>
@@ -231,148 +166,61 @@
                     </div>
                   </div>
                 </div>
+                <div class="aa-product-review-area">
+                  <h4>Detalles</h4>
+                  <div class="row">
+                    <div class="col-12 col-sm-4">
+                      <div class="image-container">
+                        <img src="./assets/imagenes/completo.webp" alt="Imagen 1" style="background: white;">
+                        <div class="image-caption">Compra segura</div>
+                      </div>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                      <div class="image-container">
+                        <img src="./assets/imagenes/camara.webp" alt="Imagen 2" style="background: white;">
+                        <div class="image-caption">Compra segura</div>
+                      </div>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                      <div class="image-container">
+                        <img src="./assets/img/envios.png" alt="Imagen 2" style="background: white;">
+                        <div class="image-caption">Compra segura</div>
+                      </div>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                      <div class="image-container">
+                        <img src="./assets/img/paypal.jpg" alt="Imagen 2" style="background: white;">
+                        <div class="image-caption">Compra segura</div>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="d-flex justify-content-center" style="width: 100%;">
+                        <div>
+                          <h5> 🚚 ENVIO A TODA COLOMBIA Y PAGAS CUANDO RECIBES EL PRODUCTO 🚚</h5>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
+
             </div>
-          </div>
-          <div class="aa-product-details-bottom">
-            <!--<div class="mx-auto" style="width: 200px;">
-              <ul class="nav nav-tabs centerAncho" id="myTab2">
-                <li><a href="#description" data-toggle="tab" (click)="this.view = 'descripcion'">Descripcion</a></li>
-                <li><a href="#review" data-toggle="tab" (click)="this.view = 'comentarios'">Comentarios</a></li>
-              </ul>
+            <!--<div class="aa-product-related-item" *ngIf="listEvidencia.length">
+              <div class="d-flex justify-content-center">
+                <div>
+                  <ul>
+                    <li *ngFor="let item of data.listEvidencia">
+                      <img [src]="item.foto" alt="" style="width: 100%;">
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>-->
-
-            <!-- Tab panes -->
-            <div class="container">
-              <!--<div *ngIf="view == 'descripcion'">
-                <h5 [innerHtml]="data.pro_descripcion"></h5>
-              </div>-->
-              <div class="aa-product-review-area">
-                <div class="row">
-                  <div class="col-12 col-sm-6 pointer" *ngFor="let item of listGaleria1; let i = index" (click)="verImagen(item)">
-
-                    <img [src]="item.foto" data-srcset="{{item.foto}}?auto=compress,format&optimize=medium&fit=clip&w=100%&h=auto 1x"
-                        alt data-sizes=auto data-src="{{item.foto}}?auto=compress,format&optimize=medium&fit=clip&w=100%&h=auto"
-                        class="lazyload" id="product-image" style="object-fit: contain; height: 445px;" width="100%" height="auto">
-                    <div class="d-flex justify-content-center">
-                      <div>
-                        <a (click)="verImagen(item);handleSelect( item ); comprarArticulo( 1, false )" class="aa-add-to-cart-btn pointer ov-btn-slide-close pointer">
-                          <span class="aa-product-price precio">{{ _formato.monedaChange( 3, 2, data.pro_uni_venta || 0) }}</span>
-                          <span>Comprar y pagar en casa</span>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="aa-product-review-area">
-                <h4>Detalles</h4>
-                <div class="row">
-                  <div class="col-12">
-                    <div class="image-container">
-                      <img src="./assets/imagenes/completo.webp" alt="Imagen 1">
-                      <div class="image-caption">Compra segura</div>
-                    </div>
-                    <div class="image-container">
-                      <img src="./assets/imagenes/camara.webp" alt="Imagen 2">
-                      <div class="image-caption">Compra segura</div>
-                    </div>
-                    <div class="image-container">
-                      <img src="./assets/img/pagos.png" alt="Imagen 2">
-                      <div class="image-caption">Compra segura</div>
-                    </div>
-                  </div>
-                  <!--<div class="col-12">
-                    <div class="d-flex justify-content-center" style="width: 100%;">
-                      <div>
-                        <h5> 🚚 ENVIO A TODA COLOMBIA Y PAGAS CUANDO RECIBES EL PRODUCTO 🚚</h5>
-                      </div>
-                    </div>
-                  </div>-->
-                  <div class="col-12">
-                    <img class="lazyload" src="./assets/img/tallas.jpg" style="width: 100%;">
-                  </div>
-                </div>
-              </div>
-              <!--<div class="testimonial-section" style="width: 100%;">
-                <h2 style="color: white !important;">Testimonios de nuestros clientes</h2>
-                <ul class="testimonial-list">
-                  <li *ngFor="let item of data.listTestimonios">
-                    <div class="row">
-                      <div class="col-12">
-                        <div class="testimonial-item">
-                          <div class="testimonial-image">
-                            <img src="{{ item.foto }}" alt="{{ item.nombre }}">
-                          </div>
-                          <div class="testimonial-content">
-                            <h4 class="testimonial-author">{{ item.nombre }}</h4>
-                            <p class="testimonial-date">{{ item.createdAt | date:'medium' }}</p>
-                            <div class="aa-product-rating">
-                              <span class="lnr lnr-star"></span>
-                              <span class="lnr lnr-star"></span>
-                              <span class="lnr lnr-star"></span>
-                              <span class="lnr lnr-star"></span>
-                              <span class="lnr lnr-star-empty"></span>
-                            </div>
-                            <p class="testimonial-description">
-                              <span>{{ item.descripcion }}</span>
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row" *ngIf="item.fotoEvidence">
-                        <div class="col-12">
-                          <div class="image-container">
-                            <img style="    width: 390px !important ;" [src]="item.fotoEvidence" alt="">
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </li>
-                </ul>
-              </div>-->
-            </div>
-
+            <!-- Related product -->
           </div>
-          <div class="container">
-            <div class="d-flex justify-content-center" style="width: 100%;">
-              <div>
-                <a [href]="urlwhat" target="_blank"
-                  class="aa-add-to-cart-btn pointer"
-                  style="    font-size: 210%; background: #008116; color: white; border-radius: 11px;"><span
-                  class="fa fab fa-whatsapp"></span>CHATEA CON UN ASESOR</a>
-              </div>
-            </div>
-          </div>
-          <!--<div class="aa-product-related-item" *ngIf="listEvidencia.length">
-            <div class="d-flex justify-content-center">
-              <div>
-                <ul>
-                  <li *ngFor="let item of data.listEvidencia">
-                    <img [src]="item.foto" alt="" style="width: 100%;">
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>-->
-          <!-- Related product -->
         </div>
       </div>
     </div>
-  </div>
+  </section>
+
 </section>
-
-<footer #nav style="position: fixed; top: 92%; left: auto;">
-  <div class="container">
-    <div class="row">
-      <div class="col-12">
-        <div class="d-flex justify-content-center">
-          <div>
-            <a (click)="comprarArticulo( 1, false )" class="aa-add-to-cart-btn pointer"
-              style="    font-size: 210%; background: #008116; color: white; border-radius: 11px;">COMPRAR Y PAGAR EN CASA</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</footer>

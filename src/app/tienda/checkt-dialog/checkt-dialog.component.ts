@@ -4,12 +4,13 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import * as moment from 'moment';
 import { STORAGES } from 'src/app/interfaces/sotarage';
-import { UserAction } from 'src/app/redux/app.actions';
+import { ConfiguracionAction, UserAction } from 'src/app/redux/app.actions';
 import { ToolsService } from 'src/app/services/tools.service';
 import { UsuariosService } from 'src/app/servicesComponents/usuarios.service';
 import { VentasService } from 'src/app/servicesComponents/ventas.service';
 import  { SocialAuthService, FacebookLoginProvider, SocialUser }  from 'angularx-social-login';
 import { FormatosService } from 'src/app/services/formatos.service';
+import { ConfiguracionService } from 'src/app/servicesComponents/configuracion.service';
 
 @Component({
   selector: 'app-checkt-dialog',
@@ -22,6 +23,7 @@ export class ChecktDialogComponent implements OnInit {
   valor:number = 0;
   dataUser:any = {};
   ShopConfig:any = {};
+  dataEndV:any = {};
 
   constructor(
     public dialogRef: MatDialogRef<ChecktDialogComponent>,
@@ -33,6 +35,7 @@ export class ChecktDialogComponent implements OnInit {
     private _store: Store<STORAGES>,
     private socialAuthService: SocialAuthService,
     public _formato: FormatosService,
+    private _empresa: ConfiguracionService
   ) {
     this._store.subscribe((store: any) => {
       store = store.name;
@@ -42,8 +45,8 @@ export class ChecktDialogComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    console.log( this.datas );
+  async ngOnInit() {
+    //console.log( this.datas );
     this.datas = this.datas.datos || {};
     this.data.talla = this.datas.talla;
     this.data.cantidadAd = this.datas.cantidadAd || 1;
@@ -56,9 +59,51 @@ export class ChecktDialogComponent implements OnInit {
     this.suma();
     this.socialAuthService.authState.subscribe( async (user) => {
       let result = await this._user.initProcess( user );
-      console.log("**********", user, result )
+      //console.log("**********", user, result )
       }
     );
+    //VALIDADOR DE VENTAS
+    if( this.ShopConfig.configV === 1 ){
+      this.dataEndV = await this.getUltimaV();
+      if( this.dataEndV ){
+        if( this.dataEndV.empresa === 1 ) {
+          let empresa:any = await this.getEmpresa2();
+          this.ShopConfig = empresa;
+          //console.log("**********71", this.ShopConfig)
+          let accion = new ConfiguracionAction( empresa, 'post');
+          this._store.dispatch( accion );
+        }
+      }
+    }
+  }
+
+  getEmpresa2(){
+    return new Promise( resolve =>{
+      this._empresa.get( { where: { id: 2 }, limit: 1 } ).subscribe( res =>{
+        return resolve( res.data[0] );
+      });
+    });
+  }
+
+  async validateProcessVenta(){
+    return new Promise( resolve =>{
+      this._ventas.get( { where: { empresa: 2, create: moment().format("DD/MM/YYYY") }, limit:5 } ).subscribe( res =>{
+        if( res.count === 4 ) return resolve( true );
+        else return resolve( false );
+      });
+    });
+  }
+
+  async getUltimaV(){
+    return new Promise( resolve =>{
+      this._ventas.get( { where: { }, limit: 1 } ).subscribe( async ( res ) =>{
+        if( res.data[0].empresa === 1 ) {
+          let validate = await this.validateProcessVenta( );
+          if( validate === true ) res.data[0].empresa = 1;
+        }
+        return resolve( res.data[0] );
+      });
+    });
   }
 
   isInvalid(form: any, fieldName: string): boolean {
@@ -75,7 +120,7 @@ export class ChecktDialogComponent implements OnInit {
   }
 
   validadorInput(){
-    console.log("*********", this.data)
+    //console.log("*********", this.data)
     if( !this.data.nombre ) return this.disabled = true;
     if( !this.data.telefono ) return this.disabled = true;
     if( !this.data.direccion ) return this.disabled = true;
@@ -139,7 +184,7 @@ export class ChecktDialogComponent implements OnInit {
       usu_documento: this.data.cedula
     };
     let result = await this.creandoUser( data );
-    console.log("********", result);
+    //console.log("********", result);
     if( !result ) return false;
     return true;
   }
@@ -175,8 +220,8 @@ export class ChecktDialogComponent implements OnInit {
 
   suma(){
     this.data.costo = ( this.data.opt === true ? ( this.datas.priceSelect )  : ( this.datas.pro_uni_venta * this.data.cantidadAd ) )
-    if( this.data.envioT === 'priorida' ) this.data.costo+=7000;
-    console.log( this.data )
+    if( this.data.envioT === 'priorida' ) this.data.costo+=5000;
+    //console.log( this.data )
   }
 
   mensajeWhat(){

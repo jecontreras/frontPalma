@@ -1,4 +1,6 @@
-<span mat-dialog-title>
+<span mat-dialog-title style="
+border-radius: 10px;
+padding: 11px;">
   <div class="d-flex justify-content-center">
     <div>
       <h1 >DATOS DE ENVIÓ</h1>
@@ -195,8 +197,12 @@
                             style="box-sizing: border-box; font-size: 20px;">
                             <span *ngIf="!data.pro_vendedor" data-v-2b9a7796="" style="box-sizing: border-box;">
                               <mat-radio-group [(ngModel)]="data.envioT" (change)="suma()">
-                                <mat-radio-button class="example-margin" value="gratis">Gratis</mat-radio-button>
-                                <mat-radio-button class="example-margin" value="priorida">$7.000 Envio Prioritario</mat-radio-button>
+                                <mat-radio-button class="example-margin" value="gratis">
+                                  <span style="font-size: 9px;">Gratis</span>
+                                </mat-radio-button>
+                                <mat-radio-button class="example-margin" value="priorida">
+                                  <span style="font-size: 9px;">$5.000 Envio Prioritario</span>
+                                </mat-radio-button>
                               </mat-radio-group>
                             </span>
                             <span *ngIf="data.pro_vendedor" data-v-2b9a7796="" style="box-sizing: border-box;">

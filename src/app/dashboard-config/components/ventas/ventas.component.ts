@@ -27,6 +27,7 @@ declare const $: any;
 export class VentasComponent implements OnInit {
 
   dataTable: DataTable;
+  dataTable2: DataTable;
   pagina = 10;
   paginas = 0;
   loader = true;
@@ -37,7 +38,15 @@ export class VentasComponent implements OnInit {
     },
     page: 0
   };
-  Header:any = [ 'Acciones','Tipo Venta','Vendedor','Nombre Cliente','Teléfono Cliente','Fecha Venta','Productos','Cantidad','Precio','Imagen Producto','Estado', 'Motivo Rechazo', 'Tallas' ];
+  query2:any = {
+    where:{
+      ven_sw_eliminado: 0,
+      ven_estado: 0
+    },
+    sort: "createdAt ASC",
+    page: 0
+  };
+  Header:any = [ 'Acciones','Nombre Cliente',"Ya Compro?",'Teléfono Cliente','Fecha Venta','Cantidad','Precio','Imagen Producto','Estado', 'Tallas' ];
   $:any;
   public datoBusqueda = '';
 
@@ -45,9 +54,9 @@ export class VentasComponent implements OnInit {
   notEmptyPost:boolean = true;
   dataUser:any = {};
   activando:boolean = false;
-  ShopConfig:any = {};
   dateHoy = moment().format("DD/MM/YYYY");
   sumCantidad:any = 0;
+  ShopConfig:any = {};
 
   constructor(
     public dialog: MatDialog,
@@ -60,9 +69,9 @@ export class VentasComponent implements OnInit {
       store = store.name;
       this.dataUser = store.user || {};
       this.activando = false;
-      this.ShopConfig = store.configuracion || {};
       if(this.dataUser.usu_perfil.prf_descripcion != 'administrador') this.query.where.usu_clave_int = this.dataUser.id;
       if(this.dataUser.usu_perfil.prf_descripcion == 'administrador') this.activando = true;
+      this.ShopConfig = store.configuracion || {};
     });
    }
 
@@ -72,7 +81,13 @@ export class VentasComponent implements OnInit {
       footerRow: this.Header,
       dataRows: []
     };
+    this.dataTable2 = {
+      headerRow: this.Header,
+      footerRow: this.Header,
+      dataRows: []
+    };
     this.cargarTodos();
+    this.cargarTodos2();
     this.sumCantidad = await this.getVentasHoy();
   }
 
@@ -84,7 +99,6 @@ export class VentasComponent implements OnInit {
           "ven_estado": {
               "!=": 4
           },
-          "empresa": this.ShopConfig.id,
           "create": this.dateHoy
       }
       } ).subscribe( res => resolve( res.data ) )
@@ -107,6 +121,13 @@ export class VentasComponent implements OnInit {
           if( idx >= 0 ) {
             console.log("**",this.dataTable['dataRows'][idx], filtro)
             this.dataTable['dataRows'][idx] = { ven_estado: filtro.ven_estado, ...filtro};
+          }
+
+          idx = _.findIndex( this.dataTable2.dataRows, [ 'id', obj.id ] );
+          console.log("**",idx)
+          if( idx >= 0 ) {
+            console.log("**",this.dataTable2['dataRows'][idx], filtro)
+            this.dataTable2['dataRows'][idx] = { ven_estado: filtro.ven_estado, ...filtro};
           }
       }
     });
@@ -154,10 +175,16 @@ export class VentasComponent implements OnInit {
        this.cargarTodos();
      }
   }
+  onScroll2(){
+    this.query2.page++;
+    this.cargarTodos2();
+  }
 
   cargarTodos() {
     this.spinner.show();
+    console.log("******185", this.datoBusqueda)
     this.query.where.empresa = this.ShopConfig.id;
+    if( this.datoBusqueda ) delete this.query.where.empresa;
     this._ventas.get(this.query)
     .subscribe(
       (response: any) => {
@@ -178,7 +205,22 @@ export class VentasComponent implements OnInit {
       });
   }
 
-  buscar() {
+  cargarTodos2() {
+    this.spinner.show();
+    this._ventas.get( this.query2 )
+    .subscribe(
+      (response: any) => {
+        this.dataTable2.headerRow = this.dataTable2.headerRow;
+        this.dataTable2.footerRow = this.dataTable2.footerRow;
+        this.dataTable2.dataRows.push(... response.data)
+        this.dataTable2.dataRows = _.unionBy(this.dataTable2.dataRows || [], this.dataTable2.dataRows, 'id');
+      },
+      error => {
+        console.log('Error', error);
+      });
+  }
+
+  async buscar() {
     this.loader = false;
     this.notscrolly = true
     this.notEmptyPost = true;
@@ -229,6 +271,7 @@ export class VentasComponent implements OnInit {
         },
       ];
       this.cargarTodos();
+      this.sumCantidad = await this.getVentasHoy();
     }
   }
 

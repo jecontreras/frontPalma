@@ -19,19 +19,19 @@ export class AppComponent {
     private _store: Store<STORAGES>,
   ){
     this._store.subscribe((store: any) => {
-      console.log(store);
+      //console.log(store);
       store = store.name;
       this.empresa = store.configuracion || {};
     });
     this.dominio = window.location.host;
     console.log("******HOST", this.dominio)
-    if( this.dominio === 'localhost:4200' ) this.dominio = "shoppalmastore.web.app";
+    if( this.dominio === 'localhost:4300' ) this.dominio = "shoppalmastore.firebaseapp.com";
     this.getEmpresa();
   }
 
   getEmpresa(){
     this._config.get({ where: { dominio: this.dominio }, limit: 1 }).subscribe(( res:any )=>{
-      console.log(res);
+      //console.log(res);
       res = res.data[0];
       if( !res ) return false;
       if( res.id != this.empresa.id){

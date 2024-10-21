@@ -15,21 +15,28 @@
 }
 .precio {
 font-size: 25px;
-background: #000000;
-color: white;
 padding: 6px;
 border-radius: 10px;
 }
+
+.carousel-item img {
+  border-radius: 10px;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+}
+
 
 
 /*** ESTILOS BOTÓN SLIDE LEFT ***/
 
 .ov-btn-slide-close {
-background: #000000; /* color de fondo */
+background: #15d7ae; /* color de fondo */
 color: #f2f4f3 !important; /* color de fuente */
-border: 2px solid #008116; /* tamaño y color de borde */
 padding: 16px 20px;
-border-radius: 3px; /* redondear bordes */
 position: relative;
 z-index: 1;
 overflow: hidden;
@@ -104,7 +111,6 @@ left: 50%;
 .precio {
   font-size: 30px;
   font-weight: bold;
-  color: #ffffff; /* Green color for price */
   padding: 10px;
 }
 
