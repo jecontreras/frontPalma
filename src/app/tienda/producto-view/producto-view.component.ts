@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CART } from 'src/app/interfaces/sotarage';
 import { ToolsService } from 'src/app/services/tools.service';
 import { Store } from '@ngrx/store';
@@ -33,7 +33,7 @@ export class ProductosViewComponent implements OnInit {
   };
   pedido:any = { cantidad:1 };
   view:string = "descripcion";
-  rango:number = 250;
+  rango:number = 5;
   listProductos:any = [];
   query:any = {
     where:{
@@ -87,6 +87,10 @@ export class ProductosViewComponent implements OnInit {
   ];
 
   @ViewChild('nav', {static: true}) ds: NgImageSliderComponent;
+  @ViewChild('imageElement', { static: false }) imageElement!: ElementRef;
+  showNotification = false;
+  lastPurchase = { user: 'Julio de Valledupar', name: 'Calzado', price: '$150.000', image: 'assets/imagenes/perfil.png' };
+
   sliderWidth: Number = 1119;
   sliderImageWidth: Number = 250;
   sliderImageWidth1: Number = 60;
@@ -114,6 +118,32 @@ export class ProductosViewComponent implements OnInit {
     minuto: 15,
     milesegundo: 15
   };
+  dataList:any = [
+    {
+      txt: "Compro Andres Ciudad Armenia"
+    },{
+      txt: "Compro Albaro Ciudad Caqueta"
+    },{
+      txt: "Compro Diego Ciudad Bogota"
+    },{
+      txt: "Compro Juan Ciudad Medellin"
+    },{
+      txt: "Compro Huberth Ciudad Bogota"
+    },{
+      txt: "Compro Cesar Ciudad Bucaramanga"
+    },{
+      txt: "Compro Alberto Ciudad Cartagena"
+    },{
+      txt: "Compro Andrea Ciudad Medellin"
+    },{
+      txt: "Compro Roberto Ciudad Santa martha"
+    },{
+      txt: "Compro Eduardo Ciudad Huila"
+    },{
+      txt: "Compro Alvaro Ciudad Bogota"
+    },
+  ];
+  txtData:string;
 
   constructor(
     private _store: Store<CART>,
@@ -142,10 +172,26 @@ export class ProductosViewComponent implements OnInit {
         this.query.where.idPrice = store.usercabeza.id;
        }
     });
+    let terv = 0;
     setInterval(()=>{
-      this.openSnackBar();
-    }, 50000 );
-    this.configTime();
+      //this.openSnackBar();
+      terv++;
+      if( terv >= 5 && terv <=5 ){
+        this.rango++;
+        this.showNotification = true;
+        function getRandomInt(max) {
+          return Math.floor(Math.random() * max);
+        }
+        this.lastPurchase.user = this.dataList[getRandomInt(10)].txt;
+        this.lastPurchase.image = this.viewsImagen;
+      }
+      if( terv >= 10 ){
+        this.showNotification = false;
+        terv = 0;
+      }
+      
+    }, 1000 );
+    //this.configTime();
   }
 
   async ngOnInit() {
@@ -172,6 +218,70 @@ export class ProductosViewComponent implements OnInit {
   next() {
     $('#productCarousel').carousel('next');
   }
+  prev2() {
+    $('#productCarousel2').carousel('prev');
+  }
+
+  next2() {
+    $('#productCarousel2').carousel('next');
+  }
+  
+  isFullscreen = false;
+  currentImage: string = '';
+  currentIndex: number = 0;
+
+  /*openFullscreen() {
+    this.isFullscreen = true;
+    this.currentImage = this.listGaleria1[this.currentIndex].foto;
+  
+    const elem = this.imageElement.nativeElement;
+  
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen();
+    } else if (elem.webkitRequestFullscreen) { 
+      (elem as any).webkitRequestFullscreen();
+    }
+  }*/
+
+  openFullscreen(image: string, index: number) {
+    this.isFullscreen = true;
+    this.currentImage = image;
+    this.currentIndex = index;
+  }
+
+  closeFullscreen() {
+    this.isFullscreen = false;
+  }
+
+  prevImage() {
+    if (this.currentIndex > 0) {
+      this.currentIndex--;
+    } else {
+      this.currentIndex = this.listGaleria1.length - 1; // Volver al último si estás en el primero
+    }
+    this.currentImage = this.listGaleria1[this.currentIndex].foto;
+  }
+
+  nextImage() {
+    if (this.currentIndex < this.listGaleria1.length - 1) {
+      this.currentIndex++;
+    } else {
+      this.currentIndex = 0; // Volver al primero si estás en el último
+    }
+    this.currentImage = this.listGaleria1[this.currentIndex].foto;
+  }
+  
+  /*
+  closeFullscreen() {
+    this.isFullscreen = false;
+  
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if ((document as any).webkitExitFullscreen) { 
+      (document as any).webkitExitFullscreen();
+    }
+  }
+  */
 
   configTime(){
     let minuto = 15;
@@ -479,8 +589,35 @@ export class ProductosViewComponent implements OnInit {
       } );
     },()=> this._tools.tooast( { title: "Error al crear el Comentario" } ) );
   }
-
+  datas:any = {};
   comprarArticulo( cantidad:number, opt, price:number = 0 ){
+    this.isClicked = true;
+    let datar = this.data;
+    this.suma( datar );
+    //this.AgregarCart();
+    datar.cantidadAd = opt === true ? cantidad : this.pedido.cantidad || cantidad;
+    datar.priceSelect = opt === true ? price: this.pedido.pro_uni_venta || price;
+    datar.priceSelect = Number( datar.priceSelect );
+    try {
+      datar.talla = this.pedido.talla || datar.listTallas[0].tal_descripcion;
+    } catch (error) { }
+    datar.opt = opt;
+    datar.foto = this.viewsImagen;
+    this.datas = datar;
+    /*
+    const dialogRef = this.dialog.open(ChecktDialogComponent,{
+      //width: '855px',
+      maxWidth: '100%',
+      //maxHeight: "665px",
+      data: { datos: datar }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+    */
+  }
+
+  comprarArticulo2( cantidad:number, opt, price:number = 0 ){
     this.isClicked = true;
     let datar = this.data;
     this.suma( datar );

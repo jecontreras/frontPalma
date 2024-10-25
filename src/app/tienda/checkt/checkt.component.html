@@ -1,301 +1,246 @@
 <div class="container">
-    <div class="row" *ngIf="vista1 =='inicial'">
-        <div class="col-12 col-md-6">
-            <div class="row" *ngIf="vista == 'inicial'">
-                <div class="col-12">
-                    <img
-                        alt="DRU SHOES"
-                        class="logo__image logo__image--small"
-                        src="https://cdn.shopify.com/s/files/1/0595/0108/4867/files/LOGO_DRU_SHOES.png?25"
-                        style="border: 0px; display: inline-block; max-height: 2.85714em; max-width: 100%;"
-                    />
-                </div>
-                <div class="col-12">
-                    <h3>Información de contacto</h3>
-                </div>
-                <div class="col-12">
-                    <input type="email" class="form-control" [(ngModel)]="data.correo" placeholder="Correo electrónico">
-                </div>
-                <div class="col-12">
-                    <h3>Datos de envío</h3>
-                </div>
-                <div class="form-group col-12">
-                    <label >Nombre apellidos</label>
-                    <input type="text" class="form-control" [(ngModel)]="data.nombre" placeholder="ej: jose || andres">
-                </div>
-                <div class="form-group col-12">
-                    <label >Dirección</label>
-                    <input type="text" class="form-control" [(ngModel)]="data.direccion" placeholder="ej: Cll 1 # 14-2">
-                </div>
-                <div class="form-group col-12">
-                    <label >Apartamento Local etc ( opcional )</label>
-                    <input type="text" class="form-control" [(ngModel)]="data.apartamento" placeholder="ej: Torre de picardia">
-                </div>
-                <div class="form-group col-4">
-                    <label >Ciudad</label>
-                    <input type="text" class="form-control" [(ngModel)]="data.ciudad" placeholder="ej: Bogota || Medellin">
-                </div>
-                <div class="form-group col-4">
-                    <label >Provincia</label>
-                    <select class="form-control" [(ngModel)]="data.departamento">
-                        <option *ngFor="let item of listCiudad" [value]="item.departamento">{{ item.departamento }}</option>
-                    </select>
-                </div>
-                <div class="form-group col-4">
-                    <label >Barrio</label>
-                    <input type="text" class="form-control" [(ngModel)]="data.barrio" placeholder="ej: las vegas || prados">
-                </div>
-                <div class="form-group col-12">
-                    <label >Telefono</label>
-                    <input type="text" class="form-control" [(ngModel)]="data.telefono" placeholder="ej: 3105848774">
-                </div>
-                <div class="col-12">
-                    <div class="d-flex flex-row bd-highlight mb-3">
-                        <div class="p-2 bd-highlight">
-                            <button type="button" class="btn btn-success" (click)="validadornext()">Continuar con envios</button>
-                        </div>
-                        <div class="p-2 bd-highlight">
-                            <button type="button" class="btn btn-light">Volver al carrito</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row" *ngIf="vista == 'segunda'">
-                <ul class="list-group list-group-flush" style="width: 100%;">
-                    <li class="list-group-item">
-                        <table class="table table-borderless">
-                            <thead>
-                              <tr>
-                                <th scope="col" style="width: 5%;"></th>
-                                <th scope="col" style="width: 90%;"></th>
-                                <th scope="col" style="width: 5%;"></th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td>Contacto</td>
-                                <td>{{ data.correo }}</td>
-                                <td>
-                                    <button type="button" class="btn btn-link" (click)="vista='inicial'">Cambiar</button>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                    </li>
-                    <li class="list-group-item">
-                        <table class="table table-borderless">
-                            <thead>
-                              <tr>
-                                <th scope="col" style="width: 10%;"></th>
-                                <th scope="col" style="width: 80%;"></th>
-                                <th scope="col" style="width: 10%;"></th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td>Enviar a</td>
-                                <td>{{ data.direccion }} - {{ data.barrio }} - {{ data.ciudad }}</td>
-                                <td>
-                                    <button type="button" class="btn btn-link" (click)="vista='inicial'">Cambiar</button>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                    </li>
-                </ul>
-                <div class="col-12">
-                    <h3>Envíos</h3>
-                </div>
-                <ul class="list-group list-group-flush" style="width: 100%;">
-                    <li class="list-group-item">
-                        <table class="table table-borderless">
-                            <thead>
-                              <tr>
-                                <th scope="col" style="width: 10%;"></th>
-                                <th scope="col" style="width: 80%;"></th>
-                                <th scope="col" style="width: 10%;"></th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td>
-                                    <mat-checkbox [(ngModel)]="valor" disabled></mat-checkbox>
-                                </td>
-                                <td>Envío de 4 a 8 días hábiles</td>
-                                <td>
-                                    $0
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                    </li>
-                </ul>
-                <div class="col-12">
-                    <div class="d-flex flex-row bd-highlight mb-3">
-                        <div class="p-2 bd-highlight">
-                            <button type="button" class="btn btn-success" (click)="finalizando()">Finalizar el Pedido</button>
-                        </div>
-                        <div class="p-2 bd-highlight">
-                            <button type="button" class="btn btn-light" (click)="vista='inicial'">Volver a envios</button>
-                        </div>
-                      </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-md-6">
-            <p>&nbsp;</p>
-            <div class="order-summary__section order-summary__section--product-list"
-                style='-webkit-box-flex: 0; background-color: white; color: #535353; display: flex; flex: 0 1 auto; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif; font-size: 14px; min-height: 7em; overflow: hidden; padding: 0px; position: relative;'>
-                <div class="order-summary__section__content" style="min-width: 100%; overflow: hidden;">
-                    <table class="product-table"
-                        style="border-collapse: collapse; border-spacing: 0px; font-size: 1em; margin-bottom: 1.5em; margin-top: 0.75em; position: relative; width: 418px; z-index: 1;">
-                        <caption class="visually-hidden"
-                            style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 2px; margin: -2px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 2px;">
-                            Carrito
-                        </caption>
-                        <thead class="product-table__header">
-                            <tr>
-                                <th scope="col"
-                                    style="color: #333333; font-weight: 500; padding: 0px; text-align: left; white-space: nowrap;">
-                                    <span class="visually-hidden"
-                                        style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 2px; margin: -2px; overflow: hidden; padding: 0px; position: absolute; width: 2px;">Imagen
-                                        del producto</span>
-                                </th>
-                                <th scope="col"
-                                    style="color: #333333; font-weight: 500; padding: 0px 0px 0px 1em; white-space: nowrap;">
-                                    <span class="visually-hidden"
-                                        style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 2px; margin: -2px; overflow: hidden; padding: 0px; position: absolute; width: 2px;">Descripción</span>
-                                </th>
-                                <th scope="col"
-                                    style="color: #333333; font-weight: 500; padding: 0px 0px 0px 1em; white-space: nowrap;">
-                                    <span class="visually-hidden"
-                                        style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 2px; margin: -2px; overflow: hidden; padding: 0px; position: absolute; width: 2px;">Cantidad</span>
-                                </th>
-                                <th scope="col"
-                                    style="color: #333333; font-weight: 500; padding: 0px 0px 0px 1em; text-align: right; white-space: nowrap;">
-                                    <span class="visually-hidden"
-                                        style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 2px; margin: -2px; overflow: hidden; padding: 0px; position: absolute; width: 2px;">Precio</span>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody data-order-summary-section="line-items">
-                            <tr class="product" 
-                                *ngFor="let item of listCarrito"
-                                data-customer-ready-visible="" data-product-id="7461513068763"
-                                data-product-type="TENIS" data-variant-id="42114239758555">
-                                <td class="product__image" style="border-color: rgb(250, 217, 217); padding: 0px;">
-                                    <div class="product-thumbnail"
-                                        style="background-attachment: initial; background-clip: initial; background-image: initial; background-origin: initial; background-position: initial; background-repeat: initial; background-size: initial; border-radius: 8px; height: 4.6em; position: relative; width: 4.6em;">
-                                        <div class="product-thumbnail__wrapper"
-                                            style="border-radius: 8px; height: 64.3906px; overflow: hidden; position: relative; width: 64.3906px; z-index: 1;">
-                                            <img alt="TENIS HOMBRE 4DID4S NEGRO X NARANJA 2.0 - 37" class="product-thumbnail__image"
-                                                [src]="item.foto"
-                                                style="border: 0px; inset: 0px; margin: auto; max-height: 100%; max-width: 100%; position: absolute;" />
-                                        </div>
-                                        <span aria-hidden="true" class="product-thumbnail__quantity"
-                                            style="background-color: rgba(114, 114, 114, 0.9); border-radius: 1.75em; box-sizing: border-box; color: white; font-size: 0.857143em; height: 1.75em; line-height: 1.75em; min-width: 1.75em; padding: 0px 0.583333em; position: absolute; right: -0.75em; text-align: center; top: -0.75em; white-space: nowrap; z-index: 3;">1</span>
-                                    </div>
-                                </td>
-                                <th class="product__description" scope="row"
-                                    style="font-weight: normal; padding: 0px 0px 0px 1em; text-align: left; width: 239.094px;">
-                                    <span class="product__description__name order-summary__emphasis"
-                                        style="color: #323232; display: block; min-width: 100%; width: 1em;">{{ item.titulo }}</span><span
-                                        class="product__description__variant order-summary__small-text"
-                                        style="color: #717171; display: block; font-size: 0.857143em;"></span>
-                                </th>
-                                <td class="product__quantity" style="border-color: rgb(250, 217, 217); padding: 0px 0px 0px 1em;">
-                                    <span class="visually-hidden"
-                                        style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 2px; margin: -2px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 2px;">1</span>
-                                </td>
-                                <td class="product__price"
-                                    style="border-color: rgb(250, 217, 217); padding: 0px 0px 0px 1em; text-align: right; white-space: nowrap;">
-                                    <span class="order-summary__emphasis skeleton-while-loading"
-                                        style="color: #323232;">
-                                        {{ _tools.monedaChange( 3, 2, item.costoTotal || 0 ) }}
-                                    </span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="order-summary__section order-summary__section--total-lines" data-order-summary-section="payment-lines"
-                style='-webkit-box-flex: 0; background-color: white; border: 0px; color: #535353; flex: 0 0 auto; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif; font-size: 14px; padding-bottom: 1.5em; padding-top: 1.5em;'>
-                <table class="total-line-table"
-                    style="border-collapse: collapse; border-spacing: 0px; font-size: 1em; width: 418px;">
-                    <caption class="visually-hidden"
-                        style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 2px; margin: -2px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 2px;">
-                        Resumen de costos
-                    </caption>
-                    <thead>
-                        <tr>
-                            <th scope="col" style="font-weight: normal; padding: 0px; text-align: left;">
-                                <span class="visually-hidden"
-                                    style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 2px; margin: -2px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 2px;">Descripción</span>
-                            </th>
-                            <th scope="col" style="font-weight: normal; padding: 0px 0px 0px 1em; text-align: right;">
-                                <span class="visually-hidden"
-                                    style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 2px; margin: -2px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 2px;">Precio</span>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody class="total-line-table__tbody">
-                        <tr class="total-line total-line--subtotal">
-                            <th class="total-line__name" scope="row" style="font-weight: normal; padding: 0px; text-align: left;">
-                                Subtotal
-                            </th>
-                            <td class="total-line__price"
-                                style="padding: 0px 0px 0px 1.5em; text-align: right; white-space: nowrap;">
-                                <span class="order-summary__emphasis skeleton-while-loading"
-                                    data-checkout-subtotal-price-target="7500000" style="color: #323232;">{{ _tools.monedaChange( 3, 2, totalSuma || 0 )}}</span>
-                            </td>
-                        </tr>
-                        <tr class="total-line total-line--shipping">
-                            <th class="total-line__name" scope="row"
-                                style="font-weight: normal; padding: 0.75em 0px 0px; text-align: left;">
-                                Envíos
-                            </th>
-                            <td class="total-line__price"
-                                style="padding: 0.75em 0px 0px 1.5em; text-align: right; white-space: nowrap;">
-                                <span class="skeleton-while-loading order-summary__small-text"
-                                    data-checkout-total-shipping-target="0" style="color: #717171; font-size: 0.857143em;">Envio Gratis</span>
-                            </td>
-                        </tr>
-                    </tbody>
-                    <tfoot class="total-line-table__footer">
-                        <tr class="total-line">
-                            <th class="total-line__name payment-due-label" scope="row"
-                                style="font-weight: normal; padding: 3em 0px 0px; position: relative; text-align: left;">
-                                <span class="payment-due-label__total" style="color: #323232; font-size: 1.14286em;">Total</span>
-                            </th>
-                            <td class="total-line__price payment-due" data-presentment-currency="COP"
-                                style="padding: 3em 0px 0px 1.5em; position: relative; text-align: right; white-space: nowrap;">
-                                <span class="payment-due__currency remove-while-loading"
-                                    style="color: #717171; font-size: 0.857143em; margin-right: 0.5em; vertical-align: 0.2em;">COP</span>&nbsp;<span
-                                    class="payment-due__price skeleton-while-loading--lg" data-checkout-payment-due-target="7500000"
-                                    style="color: #323232; font-size: 1.71429em; letter-spacing: -0.04em; line-height: 1em;"> {{ _tools.monedaChange( 3, 2, totalSuma || 0 ) }} </span>
-                            </td>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
-        </div>
-    </div>
-    <div class="row" *ngIf="vista1 =='segunda'">
+    <div class="form row mat-elevation-z4 p-3" *ngIf="!data.id">
         <div class="col-12">
-            <div class="d-flex flex-column bd-highlight mb-3">
-                <div class="p-2 bd-highlight">
-                    <h2 style="color: #8f8f8f;">
-                        Tu pedido esta en proceso en estos momentos lo recibirás entre 4 o 8 dias si se precenta algun inconveniente se notificara por via whatsap. 
-                        ¡Recuerda el valor del envio es gratis!
-                    </h2>
+            <div class="d-flex justify-content-center">
+                <div>
+                  <h1 >DATOS DE ENVIÓ</h1>
                 </div>
-                <div class="p-2 bd-highlight">
-                    <div class="d-flex justify-content-between">
-                        <button type="button" class="btn btn-primary" [routerLink]="['/tienda/productos']" routerLinkActive="router-link-active" >Volver ala tienda</button>
+            </div>
+        </div>
+        <form #dataForm="ngForm" (ngSubmit)="onSubmit(dataForm)" novalidate>
+          <div class="form row" *ngIf="!data.id">
+    
+            <!-- Nombre y Apellido -->
+            <div class="form-group col-12 col-sm-4" [ngClass]="{'has-error': isInvalid(dataForm, 'nombre')}">
+              <mat-form-field appearance="outline" class="example-full-width">
+                <mat-label>Nombre y Apellido</mat-label>
+                <mat-icon matPrefix>account_circle</mat-icon>
+                <input matInput type="text" [(ngModel)]="data.nombre" name="nombre" placeholder="Nombre y Apellido" required #nombre="ngModel" (change)="validadorInput()">
+                <mat-error *ngIf="nombre.invalid && nombre.touched">Este campo es obligatorio.</mat-error>
+              </mat-form-field>
+            </div>
+    
+            <!-- Número de Teléfono -->
+            <div class="form-group col-12 col-sm-4" [ngClass]="{'has-error': isInvalid(dataForm, 'telefono')}">
+              <mat-form-field appearance="outline" class="example-full-width">
+                <mat-label>Número de Teléfono</mat-label>
+                <mat-icon matPrefix>phone</mat-icon>
+                <input matInput type="number" [(ngModel)]="data.telefono" name="telefono" placeholder="Número de Teléfono" required #telefono="ngModel" (change)="validadorInput()">
+                <mat-error *ngIf="telefono.invalid && telefono.touched">Este campo es obligatorio.</mat-error>
+              </mat-form-field>
+            </div>
+    
+            <!-- Dirección de Entrega -->
+            <div class="form-group col-12 col-sm-4" [ngClass]="{'has-error': isInvalid(dataForm, 'direccion')}">
+              <mat-form-field appearance="outline" class="example-full-width">
+                <mat-label>Dirección de Entrega</mat-label>
+                <mat-icon matPrefix>home</mat-icon>
+                <input matInput type="text" [(ngModel)]="data.direccion" name="direccion" placeholder="Dirección de Entrega" required #direccion="ngModel" (change)="validadorInput()">
+                <mat-error *ngIf="direccion.invalid && direccion.touched">Este campo es obligatorio.</mat-error>
+              </mat-form-field>
+            </div>
+    
+            <!-- Ciudad o Municipio -->
+            <div class="form-group col-12 col-sm-4" [ngClass]="{'has-error': isInvalid(dataForm, 'ciudad')}">
+              <mat-form-field appearance="outline" class="example-full-width">
+                <mat-label>Ciudad o Municipio</mat-label>
+                <mat-icon matPrefix>location_city</mat-icon>
+                <input matInput type="text" [(ngModel)]="data.ciudad" name="ciudad" placeholder="Ciudad o Municipio" required #ciudad="ngModel" (change)="validadorInput()">
+                <mat-error *ngIf="ciudad.invalid && ciudad.touched">Este campo es obligatorio.</mat-error>
+              </mat-form-field>
+            </div>
+    
+            <!-- Barrio o Localidad -->
+            <div class="form-group col-12 col-sm-4" [ngClass]="{'has-error': isInvalid(dataForm, 'barrio')}">
+              <mat-form-field appearance="outline" class="example-full-width">
+                <mat-label>Barrio o Localidad</mat-label>
+                <mat-icon matPrefix>map</mat-icon>
+                <input matInput type="text" [(ngModel)]="data.barrio" name="barrio" placeholder="Barrio o Localidad" required #barrio="ngModel" (change)="validadorInput()">
+                <mat-error *ngIf="barrio.invalid && barrio.touched">Este campo es obligatorio.</mat-error>
+              </mat-form-field>
+            </div>
+    
+            <!-- Color -->
+            <div class="form-group col-12 col-sm-4" [ngClass]="{'has-error': isInvalid(dataForm, 'color')}">
+              <mat-form-field appearance="outline" class="example-full-width">
+                <mat-label>Color</mat-label>
+                <mat-icon matPrefix>palette</mat-icon>
+                <input matInput type="text" [(ngModel)]="data.color" name="color" placeholder="Color del Producto" required #color="ngModel" (change)="validadorInput()">
+                <mat-error *ngIf="color.invalid && color.touched">Este campo es obligatorio.</mat-error>
+              </mat-form-field>
+            </div>
+    
+            <!-- Talla -->
+            <div class="form-group col-6 col-sm-4" [ngClass]="{'has-error': isInvalid(dataForm, 'talla')}">
+              <mat-form-field appearance="outline" class="example-full-width">
+                <mat-label>Talla</mat-label>
+                <mat-icon matPrefix>straighten</mat-icon>
+                <input matInput type="text" [(ngModel)]="data.talla" name="talla" placeholder="Talla del Producto" required #talla="ngModel" (change)="validadorInput()">
+                <mat-error *ngIf="talla.invalid && talla.touched">Este campo es obligatorio.</mat-error>
+              </mat-form-field>
+            </div>
+    
+            <!-- Cantidad -->
+            <div class="form-group col-6 col-sm-2" [ngClass]="{'has-error': isInvalid(dataForm, 'cantidadAd')}">
+              <mat-form-field appearance="outline" class="example-full-width">
+                <mat-label>Cantidad</mat-label>
+                <mat-icon matPrefix>reorder</mat-icon>
+                <input matInput type="number" [(ngModel)]="data.cantidadAd" name="cantidadAd" (change)="suma(); validadorInput()" placeholder="Cantidad de Producto" required [disabled]="data.opt" #cantidadAd="ngModel">
+                <mat-error *ngIf="cantidadAd.invalid && cantidadAd.touched">Este campo es obligatorio.</mat-error>
+              </mat-form-field>
+            </div>
+    
+          </div>
+        </form>
+    
+    
+    
+          <div class="col-12">
+            <p>
+                &nbsp;<img class="tyslo-image" data-v-7cfc0e7c="" height="60"
+                    [src]="datas.foto || 'https://cdn.shopify.com/s/files/1/0631/5255/4203/products/adidasdama.jpg?v=1646070873'"
+                    style='background-color: #fefefe; border-radius: 6px; box-sizing: border-box; color: rgba(18, 18, 18, 0.75); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; font-size: 16px; letter-spacing: 0.6px; min-width: 60px; vertical-align: middle;'
+                    width="60" />
+            </p>
+            <div class="tyslo-group"
+                style='background-color: #fefefe; box-sizing: border-box; color: rgba(18, 18, 18, 0.75); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; font-size: 16px; letter-spacing: 0.6px; margin-bottom: 10px;'>
+                <div data-v-7cfc0e7c="" style="box-sizing: border-box;">
+                    <div class="align-items-center line d-flex justify-content-between" data-v-7cfc0e7c=""
+                        style="align-items: center !important; border-bottom: 1px solid rgb(217, 217, 217); box-sizing: border-box; display: flex !important; justify-content: space-between !important; margin-bottom: 6px; padding-bottom: 10px; padding-top: 6px;">
+                        <div class="me-4" data-v-7cfc0e7c=""
+                            style="box-sizing: border-box; margin-right: 1.5rem !important;">
+                            <div class="position-relative" data-v-7cfc0e7c=""
+                                style="box-sizing: border-box; position: relative !important;">
+                                <span class="
+                                    position-absolute
+                                    top-0
+                                    start-100
+                                    translate-middle
+                                    badge
+                                    rounded-pill
+                                    bg-secondary
+                          " data-v-7cfc0e7c=""
+                                    style="background-color: rgb(108, 117, 125) !important; border-color: rgba(var(--color-badge-border),var(--alpha-badge-border)); border-image: initial; border-radius: 50rem !important; border-style: solid; border-width: 1px; box-sizing: border-box; color: white; display: inline-block; font-size: 0.75em; font-weight: 700; left: 60px; letter-spacing: 0.1rem; line-height: 1; padding: 0.35em 0.65em; position: absolute !important; text-align: center; top: 0px !important; transform: translate(-50%, -50%) !important; vertical-align: baseline; white-space: nowrap; word-break: break-word;">1</span>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1" data-v-7cfc0e7c=""
+                            style="box-sizing: border-box; flex-grow: 1 !important;">
+                            <a data-v-7cfc0e7c=""
+                                [href]="'https://dilishoponline.com/tienda/productosView/'+datas.id"
+                                style="box-sizing: border-box; color: #0d6efd;" target="_blank">
+                                <div class="product-title" data-v-7cfc0e7c=""
+                                    style="-webkit-box-orient: vertical; -webkit-line-clamp: 2; box-sizing: border-box; display: -webkit-box; line-height: 1.2; max-height: 2.4em; overflow: hidden; text-overflow: ellipsis;">
+                                    {{ datas.pro_nombre || 'diesel color negro' }}
+                                </div>
+                            </a><small class="product-title variant" data-v-7cfc0e7c=""
+                                style="-webkit-box-orient: vertical; -webkit-line-clamp: 2; box-sizing: border-box; color: black; display: -webkit-box; font-size: 0.875em; line-height: 1.2; max-height: 2.4em; overflow: hidden; text-overflow: ellipsis;"></small>
+                        </div>
+                        <div class="line-price text-end align-items-center" data-v-7cfc0e7c=""
+                            style="align-items: center !important; box-sizing: border-box; color: black; margin: 0px 10px; text-align: right !important;">
+                            <span data-v-7cfc0e7c="" style="box-sizing: border-box;">{{ _tools.monedaChange(
+                                3,2,this.datas.pro_uni_venta || 0 ) }}</span>
+                        </div>
+                        <span class="flex-shrink-1 close" data-v-7cfc0e7c=""
+                            style="box-sizing: border-box; color: #aaaaaa; flex-shrink: 1 !important; font-size: 20px; font-weight: 700; margin: 0px 10px;">×</span>
                     </div>
                 </div>
+                <div class="row"
+                    style="--bs-gutter-x: 1.5rem; --bs-gutter-y: 0; box-sizing: border-box; display: flex; flex-wrap: wrap; margin-left: calc(var(--bs-gutter-x)*-0.5); margin-right: calc(var(--bs-gutter-x)*-0.5); margin-top: calc(var(--bs-gutter-y)*-1);">
+                </div>
+            </div>
+            <div class="tyslo-group"
+                style='background-color: #fefefe; box-sizing: border-box; color: rgba(18, 18, 18, 0.75); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; font-size: 16px; letter-spacing: 0.6px; margin-bottom: 10px;'>
+                <div class="total-container" data-v-2b9a7796=""
+                    style="box-sizing: border-box; color: black; margin: 10px 0px;">
+                    <div class="p-1" data-v-2b9a7796="" style="box-sizing: border-box; padding: 0.25rem !important;">
+                        <div class="d-flex justify-content-between py-1" data-v-2b9a7796=""
+                            style="box-sizing: border-box; display: flex !important; justify-content: space-between !important; padding-bottom: 0.25rem !important; padding-top: 0.25rem !important;">
+                            <div class="fw-normal label-title" data-v-2b9a7796=""
+                                style="box-sizing: border-box; color: #535353;">
+                                Subtotal
+                            </div>
+                            <div class="label-value" data-v-2b9a7796="" style="box-sizing: border-box;">
+                                <span data-v-2b9a7796="" style="box-sizing: border-box;">{{ _tools.monedaChange(
+                                    3,2,this.data.costo || 0 ) }}</span>
+                            </div>
+                        </div>
+                        <div class="
+                        d-flex
+                        justify-content-between
+                        my-1
+                        total-row
+                        align-items-baseline
+                        fw-bold
+                      " data-v-2b9a7796=""
+                            style="align-items: baseline !important; border-top: 1px solid rgba(175, 175, 175, 0.34) !important; box-sizing: border-box; display: flex !important; font-weight: 700 !important; justify-content: space-between !important; margin-bottom: 0.25rem !important; margin-top: 0.25rem !important;">
+                            <div data-v-2b9a7796="" style="box-sizing: border-box;">Cantidad</div>
+                            <div class="total-value" data-v-2b9a7796=""
+                                style="box-sizing: border-box; font-size: 20px;">
+                                <span data-v-2b9a7796="" style="box-sizing: border-box;">{{ data.cantidadAd || 1 }}</span>
+                            </div>
+                        </div>
+                        <div class="
+                            d-flex
+                            justify-content-between
+                            my-1
+                            total-row
+                            align-items-baseline
+                            fw-bold
+                      " data-v-2b9a7796=""
+                            style="align-items: baseline !important; border-top: 1px solid rgba(175, 175, 175, 0.34) !important; box-sizing: border-box; display: flex !important; font-weight: 700 !important; justify-content: space-between !important; margin-bottom: 0.25rem !important; margin-top: 0.25rem !important;">
+                            <div data-v-2b9a7796="" style="box-sizing: border-box;">Envio</div>
+                            <div  class="total-value" data-v-2b9a7796=""
+                                style="box-sizing: border-box; font-size: 20px;">
+                                <span *ngIf="!data.pro_vendedor" data-v-2b9a7796="" style="box-sizing: border-box;">
+                                  <mat-radio-group [(ngModel)]="data.envioT" (change)="suma()">
+                                    <mat-radio-button class="example-margin" value="gratis">
+                                      <span style="font-size: 9px;">Gratis</span>
+                                    </mat-radio-button>
+                                    <mat-radio-button class="example-margin" value="priorida">
+                                      <span style="font-size: 9px;">$5.000 Envio Prioritario</span>
+                                    </mat-radio-button>
+                                  </mat-radio-group>
+                                </span>
+                                <span *ngIf="data.pro_vendedor" data-v-2b9a7796="" style="box-sizing: border-box;">
+                                  {{ _formato.monedaChange( 3, 2, data.pro_vendedor || 0) }}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="
+                        d-flex
+                        justify-content-between
+                        my-1
+                        total-row
+                        align-items-baseline
+                        fw-bold
+                      " data-v-2b9a7796=""
+                            style="align-items: baseline !important; border-top: 1px solid rgba(175, 175, 175, 0.34) !important; box-sizing: border-box; display: flex !important; font-weight: 700 !important; justify-content: space-between !important; margin-bottom: 0.25rem !important; margin-top: 0.25rem !important;">
+                            <div data-v-2b9a7796="" style="box-sizing: border-box;">Total</div>
+                            <div class="total-value" data-v-2b9a7796=""
+                                style="box-sizing: border-box; font-size: 20px;">
+                                <span data-v-2b9a7796="" style="box-sizing: border-box;">{{ _tools.monedaChange(
+                                    3,2,( this.data.costo + data.pro_vendedor ) || 0 ) }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+          </div>
+          <div class="col-12">
+            <button mat-button cdkFocusInitial mat-raised-button color="primary" (click)="finalizando()" *ngIf="!data.id" [disabled]="disabled" style=" background: #28a745 !important;">
+                <span>Confirmar Compra</span>
+            </button>
+          </div>
+      </div>
+      <div class="form row" *ngIf="data.id">
+          <div class="col-12">
+              <div class="d-flex justify-content-center">
+                  <div>
+                      <h3>Chatear con un asesor sobre la venta realizada</h3>
+                      <img src="./assets/icons/whatsapp.png" style="width: 80%;" alt="" (click)="mensajeWhat()">
+                  </div>
               </div>
-        </div>
-    </div>
+          </div>
+      </div>
 </div>
