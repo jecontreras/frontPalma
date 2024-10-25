@@ -65,7 +65,26 @@
                     <p class="shipping-info">
                       <i class="fas fa-box"></i> Envío GRATIS y pagos CONTRA ENTREGA.
                     </p>
-                    
+
+                    <div class="aa-product-view-content p-3">
+                      
+                      <section *ngIf="data['listTallas']?.length > 0 ">
+                        <h4>Talla</h4>
+                        <div class="aa-prod-view-size">
+                          <a class="pointer" *ngFor="let item of data.listTallas" [ngClass]="{selecciono: item.check1}"
+                            (click)="checkTalla( item );">{{
+                            item.tal_descripcion }}</a>
+                        </div>
+                      </section>
+                      <section *ngIf="data['listColor']?.length > 0 ">
+                        <h4>Color</h4>
+                        <div class="aa-prod-view-size">
+                          <a class="pointer" *ngFor="let item of data.listColor" [ngClass]="{selecciono: item.check1}"
+                            (click)="handleSelect( item );">{{
+                              item.talla }}</a>
+                        </div>
+                      </section>
+                    </div>
                     <div class="stock-info">
                       <span class="stock-count">40 Disponible</span>
                       <span class="stock-indicator"></span>
