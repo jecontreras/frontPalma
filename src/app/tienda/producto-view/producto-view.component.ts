@@ -88,6 +88,7 @@ export class ProductosViewComponent implements OnInit {
 
   @ViewChild('nav', {static: true}) ds: NgImageSliderComponent;
   @ViewChild('imageElement', { static: false }) imageElement!: ElementRef;
+  @ViewChild('nextStep', { static: false }) nextStep: ElementRef;
   showNotification = false;
   lastPurchase = { user: 'Julio de Valledupar', name: 'Calzado', price: '$150.000', image: 'assets/imagenes/perfil.png' };
 
@@ -604,6 +605,7 @@ export class ProductosViewComponent implements OnInit {
     datar.opt = opt;
     datar.foto = this.viewsImagen;
     this.datas = datar;
+    this.scrollToNextStep();
     /*
     const dialogRef = this.dialog.open(ChecktDialogComponent,{
       //width: '855px',
@@ -615,6 +617,13 @@ export class ProductosViewComponent implements OnInit {
       console.log(`Dialog result: ${result}`);
     });
     */
+  }
+
+  scrollToNextStep() {
+    //console.log("*****", this.nextStep )
+    if (this.nextStep) {
+      this.nextStep.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   }
 
   comprarArticulo2( cantidad:number, opt, price:number = 0 ){

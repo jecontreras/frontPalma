@@ -81,11 +81,13 @@
                   </div>
                     <p [innerHtml]="data.pro_descripcion "></p>
                 </div>
-                <div class="col-12" *ngIf="datas.foto">
-                  <br><br>
-                  <app-checkt [datas]="datas"></app-checkt>
-                  <br><br>
-                </div>
+                <section #nextStep>
+                  <div class="col-12" *ngIf="datas.foto">
+                    <br><br>
+                    <app-checkt [datas]="datas"></app-checkt>
+                    <br><br>
+                  </div>
+                </section>
                 <div class="col-12">
                   <img style="    width: 100%;
                   height: 9pc;
@@ -133,7 +135,7 @@
                 <div class="col-12">
                   <div class="d-flex justify-content-center">
                     <div>
-                      <button (click)="comprarArticulo2(1, false)" class="btn-shake">Comprar y pagar en casa</button>
+                      <button (click)="comprarArticulo(( pedido.cantidad || 1 ), false)" class="btn-shake">Comprar y pagar en casa</button>
                     </div>
                   </div>
                   <br><br><br><br><br>
