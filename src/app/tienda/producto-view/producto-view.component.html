@@ -77,12 +77,12 @@
                       <button class="quantity-btn" (click)="pedido.cantidad=pedido.cantidad+1;">+</button>
                     </div>
                     
-                    <button (click)="comprarArticulo(( pedido.cantidad || 1 ), false)" class="btn-shake">Comprar y pagar en casa</button>
+                    <button (click)="comprarArticulo(( pedido.cantidad || 1 ), false, 0, true)" class="btn-shake">Comprar y pagar en casa</button>
                   </div>
                     <p [innerHtml]="data.pro_descripcion "></p>
                 </div>
                 <section #nextStep>
-                  <div class="col-12" *ngIf="datas.foto">
+                  <div class="col-12">
                     <br><br>
                     <app-checkt [datas]="datas"></app-checkt>
                     <br><br>
@@ -135,7 +135,7 @@
                 <div class="col-12">
                   <div class="d-flex justify-content-center">
                     <div>
-                      <button (click)="comprarArticulo(( pedido.cantidad || 1 ), false)" class="btn-shake">Comprar y pagar en casa</button>
+                      <button (click)="comprarArticulo(( pedido.cantidad || 1 ), false, 0, true )" class="btn-shake">Comprar y pagar en casa</button>
                     </div>
                   </div>
                   <br><br><br><br><br>

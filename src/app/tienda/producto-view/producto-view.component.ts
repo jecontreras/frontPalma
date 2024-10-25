@@ -339,6 +339,7 @@ export class ProductosViewComponent implements OnInit {
       } catch (error) {}
       this.viewsImagen = this.data.foto;
       this.viewsImagen2 = this.data.foto;
+      this.comprarArticulo(( this.pedido.cantidad || 1 ), false, 0, false )
       if( !this.data.listComentarios ) this.data.listComentarios = [];
       this.listGaleria1 = this.data.listaGaleria || [];
       if( !this.data.listColor ) this.data.listColor = [];
@@ -591,7 +592,7 @@ export class ProductosViewComponent implements OnInit {
     },()=> this._tools.tooast( { title: "Error al crear el Comentario" } ) );
   }
   datas:any = {};
-  comprarArticulo( cantidad:number, opt, price:number = 0 ){
+  comprarArticulo( cantidad:number, opt, price:number = 0, srcoll = false ){
     this.isClicked = true;
     let datar = this.data;
     this.suma( datar );
@@ -605,7 +606,8 @@ export class ProductosViewComponent implements OnInit {
     datar.opt = opt;
     datar.foto = this.viewsImagen;
     this.datas = datar;
-    this.scrollToNextStep();
+    console.log("*********R", this.datas)
+    if( srcoll ) setTimeout(()=>this.scrollToNextStep(), 1000 );
     /*
     const dialogRef = this.dialog.open(ChecktDialogComponent,{
       //width: '855px',
