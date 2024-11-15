@@ -68,7 +68,7 @@
 
                     <div class="aa-product-view-content p-3">
                       
-                      <section *ngIf="data['listTallas']?.length > 0 ">
+                      <section *ngIf="data['listTallas']?.length > 0 && data.talla !== 'Unica'">
                         <h4>Talla</h4>
                         <div class="aa-prod-view-size">
                           <a class="pointer" *ngFor="let item of data.listTallas" [ngClass]="{selecciono: item.check1}"

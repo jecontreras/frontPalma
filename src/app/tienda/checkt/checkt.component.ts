@@ -65,6 +65,7 @@ export class ChecktComponent implements OnInit {
     this.data.color = this.datas.colorSelect;
     this.data.pro_vendedor = this.datas.pro_vendedor;
     this.data.envioT = "priorida";
+    console.log("****68", this.datas )
     this.suma();
     this.socialAuthService.authState.subscribe( async (user) => {
       let result = await this._user.initProcess( user );
@@ -135,7 +136,7 @@ export class ChecktComponent implements OnInit {
     if( !this.data.direccion ) return this.disabled = true;
     if( !this.data.barrio ) return this.disabled = true;
     if( !this.data.ciudad  ) return this.disabled = true;
-    if( !this.data.talla ) return this.disabled = true;
+    //if( !this.data.talla ) return this.disabled = true;
     if( !this.data.color ) return this.disabled = true;
     this.disabled = false;
   }

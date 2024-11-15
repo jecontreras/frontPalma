@@ -90,7 +90,7 @@ export class ProductosViewComponent implements OnInit {
   @ViewChild('imageElement', { static: false }) imageElement!: ElementRef;
   @ViewChild('nextStep', { static: false }) nextStep: ElementRef;
   showNotification = false;
-  lastPurchase = { user: 'Julio de Valledupar', name: 'Calzado', price: '$150.000', image: 'assets/imagenes/perfil.png' };
+  lastPurchase = { user: 'Julio de Valledupar', name: 'Articulo', price: '$150.000', image: 'assets/imagenes/perfil.png' };
 
   sliderWidth: Number = 1119;
   sliderImageWidth: Number = 250;

@@ -99,6 +99,7 @@ export class VentasComponent implements OnInit {
           "ven_estado": {
               "!=": 4
           },
+          "empresa": this.ShopConfig.id,
           "create": this.dateHoy
       }
       } ).subscribe( res => resolve( res.data ) )
