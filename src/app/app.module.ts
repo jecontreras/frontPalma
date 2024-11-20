@@ -30,7 +30,6 @@ import { RegistrosComponent } from './layout/registro/registro.component';
 import { TerminosComponent } from './layout/terminos/terminos.component';
 import  { FacebookLoginProvider, GoogleLoginProvider, SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
 import { NgxCurrencyModule } from 'ngx-currency';
-
 @NgModule({
   entryComponents:[
     LoginComponent,

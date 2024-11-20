@@ -27,10 +27,11 @@ import { SliderComponent } from './slider/slider.component';
 import { MenuLateralComponent } from './menu-lateral/menu-lateral.component';
 import { ProductosTComponent } from './productos-t/productos-t.component';
 import { ProductoView2Component } from './producto-view2/producto-view2.component';
+import { ProductoViewDeComponent } from './producto-view-de/producto-view-de.component';
 
 @NgModule({
   entryComponents: [ InfoProductoComponent,ChecktDialogComponent ],
-  declarations: [MainsComponent, TiendaComponent, ProductosComponent, FooterComponent, MenuComponent, InfoProductoComponent, ProductosViewComponent, ContactoComponent, ChecktComponent, CarritoComponent, CompletarComponent, ChecktDialogComponent, DetallePedidoComponent, CatalogoComponent, AlertBannerComponent, SliderComponent, MenuLateralComponent, ProductosTComponent, ProductoView2Component ],
+  declarations: [MainsComponent, TiendaComponent, ProductosComponent, FooterComponent, MenuComponent, InfoProductoComponent, ProductosViewComponent, ContactoComponent, ChecktComponent, CarritoComponent, CompletarComponent, ChecktDialogComponent, DetallePedidoComponent, CatalogoComponent, AlertBannerComponent, SliderComponent, MenuLateralComponent, ProductosTComponent, ProductoView2Component, ProductoViewDeComponent ],
   imports: [
     TiendaRoutingModule,
     CommonModule,

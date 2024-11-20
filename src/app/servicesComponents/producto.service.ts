@@ -25,7 +25,7 @@ export class ProductoService {
   }
 
   updateVideoToken(query:any){ console.log("prod.serv updateVideoToken")
-    return this._model.ejecutarPeticion('tblproductos/updateVideoToken', query, 'post');
+    return this._model.querys('tblproductos/'+query.id, query, 'delete');
   }
   delete(query:any){
     return this._model.querys('tblproductos/'+query.id, query, 'delete');

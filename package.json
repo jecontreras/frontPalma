@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng build --configuration production",
+    "start": "ng serve --port 4400 --disable-host-check",
     "build": "ng build --configuration production",
     "test": "ng test",
     "lint": "ng lint",
@@ -26,6 +26,7 @@
     "@ngrx/store": "^8.6.0",
     "@ngrx/store-devtools": "^9.2.0",
     "add": "^2.0.6",
+    "angular-ng-autocomplete": "^2.0.1",
     "angularx-social-login": "^3.5.7",
     "bootstrap": "^4.4.1",
     "express": "^4.17.1",
