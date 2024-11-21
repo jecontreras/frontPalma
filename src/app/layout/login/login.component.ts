@@ -41,7 +41,7 @@ export class LoginsComponent implements OnInit {
         let accion = new UserAction( res.data, 'post');
         this._store.dispatch(accion);
         this._router.navigate(['/config/ventas']);
-        location.reload();
+        //location.reload();
       }else{
         this._tools.presentToast("Error de sesión")
         this.disableSubmit = true;

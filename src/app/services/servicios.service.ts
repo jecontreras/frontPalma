@@ -74,7 +74,8 @@ export class ServiciosService {
         }
       }, 'post').subscribe((res:any)=>{
         res = res.data[0];
-        localStorage.removeItem('user');
+        //console.log("****", res)
+        //localStorage.removeItem('user');
         if(!res) {
           let accion = new UserAction(this.dataUser,'delete')
           this._store.dispatch(accion);

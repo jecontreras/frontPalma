@@ -13,8 +13,8 @@
                                         <input type="text" cdkFocusInitial [(ngModel)]="data.usu_email"
                                             placeholder="Correo electrónico">
                                         <label for="">Contraseña<span>*</span></label>
-                                        <input type="password" [(ngModel)]="data.usu_clave" (click)="submit()"
-                                            (change)="submit()" placeholder="Contraseña">
+                                        <input type="password" [(ngModel)]="data.usu_clave"
+                                             placeholder="Contraseña">
                                         <button type="submit" class="aa-browse-btn" (click)="submit()">Iniciar Seccion</button>
                                         <p class="aa-lost-password"><a cdkFocusInitial target="_blank" class="pointer"
                                                 *ngIf="!disableRestarure"
