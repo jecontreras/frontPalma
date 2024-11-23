@@ -97,6 +97,17 @@
                     </div>
                     
                     <button (click)="comprarArticulo(( pedido.cantidad || 1 ), false, 0, true)" class="btn-shake">Comprar y pagar en casa</button>
+                    <br><br>
+                    <div
+                        *ngFor="let item of data.listPrecios; let i = index"
+                      >
+                        <button (click)="comprarArticulo2(item.cantidad, true, item.precios)"
+                          [ngClass]="{ 'jump-animation': isClicked  }"
+                          class="btn-shake">
+                          <span *ngIf="item.cantidad === 1">LLEVA {{ item.cantidad }} PAR POR {{ _formato.monedaChange(3, 2, item.precios || 0) }}</span>
+                          <span *ngIf="item.cantidad != 1">LLEVA {{ item.cantidad }} PARES POR {{ _formato.monedaChange(3, 2, item.precios || 0) }}</span>
+                        </button>
+                      </div>
                   </div>
                     <p [innerHtml]="data.pro_descripcion "></p>
                 </div>
