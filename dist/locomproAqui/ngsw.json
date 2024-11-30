@@ -1,6 +1,6 @@
 {
-  "configVersion": 200,
-  "timestamp": 1732338839903,
+  "configVersion": 220,
+  "timestamp": 1732981227289,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -12,8 +12,8 @@
         "/5-es5.750b836e0498890834a7.js",
         "/favicon.ico",
         "/index.html",
-        "/main-es2015.8cb22f50775a1b68f91e.js",
-        "/main-es5.8cb22f50775a1b68f91e.js",
+        "/main-es2015.9dc46f00cc27771c4491.js",
+        "/main-es5.9dc46f00cc27771c4491.js",
         "/manifest.webmanifest",
         "/polyfills-es2015.3fd94ed6a324eee92aec.js",
         "/polyfills-es5.c219b7059a7feb126472.js",
@@ -776,9 +776,9 @@
     "/assets/scss/style.scss": "84f2f30d4f3961cbd4580ebff60c85e9cc5c3628",
     "/assets/sonidos/notificando.mp3": "8cb50b036f790a28fafb04b0e57576f358b37196",
     "/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
-    "/index.html": "d50026a1acc421d7b6091981ba9a50ab7061a9ba",
-    "/main-es2015.8cb22f50775a1b68f91e.js": "9a580644c64a68f6a21df87c5f9ab0ebcbc6598b",
-    "/main-es5.8cb22f50775a1b68f91e.js": "4eb760a00806d93e3c68b64276bafa9663965f71",
+    "/index.html": "e4da8b49da67f895385d557f6ff6dc0b390544e2",
+    "/main-es2015.9dc46f00cc27771c4491.js": "75c605edf32280671bf2b56cb08317b342c3ff05",
+    "/main-es5.9dc46f00cc27771c4491.js": "e458cf92afb64f056bb1024be823c455ef5a3799",
     "/manifest.webmanifest": "d6d9b3459b7e6c8c5e8bd494b35f6da3bed91db1",
     "/polyfills-es2015.3fd94ed6a324eee92aec.js": "72ad4ccc0a3916ae4598199447cdeadd6d380570",
     "/polyfills-es5.c219b7059a7feb126472.js": "a1952ab74a5c94bc1d08b7e3ed1e8852f2b26af3",
