@@ -1,187 +1,127 @@
-<section style="background: #696969;">
-
-  <section id="aa-product-details">
-    <div class="anchos">
-      <div class="row">
-        <div class="col-12">
-        </div>
-        <div class="col-12">
-          <div class="d-flex flex-row bd-highlight mb-3">
-            <div class="p-2 bd-highlight" style="width: 100%;">
-              <div class="d-flex justify-content-center" style="    background: #15d7ae;">
-                <div>
-                  <h1 class="aa-product-price precio" style="text-align: center;">{{ data.pro_nombre }}</h1>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-12">
-          <div class="aa-product-details-area">
-            <div class="aa-product-details-content">
-              <div class="row">
-                <!-- Modal view slider -->
-                <div class="col-md-7 col-sm-7 col-xs-12">
-                  <div id="productCarousel" class="carousel slide" data-ride="carousel">
-                    <div class="carousel-inner">
-                      <div class="carousel-item" *ngFor="let image of imageObject2; let i = index" [class.active]="i === 0">
-                        <img [src]="image.image" class="d-block w-100" alt="Product Image" style="border-radius: 10px;">
-                        <!-- Botón para pantalla completa -->
-                        <button mat-icon-button class="fullscreen-btn" (click)="openFullscreen(image.image, i)">
-                          <mat-icon>fullscreen</mat-icon>
-                        </button>
-                      </div>
-                    </div>
-                    <button class="carousel-control-prev" type="button" (click)="prev()">
-                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                      <span class="sr-only">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" (click)="next()">
-                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                      <span class="sr-only">Next</span>
-                    </button>
-                  </div>
-
-                </div>
-                <!-- Modal view content -->
-                <div class="col-md-5 col-sm-5 col-xs-12">
-                  <div class="product-container">
-                  
-                    <h1 class="product-title">{{ data.pro_nombre }}</h1>
-                    
-                    <p class="current-price">
-                      <span class="price-highlight">{{ _formato.monedaChange( 3, 2, data.pro_uni_venta || 0) }}</span>
-                      <span class="old-price">{{ _formato.monedaChange( 3, 2, ( ( data.pro_uni_venta * 2 ) || 0  ) ) }}</span>
-                    </p>
-                    
-                    <p class="viewing-info">
-                      <span class="view-count">{{ rango }}</span> Viendo este artículo.
-                    </p>
-                    
-                    <p class="delivery-info">
-                      <i class="fas fa-truck"></i> Los productos normalmente te llegaran de 2 a 5 días hábiles.
-                    </p>
-                  
-                    <p class="shipping-info">
-                      <i class="fas fa-box"></i> Envío GRATIS y pagos CONTRA ENTREGA.
-                    </p>
-
-                    <div class="aa-product-view-content p-3">
-                      
-                      <section *ngIf="data['listTallas']?.length > 0 && data.talla !== 'Unica'">
-                        <h4>Talla</h4>
-                        <div class="aa-prod-view-size">
-                          <a class="pointer" *ngFor="let item of data.listTallas" [ngClass]="{selecciono: item.check1}"
-                            (click)="checkTalla( item );">{{
-                            item.tal_descripcion }}</a>
-                        </div>
-                      </section>
-                      <section *ngIf="data['listColor']?.length > 0 ">
-                        <h4>Color</h4>
-                        <div class="aa-prod-view-size">
-                          <a class="pointer" *ngFor="let item of data.listColor" [ngClass]="{selecciono: item.check1}"
-                            (click)="handleSelect( item );">{{
-                              item.talla }}</a>
-                        </div>
-                      </section>
-                    </div>
-                    <div class="stock-info">
-                      <span class="stock-count">40 Disponible</span>
-                      <span class="stock-indicator"></span>
-                    </div>
-                    
-                    <div class="quantity-control">
-                      <button class="quantity-btn" (click)="pedido.cantidad=pedido.cantidad-1;">-</button>
-                      <input type="text" [(ngModel)]="pedido.cantidad" class="quantity-input" />
-                      <button class="quantity-btn" (click)="pedido.cantidad=pedido.cantidad+1;">+</button>
-                    </div>
-                    
-                    <button (click)="comprarArticulo(( pedido.cantidad || 1 ), false, 0, true)" class="btn-shake">Comprar y pagar en casa</button>
-                    <br><br>
-                    <div
-                        *ngFor="let item of data.listPrecios; let i = index"
-                      >
-                        <button (click)="comprarArticulo2(item.cantidad, true, item.precios)"
-                          [ngClass]="{ 'jump-animation': isClicked  }"
-                          class="btn-shake">
-                          <span *ngIf="item.cantidad === 1">LLEVA {{ item.cantidad }} PAR POR {{ _formato.monedaChange(3, 2, item.precios || 0) }}</span>
-                          <span *ngIf="item.cantidad != 1">LLEVA {{ item.cantidad }} PARES POR {{ _formato.monedaChange(3, 2, item.precios || 0) }}</span>
-                        </button>
-                      </div>
-                  </div>
-                    <p [innerHtml]="data.pro_descripcion "></p>
-                </div>
-                <section #nextStep>
-                  <div class="col-12">
-                    <br><br>
-                    <app-checkt [datas]="datas"></app-checkt>
-                    <br><br>
-                  </div>
-                </section>
-                <div class="col-12">
-                  <img style="    width: 100%;
-                  height: 9pc;
-                  border-radius: 20px;" src="./assets/imagenes/1.jpg" alt="">
-                  <br><br>
-                </div>
-                <div class="col-12">
-                  <div id="productCarousel2" class="carousel slide" data-ride="carousel">
-                    <div class="carousel-inner">
-                      <div class="carousel-item" *ngFor="let image of listGaleria1; let i = index" [class.active]="i === 0">
-                        <img #imageElement [src]="image.foto" class="d-block w-100" alt="Product Image" style="border-radius: 10px;">
-                        <!-- Botón para pantalla completa -->
-                        <button mat-icon-button class="fullscreen-btn" (click)="openFullscreen(image.foto, i)">
-                          <mat-icon>fullscreen</mat-icon>
-                        </button>
-                      </div>
-                    </div>
-                    <button class="carousel-control-prev" type="button" (click)="prev2()">
-                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                      <span class="sr-only">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" (click)="next2()">
-                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                      <span class="sr-only">Next</span>
-                    </button>
-                
-                  </div>
-                
-                  <!-- Contenedor de pantalla completa -->
-                  <div class="fullscreen-image" *ngIf="isFullscreen">
-                    <div class="fullscreen-overlay">
-                      <button mat-icon-button class="close-btn" (click)="closeFullscreen()">
-                        <mat-icon>close</mat-icon>
-                      </button>
-                      <img [src]="currentImage" alt="Product Image" class="fullscreen-img" />
-                      <button mat-icon-button class="carousel-btn prev" (click)="prevImage()" style="background: #8d8d8d;">
-                        <mat-icon>chevron_left</mat-icon>
-                      </button>
-                      <button mat-icon-button class="carousel-btn next" (click)="nextImage()" style="background: #8d8d8d;">
-                        <mat-icon>chevron_right</mat-icon>
-                      </button>
-                    </div>
-                  </div>
-                </div>  
-                <div class="col-12">
-                  <div class="d-flex justify-content-center">
-                    <div>
-                      <button (click)="comprarArticulo(( pedido.cantidad || 1 ), false, 0, true )" class="btn-shake">Comprar y pagar en casa</button>
-                    </div>
-                  </div>
-                  <br><br><br><br><br>
-                </div>              
-              </div>
-            </div>
+<div class="container mt-4">
+  <div class="row">
+    <!-- Imagen del producto -->
+    <div class="col-md-6">
+      <!-- Imagen principal -->
+      <div class="product-image" id="productCarousel">
+        <img [src]="imageObject2[0]?.image" alt="Producto" class="img-fluid main-image" />
+      </div>
+    
+      <!-- Miniaturas -->
+      <div class="product-thumbnails mt-3 d-flex">
+        <div class="row">
+          <div *ngFor="let item of imageObject2; let i = index" (click)="openLightbox(i)">
+            <img
+              [src]="item.image"
+              alt="Miniatura"
+              class="thumbnail img-fluid mr-2"
+              style="cursor: pointer; width: 80px; height: auto;"
+            />
           </div>
         </div>
       </div>
     </div>
-  </section>
+    
 
-</section>
+    <!-- Detalles del producto -->
+    <div class="col-md-6">
+      <h1 class="product-title">{{ data.pro_nombre }}</h1>
+      <div class="product-price">
+        <h3 style="color: #ff9900;">{{ _formato.monedaChange( 3, 2, data.pro_uni_venta || 0) }} <small class="text-muted"><s>{{ _formato.monedaChange( 3, 2, ( data.pro_uni_venta*2 ) || 0 )  }}</s></small></h3>
+      </div>
+      <p class="text-success mb-2">¡Paga En tu casa!</p>
 
-<div class="purchase-notification" *ngIf="showNotification">
-  <img src="{{ lastPurchase.image }}" alt="{{ lastPurchase.name }}" width="50">
-  <span>{{ lastPurchase.user }} compró: {{ lastPurchase.name }} por {{ lastPurchase.price }}</span>
+      <!-- Selector de talla -->
+      <div class="form-group" *ngIf="data.talla !== 'Unica'">
+        <label for="size">Talla</label>
+        <select class="form-control" id="size">
+          <option *ngFor="let item of data.listTallas">{{ item.tal_descripcion }}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="size">Color</label>
+        <select class="form-control" id="size">
+          <option *ngFor="let item of data.listColor" (click)="verImagen( { image: item.foto } )">{{ item.talla }}</option>
+        </select>
+      </div>
+
+      <!-- Cantidad -->
+      <div class="form-group d-flex align-items-center">
+        <label for="quantity" class="mr-2">Cantidad</label>
+        <button class="btn btn-outline-secondary btn-sm" (click)="decrementQuantity()">-</button>
+        <input
+          type="number"
+          id="quantity"
+          [(ngModel)]="quantity"
+          class="form-control text-center mx-2"
+          style="width: 60px;"
+          min="1"
+        />
+        <button class="btn btn-outline-secondary btn-sm" (click)="incrementQuantity()">+</button>
+      </div>
+
+      <!-- Botones -->
+      <section #nextStep>
+        <button
+          style="width: 100%; background: #00e534; font-size: 18px; font-weight: bold; color: white;"
+          mat-raised-button
+          class="animated-button"
+          (click)="comprarArticulo(pedido.cantidad,true, this.data.pro_uni_venta )"
+        >
+          Agregar al Carrito 🛒
+        </button>
+        <br><br>
+        <div
+          *ngFor="let item of data.listPrecios; let i = index"
+        >
+          <button
+            style="width: 100%; background: #00e534; font-size: 18px; font-weight: bold; color: white;"
+            mat-raised-button
+            class="animated-button"
+            (click)="comprarArticulo(item.cantidad, true, item.precios)"
+          >
+            <span *ngIf="item.cantidad === 1">LLEVA {{ item.cantidad }} PAR POR {{ _formato.monedaChange(3, 2, item.precios || 0) }}</span>
+            <span *ngIf="item.cantidad != 1">LLEVA {{ item.cantidad }} PARES POR {{ _formato.monedaChange(3, 2, item.precios || 0) }}</span>🛒
+          </button>
+        </div>
+      </section>
+
+      <!-- SKU y categoría -->
+      <div class="mt-4">
+        <p><strong>SKU:</strong> {{ data.pro_codigo }}</p>
+        <p><strong>Categoría:</strong> {{ data['pro_categoria']?.cat_nombre }}</p>
+      </div>
+
+      <!-- Ventajas -->
+      <div class="advantages mt-4">
+        <h5>Ventajas de Comprar</h5>
+        <p [innerHtml]="data.pro_descripcion "></p>
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="reviews-container">
+        <div *ngFor="let comment of listComentario" class="review-card">
+          <h3>{{ comment.name }}</h3>
+          <p>{{ '★'.repeat(comment.rating) }}</p>
+          <p>{{ comment.comment }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="secure-section">
+        <div class="delivery-info">
+          <img src="./assets/img/envios.png" alt="Pago Contra Entrega" />
+          <h4>Envío y Pago Contra Entrega</h4>
+          <p>Recibe tus productos en la puerta de tu casa y paga cuando los tengas en tus manos. ¡100% seguro!</p>
+        </div>
+        <div class="secure-seal">
+          <img src="./assets/imagenes/completo.webp" alt="Compra Segura" />
+          <h4>Compra Segura</h4>
+          <p>Garantizamos la seguridad de tu compra en cada paso del proceso.</p>
+        </div>
+      </div>
+      
+    </div>
+  </div>
 </div>
-

@@ -126,7 +126,7 @@ export class ChecktDialogComponent implements OnInit {
     if( !this.data.direccion ) return this.disabled = true;
     if( !this.data.barrio ) return this.disabled = true;
     if( !this.data.ciudad  ) return this.disabled = true;
-    if( !this.data.talla ) return this.disabled = true;
+    //if( !this.data.talla ) return this.disabled = true;
     if( !this.data.color ) return this.disabled = true;
     this.disabled = false;
   }
@@ -168,7 +168,7 @@ export class ChecktDialogComponent implements OnInit {
     setTimeout(()=>this._tools.tooast( { title: "Tu pedido esta siendo procesado "}) ,3000);
     this.mensajeWhat();
     //this._router.navigate(['/tienda/detallepedido']);
-    //this.dialogRef.close('creo');
+    this.dialogRef.close('creo');
 
   }
 
@@ -251,7 +251,7 @@ export class ChecktDialogComponent implements OnInit {
     if( !this.data.direccion ) { this._tools.tooast( { title: "Error falta la direccion ", icon: "error"}); return false; }
     if( !this.data.ciudad  ) { this._tools.tooast( { title: "Error falta la ciudad ", icon: "error"}); return false; }
     if( !this.data.barrio ) { this._tools.tooast( { title: "Error falta el barrio ", icon: "error"}); return false; }
-    if( !this.data.talla ) { this._tools.tooast( { title: "Error falta la talla ", icon: "error"}); return false; }
+    //if( !this.data.talla ) { this._tools.tooast( { title: "Error falta la talla ", icon: "error"}); return false; }
     return true;
   }
 

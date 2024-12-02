@@ -28,6 +28,7 @@ import { MenuLateralComponent } from './menu-lateral/menu-lateral.component';
 import { ProductosTComponent } from './productos-t/productos-t.component';
 import { ProductoView2Component } from './producto-view2/producto-view2.component';
 import { ProductoViewDeComponent } from './producto-view-de/producto-view-de.component';
+import { LightboxModule } from 'ngx-lightbox';
 
 @NgModule({
   entryComponents: [ InfoProductoComponent,ChecktDialogComponent ],
@@ -41,7 +42,8 @@ import { ProductoViewDeComponent } from './producto-view-de/producto-view-de.com
     FormsModule,
     NgxImageZoomModule,
     NgImageSliderModule,
-    SwiperModule
+    SwiperModule,
+    LightboxModule
   ],
   exports: [ InfoProductoComponent, SliderComponent ]
 })

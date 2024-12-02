@@ -75,7 +75,7 @@ padding: 11px;">
         </div>
 
         <!-- Talla -->
-        <div class="form-group col-6 col-sm-4" [ngClass]="{'has-error': isInvalid(dataForm, 'talla')}">
+        <div class="form-group col-6 col-sm-4" *ngIf="data.talla !== 'Unica'">
           <mat-form-field appearance="outline" class="example-full-width">
             <mat-label>Talla</mat-label>
             <mat-icon matPrefix>straighten</mat-icon>
