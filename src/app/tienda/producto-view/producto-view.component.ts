@@ -500,7 +500,7 @@ export class ProductosViewComponent implements OnInit {
       datar.priceSelect = opt === true ? price: this.pedido.pro_uni_venta || price;
       datar.priceSelect = Number( datar.priceSelect );
       try {
-        datar.talla = this.pedido.talla || datar.listTallas[0].tal_descripcion;
+        datar.talla = ( this.pedido.talla ) || this.data.talla;
       } catch (error) { }
       datar.opt = opt;
       datar.foto = this.viewsImagen;

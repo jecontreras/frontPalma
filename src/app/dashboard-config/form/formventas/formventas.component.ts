@@ -45,6 +45,7 @@ export class FormventasComponent implements OnInit {
   urlImagen:any;
   aumentarPrecio:number = 0;
   ShopConfig:any = {};
+  listCart = [];
 
   constructor(
     public dialog: MatDialog,
@@ -78,6 +79,7 @@ export class FormventasComponent implements OnInit {
       this.data = _.clone(this.datas.datos);
       this.id = this.data.id;
       this.titulo = "Actualizar";
+      this.handleDropTransformArt();
       if (this.data.cat_activo === 0) this.data.cat_activo = true;
       if (this.data.pro_clave_int) this.data.pro_clave_int = this.data.pro_clave_int.id;
       if ( this.data.ven_tipo == "WHATSAPP" ) { if( !this.data.ven_imagen_producto ) this.data.ven_imagen_producto = "./assets/noimagen.jpg"; this.data.ven_tipo = "whatsapp"; }
@@ -90,6 +92,27 @@ export class FormventasComponent implements OnInit {
     }
     this.getArticulos();
     console.log(this.data)
+  }
+
+  handleDropTransformArt(){
+    // Paso 1: Envolver el string con corchetes
+    let jsonString = `[${this.data.ven_observacion}]`;
+    // Paso 2: Limpiar el formato con expresiones regulares
+    jsonString = jsonString
+    .replace(/"(\w+)"\s*:\s*"/g, (match) => match) // Asegura que las claves y valores no se rompan
+    .replace(/:\s*"https:\/{2,}/g, ': "https://') // Corrige URLs con barras duplicadas
+    .replace(/"\s+"/g, '", "') // Inserta comas entre propiedades mal separadas
+    .replace(/,\s*$/, ''); // Elimina comas finales extrañas
+    jsonString = jsonString.replace(/,\s*]$/, ']');
+    // Paso 3: Parsear el string como JSON
+    console.log("***118", jsonString)
+    try {
+      const jsonArray = JSON.parse(jsonString);
+      console.log('Array JSON válido:', jsonArray);
+      this.listCart = jsonArray;
+    } catch (error) {
+      console.error('Error al parsear JSON:', error);
+    }
   }
 
   getArticulos() {

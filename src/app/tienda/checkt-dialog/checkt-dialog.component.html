@@ -11,7 +11,7 @@ padding: 11px;">
 
 <mat-dialog-content class="mat-typography">
   <div class="form row" *ngIf="!data.id">
-    <form #dataForm="ngForm" (ngSubmit)="onSubmit(dataForm)" novalidate>
+    <form #dataForm="ngForm" novalidate>
       <div class="form row" *ngIf="!data.id">
 
         <!-- Nombre y Apellido -->
@@ -53,8 +53,7 @@ padding: 11px;">
             <mat-error *ngIf="ciudad.invalid && ciudad.touched">Este campo es obligatorio.</mat-error>
           </mat-form-field>
         </div>
-
-        <!-- Barrio o Localidad -->
+        
         <div class="form-group col-12 col-sm-4" [ngClass]="{'has-error': isInvalid(dataForm, 'barrio')}">
           <mat-form-field appearance="outline" class="example-full-width">
             <mat-label>Barrio o Localidad</mat-label>
@@ -63,19 +62,30 @@ padding: 11px;">
             <mat-error *ngIf="barrio.invalid && barrio.touched">Este campo es obligatorio.</mat-error>
           </mat-form-field>
         </div>
-
-        <!-- Color -->
-        <div class="form-group col-12 col-sm-4" [ngClass]="{'has-error': isInvalid(dataForm, 'color')}">
+        <!--
+        <div class="form-group col-12 col-sm-4" [ngClass]="{'has-error': isInvalid(dataForm, 'color')}" *ngIf="datas.listColor.length === 0">
           <mat-form-field appearance="outline" class="example-full-width">
             <mat-label>Color</mat-label>
             <mat-icon matPrefix>palette</mat-icon>
+
             <input matInput type="text" [(ngModel)]="data.color" name="color" placeholder="Color del Producto" required #color="ngModel" (change)="validadorInput()">
             <mat-error *ngIf="color.invalid && color.touched">Este campo es obligatorio.</mat-error>
           </mat-form-field>
         </div>
 
-        <!-- Talla -->
-        <div class="form-group col-6 col-sm-4" *ngIf="data.talla !== 'Unica'">
+        <div class="form-group col-12 col-sm-4" [ngClass]="{'has-error': isInvalid(dataForm, 'color')}" *ngIf="datas.listColor.length">
+          <mat-form-field appearance="outline" class="example-full-width">
+            <mat-label>Color</mat-label>
+            <mat-icon matPrefix>palette</mat-icon>
+            <mat-select [(ngModel)]="data.color" name="color" placeholder="Color del Producto" required #color="ngModel" (change)="validadorInput()">
+              <mat-option *ngFor="let item of datas.listColor" [value]="item.talla">
+                {{ item.talla }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="form-group col-6 col-sm-4" *ngIf="data.talla !== 'Unica' && datas.listaTallas.length === 0">
           <mat-form-field appearance="outline" class="example-full-width">
             <mat-label>Talla</mat-label>
             <mat-icon matPrefix>straighten</mat-icon>
@@ -84,18 +94,112 @@ padding: 11px;">
           </mat-form-field>
         </div>
 
-        <!-- Cantidad -->
-        <div class="form-group col-6 col-sm-2" [ngClass]="{'has-error': isInvalid(dataForm, 'cantidadAd')}">
+        <div class="form-group col-6 col-sm-4" *ngIf="data.talla !== 'Unica' && datas.listaTallas.length">
           <mat-form-field appearance="outline" class="example-full-width">
-            <mat-label>Cantidad</mat-label>
-            <mat-icon matPrefix>reorder</mat-icon>
-            <input matInput type="number" [(ngModel)]="data.cantidadAd" name="cantidadAd" (change)="suma(); validadorInput()" placeholder="Cantidad de Producto" required [disabled]="data.opt" #cantidadAd="ngModel">
-            <mat-error *ngIf="cantidadAd.invalid && cantidadAd.touched">Este campo es obligatorio.</mat-error>
+            <mat-label>Color</mat-label>
+            <mat-icon matPrefix>palette</mat-icon>
+            <mat-select [(ngModel)]="data.talla" name="talla" placeholder="Talla del Producto" required #talla="ngModel" (change)="validadorInput()">
+              <mat-option *ngFor="let item of datas.listaTallas" [value]="item.tal_descripcion">
+                {{ item.tal_descripcion }}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
         </div>
+        -->
+        <!--<div class="form-group col-6 col-sm-2" [ngClass]="{'has-error': isInvalid(dataForm, 'cantidadAd')}">
+          <mat-form-field appearance="outline" class="example-full-width">
+            <mat-label>Cantidad </mat-label>
+            <mat-icon matPrefix>reorder</mat-icon>
+            <input matInput type="number" [(ngModel)]="data.cantidadAd" name="cantidadAd" (change)="suma(); handleCantidad();" placeholder="Cantidad de Producto" required #cantidadAd="ngModel">
+            <mat-error *ngIf="cantidadAd.invalid && cantidadAd.touched">Este campo es obligatorio.</mat-error>
+          </mat-form-field>
+        </div>-->
 
       </div>
     </form>
+
+    <div class="col-12">
+      <mat-list>
+        <div mat-subheader>
+          <div class="d-flex justify-content-between" style="width: 100%;">
+            <div>
+              <h3>Lista de Selección</h3>
+            </div>
+            <div></div>
+            <div>
+              <button mat-mini-fab color="primary" (click)="handleCantidad( true )">
+                <mat-icon>add_box</mat-icon>
+              </button>
+            </div>
+
+          </div>
+        </div>
+        <mat-list-item *ngFor="let item of listCantidad" style="height: auto; padding: 10px; background: #e5e5e5; border-radius: 15px;"> 
+          <div class="row mat-elevation-z4">
+            <div class="form-group col-6 col-sm-3" *ngIf="item.foto" style="text-align: center;">
+              <img style="    width: 75px; border-radius: 40px;" [src]="item.foto" alt="">
+            </div>
+            <!-- Color -->
+            <div class="form-group col-6 col-sm-3" *ngIf="datas.listColor.length === 0">
+              <mat-form-field appearance="outline" class="example-full-width">
+                <mat-label>Color</mat-label>
+                <mat-icon matPrefix>palette</mat-icon>
+
+                <input matInput type="text" [(ngModel)]="item.color" name="item.color" placeholder="Color del Producto" required>
+              </mat-form-field>
+            </div>
+
+            <div class="form-group col-6 col-sm-3" *ngIf="datas.listColor.length">
+              <mat-form-field appearance="outline" class="example-full-width">
+                <mat-label>Color</mat-label>
+                <mat-icon matPrefix>straighten</mat-icon>
+                <mat-select [(ngModel)]="item.color" name="item.color" placeholder="Color del Producto" required (selectionChange)="handlePhoto( item );">
+                  <mat-option *ngFor="let keyOf of item.listColor" [value]="keyOf.talla">
+                    {{ keyOf.talla }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <!-- Talla -->
+            <div class="form-group col-6 col-sm-3" *ngIf="data.talla !== 'Unica' && item.ListTalla.length === 0">
+              <mat-form-field appearance="outline" class="example-full-width">
+                <mat-label>Talla</mat-label>
+                <mat-icon matPrefix>straighten</mat-icon>
+                <input matInput type="text" [(ngModel)]="item.talla" name="item.talla" placeholder="Talla del Producto" required >
+              </mat-form-field>
+            </div>
+
+            <div class="form-group col-6 col-sm-3" *ngIf="data.talla !== 'Unica' && item.ListTalla.length">
+              <mat-form-field appearance="outline" class="example-full-width">
+                <mat-label>Talla</mat-label>
+                <mat-icon matPrefix>straighten</mat-icon>
+                <mat-select [(ngModel)]="item.talla" name="item.talla" placeholder="Talla del Producto" required>
+                  <mat-option *ngFor="let keyOf of item.ListTalla" [value]="keyOf.tal_descripcion">
+                    {{ keyOf.tal_descripcion }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <!-- Cantidad -->
+            <div class="form-group col-6 col-sm-2" >
+              <mat-form-field appearance="outline" class="example-full-width">
+                <mat-label>Cantidad</mat-label>
+                <mat-icon matPrefix>reorder</mat-icon>
+                <input matInput type="number" [(ngModel)]="item.cantidadAd" name="cantidadAd" (change)="suma();" placeholder="Cantidad de Producto" required >
+              </mat-form-field>
+            </div>
+            <div class="form-group col-6 col-sm-1" >
+              <button mat-mini-fab color="warn" aria-label="Example icon button with a filter list icon" (click)="handleDrop( item )">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </div>
+          <br><br>
+        </mat-list-item>
+       </mat-list>
+    </div>
 
 
 
@@ -165,7 +269,7 @@ padding: 11px;">
                         </div>
                         <div class="label-value" data-v-2b9a7796="" style="box-sizing: border-box;">
                             <span data-v-2b9a7796="" style="box-sizing: border-box;">{{ _tools.monedaChange(
-                                3,2,this.data.costo || 0 ) }}</span>
+                                3,2,this.data.costo1 || 0 ) }}</span>
                         </div>
                     </div>
                     <div class="
@@ -180,7 +284,7 @@ padding: 11px;">
                         <div data-v-2b9a7796="" style="box-sizing: border-box;">Cantidad</div>
                         <div class="total-value" data-v-2b9a7796=""
                             style="box-sizing: border-box; font-size: 20px;">
-                            <span data-v-2b9a7796="" style="box-sizing: border-box;">{{ data.cantidadAd || 1 }}</span>
+                            <span data-v-2b9a7796="" style="box-sizing: border-box;">{{ data.cantidadAd1 || 1 }}</span>
                         </div>
                     </div>
                     <div class="

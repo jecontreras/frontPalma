@@ -139,6 +139,19 @@
             </ngx-dropzone>
         </div>
         <div class="form-group col-12">
+            <div class="card-grid">
+                <mat-card class="example-card" *ngFor="let item of listCart">
+                  <img mat-card-image [src]="item.Foto">
+                  <mat-card-content>
+                    <p>Color: {{ item.Color }}</p>
+                    <p>Talla: {{ item.Talla }}</p>
+                    <p>Cantidad: {{ item.Cantidad }}</p>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+              
+        </div>
+        <div class="form-group col-12">
             <label for="exampleFormControlInput1">Observación</label>
             <textarea class="form-control" [(ngModel)]="data.ven_observacion" id="exampleFormControlTextarea1"
                 rows="10"></textarea>

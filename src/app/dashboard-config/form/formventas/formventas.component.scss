@@ -1,0 +1,28 @@
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Mínimo 300px por tarjeta */
+    gap: 20px; /* Espaciado entre tarjetas */
+    padding: 20px;
+  }
+  
+  .example-card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ddd; /* Borde opcional */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra opcional */
+  }
+  
+  mat-card-content p {
+    margin: 0;
+    font-size: 0.95rem;
+    color: #555;
+  }
+  
+  img {
+    width: 100%;
+    height: auto; /* Ajusta la imagen al tamaño del card */
+    object-fit: cover;
+    border-radius: 8px 8px 0 0; /* Esquinas redondeadas en la parte superior */
+  }
+  
