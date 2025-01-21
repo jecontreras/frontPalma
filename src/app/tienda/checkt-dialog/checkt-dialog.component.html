@@ -11,6 +11,93 @@ padding: 11px;">
 
 <mat-dialog-content class="mat-typography">
   <div class="form row" *ngIf="!data.id">
+    <div class="col-12" style="padding: 0 !important;">
+      <mat-list>
+        <div mat-subheader>
+          <div class="d-flex justify-content-between" style="width: 100%;">
+            <div>
+              <h3>Lista de Selección</h3>
+            </div>
+            <div></div>
+            <div>
+              <button mat-mini-fab color="primary" (click)="handleCantidad( true )">
+                <mat-icon>add_box</mat-icon>
+              </button>
+            </div>
+
+          </div>
+        </div>
+        <mat-list-item *ngFor="let item of listCantidad" style="height: auto; padding: 10px; background: #e5e5e5; border-radius: 15px;"> 
+          <div class="row mat-elevation-z4">
+            <!--<div class="form-group col-6 col-sm-3" *ngIf="item.foto" style="text-align: center;">
+              <img style="    width: 75px; border-radius: 40px;" [src]="item.foto" alt="">
+            </div>-->
+            <!-- Color -->
+            <div class="form-group col-6 col-sm-3" *ngIf="datas.listColor.length === 0">
+              <mat-form-field appearance="outline" class="example-full-width">
+                <mat-label>Color</mat-label>
+                <mat-icon matPrefix>palette</mat-icon>
+
+                <input matInput type="text" [(ngModel)]="item.color" name="item.color" placeholder="Color del Producto" required>
+              </mat-form-field>
+            </div>
+
+            <div class="form-group col-6 col-sm-3" *ngIf="datas.listColor.length">
+              <mat-form-field appearance="outline" class="example-full-width">
+                <mat-label>Color</mat-label>
+                <mat-icon matPrefix>straighten</mat-icon>
+                <mat-select [(ngModel)]="item.color" name="item.color" placeholder="Color del Producto" required (selectionChange)="handlePhoto( item );">
+                  <mat-option *ngFor="let keyOf of item.listColor" [value]="keyOf.talla">
+                    {{ keyOf.talla }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <!-- Talla -->
+            <div class="form-group col-6 col-sm-3" *ngIf="data.talla !== 'Unica' && item.ListTalla.length === 0">
+              <mat-form-field appearance="outline" class="example-full-width">
+                <mat-label>Talla</mat-label>
+                <mat-icon matPrefix>straighten</mat-icon>
+                <input matInput type="text" [(ngModel)]="item.talla" name="item.talla" placeholder="Talla del Producto" required >
+              </mat-form-field>
+            </div>
+
+            <div class="form-group col-6 col-sm-3" *ngIf="data.talla !== 'Unica' && item.ListTalla.length">
+              <mat-form-field appearance="outline" class="example-full-width">
+                <mat-label>Talla</mat-label>
+                <mat-icon matPrefix>straighten</mat-icon>
+                <mat-select [(ngModel)]="item.talla" name="item.talla" placeholder="Talla del Producto" required>
+                  <mat-option *ngFor="let keyOf of item.ListTalla" [value]="keyOf.tal_descripcion">
+                    {{ keyOf.tal_descripcion }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <!-- Cantidad -->
+            <div class="form-group col-6 col-sm-2" >
+              <mat-form-field appearance="outline" class="example-full-width">
+                <mat-label>Cantidad</mat-label>
+                <mat-icon matPrefix>reorder</mat-icon>
+                <input matInput type="number" [(ngModel)]="item.cantidadAd" name="cantidadAd" (change)="suma();" placeholder="Cantidad de Producto" required >
+              </mat-form-field>
+            </div>
+            <div class="form-group col-6 col-sm-1" >
+              <button mat-mini-fab color="warn" aria-label="Example icon button with a filter list icon" (click)="handleDrop( item )">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </div>
+          <br><br>
+        </mat-list-item>
+       </mat-list>
+    </div>
+    <div>
+      <br>
+      <h2>Datos de Envio</h2>
+      <br>
+    </div>
     <form #dataForm="ngForm" novalidate>
       <div class="form row" *ngIf="!data.id">
 
@@ -117,91 +204,6 @@ padding: 11px;">
 
       </div>
     </form>
-
-    <div class="col-12">
-      <mat-list>
-        <div mat-subheader>
-          <div class="d-flex justify-content-between" style="width: 100%;">
-            <div>
-              <h3>Lista de Selección</h3>
-            </div>
-            <div></div>
-            <div>
-              <button mat-mini-fab color="primary" (click)="handleCantidad( true )">
-                <mat-icon>add_box</mat-icon>
-              </button>
-            </div>
-
-          </div>
-        </div>
-        <mat-list-item *ngFor="let item of listCantidad" style="height: auto; padding: 10px; background: #e5e5e5; border-radius: 15px;"> 
-          <div class="row mat-elevation-z4">
-            <div class="form-group col-6 col-sm-3" *ngIf="item.foto" style="text-align: center;">
-              <img style="    width: 75px; border-radius: 40px;" [src]="item.foto" alt="">
-            </div>
-            <!-- Color -->
-            <div class="form-group col-6 col-sm-3" *ngIf="datas.listColor.length === 0">
-              <mat-form-field appearance="outline" class="example-full-width">
-                <mat-label>Color</mat-label>
-                <mat-icon matPrefix>palette</mat-icon>
-
-                <input matInput type="text" [(ngModel)]="item.color" name="item.color" placeholder="Color del Producto" required>
-              </mat-form-field>
-            </div>
-
-            <div class="form-group col-6 col-sm-3" *ngIf="datas.listColor.length">
-              <mat-form-field appearance="outline" class="example-full-width">
-                <mat-label>Color</mat-label>
-                <mat-icon matPrefix>straighten</mat-icon>
-                <mat-select [(ngModel)]="item.color" name="item.color" placeholder="Color del Producto" required (selectionChange)="handlePhoto( item );">
-                  <mat-option *ngFor="let keyOf of item.listColor" [value]="keyOf.talla">
-                    {{ keyOf.talla }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-
-            <!-- Talla -->
-            <div class="form-group col-6 col-sm-3" *ngIf="data.talla !== 'Unica' && item.ListTalla.length === 0">
-              <mat-form-field appearance="outline" class="example-full-width">
-                <mat-label>Talla</mat-label>
-                <mat-icon matPrefix>straighten</mat-icon>
-                <input matInput type="text" [(ngModel)]="item.talla" name="item.talla" placeholder="Talla del Producto" required >
-              </mat-form-field>
-            </div>
-
-            <div class="form-group col-6 col-sm-3" *ngIf="data.talla !== 'Unica' && item.ListTalla.length">
-              <mat-form-field appearance="outline" class="example-full-width">
-                <mat-label>Talla</mat-label>
-                <mat-icon matPrefix>straighten</mat-icon>
-                <mat-select [(ngModel)]="item.talla" name="item.talla" placeholder="Talla del Producto" required>
-                  <mat-option *ngFor="let keyOf of item.ListTalla" [value]="keyOf.tal_descripcion">
-                    {{ keyOf.tal_descripcion }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-
-            <!-- Cantidad -->
-            <div class="form-group col-6 col-sm-2" >
-              <mat-form-field appearance="outline" class="example-full-width">
-                <mat-label>Cantidad</mat-label>
-                <mat-icon matPrefix>reorder</mat-icon>
-                <input matInput type="number" [(ngModel)]="item.cantidadAd" name="cantidadAd" (change)="suma();" placeholder="Cantidad de Producto" required >
-              </mat-form-field>
-            </div>
-            <div class="form-group col-6 col-sm-1" >
-              <button mat-mini-fab color="warn" aria-label="Example icon button with a filter list icon" (click)="handleDrop( item )">
-                <mat-icon>delete</mat-icon>
-              </button>
-            </div>
-          </div>
-          <br><br>
-        </mat-list-item>
-       </mat-list>
-    </div>
-
-
 
       <div class="col-12">
         <p>
