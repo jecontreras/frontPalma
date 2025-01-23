@@ -284,8 +284,8 @@ export class ChecktDialogComponent implements OnInit {
     this.data.cantidadAd1 = 0;
     let priceReal = 0;
     for( let item of this.listCantidad ) this.data.cantidadAd1+= item.cantidadAd;
-    let filterPrice = this.datas.listPrecios.find( row => this.data.cantidadAd1 >= row.cantidad );
-    //console.log("***249", filterPrice )
+    let filterPrice = this.datas.listPrecios.find( row => this.data.cantidadAd1 === row.cantidad );
+    console.log("***249", filterPrice, this.data.cantidadAd1 )
     if( filterPrice ) priceReal = filterPrice.precios / filterPrice.cantidad ;
     //console.log("****269", filterPrice)
     let sumaR = ( ( priceReal ) || this.datas.pro_uni_venta ) * this.data.cantidadAd1;

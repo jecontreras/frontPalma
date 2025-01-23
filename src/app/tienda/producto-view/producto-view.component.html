@@ -30,21 +30,40 @@
         </div>
       
         <div class="mb-4">
-          <mat-radio-group [(ngModel)]="quantity">
-            <mat-radio-button class="example-margin" [value]="item.cantidad" *ngFor="let item of data.listPrecios; let i = index"
-            (click)="comprarArticulo(item.cantidad, true, item.precios)" >
-              <section style="font-size: 111%; margin-top: 10px;">
-                <span class="font-semibold">LLEVA {{ item.cantidad }} <label for="" *ngIf="item.cantidad === 1 ">PAR</label> <label for="" *ngIf="item.cantidad !== 1 ">PARES</label></span>
-                <span class="text-primary ml-2">OFERTA DEL DÍA 🔥</span>
-                <span class="text-primary-foreground">{{ _formato.monedaChange(3, 2, item.precios || 0) }}</span>
-              </section>
-            </mat-radio-button>
-          </mat-radio-group>
+          <br><br>
+          <div class="quantity-breaks-container" *ngFor="let item of data.listPrecios; let i = index" (click)="comprarArticulo(item.cantidad, true, item.precios)">
+            <!-- Opción 1 -->
+            <input [id]="item.cantidad" type="radio" name="quantity" [value]="item.cantidad" />
+            <label [for]="item.cantidad" class="quantity-break">
+              <span class="quantity-break__badge">
+                <p *ngIf="item.cantidad === 1" >OFERTA DEL DÍA 💥</p>
+                <p *ngIf="item.cantidad === 2" >MEGA OFERTA 🔥</p>
+                <p *ngIf="item.cantidad >= 3" >AHORRA MÁS 🚀</p>
+              </span>
+              <div class="quantity-break__content">
+                <div class="quantity-break__left">
+                  <span class="quantity-break__label">LLEVA {{ item.cantidad }} <label for="" *ngIf="item.cantidad === 1 ">PAR</label> <label for="" *ngIf="item.cantidad !== 1 ">PARES</label></span>
+                  <span class="quantity-break__benefit">Envío gratis</span>
+                </div>
+                <div class="quantity-break__right">
+                  <span class="quantity-break__price">{{ _formato.monedaChange(3, 2, item.precios || 0) }}</span>
+                </div>
+              </div>
+            </label>
+          </div>
+          
         </div>
       
         <div class="product-footer">
           <p>✅ Compra con confianza | 👟 Camina con estilo</p>
-          <button class="buy-button" (click)="comprarArticulo(pedido.cantidad,true, this.data.pro_uni_venta )" >CLIC PARA COMPRAR <br />PAGA EN CASA</button>
+          <button 
+            class="buy-button animated-pop" 
+            (click)="comprarArticulo(pedido.cantidad, true, this.data.pro_uni_venta)"
+          >
+            CLIC PARA COMPRAR <br /> PAGA EN CASA
+          </button>
+
+
         </div>
       </div>
 
@@ -123,9 +142,9 @@
               style="cursor: pointer; width: 100%; height: auto;"
             />
             <button
-              style="width: 100%; background: #00e534; font-size: 18px; font-weight: bold; color: white;"
+              style="width: 100%; background: #00e534; font-size: 25px; font-weight: bold; color: white;"
               mat-raised-button
-              class="animated-button"
+              class="animated-button buy-button animated-pop"
               (click)="comprarArticulo(pedido.cantidad,true, this.data.pro_uni_venta )"
             >
               CLIC PARA COMPRAR <br />PAGA EN CASA 🛒

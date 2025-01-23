@@ -1,0 +1,28 @@
+/* Contenedor para el texto en movimiento */
+.moving-banner {
+    width: 100%; /* Ocupa todo el ancho disponible */
+    overflow: hidden; /* Oculta el texto que sale del contenedor */
+    white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+    padding: 10px 0; /* Espaciado opcional */
+  }
+  
+  /* Estilo del texto */
+  .moving-banner h4 {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    font-weight: bold;
+    color: white; /* Verde para resaltar */
+    animation: move-left 10s linear infinite; /* Activamos la animación */
+  }
+  
+  /* Keyframes para el movimiento hacia la izquierda */
+  @keyframes move-left {
+    0% {
+      transform: translateX(100%); /* Comienza fuera del contenedor */
+    }
+    100% {
+      transform: translateX(-100%); /* Termina fuera del contenedor por la izquierda */
+  }
+  }  
