@@ -74,20 +74,6 @@ padding: 11px;">
                 </mat-select>
               </mat-form-field>
             </div>
-
-            <!-- Cantidad -->
-            <!--<div class="form-group col-6 col-sm-2" >
-              <mat-form-field appearance="outline" class="example-full-width">
-                <mat-label>Cantidad</mat-label>
-                <mat-icon matPrefix>reorder</mat-icon>
-                <input matInput type="number" [(ngModel)]="item.cantidadAd" name="cantidadAd" (change)="suma();" placeholder="Cantidad de Producto" required >
-              </mat-form-field>
-            </div>-->
-            <!--<div class="form-group col-6 col-sm-1" >
-              <button mat-mini-fab color="warn" aria-label="Example icon button with a filter list icon" (click)="handleDrop( item )">
-                <mat-icon>delete</mat-icon>
-              </button>
-            </div>-->
           </div>
           <br><br>
         </mat-list-item>
@@ -149,59 +135,7 @@ padding: 11px;">
             <mat-error *ngIf="barrio.invalid && barrio.touched">Este campo es obligatorio.</mat-error>
           </mat-form-field>
         </div>
-        <!--
-        <div class="form-group col-12 col-sm-4" [ngClass]="{'has-error': isInvalid(dataForm, 'color')}" *ngIf="datas.listColor.length === 0">
-          <mat-form-field appearance="outline" class="example-full-width">
-            <mat-label>Color</mat-label>
-            <mat-icon matPrefix>palette</mat-icon>
-
-            <input matInput type="text" [(ngModel)]="data.color" name="color" placeholder="Color del Producto" required #color="ngModel" (change)="validadorInput()">
-            <mat-error *ngIf="color.invalid && color.touched">Este campo es obligatorio.</mat-error>
-          </mat-form-field>
-        </div>
-
-        <div class="form-group col-12 col-sm-4" [ngClass]="{'has-error': isInvalid(dataForm, 'color')}" *ngIf="datas.listColor.length">
-          <mat-form-field appearance="outline" class="example-full-width">
-            <mat-label>Color</mat-label>
-            <mat-icon matPrefix>palette</mat-icon>
-            <mat-select [(ngModel)]="data.color" name="color" placeholder="Color del Producto" required #color="ngModel" (change)="validadorInput()">
-              <mat-option *ngFor="let item of datas.listColor" [value]="item.talla">
-                {{ item.talla }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-
-        <div class="form-group col-6 col-sm-4" *ngIf="data.talla !== 'Unica' && datas.listaTallas.length === 0">
-          <mat-form-field appearance="outline" class="example-full-width">
-            <mat-label>Talla</mat-label>
-            <mat-icon matPrefix>straighten</mat-icon>
-            <input matInput type="text" [(ngModel)]="data.talla" name="talla" placeholder="Talla del Producto" required #talla="ngModel" (change)="validadorInput()">
-            <mat-error *ngIf="talla.invalid && talla.touched">Este campo es obligatorio.</mat-error>
-          </mat-form-field>
-        </div>
-
-        <div class="form-group col-6 col-sm-4" *ngIf="data.talla !== 'Unica' && datas.listaTallas.length">
-          <mat-form-field appearance="outline" class="example-full-width">
-            <mat-label>Color</mat-label>
-            <mat-icon matPrefix>palette</mat-icon>
-            <mat-select [(ngModel)]="data.talla" name="talla" placeholder="Talla del Producto" required #talla="ngModel" (change)="validadorInput()">
-              <mat-option *ngFor="let item of datas.listaTallas" [value]="item.tal_descripcion">
-                {{ item.tal_descripcion }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        -->
-        <!--<div class="form-group col-6 col-sm-2" [ngClass]="{'has-error': isInvalid(dataForm, 'cantidadAd')}">
-          <mat-form-field appearance="outline" class="example-full-width">
-            <mat-label>Cantidad </mat-label>
-            <mat-icon matPrefix>reorder</mat-icon>
-            <input matInput type="number" [(ngModel)]="data.cantidadAd" name="cantidadAd" (change)="suma(); handleCantidad();" placeholder="Cantidad de Producto" required #cantidadAd="ngModel">
-            <mat-error *ngIf="cantidadAd.invalid && cantidadAd.touched">Este campo es obligatorio.</mat-error>
-          </mat-form-field>
-        </div>-->
-
+        
       </div>
     </form>
 

@@ -137,10 +137,39 @@ export class ProductosViewComponent implements OnInit {
           this.query.where.idPrice = store.usercabeza.id;
          }
       });
-      setInterval(()=>{
+      this.timeoutId2 = setInterval(()=>{
         this.openSnackBar();
       }, 50000 );
       this.configTime();
+      this.iniciarAlertaCompra();
+    }
+    private timeoutId: any; // Para guardar el ID del timeout
+    private timeoutId2: any;
+
+    iniciarAlertaCompra() {
+      // Configuramos el timeout para activar la alerta después de 20 segundos
+      this.timeoutId = setTimeout(async () => {
+        let result:any = await this._tools.confirm( 
+          {
+            title: '🔥 ¡No te vayas sin comprar! 🔥',
+            text: 'Tenemos ofertas exclusivas para ti. ¡Aprovecha ahora!',
+            icon: 'warning',
+            confir: '🛒 Comprar Ahora',
+            showCancelButton: true,
+            cancel: '❌ Más tarde'
+          }
+        );
+        //console.log("**162", result)
+        if (result.isConfirmed) {
+          this.comprarArticulo(1, true, this.data.pro_uni_venta);
+        }
+      }, 20000); // 20 segundos
+    }
+
+    ngOnDestroy() {
+      // Asegurarse de limpiar el timeout cuando el componente se destruya
+      clearTimeout(this.timeoutId);
+      clearTimeout( this.timeoutId2 );
     }
 
     openLightbox(index: number): void {
@@ -493,6 +522,7 @@ export class ProductosViewComponent implements OnInit {
     }
   
     comprarArticulo( cantidad:number, opt, price:number = 0 ){
+      clearTimeout(this.timeoutId);
       this.isClicked = true;
       let datar = this.data;
       this.suma( datar );
