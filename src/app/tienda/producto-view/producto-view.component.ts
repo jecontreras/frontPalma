@@ -78,6 +78,8 @@ export class ProductosViewComponent implements OnInit {
     ];
   
     @ViewChild('nav', {static: true}) ds: NgImageSliderComponent;
+    @ViewChild('thumbnailWrapper', { static: false }) thumbnailWrapper!: ElementRef;
+
     sliderWidth: Number = 1119;
     sliderImageWidth: Number = 250;
     sliderImageWidth1: Number = 60;
@@ -170,6 +172,17 @@ export class ProductosViewComponent implements OnInit {
       // Asegurarse de limpiar el timeout cuando el componente se destruya
       clearTimeout(this.timeoutId);
       clearTimeout( this.timeoutId2 );
+    }
+
+    scrollThumbnails(direction: string) {
+      const container = this.thumbnailWrapper.nativeElement;
+      const scrollAmount = 150; // Cantidad de desplazamiento
+  
+      if (direction === 'left') {
+        container.scrollLeft -= scrollAmount;
+      } else {
+        container.scrollLeft += scrollAmount;
+      }
     }
 
     openLightbox(index: number): void {

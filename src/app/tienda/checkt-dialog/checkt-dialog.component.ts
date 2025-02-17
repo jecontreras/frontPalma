@@ -342,4 +342,6 @@ export class ChecktDialogComponent implements OnInit {
     this.socialAuthService.signIn( FacebookLoginProvider.PROVIDER_ID );
   }
 
+  
+
 }

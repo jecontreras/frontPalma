@@ -1,28 +1,35 @@
-/* Contenedor para el texto en movimiento */
+/* Contenedor del banner */
 .moving-banner {
-    width: 100%; /* Ocupa todo el ancho disponible */
-    overflow: hidden; /* Oculta el texto que sale del contenedor */
-    white-space: nowrap; /* Evita que el texto se divida en varias líneas */
-    padding: 10px 0; /* Espaciado opcional */
+  width: 100%;
+  overflow: hidden; /* Oculta el texto fuera del contenedor */
+  white-space: nowrap;
+  position: relative;
+  background: black; /* Fondo negro */
+  padding: 10px 0;
+}
+
+/* Contenedor de los textos duplicados */
+.moving-text {
+  display: flex;
+  width: 200%; /* Duplica el ancho para que siempre haya texto */
+  animation: move-left 10s linear infinite; /* Animación continua */
+}
+
+/* Estilo del texto */
+.moving-text h4 {
+  display: inline-block;
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+  padding: 0 20px; /* Espaciado entre textos */
+}
+
+/* Animación de desplazamiento */
+@keyframes move-left {
+  0% {
+      transform: translateX(0);
   }
-  
-  /* Estilo del texto */
-  .moving-banner h4 {
-    display: inline-block;
-    margin: 0;
-    padding: 0;
-    font-size: 20px;
-    font-weight: bold;
-    color: white; /* Verde para resaltar */
-    animation: move-left 10s linear infinite; /* Activamos la animación */
+  100% {
+      transform: translateX(-50%); /* Solo movemos la mitad para que se repita en bucle */
   }
-  
-  /* Keyframes para el movimiento hacia la izquierda */
-  @keyframes move-left {
-    0% {
-      transform: translateX(100%); /* Comienza fuera del contenedor */
-    }
-    100% {
-      transform: translateX(-100%); /* Termina fuera del contenedor por la izquierda */
-  }
-  }  
+}
