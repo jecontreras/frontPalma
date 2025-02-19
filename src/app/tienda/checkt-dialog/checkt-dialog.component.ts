@@ -222,6 +222,7 @@ export class ChecktDialogComponent implements OnInit {
     setTimeout(()=>this._tools.tooast( { title: "Tu pedido esta siendo procesado "}) ,3000);
     this.mensajeWhat();
     //this._router.navigate(['/tienda/detallepedido']);
+    this._router.navigate(['/tienda/detallepedido', this.data.id]);
     this.dialogRef.close('creo');
 
   }
@@ -293,7 +294,33 @@ export class ChecktDialogComponent implements OnInit {
     this.data.costo1 = sumaR;
     //console.log("***rr272", this.data.costo, this.data.cantidadAd1  )
     if( this.data.envioT === 'priorida' ) this.data.costo+=5000;
+    if( this.data.descuento ) this.data.costo-= this.data.descuento;
     //console.log( this.data )
+  }
+    banderaClose:boolean = true;
+    // Mostrar la alerta de descuento
+    async mostrarAlerta() {
+      if( this.banderaClose === true ){
+        this.banderaClose = false;
+        let result = await this._tools.desigPromo();
+        if( result ) this.aplicarDescuento();
+      }else{
+        this.dialogRef.close('creo');
+      }
+      
+    }
+
+      // Aplicar el 5% de descuento
+  aplicarDescuento() {
+    this.data.descuento = ( this.data.costo1 * 5 )/100;
+    console.log("***314", this.data.descuento)
+    this.data.costo = this.data.costo1 * 0.95; // Aplica el descuento al total
+    this._tools.tooast( {
+      title: '¡Descuento aplicado!',
+      text: `Tu nuevo total es: $${this.data.costo.toFixed(2)}`,
+      icon: 'success',
+      confirmButtonText: 'Aceptar'
+    } )
   }
 
   mensajeWhat(){

@@ -24,3 +24,98 @@
 .example-full-width {
   width: 100%;
 }
+
+
+.quantity-breaks-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Espaciado entre las opciones */
+  max-width: 400px;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+}
+
+input[type="radio"] {
+  display: none; /* Oculta los botones de radio */
+}
+
+/* Estilo para las opciones */
+.quantity-break {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fff;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Estilo al seleccionar una opción */
+input[type="radio"]:checked + .quantity-break {
+  border-color: #28a745;
+  box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+  background-color: #f8f9fa;
+}
+
+/* Etiqueta de oferta (badge) */
+.quantity-break__badge {
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #000000;
+  padding: 5px 10px;
+  border-radius: 4px;
+  position: absolute;
+  top: -25px;
+  left: 46%;
+}
+
+/* Contenido de la opción */
+.quantity-break__content {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.quantity-break__left {
+  display: flex;
+  flex-direction: column;
+}
+
+.quantity-break__label {
+  font-size: 16px;
+  font-weight: bold;
+  color: #000;
+}
+
+.quantity-break__benefit {
+  font-size: 14px;
+  color: #666;
+}
+
+.quantity-break__right {
+  font-size: 16px;
+  font-weight: bold;
+  color: #000;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+  .quantity-breaks-container {
+    max-width: 100%;
+    padding: 0 10px;
+  }
+
+  .quantity-break {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .quantity-break__content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

@@ -1,13 +1,13 @@
-<span mat-dialog-title style="
-border-radius: 10px;
-padding: 11px;">
-  <div class="d-flex justify-content-center">
-    <div>
-      <h1>PAGO CONTRA ENTREGA 🚚💨</h1>
-    </div>
+<div class="d-flex bd-highlight">
+  <div class="p-2 flex-grow-1 bd-highlight">
+    <h2>PAGO CONTRA ENTREGA 🚚💨</h2>
   </div>
-</span>
-
+  <div class="p-2 bd-highlight">
+    <button mat-mini-fab color="warn" (click)="mostrarAlerta()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</div>
 
 <mat-dialog-content class="mat-typography">
   <div class="form row" *ngIf="!data.id">
@@ -16,7 +16,7 @@ padding: 11px;">
         <div mat-subheader>
           <div class="d-flex justify-content-between" style="width: 100%;">
             <div>
-              <h3>Lista de Selección</h3>
+              <h3>Lista de Selección promoción</h3>
             </div>
             <div></div>
             <div>
@@ -81,7 +81,11 @@ padding: 11px;">
     </div>
     <div>
       <br>
-      <h2>Datos de Envio</h2>
+      <h2 style="text-align: center; color: black;">Datos de Envio</h2>
+      <p style="text-align: center; color: red;">
+        TU COMPRA ES UN COMPROMISO
+        Por favor, si no estás seguro de comprar o recibir el producto, evita hacer el pedido. No aceptarlo generará un costo por devolución.
+      </p>
       <br>
     </div>
     <form #dataForm="ngForm" novalidate>
@@ -134,6 +138,12 @@ padding: 11px;">
             <input matInput type="text" [(ngModel)]="data.barrio" name="barrio" placeholder="Barrio o Localidad" required #barrio="ngModel" (change)="validadorInput()">
             <mat-error *ngIf="barrio.invalid && barrio.touched">Este campo es obligatorio.</mat-error>
           </mat-form-field>
+        </div>
+
+        <div class="form-group col-12 col-sm-4" [ngClass]="{'has-error': isInvalid(dataForm, 'pedidoCheck')}">
+          <mat-label>Mis datos son correctos para el envío</mat-label>
+          <mat-checkbox class="example-margin" [(ngModel)]="data.pedidoCheck" name="pedidoCheck" required #pedidoCheck="ngModel">Si, acepto recibir el pedido.</mat-checkbox>
+          <mat-checkbox class="example-margin" [(ngModel)]="data.terminoCheck" name="terminoCheck" required #terminoCheck="ngModel">Acepte nuestros términos y condiciones.</mat-checkbox>
         </div>
         
       </div>
@@ -223,6 +233,24 @@ padding: 11px;">
                             <span data-v-2b9a7796="" style="box-sizing: border-box;">{{ data.cantidadAd1 || 1 }}</span>
                         </div>
                     </div>
+                    <div 
+                      *ngIf="data.descuento"
+                    class="
+                    d-flex
+                    justify-content-between
+                    my-1
+                    total-row
+                    align-items-baseline
+                    fw-bold
+                  " data-v-2b9a7796=""
+                        style="align-items: baseline !important; border-top: 1px solid rgba(175, 175, 175, 0.34) !important; box-sizing: border-box; display: flex !important; font-weight: 700 !important; justify-content: space-between !important; margin-bottom: 0.25rem !important; margin-top: 0.25rem !important;">
+                        <div data-v-2b9a7796="" style="box-sizing: border-box;">Descuentos</div>
+                        <div class="total-value" data-v-2b9a7796=""
+                            style="box-sizing: border-box; font-size: 20px;">
+                            <span data-v-2b9a7796="" style="box-sizing: border-box;">{{ _tools.monedaChange(
+                                3,2,( this.data.descuento ) || 0 ) }}</span>
+                        </div>
+                    </div>
                     <div class="
                         d-flex
                         justify-content-between
@@ -285,7 +313,6 @@ padding: 11px;">
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close mat-raised-button color="warn">Cerrar</button>
   <button mat-button cdkFocusInitial mat-raised-button color="primary" (click)="finalizando()" *ngIf="!data.id" [disabled]="disabled" style=" background: #28a745 !important;">
       <span>Confirmar Compra</span>
   </button>

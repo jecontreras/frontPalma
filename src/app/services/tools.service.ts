@@ -217,8 +217,64 @@ export class ToolsService {
       // position: text.position || 'top-end',
       icon: text.icon || 'success',
       title: text.title || 'Your work has been saved',
+      text: text.text,
       showConfirmButton: text.show || false,
+      confirmButtonText: text.confirmButtonText,
       timer: 3000
+    });
+  }
+
+  desigPromo(){
+    return new Promise( resolve =>{
+      Swal.fire({
+        title: '¡Espera!',
+        html: `
+          <p>¡Tenemos un regalo para ti! 🎁</p>
+          <h3>OBTÉN UN DESCUENTO EXTRA EN TU PEDIDO:</h3>
+          <div style="background: blue; color: white; font-size: 24px; font-weight: bold; padding: 15px; border-radius: 10px; display: inline-block;">
+            5%
+          </div>
+          <p>¿Quieres completar tu pedido?</p>
+        `,
+        showCancelButton: true,
+        confirmButtonColor: '#007bff',
+        cancelButtonColor: '#000',
+        confirmButtonText: 'COMPLETA TU PEDIDO CON 5% DE DESCUENTO',
+        cancelButtonText: 'No gracias',
+        customClass: {
+          title: 'swal-title',
+          popup: 'swal-popup',
+          confirmButton: 'swal-confirm-button',
+          cancelButton: 'swal-cancel-button'
+        }
+      }).then((result) => {
+        if (result.isConfirmed) {
+          resolve(true)
+        }else{
+          resolve( false);
+        }
+      });
+    });
+  }
+  copiarLinkRegistro( text: string ){
+    const selBox = document.createElement('textarea');
+    selBox.style.position = 'fixed';
+    selBox.style.left = '0';
+    selBox.style.top = '0';
+    selBox.style.opacity = '0';
+    selBox.value = text;
+    document.body.appendChild(selBox);
+    selBox.focus();
+    selBox.select();
+    document.execCommand('copy');
+    document.body.removeChild(selBox);
+    this.openSnack('Copiado:' + ' ' + text, 'completado', false);
+  }
+  openAlertSubmir( data ){
+    Swal.fire({
+      title: data.title || "",
+      text: data.text || "",
+      icon: "question"
     });
   }
   confirm(text: any) {

@@ -44,39 +44,55 @@
         <div class="product-stars">⭐⭐⭐⭐⭐ +2.500 Clientes satisfechos</div>
         <div class="product-offer"><strong>¡OFERTA + ENVÍO GRATIS!</strong></div>   
       </div>
-
-      <!-- Tallas disponibles -->
-      <div class="product-info" *ngIf="data.talla !== 'Unica'">
-        <label class="info-label">Tallas Disponibles:</label>
-        <div class="badge-container">
-          <span class="badge badge-primary" *ngFor="let talla of data.listTallas">
-            {{ talla.tal_descripcion }}
-          </span>
-        </div>
-      </div>
-
-      <!-- Colores disponibles -->
-      <!--<div class="product-info">
-        <label class="info-label">Colores Disponibles:</label>
-        <div class="color-container">
-          <div class="color-circle" *ngFor="let color of data.listColor"
-            [ngStyle]="{'background-color': color.hex || 'gray'}"
-            (click)="verImagen({ image: color.foto })">
-          </div>
-        </div>
-      </div>-->
-      
-      <div class="product-footer" style="text-align: center !important;">
-        <p>✅ Compra con confianza | 👟 Camina con estilo</p>
-        <button class="buy-button animated-pop" (click)="comprarArticulo(pedido.cantidad, true, this.data.pro_uni_venta)">
-          CLIC PARA COMPRAR <br /> PAGA EN CASA
-        </button>
-      </div>
-
       <!-- SKU y categoría -->
       <div class="mt-4">
         <p><strong>SKU:</strong> {{ data.pro_codigo }}</p>
         <p><strong>Categoría:</strong> {{ data['pro_categoria']?.cat_nombre }}</p>
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <br><br>
+      <div class="quantity-breaks-container" *ngFor="let item of data.listPrecios; let i = index">
+        <!-- Opción 1 -->
+        <input [id]="item.cantidad" type="radio" name="quantity" [value]="item.cantidad" />
+        <label [for]="item.cantidad" class="quantity-break" (click)="comprarArticulo(item.cantidad, true, item.precios)">
+          <span class="quantity-break__badge">
+            <p *ngIf="item.cantidad === 1" >OFERTA DEL DÍA 💥</p>
+            <p *ngIf="item.cantidad === 2" >MEGA OFERTA 🔥</p>
+            <p *ngIf="item.cantidad >= 3" >AHORRA MÁS 🚀</p>
+          </span>
+          <div class="quantity-break__content">
+            <div class="quantity-break__left">
+              <span class="quantity-break__label">LLEVA {{ item.cantidad }} <label for="" *ngIf="item.cantidad === 1 ">PAR</label> <label for="" *ngIf="item.cantidad !== 1 ">PARES</label></span>
+              <span class="quantity-break__benefit">Envío gratis</span>
+            </div>
+            <div class="quantity-break__right">
+              <span class="quantity-break__price">{{ _formato.monedaChange(3, 2, item.precios || 0) }}</span>
+            </div>
+          </div>
+        </label>
+      </div>
+      
+    </div>
+
+    <div class="product-footer" style="text-align: center;">
+      <p>✅ Compra con confianza | 👟 Camina con estilo</p>
+      <button 
+        class="buy-button animated-pop" 
+        (click)="comprarArticulo(pedido.cantidad, true, this.data.pro_uni_venta)"
+      >
+        CLIC PARA COMPRAR <br /> PAGA EN CASA
+      </button>
+    </div>
+
+    <!-- Tallas disponibles -->
+    <div class="product-info" *ngIf="data.talla !== 'Unica'">
+      <label class="info-label">Tallas Disponibles:</label>
+      <div class="badge-container">
+        <span class="badge badge-primary" *ngFor="let talla of data.listTallas">
+          {{ talla.tal_descripcion }}
+        </span>
       </div>
     </div>
 
