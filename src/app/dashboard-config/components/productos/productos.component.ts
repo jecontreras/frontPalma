@@ -7,6 +7,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import * as _ from 'lodash';
 import { CART } from 'src/app/interfaces/sotarage';
 import { Store } from '@ngrx/store';
+import { EstadistService } from 'src/app/servicesComponents/estadist.service';
 
 declare interface DataTable {
   headerRow: string[];
@@ -36,12 +37,13 @@ export class ProductosComponent implements OnInit {
     page: 0,
     limit: 10
   };
-  Header:any = [ 'Acciones','Foto','Nombre','Codigo', 'Precio', 'Categoria','Estado', 'Creado'];
+  Header:any = [ 'Acciones','Foto','Nombre','Visitas', 'Precio', 'Categoria','Estado', 'Creado'];
   $:any;
   public datoBusqueda = '';
   notscrolly:boolean=true;
   notEmptyPost:boolean = true;
   tiendaInfo:any = {};
+  listEstadist:any = [];
 
   constructor(
     public dialog: MatDialog,
@@ -49,6 +51,7 @@ export class ProductosComponent implements OnInit {
     private _productos: ProductoService,
     private spinner: NgxSpinnerService,
     private _store: Store<CART>,
+    private _estadist: EstadistService
   ) {
     this._store.subscribe((store: any) => {
       store = store.name;
@@ -57,13 +60,33 @@ export class ProductosComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.dataTable = {
       headerRow: this.Header,
       footerRow: this.Header,
       dataRows: []
     };
-    this.cargarTodos();
+    await this.cargarTodos();
+    await this.getEstadistica();
+    this.ProccesStatis();
+  }
+
+  getEstadistica(){
+    return new Promise( resolve =>{
+      this._estadist.getProduct( {} ).subscribe( res =>{
+        this.listEstadist = res;
+        resolve( res );
+      },()=> resolve( [ ] ) );
+    });
+  }
+
+  ProccesStatis(){
+    for( let row of this.dataTable.dataRows ){
+      let filter = this.listEstadist.find( item => item.id === row['id'] )
+      console.log("+*86", filter)
+      if( !filter ) continue;
+      row['estadistCount'] = filter.total_visitas;
+    }
   }
 
   crear(obj:any){
@@ -91,36 +114,41 @@ export class ProductosComponent implements OnInit {
       }
     });
   }
-  onScroll(){
+  async onScroll(){
     if (this.notscrolly && this.notEmptyPost) {
        this.notscrolly = false;
        this.query.page++;
-       this.cargarTodos();
+       await this.cargarTodos();
+       this.ProccesStatis();
      }
    }
 
   cargarTodos() {
-    this.spinner.show();
-    if( this.tiendaInfo.id ) this.query.where.empresa = this.tiendaInfo.id;
-    this._productos.get(this.query)
-    .subscribe(
-      (response: any) => {
-        console.log(response);
-        this.dataTable.headerRow = this.dataTable.headerRow;
-        this.dataTable.footerRow = this.dataTable.footerRow;
-        this.dataTable.dataRows.push(... response.data);
-        this.dataTable.dataRows =_.unionBy(this.dataTable.dataRows || [], response.data, 'id');
-        this.loader = false;
-        this.spinner.hide();
-
-        if (response.data.length === 0 ) {
-          this.notEmptyPost =  false;
-        }
-        this.notscrolly = true;
-      },
-      error => {
-        console.log('Error', error);
-      });
+    return new Promise( resolve =>{
+      this.spinner.show();
+      if( this.tiendaInfo.id ) this.query.where.empresa = this.tiendaInfo.id;
+      this._productos.get(this.query)
+      .subscribe(
+        (response: any) => {
+          console.log(response);
+          this.dataTable.headerRow = this.dataTable.headerRow;
+          this.dataTable.footerRow = this.dataTable.footerRow;
+          this.dataTable.dataRows.push(... response.data);
+          this.dataTable.dataRows =_.unionBy(this.dataTable.dataRows || [], response.data, 'id');
+          this.loader = false;
+          this.spinner.hide();
+  
+          if (response.data.length === 0 ) {
+            this.notEmptyPost =  false;
+          }
+          this.notscrolly = true;
+          resolve( response );
+        },
+        error => {
+          resolve( false );
+          console.log('Error', error);
+        });
+    });
   }
 
   buscar() {

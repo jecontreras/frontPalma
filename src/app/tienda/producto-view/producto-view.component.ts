@@ -17,6 +17,7 @@ import { UsuariosService } from 'src/app/servicesComponents/usuarios.service';
 import { TestimoniosService } from 'src/app/servicesComponents/testimonios.service';
 import { PizzaPartyComponent } from '../catalogo/catalogo.component';
 import { Lightbox } from 'ngx-lightbox';
+import { EstadistService } from 'src/app/servicesComponents/estadist.service';
 
 
 // Declara jQuery para que Angular lo reconozca
@@ -123,7 +124,8 @@ export class ProductosViewComponent implements OnInit {
       private _user: UsuariosService,
       private _testimonio: TestimoniosService,
       private _snackBar: MatSnackBar,
-      private _lightbox: Lightbox
+      private _lightbox: Lightbox,
+      private _estadist: EstadistService
   
     ) {
       this._store.subscribe((store: any) => {
@@ -142,11 +144,45 @@ export class ProductosViewComponent implements OnInit {
       this.timeoutId2 = setInterval(()=>{
         this.openSnackBar();
       }, 50000 );
-      this.configTime();
+      setTimeout(()=>{
+        window.document.scrollingElement.scrollTop=0;
+      },1000 );
+      //this.configTime();
       this.iniciarAlertaCompra();
     }
     private timeoutId: any; // Para guardar el ID del timeout
     private timeoutId2: any;
+
+    async ngOnInit() {
+      //console.log("**127", this.activate.snapshot.params)
+      if((this.activate.snapshot.paramMap.get('id'))){
+        this.id = this.activate.snapshot.paramMap.get('id');
+        this.getProducto();
+        this.handleEstadistCheck();
+        this.listComentario = this.handleComent();
+        //this.getProductos();
+      }
+      this.urlwhat = `https://api.whatsapp.com/send?phone=57${ this.tiendaInfo.numeroCelular }&amp;text=Hola%2C%20estoy%20interesado%20en%20los%20tenis%20NIKE%2C%20gracias...`
+  
+      this.number = this.activate.snapshot.paramMap.get('cel');
+      if( this.number ) this.dataUser = await this.getUser();
+      setTimeout(()=>{
+        window.document.scrollingElement.scrollTop=0;
+      });
+  
+    }
+
+    ngOnDestroy() {
+      // Asegurarse de limpiar el timeout cuando el componente se destruya
+      clearTimeout(this.timeoutId);
+      clearTimeout( this.timeoutId2 );
+    }
+
+    handleEstadistCheck(){
+      this._estadist.create( { producto_id: this.id } ).subscribe( res => {
+        console.log("***159", res );
+      });
+    }
 
     iniciarAlertaCompra() {
       // Configuramos el timeout para activar la alerta después de 20 segundos
@@ -166,12 +202,6 @@ export class ProductosViewComponent implements OnInit {
           this.comprarArticulo(1, true, this.data.pro_uni_venta);
         }
       }, 20000); // 20 segundos
-    }
-
-    ngOnDestroy() {
-      // Asegurarse de limpiar el timeout cuando el componente se destruya
-      clearTimeout(this.timeoutId);
-      clearTimeout( this.timeoutId2 );
     }
 
     scrollThumbnails(direction: string) {
@@ -209,23 +239,6 @@ export class ProductosViewComponent implements OnInit {
       this.pedido.cantidad = this.quantity;
     }
 
-    async ngOnInit() {
-      //console.log("**127", this.activate.snapshot.params)
-      if((this.activate.snapshot.paramMap.get('id'))){
-        this.id = this.activate.snapshot.paramMap.get('id');
-        this.getProducto();
-        this.listComentario = this.handleComent();
-        //this.getProductos();
-      }
-      this.urlwhat = `https://api.whatsapp.com/send?phone=57${ this.tiendaInfo.numeroCelular }&amp;text=Hola%2C%20estoy%20interesado%20en%20los%20tenis%20NIKE%2C%20gracias...`
-  
-      this.number = this.activate.snapshot.paramMap.get('cel');
-      if( this.number ) this.dataUser = await this.getUser();
-      setTimeout(()=>{
-        window.document.scrollingElement.scrollTop=0;
-      });
-  
-    }
     configTime(){
       let minuto = 15;
       let milegundo = 15;

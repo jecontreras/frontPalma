@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  //url: "http://localhost:1337",
+  //url: "https://1337-jecontreras-backpalma-ezjjyazy62y.ws-us117.gitpod.io",
   url: "https://backpalmaapi1-54896635487f.herokuapp.com",
   urlFront: "http://localhost:4200",
   URLFILE: "https://apilokomproaqui3-8479ed1ed46c.herokuapp.com",
