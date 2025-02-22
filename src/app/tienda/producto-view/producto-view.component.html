@@ -1,157 +1,161 @@
-<div class="container mt-4">
-  <div style="width: 100%;" class="row">
-    <div class="col-md-12"><br><br></div>
-
-    <div class="col-md-6 col-12">
-      <!-- Imagen Principal -->
-      <div class="product-image">
-        <img [src]="viewsImagen" alt="Producto" class="img-fluid main-image" />
+<div class="row">
+  <div class="col-12">
+|   <br><br>
+  </div>
+  <div class="col-md-6 col-12">
+    <!-- Imagen Principal -->
+    <div class="product-image">
+      <img [src]="viewsImagen" alt="Producto" class="img-fluid main-image" />
+    </div>
+  
+    <!-- Contenedor de Miniaturas con Botones de Navegación -->
+    <div class="thumbnail-container">
+      <button class="nav-btn left" (click)="scrollThumbnails('left')">⬅</button>
+  
+      <div class="thumbnails" #thumbnailWrapper>
+        <img *ngFor="let item of imageObject2; let i = index"
+             [src]="item.image"
+             [class.active]="item.image === viewsImagen"
+             alt="Miniatura"
+             class="thumbnail"
+             (click)="viewsImagen = item.image" />
       </div>
+  
+      <button class="nav-btn right" (click)="scrollThumbnails('right')">➡</button>
+    </div>
+  </div>
+  <!-- Detalles del producto -->
+  <div class="col-md-6 col-12">
+    <h1 class="product-title">{{ data.pro_nombre }}</h1>
     
-      <!-- Contenedor de Miniaturas con Botones de Navegación -->
-      <div class="thumbnail-container">
-        <button class="nav-btn left" (click)="scrollThumbnails('left')">⬅</button>
-    
-        <div class="thumbnails" #thumbnailWrapper>
-          <img *ngFor="let item of imageObject2; let i = index"
-               [src]="item.image"
-               [class.active]="item.image === viewsImagen"
-               alt="Miniatura"
-               class="thumbnail"
-               (click)="viewsImagen = item.image" />
-        </div>
-    
-        <button class="nav-btn right" (click)="scrollThumbnails('right')">➡</button>
-      </div>
+    <div class="product-price">
+      <h3 style="color: #ff9900;">
+        {{ _formato.monedaChange( 3, 2, data.pro_uni_venta || 0) }} 
+        <small class="text-muted"><s>{{ _formato.monedaChange( 3, 2, ( data.pro_uni_venta * 2 ) || 0 )  }}</s></small>
+      </h3>
     </div>
     
-    
+    <p class="text-success mb-2">¡Paga En tu casa!</p>
 
-    <!-- Detalles del producto -->
-    <div class="col-md-6 col-12">
-      <h1 class="product-title">{{ data.pro_nombre }}</h1>
-      
-      <div class="product-price">
-        <h3 style="color: #ff9900;">
-          {{ _formato.monedaChange( 3, 2, data.pro_uni_venta || 0) }} 
-          <small class="text-muted"><s>{{ _formato.monedaChange( 3, 2, ( data.pro_uni_venta * 2 ) || 0 )  }}</s></small>
-        </h3>
-      </div>
-      
-      <p class="text-success mb-2">¡Paga En tu casa!</p>
-
-      <div class="product-header">
-        <div class="product-stars">⭐⭐⭐⭐⭐ +2.500 Clientes satisfechos</div>
-        <div class="product-offer"><strong>¡OFERTA + ENVÍO GRATIS!</strong></div>   
-      </div>
-      <!-- SKU y categoría -->
-      <div class="mt-4">
-        <p><strong>SKU:</strong> {{ data.pro_codigo }}</p>
-        <p><strong>Categoría:</strong> {{ data['pro_categoria']?.cat_nombre }}</p>
-      </div>
-      <div class="mb-4">
-        <br><br>
-        <div class="quantity-breaks-container" *ngFor="let item of data.listPrecios; let i = index">
-          <!-- Opción 1 -->
-          <input [id]="item.cantidad" type="radio" name="quantity" [value]="item.cantidad" />
-          <label [for]="item.cantidad" class="quantity-break" (click)="comprarArticulo(item.cantidad, true, item.precios)">
-            <span class="quantity-break__badge">
-              <p *ngIf="item.cantidad === 1" >OFERTA DEL DÍA 💥</p>
-              <p *ngIf="item.cantidad === 2" >MEGA OFERTA 🔥</p>
-              <p *ngIf="item.cantidad >= 3" >AHORRA MÁS 🚀</p>
-            </span>
-            <div class="quantity-break__content">
-              <div class="quantity-break__left">
-                <span class="quantity-break__label">LLEVA {{ item.cantidad }} <label for="" *ngIf="item.cantidad === 1 ">PAR</label> <label for="" *ngIf="item.cantidad !== 1 ">PARES</label></span>
-                <span class="quantity-break__benefit">Envío gratis</span>
-              </div>
-              <div class="quantity-break__right">
-                <span class="quantity-break__price">{{ _formato.monedaChange(3, 2, item.precios || 0) }}</span>
-              </div>
-            </div>
-          </label>
-        </div>
-        
-      </div>
-  
-      <div class="product-footer" style="text-align: center;">
-        <p>✅ Compra con confianza | 👟 Camina con estilo</p>
-        <button 
-          class="buy-button animated-pop" 
-          (click)="comprarArticulo(pedido.cantidad, true, this.data.pro_uni_venta)"
-        >
-          CLIC PARA COMPRAR <br /> PAGA EN CASA
-        </button>
-      </div>
-  
-      <!-- Tallas disponibles -->
-      <div class="product-info" *ngIf="data.talla !== 'Unica'">
-        <label class="info-label">Tallas Disponibles:</label>
-        <div class="badge-container">
-          <span class="badge badge-primary" *ngFor="let talla of data.listTallas">
-            {{ talla.tal_descripcion }}
+    <div class="product-header">
+      <div class="product-stars" style="    font-size: 12px;">⭐⭐⭐⭐⭐ +2.500 Clientes satisfechos</div>
+      <div class="product-offer" style="font-size: 12px;"><strong>¡OFERTA + ENVÍO GRATIS!</strong></div>   
+    </div>
+    <!-- SKU y categoría -->
+    <div class="mt-4">
+      <p style="font-size: 12px;"><strong>SKU:</strong> {{ data.pro_codigo }}</p>
+      <p style="font-size: 12px;"><strong>Categoría:</strong> {{ data['pro_categoria']?.cat_nombre }}</p>
+    </div>
+    <div class="mb-4">
+      <h1 style="text-align: center;"><strong> OFERTAS. </strong> </h1>
+    </div>
+    <div class="mb-4">
+      <br><br>
+      <div class="quantity-breaks-container" *ngFor="let item of data.listPrecios; let i = index">
+        <!-- Opción 1 -->
+        <input [id]="item.cantidad" type="radio" name="quantity" [value]="item.cantidad" />
+        <label [for]="item.cantidad" class="quantity-break" (click)="comprarArticulo(item.cantidad, true, item.precios)">
+          <span class="quantity-break__badge">
+            <p *ngIf="item.cantidad === 1" >OFERTA DEL DÍA 💥</p>
+            <p *ngIf="item.cantidad === 2" >MEGA OFERTA 🔥</p>
+            <p *ngIf="item.cantidad >= 3" >AHORRA MÁS 🚀</p>
           </span>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-12">
-
-    </div>
-
-    <!-- Miniaturas -->
-    <div class="col-12">
-      <div class="product-thumbnails mt-3 d-flex">
-        <div class="row">
-          <div class="col-12 col-sm-4 col-md-4" *ngFor="let item of imageObject2; let i = index" (click)="openLightbox(i)">
-            <img [src]="item.image" alt="Miniatura" class="thumbnail img-fluid mr-2" style="cursor: pointer; width: 100%; height: auto;"/>
-            <button style="width: 100%; background: #00e534; font-size: 25px; font-weight: bold; color: white;"
-              mat-raised-button class="animated-button buy-button animated-pop"
-              (click)="comprarArticulo(pedido.cantidad,true, this.data.pro_uni_venta )">
-              CLIC PARA COMPRAR <br />PAGA EN CASA 🛒
-            </button>
+          <div class="quantity-break__content">
+            <div class="quantity-break__left">
+              <span class="quantity-break__label">LLEVA {{ item.cantidad }} <label for="" *ngIf="item.cantidad === 1 ">PAR</label> <label for="" *ngIf="item.cantidad !== 1 ">PARES</label></span>
+              <span class="quantity-break__benefit">Envío gratis</span>
+            </div>
+            <div class="quantity-break__right">
+              <span class="quantity-break__price">{{ _formato.monedaChange(3, 2, item.precios || 0) }}</span>
+            </div>
           </div>
-        </div>
+        </label>
+      </div>
+      
+    </div>
+
+    <div class="product-footer" style="text-align: center;">
+      <p>✅ Compra con confianza | 👟 Camina con estilo</p>
+      <button 
+        class="buy-button animated-pop" 
+        (click)="comprarArticulo(pedido.cantidad, true, this.data.pro_uni_venta)"
+      >
+        CLIC PARA COMPRAR <br /> PAGA EN CASA
+      </button>
+    </div>
+
+    <!-- Tallas disponibles -->
+    <div class="product-info" *ngIf="data.talla !== 'Unica'">
+      <label class="info-label">Tallas Disponibles:</label>
+      <div class="badge-container">
+        <span class="badge badge-primary" *ngFor="let talla of data.listTallas">
+          {{ talla.tal_descripcion }}
+        </span>
       </div>
     </div>
+  </div>
 
-    <!-- Descripción del producto -->
-    <div class="col-12">
-      <br>
-      <h2>Descripcion</h2>
-      <p [innerHtml]="data.pro_descripcion "></p>
-    </div>
-
-    <div class="col-12">
-      <br>
-      <h2>Testimonios</h2>
-    </div>
-
-    <!-- Comentarios -->
-    <div class="col-12">
-      <div class="reviews-container">
-        <div *ngFor="let comment of listComentario" class="review-card">
-          <h3 style="font-size: 15px;">{{ comment.name }}</h3>
-          <p>{{ '★'.repeat(comment.rating) }}</p>
-          <p style="font-size: 10px;">{{ comment.comment }}</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Sección de seguridad y envío -->
-    <div class="col-12">
-      <div class="secure-section">
-        <div class="delivery-info">
-          <img src="./assets/img/envios.png" alt="Pago Contra Entrega" />
-          <h4>Envío y Pago Contra Entrega</h4>
-          <p>Recibe tus productos en la puerta de tu casa y paga cuando los tengas en tus manos. ¡100% seguro!</p>
-        </div>
-        <div class="secure-seal">
-          <img src="./assets/imagenes/completo.webp" alt="Compra Segura" />
-          <h4>Compra Segura</h4>
-          <p>Garantizamos la seguridad de tu compra en cada paso del proceso.</p>
+  <!-- Miniaturas -->
+  <div class="col-12">
+    <div class="product-thumbnails mt-3 d-flex">
+      <div class="row">
+        <div class="col-12 col-sm-4 col-md-4" *ngFor="let item of imageObject2; let i = index">
+          <img (click)="openLightbox(i)" [src]="item.image" alt="Miniatura" class="thumbnail img-fluid mr-2" style="cursor: pointer; width: 100%; height: auto;"/>
+          <button style="width: 100%; background: #00e534; font-size: 25px; font-weight: bold; color: white;"
+            mat-raised-button class="animated-button buy-button animated-pop"
+            (click)="comprarArticulo(pedido.cantidad,true, this.data.pro_uni_venta )">
+            CLIC PARA COMPRAR <br />PAGA EN CASA 🛒
+          </button>
         </div>
       </div>
     </div>
   </div>
+
+  <!-- Descripción del producto -->
+  <div class="col-12">
+    <br>
+    <h2>Descripcion</h2>
+    <p [innerHtml]="data.pro_descripcion "></p>
+  </div>
+
+  <div class="col-12">
+    <br>
+    <h2>Testimonios</h2>
+  </div>
+
+  <!-- Comentarios -->
+  <div class="col-12">
+    <div class="reviews-container">
+      <div *ngFor="let comment of listComentario" class="review-card">
+        <h3 style="font-size: 20px;">{{ comment.name }}</h3>
+        <p>{{ '★'.repeat(comment.rating) }}</p>
+        <p style="font-size: 15px;">{{ comment.comment }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 text-center">
+    <button class="btn btn-primary btn-lg" [routerLink]="['/tienda']" style="background: green;
+    width: 95%;
+    font-size: 25px;">
+      Ver Más Productos
+    </button>
+  </div>
+
+  <!-- Sección de seguridad y envío -->
+  <div class="col-12">
+    <div class="secure-section">
+      <div class="delivery-info">
+        <img src="./assets/img/envios.png" alt="Pago Contra Entrega" />
+        <h4>Envío y Pago Contra Entrega</h4>
+        <p>Recibe tus productos en la puerta de tu casa y paga cuando los tengas en tus manos. ¡100% seguro!</p>
+      </div>
+      <div class="secure-seal">
+        <img src="./assets/imagenes/completo.webp" alt="Compra Segura" />
+        <h4>Compra Segura</h4>
+        <p>Garantizamos la seguridad de tu compra en cada paso del proceso.</p>
+      </div>
+    </div>
+  </div>
+
 </div>

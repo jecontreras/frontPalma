@@ -1,0 +1,43 @@
+<h1 mat-dialog-title style="text-align: center; color: #8e44ad; font-size: 30px;">
+    Selecciona tu método de pago
+  </h1>
+  <mat-dialog-content>
+    <p style="text-align: center; font-size: 125%; ">Elige cómo deseas realizar tu pago:</p>
+  
+    <!-- Pago Anticipado -->
+    <button mat-stroked-button class="btn-opcion pago-anticipado"
+            (click)="seleccionarPago('anticipado')">
+      Pago Anticipado ( {{ _tools.monedaChange2(3, 2, precioR) }} )
+    </button>
+  
+    <mat-expansion-panel *ngIf="metodoSeleccionado === 'anticipado'" expanded>
+      <mat-expansion-panel-header>
+        <mat-panel-title> Descuento del 20 mil aplicado </mat-panel-title>
+      </mat-expansion-panel-header>
+      <p>Debes pagar inmediatamente:</p>
+      <h3 style="text-align: center; color: #2c3e50;">📲 {{ ShopConfig.textTransfer|| 'Transfiya 320 224 1463' }}</h3>
+      <p style="text-align: center; color: #e74c3c;">Envía el pago y confirma con nuestro soporte.</p>
+    </mat-expansion-panel>
+  
+    <!-- Pago en Casa -->
+    <button mat-stroked-button class="btn-opcion pago-casa"
+            (click)="seleccionarPago('casa')">
+      Pago en Casa ( {{ _tools.monedaChange2(3, 2, precioA) }} )
+    </button>
+  
+    <mat-expansion-panel *ngIf="metodoSeleccionado === 'casa'" expanded>
+      <mat-expansion-panel-header>
+        <mat-panel-title> Pago Contra Entrega </mat-panel-title>
+      </mat-expansion-panel-header>
+      <p>servicio de contra entrega.</p>
+      <p style="text-align: center; color: #e74c3c;">Asegúrate de tener el dinero listo al recibir tu pedido.</p>
+    </mat-expansion-panel>
+  </mat-dialog-content>
+  
+  <mat-dialog-actions align="center">
+    <button mat-raised-button color="primary" (click)="confirmarPago()" style="background: green;"
+            [disabled]="!metodoSeleccionado">
+      Confirmar Pago
+    </button>
+  </mat-dialog-actions>
+  

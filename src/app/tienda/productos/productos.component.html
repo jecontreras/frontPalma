@@ -36,35 +36,33 @@
     </mat-nav-list>
   </mat-sidenav>
 
-  <mat-sidenav-content>
+  <mat-sidenav-content style="    height: 93vh !important;">
 
-
-    <div class="row">
+    <div class="row" style="padding: 0 0 0 20px;">
       <div class="col-12" *ngFor="let item of listCategorias">
         <div class="text-center my-4">
-          <h1> <strong>  {{ item.category.cat_nombre }} </strong> </h1>
+          <h1><strong>{{ item.category.cat_nombre }}</strong></h1>
         </div>
     
         <div class="content">
-          <div class="row">
-            <div class="col-6 col-sm-4 col-md-3 col-lg-2" *ngFor="let product of item.articleData">
-              <mat-card style="padding: 0 !important" class="product-card" [routerLink]="[ '/tienda/productosView', product.id ]">
+          <div class="row gx-3 gy-3"> <!-- Espaciado entre elementos -->
+            <div class="col-6 col-md-4 col-lg-3 d-flex" *ngFor="let product of item.articleData" style="    padding: 0;">
+              <mat-card class="product-card w-100" [routerLink]="['/tienda/productosView', product.id]">
                 <div class="image-container">
-                  <img [src]="product.foto" alt="{{ product.pro_nombre }}">
+                  <img [src]="product.foto" alt="{{ product.pro_nombre }}" class="product-image">
                 </div>
                 <mat-card-title class="title">{{ product.pro_nombre }}</mat-card-title>
                 <mat-card-subtitle class="price">
-                  <span><del>{{ _formato.monedaChange(3, 2, product.pro_uni_venta * 2) }}</del></span>
-                  <span>{{ _formato.monedaChange(3, 2, product.pro_uni_venta) }}</span>
+                  <span class="old-price">{{ _formato.monedaChange(3, 2, product.pro_uni_venta * 2) }}</span>
+                  <span class="new-price">{{ _formato.monedaChange(3, 2, product.pro_uni_venta) }}</span>
                 </mat-card-subtitle>
               </mat-card>
             </div>
           </div>
         </div>
-        
-        
       </div>
     </div>
+    
 
   </mat-sidenav-content>
 </mat-sidenav-container>

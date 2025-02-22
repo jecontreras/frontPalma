@@ -71,6 +71,9 @@ export class ProductosComponent implements OnInit {
   }
 
   ngOnInit() {
+    setTimeout(()=>{
+      window.document.scrollingElement.scrollTop=0;
+    },1000 );
     //this.getProductos();
     this.getCategorias();
     let interV = 0;

@@ -29,10 +29,11 @@ import { ProductosTComponent } from './productos-t/productos-t.component';
 import { ProductoView2Component } from './producto-view2/producto-view2.component';
 import { ProductoViewDeComponent } from './producto-view-de/producto-view-de.component';
 import { LightboxModule } from 'ngx-lightbox';
+import { DialogPagoComponent } from './dialog-pago/dialog-pago.component';
 
 @NgModule({
-  entryComponents: [ InfoProductoComponent,ChecktDialogComponent ],
-  declarations: [MainsComponent, TiendaComponent, ProductosComponent, FooterComponent, MenuComponent, InfoProductoComponent, ProductosViewComponent, ContactoComponent, ChecktComponent, CarritoComponent, CompletarComponent, ChecktDialogComponent, DetallePedidoComponent, CatalogoComponent, AlertBannerComponent, SliderComponent, MenuLateralComponent, ProductosTComponent, ProductoView2Component, ProductoViewDeComponent ],
+  entryComponents: [ InfoProductoComponent,ChecktDialogComponent, DialogPagoComponent ],
+  declarations: [MainsComponent, TiendaComponent, ProductosComponent, FooterComponent, MenuComponent, InfoProductoComponent, ProductosViewComponent, ContactoComponent, ChecktComponent, CarritoComponent, CompletarComponent, ChecktDialogComponent, DetallePedidoComponent, CatalogoComponent, AlertBannerComponent, SliderComponent, MenuLateralComponent, ProductosTComponent, ProductoView2Component, ProductoViewDeComponent, DialogPagoComponent ],
   imports: [
     TiendaRoutingModule,
     CommonModule,

@@ -1,0 +1,33 @@
+.btn-opcion {
+    width: 100%;
+    padding: 15px;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 10px 0;
+    display: block;
+  }
+  
+  .pago-anticipado {
+    background: #5cff86;
+    color: #000000;
+    border: 2px solid #000000;
+  }
+  
+  .pago-anticipado:hover {
+    background: #5cff86;
+  }
+  
+  .pago-casa {
+    background: #7891f5;
+    color: #ffffff;
+    border: 2px solid #2968ec;
+  }
+  
+  .pago-casa:hover {
+    background: #7891f5;
+  }
+  
+  mat-expansion-panel {
+    margin-top: 10px;
+  }
+  

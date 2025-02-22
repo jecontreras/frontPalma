@@ -525,7 +525,7 @@ export class ToolsService {
       separados = [inputNum[0]]
     }
     separados = separados.filter((row: any) => row != "");
-    return separados.join("."); //+ ',' + inputNum[1];
+    return "$ "+separados.join("."); //+ ',' + inputNum[1];
   }
 
   seguridadIfrane( url:string ){

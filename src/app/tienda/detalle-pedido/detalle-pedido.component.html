@@ -14,9 +14,12 @@
           <div class="thankyoucustom_wrapper">
             <h3 class="thankyoutitle">Gracias por tu compra, {{ dataUltV.ven_nombre_cliente }}!</h3>
             <p class="subtitle">
-              Para una respuesta más rápida, envíe los detalles de su pedido haciendo
-              clic en el botón de abajo.
+              Lineas Disponibles de Pago
             </p>
+            <p class="subtitle">
+                {{ ShopConfig.textTransfer }}
+            </p>
+
             <a
               id="sendbtn"
               (click)="handleWhatsapp(dataUltV)"

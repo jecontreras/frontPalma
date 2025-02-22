@@ -18,6 +18,7 @@ import { TestimoniosService } from 'src/app/servicesComponents/testimonios.servi
 import { PizzaPartyComponent } from '../catalogo/catalogo.component';
 import { Lightbox } from 'ngx-lightbox';
 import { EstadistService } from 'src/app/servicesComponents/estadist.service';
+import { DialogPagoComponent } from '../dialog-pago/dialog-pago.component';
 
 
 // Declara jQuery para que Angular lo reconozca
@@ -546,7 +547,7 @@ export class ProductosViewComponent implements OnInit {
         } );
       },()=> this._tools.tooast( { title: "Error al crear el Comentario" } ) );
     }
-  
+    /*
     comprarArticulo( cantidad:number, opt, price:number = 0 ){
       clearTimeout(this.timeoutId);
       this.isClicked = true;
@@ -570,8 +571,58 @@ export class ProductosViewComponent implements OnInit {
       dialogRef.afterClosed().subscribe(result => {
         console.log(`Dialog result: ${result}`);
       });
+    }*/
+
+    comprarArticulo(cantidad: number, opt, price: number = 0) {
+      clearTimeout(this.timeoutId);
+      this.isClicked = true;
+      let datar = this.data;
+      this.suma(datar);
+      this.data.prt = price || this.data.pro_uni_venta;
+      const dialogRef = this.dialog.open(DialogPagoComponent, {
+        width: '400px',
+        data: this.data
+      });
+    
+      dialogRef.afterClosed().subscribe(metodoPago => {
+        if (metodoPago === 'anticipado') {
+          //datar.costo *= 0.95; // Aplica 5% de descuento
+          //price = price-20000;
+          datar.metoD = metodoPago;
+        } else if (metodoPago === 'casa') {
+          //price = price+20000;
+          datar.metoD = metodoPago;
+          //datar.costo += 20000; // Agrega $20,000 por pago contra entrega
+        }
+    
+        // Ejecuta la compra después de seleccionar el método de pago
+        this.finalizarCompra(datar, opt, price, cantidad );
+      });
     }
-  
+      
+    finalizarCompra(datar, opt, price, cantidad ) {
+      datar.cantidadAd = opt === true ? cantidad : this.pedido.cantidad || cantidad;
+      datar.priceSelect = opt === true ? price : this.pedido.pro_uni_venta || price;
+      datar.priceSelect = Number(datar.priceSelect);
+      console.log("**607", price, datar)
+      let datamm = datar;
+      try {
+        datar.talla = this.pedido.talla || this.data.talla;
+      } catch (error) {}
+    
+      datar.opt = opt;
+      datar.foto = this.viewsImagen;
+    
+      const dialogRef = this.dialog.open(ChecktDialogComponent, {
+        maxWidth: '100%',
+        data: { datos: datamm }
+      });
+    
+      dialogRef.afterClosed().subscribe(result => {
+        console.log(`Dialog result: ${result}`);
+      });
+    }
+
     resetAnimation() {
       // Después de que la animación termine, restablece la variable para que la animación solo se ejecute una vez
       this.isClicked = false;

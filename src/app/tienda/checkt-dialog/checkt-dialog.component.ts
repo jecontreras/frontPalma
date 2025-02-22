@@ -59,6 +59,7 @@ export class ChecktDialogComponent implements OnInit {
     this.data.color = this.datas.colorSelect;
     this.data.pro_vendedor = this.datas.pro_vendedor;
     this.data.envioT = "priorida";
+    this.data.metoD = this.datas.metoD;
     //this.suma();
     this.handleCantidad( false );
     this.socialAuthService.authState.subscribe( async (user) => {
@@ -110,15 +111,16 @@ export class ChecktDialogComponent implements OnInit {
     };
     //console.log("****113", data)
     this.listCantidad.push( data );
-    this.handlePhoto( this.listCantidad[ this.listCantidad.length - 1 ] );
+    this.handlePhoto( this.listCantidad[ this.listCantidad.length - 1 ] , false);
     this.suma();
   }
 
-  handlePhoto( item:any ){
+  handlePhoto( item:any, opt:boolean = true ){
     let filterPhot = this.datas.listColor.find( row => row.talla === item.color );
     //console.log("***89", item, filterPhot)
     if( filterPhot ) {
-      item.foto = filterPhot.foto;
+      if( opt ) item.foto = filterPhot.foto;
+      this._tools.openFotoAlert( item.foto );
       item.ListTalla = ( filterPhot.tallaSelect.filter( row => row.check === true && row.cantidad ) ) || [];
       item.talla = item.ListTalla[0].tal_descripcion;
     }
@@ -191,7 +193,7 @@ export class ChecktDialogComponent implements OnInit {
     console.log("***162", validador );
     if( !validador ) { this.disabled = false; return false;}
     let data:any = {
-      "ven_tipo": "whatsapp",
+      "ven_tipo": this.data.metoD !== 'casa' ? 'PAGO ADELANTADO' : 'PAGA EN CASA',
       "usu_clave_int": this.dataUser.id,
       "ven_usu_creacion": "arleytienda@gmail.com",
       "ven_fecha_venta": moment().format("DD/MM/YYYY"),
@@ -212,7 +214,8 @@ export class ChecktDialogComponent implements OnInit {
       "apartamento": this.data.apartamento || '',
       "departamento": this.data.departamento || '',
       "ven_imagen_producto": this.datas.foto,
-      "empresa": this.ShopConfig.id
+      "empresa": this.ShopConfig.id,
+      "ven_imagen_conversacion": this.data.metoD
     };
     await this.crearUser();
     data.usu_clave_int = this.dataUser.id;
@@ -295,6 +298,10 @@ export class ChecktDialogComponent implements OnInit {
     //console.log("***rr272", this.data.costo, this.data.cantidadAd1  )
     if( this.data.envioT === 'priorida' ) this.data.costo+=5000;
     if( this.data.descuento ) this.data.costo-= this.data.descuento;
+    if( this.data.metoD === 'anticipado' ) {
+      this.data.costo-=20000;
+    }
+    else this.data.costo;
     //console.log( this.data )
   }
     banderaClose:boolean = true;
@@ -336,6 +343,7 @@ export class ChecktDialogComponent implements OnInit {
       *Dirección:* ${ this.data.direccion }
       *Nombre Cliente:*${ this.datas.pro_nombre }
       *Detalles:* ${ this.formatCantidad() }
+      *Tipo de Envio* ${ this.data.metoD }
 
       TOTAL FACTURA ${( this.data.costo + ( this.data.pro_vendedor || 0 ) )}
       🤝Gracias por su atención y quedo pendiente para recibir por este medio la imagen de la guía de despacho`)}`;
