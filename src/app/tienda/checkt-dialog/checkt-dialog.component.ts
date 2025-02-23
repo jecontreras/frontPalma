@@ -119,8 +119,8 @@ export class ChecktDialogComponent implements OnInit {
     let filterPhot = this.datas.listColor.find( row => row.talla === item.color );
     //console.log("***89", item, filterPhot)
     if( filterPhot ) {
-      if( opt ) item.foto = filterPhot.foto;
-      this._tools.openFotoAlert( item.foto );
+      item.foto = filterPhot.foto;
+      if( opt ) this._tools.openFotoAlert( item.foto );
       item.ListTalla = ( filterPhot.tallaSelect.filter( row => row.check === true && row.cantidad ) ) || [];
       item.talla = item.ListTalla[0].tal_descripcion;
     }
@@ -311,6 +311,7 @@ export class ChecktDialogComponent implements OnInit {
         this.banderaClose = false;
         let result = await this._tools.desigPromo();
         if( result ) this.aplicarDescuento();
+        else this.dialogRef.close('creo');
       }else{
         this.dialogRef.close('creo');
       }

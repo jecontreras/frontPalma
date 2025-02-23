@@ -105,8 +105,7 @@
                           $ {{ ( row['ven_total'] || 0 ).toLocaleString(1) }} COP
                         </td>
                         <td>
-                          <img *ngIf="row.ven_tipo === 'whatsapp'" [src]="row['ven_imagen_producto']" class="foto">
-                          <img *ngIf="row.ven_tipo === 'carrito'" [src]="row['pro_clave_int']?.foto" class="foto">
+                          <img [src]="row['ven_imagen_producto']" class="foto">
                         </td>
                         <td *ngIf="row['ven_estado'] == 0">Pendiente</td>
                         <td *ngIf="row['ven_estado'] == 1">Venta Exitosa</td>

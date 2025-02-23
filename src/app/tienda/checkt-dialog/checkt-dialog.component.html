@@ -1,6 +1,6 @@
 <div class="d-flex bd-highlight">
   <div class="p-2 flex-grow-1 bd-highlight">
-    <h2>DETALLES DE LA COMPRA 🚚💨 METODO {{ data.metoD }}</h2>
+    <h2>🚚💨 METODO {{ data.metoD }}</h2>
   </div>
   <div class="p-2 bd-highlight">
     <button mat-mini-fab color="warn" (click)="mostrarAlerta()">
@@ -12,6 +12,7 @@
 <mat-dialog-content class="mat-typography">
   <div class="form row" *ngIf="!data.id">
     <div class="col-12" style="padding: 0 !important;">
+      <br>
       <mat-list>
         <div mat-subheader>
           <div class="d-flex justify-content-between" style="width: 100%;">
@@ -199,7 +200,7 @@
                                 3,2,( this.data.descuento ) || 0 ) }}</span>
                         </div>
                     </div>
-                    <div 
+                    <!--<div 
                       *ngIf="data.metoD === 'casa'"
                     class="
                     d-flex
@@ -216,7 +217,7 @@
                             <span data-v-2b9a7796="" style="box-sizing: border-box;">{{ _tools.monedaChange2(
                                 3,2,( 20000 ) || 0 ) }}</span>
                         </div>
-                    </div>
+                    </div>-->
                     <div 
                       *ngIf="data.metoD !== 'casa'"
                     class="
