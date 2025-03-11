@@ -26,6 +26,8 @@ export class ChecktDialogComponent implements OnInit {
   ShopConfig:any = {};
   dataEndV:any = {};
   listCantidad = [];
+  listCarrito:any = [];
+  totalPares: number = 0;
 
   constructor(
     public dialogRef: MatDialogRef<ChecktDialogComponent>,
@@ -45,43 +47,56 @@ export class ChecktDialogComponent implements OnInit {
       if( !store ) return false;
       this.dataUser = store.user || {};
       this.ShopConfig = store.configuracion || {};
+      this.listCarrito = store.cart || [];
     });
   }
 
   async ngOnInit() {
     console.log( this.datas );
     this.datas = this.datas.datos || {};
-    this.data.talla = this.datas.talla;
-    this.data.cantidadAd = this.datas.cantidadAd || 0;
-    this.data.priceSelect = this.datas.priceSelect || this.data.costo;
-    this.data.costo = this.datas.costo || 105000;
-    this.data.opt = this.datas.opt;
-    this.data.color = this.datas.colorSelect;
-    this.data.pro_vendedor = this.datas.pro_vendedor;
-    this.data.envioT = "priorida";
-    this.data.metoD = this.datas.metoD;
-    //this.suma();
-    this.handleCantidad( false );
-    this.socialAuthService.authState.subscribe( async (user) => {
-      let result = await this._user.initProcess( user );
-      //console.log("**********", user, result )
-      }
-    );
-    //VALIDADOR DE VENTAS
-    if( this.ShopConfig.configV === 1 ){
-      this.dataEndV = await this.getUltimaV();
-      if( this.dataEndV ){
-        if( this.dataEndV.empresa === 1 ) {
-          let empresa:any = await this.getEmpresa2();
-          this.ShopConfig = empresa;
-          //console.log("**********71", this.ShopConfig)
-          let accion = new ConfiguracionAction( empresa, 'post');
-          this._store.dispatch( accion );
+    console.log("***57", this.datas)
+    if( this.datas.view !== 'carrito'){
+      this.data.talla = this.datas.talla;
+      this.data.cantidadAd = this.datas.cantidadAd || 0;
+      this.data.priceSelect = this.datas.priceSelect || this.data.costo;
+      this.data.costo = this.datas.costo || 105000;
+      this.data.opt = this.datas.opt;
+      this.data.color = this.datas.colorSelect;
+      this.data.pro_vendedor = this.datas.pro_vendedor;
+      this.data.envioT = "priorida";
+      this.data.metoD = this.datas.metoD;
+      //this.suma();
+      this.handleCantidad( false );
+      this.socialAuthService.authState.subscribe( async (user) => {
+        let result = await this._user.initProcess( user );
+        //console.log("**********", user, result )
+        }
+      );
+      //VALIDADOR DE VENTAS
+      if( this.ShopConfig.configV === 1 ){
+        this.dataEndV = await this.getUltimaV();
+        if( this.dataEndV ){
+          if( this.dataEndV.empresa === 1 ) {
+            let empresa:any = await this.getEmpresa2();
+            this.ShopConfig = empresa;
+            //console.log("**********71", this.ShopConfig)
+            let accion = new ConfiguracionAction( empresa, 'post');
+            this._store.dispatch( accion );
+          }
         }
       }
+      //console.log("**80", this.data )
+      this.cdr.detectChanges(); // Forzar la detección de cambios
+    }else{
+      this.data.cantidadAd= this.listCarrito.reduce((total, item) => total + item.cantidad, 0);
+      this.data.priceSelect = this.listCarrito.reduce((total, item) => total + item.costoTotal, 0);
+      this.data.costo = this.listCarrito.reduce((total, item) => total + item.costoTotal, 0);
+      this.data.opt = true;
+      this.data.pro_vendedor = 0;
+      this.data.envioT = "priorida";
+      this.data.metoD = "casa";
+      this.suma();
     }
-    //console.log("**80", this.data )
-    this.cdr.detectChanges(); // Forzar la detección de cambios
   }
 
   handleCantidad( opt:boolean ){
@@ -285,6 +300,7 @@ export class ChecktDialogComponent implements OnInit {
   }
 
   suma(){
+    if( this.datas.view === 'carrito') return this.suma2();
     this.data.cantidadAd1 = 0;
     let priceReal = 0;
     for( let item of this.listCantidad ) this.data.cantidadAd1+= item.cantidadAd;
@@ -304,6 +320,17 @@ export class ChecktDialogComponent implements OnInit {
     else this.data.costo;
     //console.log( this.data )
   }
+  suma2(){
+    this.data.costo = 0;
+    this.data.cantidadAd1 = 0;
+    for( let item of this.listCarrito ){
+      this.data.costo+= item.costoTotal;
+      this.data.cantidadAd1+= item.cantidad;
+      this.data.descuento = 0;
+    }
+    if( this.data.envioT === 'priorida' ) this.data.costo+=5000;
+  }
+
     banderaClose:boolean = true;
     // Mostrar la alerta de descuento
     async mostrarAlerta() {

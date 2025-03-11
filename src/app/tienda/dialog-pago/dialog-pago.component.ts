@@ -33,7 +33,7 @@ export class DialogPagoComponent implements OnInit {
   
   
   ngOnInit(): void {
-    this.precioR = ( this.data.prt - 20000 ) || 0;
+    this.precioR = ( this.data.prt - ( this.data.pro_uni_compra || 20000 ) ) || 0;
     this.precioA = this.data.prt;
   }
   

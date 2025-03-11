@@ -80,7 +80,14 @@
         class="buy-button animated-pop" 
         (click)="comprarArticulo(pedido.cantidad, true, this.data.pro_uni_venta)"
       >
-        CLIC PARA COMPRAR <br /> PAGA EN CASA
+        COMPRAR DE UNA PAGA EN CASA
+      </button>
+      <!-- Botón para agregar al carrito -->
+       <br><br>
+      <button  style="background-color: black !important;"
+        class="buy-button animated-pop"
+        (click)="seleccionarOpciones(data)">
+        🛒 AGREGAR AL CARRITO Y COMPRA MAS
       </button>
     </div>
 
@@ -100,7 +107,9 @@
     <div class="product-thumbnails mt-3 d-flex">
       <div class="row">
         <div class="col-12 col-sm-4 col-md-4" *ngFor="let item of imageObject2; let i = index">
-          <img (click)="openLightbox(i)" [src]="item.image" alt="Miniatura" class="thumbnail img-fluid mr-2" style="cursor: pointer; width: 100%; height: auto;"/>
+          <div class="product-image">
+            <img (click)="openLightbox(i)" [src]="item.image" alt="Miniatura" class="img-fluid main-image"/>
+          </div>
           <button style="width: 100%; background: #00e534; font-size: 25px; font-weight: bold; color: white;"
             mat-raised-button class="animated-button buy-button animated-pop"
             (click)="comprarArticulo(pedido.cantidad,true, this.data.pro_uni_venta )">

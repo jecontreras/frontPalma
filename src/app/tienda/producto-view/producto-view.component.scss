@@ -30,23 +30,50 @@
 }
 
 
-.product-image img {
-  width: 100%; /* Ancho fijo */
+.product-image {
+  width: 100%;
   height: 445px; /* Alto fijo */
-  object-fit: cover; /* La imagen llenará el espacio del contenedor */
-  object-position: center; /* Centra la imagen dentro del marco */
+  background-color: black; /* Relleno negro cuando la imagen es pequeña */
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra decorativa */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.product-image img {
+  max-width: 100%; /* Máximo ancho permitido */
+  max-height: 100%; /* Máximo alto permitido */
+  object-fit: contain; /* Ajusta sin cortar, mantiene proporciones */
+  object-position: center;
+}
+
+/* Miniaturas */
+.thumbnail-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.thumbnails {
+  display: flex;
+  overflow-x: auto;
+  gap: 8px;
 }
 
 .thumbnail {
-  width: 60px; /* Ancho fijo para miniaturas */
-  height: 60px; /* Alto fijo para miniaturas */
-  object-fit: cover; /* Escala miniaturas para llenar el contenedor */
-  object-position: center; /* Centra las miniaturas */
+  width: 60px;
+  height: 60px;
+  background-color: black; /* Fondo negro para miniaturas pequeñas */
+  object-fit: contain; /* Ajusta sin cortar */
   border-radius: 8px;
   border: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
 
 .animated-button {
   animation: pulse 2s infinite; /* Animación para que se mueva constantemente */
@@ -605,3 +632,4 @@ input[type="radio"]:checked + .quantity-break {
 .thumbnail.active {
   border: 3px solid #ff9900;
 }
+

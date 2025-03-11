@@ -19,6 +19,7 @@ import { PizzaPartyComponent } from '../catalogo/catalogo.component';
 import { Lightbox } from 'ngx-lightbox';
 import { EstadistService } from 'src/app/servicesComponents/estadist.service';
 import { DialogPagoComponent } from '../dialog-pago/dialog-pago.component';
+import Swal from 'sweetalert2';
 
 
 // Declara jQuery para que Angular lo reconozca
@@ -113,6 +114,8 @@ export class ProductosViewComponent implements OnInit {
     quantity: number = 1;
     listComentario:any =[];
 
+    carrito: any[] = [];
+
     constructor(
       private _store: Store<CART>,
       private _tools: ToolsService,
@@ -139,7 +142,7 @@ export class ProductosViewComponent implements OnInit {
         this.tiendaInfo = store.configuracion || {};
         if( store.usercabeza ) {
           this.queryId.where.idPrice = store.usercabeza.id;
-          this.query.where.idPrice = store.usercabeza.id;
+          //this.query.where.idPrice = store.usercabeza.id;
          }
       });
       this.timeoutId2 = setInterval(()=>{
@@ -289,7 +292,7 @@ export class ProductosViewComponent implements OnInit {
         this.data.listPrecios = _.orderBy( this.data.listPrecios, ['cantidad'], ['asc']);
         //console.log("***165", this.data.listComentarios)
         try {
-          this.data.listTallas = this.data.listColor[0].tallaSelect.filter( item => item.cantidad );
+          this.data.listTallas = this.data.listColor[0].tallaSelect.filter( item => item.check === true );
           //for( let row of this.data.listTallas ) row.tal_descripcion = ( Number( row.tal_descripcion ) || row.tal_descripcion );
           //this.data.listTallas = _.orderBy( this.data.listTallas , ['tal_descripcion'], ['DEC'] );
           //console.log( "129", this.data )
@@ -460,14 +463,87 @@ export class ProductosViewComponent implements OnInit {
         foto: item.foto,
         talla: item.talla,
         cantidad: item.cantidadAdquirir || 1,
-        costo: item.pro_uni_venta,
-        costoTotal: ( item.pro_uni_venta*( item.cantidadAdquirir || 1 ) ),
+        costo: item.priceSelect,
+        costoTotal: ( item.priceSelect*( item.cantidadAdquirir || 1 ) ),
         id: this.codigo()
       };
       let accion = new CartAction(data, 'post');
       this._store.dispatch(accion);
       this._tools.presentToast("Agregado al Carro");
     }
+
+    // Función para seleccionar color y talla antes de agregar al carrito
+    seleccionarOpciones(product: any) {
+      const coloresDisponibles = product.listColor; // Suponiendo que viene en el objeto
+      let colorSeleccionado = coloresDisponibles[0]; // Valor por defecto
+
+      Swal.fire({
+        title: 'Selecciona el Color',
+        input: 'select',
+        inputOptions: coloresDisponibles.reduce((acc, color) => {
+          acc[color['talla']] = color['talla'];
+          return acc;
+        }, {}),
+        inputPlaceholder: 'Selecciona un color',
+        showCancelButton: true,
+        confirmButtonText: 'Siguiente',
+      }).then((resultadoColor) => {
+        if (resultadoColor.isConfirmed) {
+          colorSeleccionado = resultadoColor.value;
+          this.seleccionarTalla(product, colorSeleccionado);
+        }
+      });
+    }
+
+    // Función para seleccionar talla
+    seleccionarTalla(product: any, colorSeleccionado: any) {
+      //console.log("**500", product, colorSeleccionado)
+      let listColores= product.listColor.find( row => row['talla'] === colorSeleccionado );
+      if( !listColores ) return false;
+      //console.log("***503", listColores );
+      const tallasDisponibles = listColores.tallaSelect.filter( row => row.check === true ); // Tallas asociadas al color
+      let tallaSeleccionada = tallasDisponibles[0];
+
+      Swal.fire({
+        title: 'Selecciona la Talla',
+        input: 'select',
+        inputOptions: tallasDisponibles.reduce((acc, talla) => {
+          acc[talla['tal_descripcion']] = talla['tal_descripcion'];
+          return acc;
+        }, {}),
+        inputPlaceholder: 'Selecciona una talla',
+        showCancelButton: true,
+        confirmButtonText: 'Agregar al Carrito',
+      }).then((resultadoTalla) => {
+        if (resultadoTalla.isConfirmed) {
+          tallaSeleccionada = resultadoTalla.value;
+          this.agregarAlCarrito(product, colorSeleccionado, tallaSeleccionada);
+        }
+      });
+    }
+
+    // Agregar producto al carrito
+    agregarAlCarrito(product: any, color: string, talla: string) {
+      console.log("***526", product, color, talla )
+      let data: any = {
+        articulo: product.id,
+        titulo: product.pro_nombre,
+        foto: product.foto,
+        talla,
+        color,
+        cantidad: 1,
+        costo: product.pro_uni_venta,
+        costoTotal: product.pro_uni_venta,
+        id: this.codigo()
+      };
+
+      let accion = new CartAction(data, 'post');
+      this._store.dispatch(accion);
+      this._tools.presentToast("Agregado al Carrito 🎉");
+      this.carrito.push(data);
+    }
+
+
   
     handlePhoto(obj:any) {
       //console.log("***173", obj)
@@ -579,6 +655,14 @@ export class ProductosViewComponent implements OnInit {
       let datar = this.data;
       this.suma(datar);
       this.data.prt = price || this.data.pro_uni_venta;
+    
+      // 🔹 Verificamos si el producto solo se vende por WhatsApp
+      if (datar.ventaPorWhatsApp === 1 ) {  
+        this.solicitarDatosWhatsApp(datar, cantidad, price );
+        return; // Evita que se abra el diálogo de pago normal
+      }
+    
+      // 🔹 Proceso normal de compra con diálogo de pago
       const dialogRef = this.dialog.open(DialogPagoComponent, {
         width: '400px',
         data: this.data
@@ -586,18 +670,58 @@ export class ProductosViewComponent implements OnInit {
     
       dialogRef.afterClosed().subscribe(metodoPago => {
         if (metodoPago === 'anticipado') {
-          //datar.costo *= 0.95; // Aplica 5% de descuento
-          //price = price-20000;
           datar.metoD = metodoPago;
         } else if (metodoPago === 'casa') {
-          //price = price+20000;
           datar.metoD = metodoPago;
-          //datar.costo += 20000; // Agrega $20,000 por pago contra entrega
         }
     
-        // Ejecuta la compra después de seleccionar el método de pago
-        this.finalizarCompra(datar, opt, price, cantidad );
+        // 🔹 Ejecutar la compra después de seleccionar el método de pago
+        this.finalizarCompra(datar, opt, price, cantidad);
       });
+    }
+
+    solicitarDatosWhatsApp(datar: any, cantidad, price ) {
+      Swal.fire({
+        title: "¡Compra por WhatsApp!",
+        html: `
+          <p>Este producto solo se vende por WhatsApp. Ingresa tus datos y te contactaremos.</p>
+          <input id="nombre" class="swal2-input" placeholder="Nombre">
+          <input id="telefono" class="swal2-input" placeholder="Teléfono">
+          <input id="ciudad" class="swal2-input" placeholder="Ciudad">
+        `,
+        confirmButtonText: "Enviar Pedido",
+        showCancelButton: true,
+        cancelButtonText: "Cancelar",
+        preConfirm: () => {
+          let nombre = (document.getElementById('nombre') as HTMLInputElement)?.value;
+          let telefono = (document.getElementById('telefono') as HTMLInputElement)?.value;
+          let ciudad = (document.getElementById('ciudad') as HTMLInputElement)?.value;
+    
+          if (!nombre || !telefono || !ciudad) {
+            Swal.showValidationMessage("Todos los campos son obligatorios.");
+            return false;
+          }
+    
+          return { nombre, telefono, ciudad };
+        }
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.enviarPedidoWhatsApp(result.value, datar, cantidad, price);
+        }
+      });
+    }
+
+    enviarPedidoWhatsApp(datos: any, datar: any, cantidad, price) {
+      let mensaje = `👋 Hola, quiero comprar este producto:
+      
+      🏷 *Producto:* ${datar.pro_nombre}
+      📍 *Ciudad:* ${datos.ciudad}
+      📞 *Teléfono:* ${datos.telefono}
+      🛍 *Cantidad:* ${ cantidad }
+      🛍 *Precio:* ${ price }`;
+    
+      let whatsappURL = `https://wa.me/57${ this.tiendaInfo.numeroCelular }?text=${encodeURIComponent(mensaje)}`;
+      window.open(whatsappURL, "_blank"); // Abre WhatsApp con el mensaje
     }
       
     finalizarCompra(datar, opt, price, cantidad ) {
@@ -606,6 +730,7 @@ export class ProductosViewComponent implements OnInit {
       datar.priceSelect = Number(datar.priceSelect);
       console.log("**607", price, datar)
       let datamm = datar;
+      this.AgregarCart2( datamm );
       try {
         datar.talla = this.pedido.talla || this.data.talla;
       } catch (error) {}

@@ -1,24 +1,83 @@
-<div class="row">
-  <div class="col-12">
-    <div class="d-flex justify-content-center" style="text-align: center; background: black; color: white;">
-      <div class="moving-banner">
-        <div class="moving-text">
-          <h4>🚀 Envío Gratis - Pagos Contra Entrega 🚀</h4>
-          <h4>🚀 Envío Gratis - Pagos Contra Entrega 🚀</h4>
-          <h4>🚀 Envío Gratis - Pagos Contra Entrega 🚀</h4>
-          <h4>🚀 Envío Gratis - Pagos Contra Entrega 🚀</h4>
-          <h4>🚀 Envío Gratis - Pagos Contra Entrega 🚀</h4>
-          <h4>🚀 Envío Gratis - Pagos Contra Entrega 🚀</h4>
+<mat-sidenav-container class="mobile-container">
+
+ <!-- Sidebar lateral -->
+ <mat-sidenav #sidenav mode="over" position="end" class="cart-sidenav">
+  <div class="cart-header">
+    <h1>🛒 Tu Carrito</h1>
+    <button class="close-btn" (click)="sidenav.close()">❌</button>
+  </div>
+
+  <!-- Contenedor flexible -->
+  <div class="cart-container">
+
+    <!-- Lista de productos en el carrito -->
+    <div class="cart-items">
+      <div *ngFor="let item of carrito" class="cart-item">
+        <img [src]="item.foto" class="cart-img">
+        <div>
+          <p class="cart-title">{{ item.titulo }} ({{ item.talla }} - {{ item.color }})</p>
+          
+          <div class="cart-item-info">
+            <p><strong>{{ _formato.monedaChange(3, 2, item.costoTotal) }}</strong></p>
+            <p>Cantidad: <strong>{{ item.cantidad }}</strong></p>
+            <button class="remove-button" (click)="eliminarDelCarrito(item.id)">❌</button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="empty-cart" *ngIf="carrito.length === 0">
+        <h2>Tu Carrito está vacío 🛒</h2>
+      </div>
+    </div>
+
+    <!-- Resumen de compra -->
+    <!--<div class="cart-summary" *ngIf="carrito.length > 0">
+      <p><strong>Total de Pares:</strong> {{ totalPares }}</p>
+      <p><strong>Total a Pagar:</strong> {{ _formato.monedaChange(3, 2, totalPagar) }}</p>
+    </div>-->
+
+    <!-- Botón fijo en la parte inferior -->
+    <div class="cart-footer">
+      <button class="finalizar-compra-button" (click)="irAFormulario()">
+        Finalizar Compra (  {{ _formato.monedaChange(3, 2, totalPagar) }} )
+      </button>
+    </div>
+
+  </div>
+</mat-sidenav>
+
+
+
+  <mat-sidenav-content>
+
+    <div class="row">
+      <div class="col-12">
+        <div class="d-flex justify-content-center" style="text-align: center; background: black; color: white;">
+          <div class="moving-banner">
+            <div class="moving-text">
+              <h4>🚀 Envío Gratis - Pagos Contra Entrega 🚀</h4>
+              <h4>🚀 Envío Gratis - Pagos Contra Entrega 🚀</h4>
+              <h4>🚀 Envío Gratis - Pagos Contra Entrega 🚀</h4>
+              <h4>🚀 Envío Gratis - Pagos Contra Entrega 🚀</h4>
+              <h4>🚀 Envío Gratis - Pagos Contra Entrega 🚀</h4>
+              <h4>🚀 Envío Gratis - Pagos Contra Entrega 🚀</h4>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
 
-<div>
-    <!--<app-menu-lateral></app-menu-lateral>-->
-    <router-outlet></router-outlet>
-    <!--<app-menu>
-        <app-footer></app-footer>
-    </app-menu>-->
-</div>
+    
+    <!--<button class="cart-floating-button" (click)="abrirCarrito()">
+      🛒 <span class="cart-count">{{ carrito.length }}</span>
+    </button>-->
+        <!-- Footer con el botón del carrito -->
+        <router-outlet></router-outlet>
+        <footer class="cart-footer" *ngIf="carrito.length > 0">
+          <button class="cart-button animated-bounce" (click)="abrirCarrito()">
+            🛒 Mi Carrito ({{ carrito.length }})
+          </button>
+        </footer>
+    
+  </mat-sidenav-content>
+</mat-sidenav-container>
