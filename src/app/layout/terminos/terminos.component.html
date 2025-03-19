@@ -1,67 +1,54 @@
-<h2 mat-dialog-title>
-    <span> Terminos de Privacidad. </span>
-</h2>
-
-<mat-dialog-content class="mat-typography">
-    <div class="row">
-        <div class="form-group col-12">
-            <p>
-                Mediante el registro de tus datos personales en este formulario estás autorizando a locomproaqui.com
-                S.A.S para que realice el debido uso, almacenamiento y/o tratamiento de los mismos; permitiéndole a su
-                vez el envío de información acerca de sus productos y servicios, actividades de mercadeo, evaluaciones
-                de calidad de los productos y servicios y el suministro de información a las entidades gubernamentales y
-                de control, cumpliendo así con la política de tratamiento de datos la cual puedes consultar aquí
-
-                AUTORIZACION TRATAMIENTO DE DATOS PERSONALES
-                En mi calidad de titular de la información, actuando libre y voluntariamente, autorizo de manera previa
-                y expresa a locomproaqui.com S.A.S y a cualquier cesionario o beneficiario presente o futuro de sus
-                obligaciones y derechos, para que directamente o a través de terceros realice el tratamiento a mi
-                información personal, el cual consiste en recolectar, almacenar, usar, circular, registrar, administrar,
-                procesar, confirmar, suprimir y actualizar mi información de carácter personal que le he suministrado, o
-                que sobre mi recoja. Lo anterior con el fin de:
-
-                Gestión de clientes:
-                 Brindar solución a las de peticiones, quejas y/o reclamos asociados a los productos y/o prestación de
-                servicios.
-                 Hacer seguimiento y evaluar la prestación de los servicios.
-                 Confirmar los datos necesarios para la entrega de productos y/o prestación de servicios.
-                 Proveer nuestros productos y/o prestación de servicios requeridos directamente o a través de terceros,
-                y recibir retroalimentación.
-                 Aplicar encuestas de satisfacción de cliente para evaluar la calidad de nuestros productos y/o
-                prestación de servicios.
-                 Aplicar estudios de mercado que permitan establecer preferencias de consumo o determinar hábitos de
-                pago.
-                 Implementar programas de fidelización. Publicidad y prospección comercial:  Enviar publicidad propia
-                e información sobre eventos, actividades, productos, servicios y en general información asociada a la
-                actividad de locomproaqui.com S.A.S; esto a través de diferentes medios.
-                 Realizar actividades de georreferenciación y estudios estadísticos. He sido informado que las
-                políticas para el tratamiento de mi información personal y el aviso de privacidad, así como el
-                procedimiento para elevar cualquier solicitud, petición, queja o reclamo, podrán ser consultados en la
-                página, y de manera expresa manifiesto que conozco, entiendo y he sido informado que mis derechos como
-                titular de los datos personales suministrados son los siguientes:
-
-                - Conocer, actualizar y rectificar mis datos personales.
-                - Solicitar prueba de la autorización otorgada - Ser informado por la Entidad, previa solicitud,
-                respecto del uso que le ha dado a mis datos personales
-                - Presentar quejas ante la Superintendencia de Industria y Comercio por infracciones a la ley.
-                - Revocar la autorización y/o solicitar la supresión de mi(s) dato(s) en los casos en que sea procedente
-                - Acceder en forma gratuita a los mismos.
-
-                Con aceptar estos términos se autoriza a locomproaqui.com S.A.S para que con fines estadísticos, de
-                control, supervisión y de información comercial, reporte a las Centrales de Información de Riesgo
-                Crediticio, el nacimiento, desarrollo, modificación, extinción y cumplimiento de obligaciones contraídas
-                o que llegue a contraer, fruto de contratos celebrados o los que en el futuro se celebren, la existencia
-                de deudas vencidas sin cancelar. La presente autorización comprende no solo la facultad de reportar,
-                procesar y divulgar, sino también la de solicitar información sobre las relaciones comerciales con
-                cualquier otra entidad a las Centrales de Riesgo Crediticio. Las consecuencias de esta autorización
-                serán la consulta e inclusión de sus datos financieros en las Centrales de Información de Riesgo
-                Crediticio, pudiendo las entidades afiliadas conocer su comportamiento relacionado con el cumplimiento o
-                incumplimiento de sus obligaciones.
-            </p>
-        </div>
-    </div>
-</mat-dialog-content>
-
-<mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>Cerrar</button>
-</mat-dialog-actions>
+<mat-dialog-content class="mat-typography terminos-container">
+    <mat-card class="terminos-card">
+      <mat-card-header>
+        <mat-card-title class="terminos-title">
+          📜 <strong>Términos de Privacidad</strong>
+        </mat-card-title>
+      </mat-card-header>
+  
+      <mat-card-content>
+        <p>
+            Mediante el registro de tus datos personales en este formulario estás autorizando a 
+            <strong>{{ dataConfig.nombreTienda }} S.A.S</strong> para el uso, almacenamiento y tratamiento de los mismos, 
+            permitiendo el envío de información acerca de sus productos y servicios, evaluaciones de calidad, 
+            y cumplimiento de políticas de tratamiento de datos.
+          </p>
+  
+          <p>
+            <strong>AUTORIZACIÓN PARA TRATAMIENTO DE DATOS PERSONALES:</strong> En mi calidad de titular de la 
+            información, autorizo a <strong>{{ dataConfig.nombreTienda }} S.A.S</strong> para que directamente o a través 
+            de terceros realice el tratamiento de mis datos personales con el fin de:
+          </p>
+  
+          <ul>
+            <li>Brindar soluciones a peticiones, quejas y/o reclamos.</li>
+            <li>Confirmar los datos necesarios para la entrega de productos.</li>
+            <li>Aplicar encuestas de satisfacción y estudios de mercado.</li>
+            <li>Enviar información sobre eventos, actividades, productos y servicios.</li>
+            <li>Realizar actividades de georreferenciación y estudios estadísticos.</li>
+          </ul>
+  
+          <p>
+            He sido informado que mis derechos como titular de los datos incluyen:
+          </p>
+          <ul>
+            <li>Conocer, actualizar y rectificar mis datos personales.</li>
+            <li>Solicitar prueba de la autorización otorgada.</li>
+            <li>Ser informado sobre el uso de mis datos.</li>
+            <li>Revocar la autorización y solicitar la supresión de mis datos.</li>
+            <li>Acceder en forma gratuita a mis datos.</li>
+          </ul>
+  
+          <p>
+            Al aceptar estos términos, autorizo a <strong>{{ dataConfig.nombreTienda }} S.A.S</strong> para que con fines 
+            estadísticos, de control, supervisión y de información comercial, reporte a las Centrales de 
+            Información de Riesgo Crediticio sobre mis obligaciones financieras y comerciales.
+          </p>
+      </mat-card-content>
+  
+      <mat-card-actions align="end">
+        <button mat-raised-button color="primary" mat-dialog-close>Cerrar</button>
+      </mat-card-actions>
+    </mat-card>
+  </mat-dialog-content>
+  

@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ToolsService } from 'src/app/services/tools.service';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatPaginator, MatSort } from '@angular/material';
 import { ProductoService } from 'src/app/servicesComponents/producto.service';
 import { FormproductosComponent } from '../../form/formproductos/formproductos.component';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -38,6 +38,11 @@ export class ProductosComponent implements OnInit {
     limit: 10
   };
   Header:any = [ 'Acciones','Foto','Nombre','Visitas', 'Precio', 'Categoria','Estado', 'Creado'];
+  displayedColumns: string[] = ['acciones', 'foto', 'nombre', 'estadisticas', 'precio', 'categoria', 'estado', 'fecha'];
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
+  dataSource:any = Array();
   $:any;
   public datoBusqueda = '';
   notscrolly:boolean=true;
@@ -93,14 +98,15 @@ export class ProductosComponent implements OnInit {
     const dialogRef = this.dialog.open(FormproductosComponent,{
       data: {datos: obj || {}},
       height:  '',
-      width: '100%'
+      width: '100%',
+      maxWidth: "100%"
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
     });
   }
-  delete(obj:any, idx:any){
+  delete(obj:any){
     let datos = {
       id: obj.id,
       pro_activo: 1
@@ -108,7 +114,8 @@ export class ProductosComponent implements OnInit {
     this._tools.confirm({title:"Eliminar", detalle:"Deseas Eliminar Dato", confir:"Si Eliminar"}).then((opt)=>{
       if(opt.value){
         this._productos.update(datos).subscribe((res:any)=>{
-          this.dataTable.dataRows.splice(idx, 1);
+          //this.dataTable.dataRows.splice(idx, 1);
+          this.dataSource = this.dataSource.filter( row => row.id !== obj.id );
           this._tools.presentToast("Eliminado")
         },(error)=>{console.error(error); this._tools.presentToast("Error de servidor") })
       }
@@ -135,6 +142,7 @@ export class ProductosComponent implements OnInit {
           this.dataTable.footerRow = this.dataTable.footerRow;
           this.dataTable.dataRows.push(... response.data);
           this.dataTable.dataRows =_.unionBy(this.dataTable.dataRows || [], response.data, 'id');
+          this.dataSource = this.dataTable.dataRows;
           this.loader = false;
           this.spinner.hide();
   

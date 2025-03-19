@@ -29,7 +29,7 @@
           </div>
         </div>
         <mat-list-item *ngFor="let item of listCantidad" style="height: auto; padding: 10px; background: #e5e5e5; border-radius: 15px;"> 
-          <div class="row mat-elevation-z4">
+          <div class="row mat-elevation-z4" style="width: 110%;">
             <!--<div class="form-group col-6 " *ngIf="item.foto" style="text-align: center;">
               <img style="    width: 75px; border-radius: 40px;" [src]="item.foto" alt="">
             </div>-->
@@ -150,140 +150,64 @@
       </div>
     </form>
 
-      <div class="col-12">
-        <div class="tyslo-group"
-            style='background-color: #fefefe; box-sizing: border-box; color: rgba(18, 18, 18, 0.75); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; font-size: 16px; letter-spacing: 0.6px; margin-bottom: 10px;'>
-            <div class="total-container" data-v-2b9a7796=""
-                style="box-sizing: border-box; color: black; margin: 10px 0px;">
-                <div class="p-1" data-v-2b9a7796="" style="box-sizing: border-box; padding: 0.25rem !important;">
-                    <div class="d-flex justify-content-between py-1" data-v-2b9a7796=""
-                        style="box-sizing: border-box; display: flex !important; justify-content: space-between !important; padding-bottom: 0.25rem !important; padding-top: 0.25rem !important;">
-                        <div class="fw-normal label-title" data-v-2b9a7796=""
-                            style="box-sizing: border-box; color: #535353;">
-                            Subtotal
-                        </div>
-                        <div class="label-value" data-v-2b9a7796="" style="box-sizing: border-box;">
-                            <span data-v-2b9a7796="" style="box-sizing: border-box;">{{ _tools.monedaChange2(
-                                3,2,this.data.costo1 || 0 ) }}</span>
-                        </div>
-                    </div>
-                    <div class="
-                    d-flex
-                    justify-content-between
-                    my-1
-                    total-row
-                    align-items-baseline
-                    fw-bold
-                  " data-v-2b9a7796=""
-                        style="align-items: baseline !important; border-top: 1px solid rgba(175, 175, 175, 0.34) !important; box-sizing: border-box; display: flex !important; font-weight: 700 !important; justify-content: space-between !important; margin-bottom: 0.25rem !important; margin-top: 0.25rem !important;">
-                        <div data-v-2b9a7796="" style="box-sizing: border-box;">Cantidad</div>
-                        <div class="total-value" data-v-2b9a7796=""
-                            style="box-sizing: border-box; font-size: 20px;">
-                            <span data-v-2b9a7796="" style="box-sizing: border-box;">{{ data.cantidadAd1 || 1 }}</span>
-                        </div>
-                    </div>
-                    <div 
-                      *ngIf="data.descuento"
-                    class="
-                    d-flex
-                    justify-content-between
-                    my-1
-                    total-row
-                    align-items-baseline
-                    fw-bold
-                  " data-v-2b9a7796=""
-                        style="align-items: baseline !important; border-top: 1px solid rgba(175, 175, 175, 0.34) !important; box-sizing: border-box; display: flex !important; font-weight: 700 !important; justify-content: space-between !important; margin-bottom: 0.25rem !important; margin-top: 0.25rem !important;">
-                        <div data-v-2b9a7796="" style="box-sizing: border-box;">Descuentos</div>
-                        <div class="total-value" data-v-2b9a7796=""
-                            style="box-sizing: border-box; font-size: 20px;">
-                            <span data-v-2b9a7796="" style="box-sizing: border-box;">{{ _tools.monedaChange2(
-                                3,2,( this.data.descuento ) || 0 ) }}</span>
-                        </div>
-                    </div>
-                    <!--<div 
-                      *ngIf="data.metoD === 'casa'"
-                    class="
-                    d-flex
-                    justify-content-between
-                    my-1
-                    total-row
-                    align-items-baseline
-                    fw-bold
-                  " data-v-2b9a7796=""
-                        style="align-items: baseline !important; border-top: 1px solid rgba(175, 175, 175, 0.34) !important; box-sizing: border-box; display: flex !important; font-weight: 700 !important; justify-content: space-between !important; margin-bottom: 0.25rem !important; margin-top: 0.25rem !important;">
-                        <div data-v-2b9a7796="" style="box-sizing: border-box;">Servicio pago en casa</div>
-                        <div class="total-value" data-v-2b9a7796=""
-                            style="box-sizing: border-box; font-size: 20px;">
-                            <span data-v-2b9a7796="" style="box-sizing: border-box;">{{ _tools.monedaChange2(
-                                3,2,( 20000 ) || 0 ) }}</span>
-                        </div>
-                    </div>-->
-                    <div 
-                      *ngIf="data.metoD !== 'casa'"
-                    class="
-                    d-flex
-                    justify-content-between
-                    my-1
-                    total-row
-                    align-items-baseline
-                    fw-bold
-                  " data-v-2b9a7796=""
-                        style="align-items: baseline !important; border-top: 1px solid rgba(175, 175, 175, 0.34) !important; box-sizing: border-box; display: flex !important; font-weight: 700 !important; justify-content: space-between !important; margin-bottom: 0.25rem !important; margin-top: 0.25rem !important;">
-                        <div data-v-2b9a7796="" style="box-sizing: border-box;">Servicio pago antisipado</div>
-                        <div class="total-value" data-v-2b9a7796=""
-                            style="box-sizing: border-box; font-size: 20px;">
-                            <span data-v-2b9a7796="" style="box-sizing: border-box;">-{{ _tools.monedaChange2(
-                                3,2,( 20000 ) || 0 ) }}</span>
-                        </div>
-                    </div>
-                    <div class="
-                        d-flex
-                        justify-content-between
-                        my-1
-                        total-row
-                        align-items-baseline
-                        fw-bold
-                  " data-v-2b9a7796=""
-                        style="align-items: baseline !important; border-top: 1px solid rgba(175, 175, 175, 0.34) !important; box-sizing: border-box; display: flex !important; font-weight: 700 !important; justify-content: space-between !important; margin-bottom: 0.25rem !important; margin-top: 0.25rem !important;">
-                        <div data-v-2b9a7796="" style="box-sizing: border-box;">Envio</div>
-                        <div  class="total-value" data-v-2b9a7796=""
-                            style="box-sizing: border-box; font-size: 20px;">
-                            <span *ngIf="!data.pro_vendedor" data-v-2b9a7796="" style="box-sizing: border-box;">
-                              <mat-radio-group [(ngModel)]="data.envioT" (change)="suma()">
-                                <mat-radio-button class="example-margin" value="gratis">
-                                  <span style="font-size: 9px;">Gratis</span>
-                                </mat-radio-button>
-                                <mat-radio-button class="example-margin" value="priorida">
-                                  <span style="font-size: 9px;">$5.000 Envio Prioritario</span>
-                                </mat-radio-button>
-                              </mat-radio-group>
-                            </span>
-                            <span *ngIf="data.pro_vendedor" data-v-2b9a7796="" style="box-sizing: border-box;">
-                              {{ _formato.monedaChange( 3, 2, data.pro_vendedor || 0) }}
-                            </span>
-                        </div>
-                    </div>
-                    <div class="
-                    d-flex
-                    justify-content-between
-                    my-1
-                    total-row
-                    align-items-baseline
-                    fw-bold
-                  " data-v-2b9a7796=""
-                        style="align-items: baseline !important; border-top: 1px solid rgba(175, 175, 175, 0.34) !important; box-sizing: border-box; display: flex !important; font-weight: 700 !important; justify-content: space-between !important; margin-bottom: 0.25rem !important; margin-top: 0.25rem !important;">
-                        <div data-v-2b9a7796="" style="box-sizing: border-box;">Total</div>
-                        <div class="total-value" data-v-2b9a7796=""
-                            style="box-sizing: border-box; font-size: 20px;">
-                            <span data-v-2b9a7796="" style="box-sizing: border-box;">{{ _tools.monedaChange2(
-                                3,2,( this.data.costo + data.pro_vendedor ) || 0 ) }}</span>
-                        </div>
-                    </div>
-                </div>
+    <div class="col-12">
+      <div class="tyslo-group">
+        <div class="total-container">
+          <div class="p-1">
+            <div class="row-section">
+              <div class="label-title">Subtotal</div>
+              <div class="label-value">{{ _tools.monedaChange2(3, 2, this.data.costo1 || 0) }}</div>
             </div>
+    
+            <div class="row-section total-row">
+              <div>Cantidad</div>
+              <div class="total-value">{{ data.cantidadAd1 || 1 }}</div>
+            </div>
+    
+            <!-- Descuento -->
+            <div *ngIf="data.descuento" class="row-section total-row">
+              <div>Descuentos</div>
+              <div class="total-value">{{ _tools.monedaChange2(3, 2, (this.data.descuento) || 0) }}</div>
+            </div>
+    
+            <!-- Servicio de pago anticipado -->
+            <div *ngIf="data.metoD !== 'casa'" class="row-section total-row">
+              <div>Servicio pago anticipado</div>
+              <div class="total-value">-{{ _tools.monedaChange2(3, 2, ( datas.pro_uni_compra || 20000 ) || 0) }}</div>
+            </div>
+    
+            <!-- Envío -->
+            <div class="row-section total-row">
+              <div>Envío</div>
+              <div class="total-value">
+                <span *ngIf="!data.pro_vendedor">
+                  <mat-radio-group [(ngModel)]="data.envioT" (change)="suma()">
+                    <mat-radio-button class="radio-btn" value="gratis">
+                      <span>Gratis</span>
+                    </mat-radio-button>
+                    <mat-radio-button class="radio-btn" value="priorida">
+                      <span>$5.000 Envío Prioritario</span>
+                    </mat-radio-button>
+                  </mat-radio-group>
+                </span>
+                <span *ngIf="data.pro_vendedor">
+                  {{ _formato.monedaChange(3, 2, data.pro_vendedor || 0) }}
+                </span>
+              </div>
+            </div>
+    
+            <!-- Total -->
+            <div class="row-section total-row total">
+              <div>Total</div>
+              <div class="total-value">
+                {{ _tools.monedaChange2(3,2,(this.data.costo + data.pro_vendedor) || 0) }}
+              </div>
+            </div>
+          </div>
         </div>
-
+      </div>
     </div>
+    
   </div>
   <div class="form row" *ngIf="data.id">
       <div class="col-12">

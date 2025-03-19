@@ -17,6 +17,7 @@ export class LoginsComponent implements OnInit {
   data:any = {};
   disableRestarure:boolean = true;
   disableSubmit:boolean = true;
+  hidePassword:boolean = true;
 
   constructor(
     private _user: UsuariosService,

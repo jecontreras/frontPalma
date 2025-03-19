@@ -1,69 +1,111 @@
-<div class="container">
-    <div class="form row">
-        <div class="form-group col-12">
-            <br>
-            <p class="text-center">Registrate y gana un 7% de tus ventas</p>
-            <p class="text-center">Te Invito {{ dataUser.usu_nombre }}</p>
+<div class="register-container">
+    <mat-card class="register-card">
+      <mat-card-header>
+        <mat-card-title>
+          📢 <strong>¡Regístrate y obtendrás tu tienda de inmediato!</strong>
+        </mat-card-title>
+        <mat-card-subtitle>Te invitó <strong>{{ dataUser.usu_nombre }}</strong></mat-card-subtitle>
+      </mat-card-header>
+  
+      <mat-card-content>
+        <div class="row">
+          <!-- Nombre y Apellido -->
+          <div class="col-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Nombre</mat-label>
+              <input matInput type="text" [(ngModel)]="data.usu_nombre" placeholder="Ingrese tu nombre">
+            </mat-form-field>
+          </div>
+  
+          <div class="col-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Apellido</mat-label>
+              <input matInput type="text" [(ngModel)]="data.usu_apellido" placeholder="Ingrese tu apellido">
+            </mat-form-field>
+          </div>
+  
+          <!-- Indicativo y Celular -->
+          <div class="col-2">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Indicativo</mat-label>
+              <mat-select [(ngModel)]="data.usu_indicativo">
+                <mat-option *ngFor="let item of listIndicativos" [value]="item.phone_code">
+                  {{ item.nombre }} +{{ item.phone_code }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+  
+          <div class="col-4">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Celular</mat-label>
+              <input matInput type="text" [(ngModel)]="data.usu_telefono" placeholder="Ingrese tu celular">
+            </mat-form-field>
+          </div>
+  
+          <!-- Ciudad y Dirección -->
+          <div class="col-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Ciudad</mat-label>
+              <input matInput type="text" [(ngModel)]="data.usu_ciudad" placeholder="Ingrese tu ciudad">
+            </mat-form-field>
+          </div>
+  
+          <div class="col-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Dirección</mat-label>
+              <input matInput type="text" [(ngModel)]="data.usu_direccion" placeholder="Ingrese tu dirección">
+            </mat-form-field>
+          </div>
+  
+          <!-- Email -->
+          <div class="col-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Email</mat-label>
+              <input matInput type="email" [(ngModel)]="data.usu_email" placeholder="Ingrese tu email">
+            </mat-form-field>
+          </div>
+  
+          <!-- Contraseña y Confirmar -->
+          <div class="col-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Contraseña</mat-label>
+              <input matInput [type]="hidePassword ? 'password' : 'text'" [(ngModel)]="data.usu_clave" placeholder="Ingrese tu contraseña">
+              <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword">
+                <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+  
+          <div class="col-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Confirmar Contraseña</mat-label>
+              <input matInput [type]="hidePasswordConfirm ? 'password' : 'text'" [(ngModel)]="data.usu_confir" (change)="submit()" placeholder="Confirmar contraseña">
+              <button mat-icon-button matSuffix (click)="hidePasswordConfirm = !hidePasswordConfirm">
+                <mat-icon>{{ hidePasswordConfirm ? 'visibility_off' : 'visibility' }}</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+  
+          <!-- Términos y Condiciones -->
+          <div class="col-12">
+            <mat-checkbox [(ngModel)]="data.cat_activo" (click)="terminos()">
+              Estoy de acuerdo con los términos de privacidad
+            </mat-checkbox>
+          </div>
         </div>
-        <div class="form-group col-6">
-            <label for="exampleFormControlInput1">Nombre</label>
-            <input type="text" [(ngModel)]="data.usu_nombre" class="form-control form-control-sm" placeholder="Ingrese tu nombre">
-        </div>
-        <div class="form-group col-6">
-            <label for="exampleFormControlInput1">Apellido</label>
-            <input type="text" [(ngModel)]="data.usu_apellido" class="form-control form-control-sm" placeholder="Ingrese tu Apellido">
-        </div>
-        <div class="form-group col-12">
-            <label for="exampleFormControlInput1">Fecha de nacimiento</label>
-            <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                <input type="date" class="form-control"
-                    [(ngModel)]="data.usu_fec_nacimiento">
-            </div>
-        </div>
-        <div class="form-group col-6">
-            <label for="exampleFormControlInput1">Indicativo</label>
-            <select class="form-control form-control-sm" [(ngModel)]="data.usu_indicativo">
-                <option [value]="item.phone_code" *ngFor="let item of listIndicativos" >{{ item.nombre }} +{{ item.phone_code }}</option>
-            </select>
-        </div>
-        <div class="form-group col-6">
-            <label for="exampleFormControlInput1">Celular</label>
-            <input type="text" [(ngModel)]="data.usu_telefono" class="form-control form-control-sm" placeholder="Ingrese tu Celular">
-        </div>
-        <div class="form-group col-6">
-            <label for="exampleFormControlInput1">Ciudad</label>
-            <input type="text" [(ngModel)]="data.usu_ciudad" class="form-control form-control-sm" placeholder="Ingrese tu Ciudad">
-        </div>
-        <div class="form-group col-6">
-            <label for="exampleFormControlInput1">Dirección</label>
-            <input type="text" [(ngModel)]="data.usu_direccion" class="form-control form-control-sm" placeholder="Ingrese tu Dirección">
-        </div>
-        <div class="form-group col-6">
-            <label for="exampleFormControlInput1">Email</label>
-            <input type="text" [(ngModel)]="data.usu_email" class="form-control form-control-sm" placeholder="Ingrese tu Email">
-        </div>
-        <div class="form-group col-6">
-            <label for="exampleFormControlInput1">Contraseña</label>
-            <input type="password" [(ngModel)]="data.usu_clave" class="form-control form-control-sm" placeholder=" Ingrese tu Contraseña">
-        </div>
-        <div class="form-group col-6">
-            <label for="exampleFormControlInput1">Repetir Contraseña</label>
-            <input type="password" [(ngModel)]="data.usu_confir" (change)="submit()" class="form-control form-control-sm" placeholder="Confirmar Contraseña">
-        </div>
-        <div class="form-group col-6">
-            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" [(ngModel)]="data.cat_activo">
-            <label class="form-check-label pointer" for="exampleRadios2" (click)="terminos()">
-                Estoy de acuerdo con los terminos de privacidad
-            </label>
-        </div>
-        <div class="form-group col-12">
-            <div class="mx-auto" style="width: 200px;">
-                <button mat-button [routerLink]="[ '/pedidos' ]">Inicio</button>
-                <button mat-button cdkFocusInitial (click)="submit()">
-                    <span>Registrarse</span>
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
+      </mat-card-content>
+  
+      <!-- Botones -->
+      <mat-card-actions align="center">
+        <button mat-raised-button color="primary" [routerLink]="['/login']">Inicio</button>
+        <button mat-raised-button color="accent" (click)="submit()">Registrarse</button>
+      </mat-card-actions>
+  
+      <!-- Redirección a Iniciar Sesión -->
+      <mat-card-footer class="text-center">
+        <p>¿Ya tienes cuenta? <a [routerLink]="['/login']" class="login-link">Inicia sesión aquí</a></p>
+      </mat-card-footer>
+    </mat-card>
+  </div>
+  

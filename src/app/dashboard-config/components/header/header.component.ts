@@ -1,7 +1,7 @@
 import { Component, OnDestroy, ChangeDetectorRef, OnInit, VERSION, ViewChild } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { Router, ActivatedRoute } from '@angular/router';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSidenav } from '@angular/material';
 import { LoginComponent } from '../../../components/login/login.component';
 import { RegistroComponent } from '../../../components/registro/registro.component';
 import { ServiciosService } from 'src/app/services/servicios.service';
@@ -49,6 +49,9 @@ export class HeaderComponent implements OnInit {
   opcionoView:string = 'carro';
   listNotificaciones:any =[];
   tiendaInfo:any = {};
+  textColor: string = '#000000'; // Color inicial del texto (negro por defecto)
+  @ViewChild('sidenav') sidenav!: MatSidenav;
+
   
   constructor(
     public changeDetectorRef: ChangeDetectorRef,
@@ -70,6 +73,11 @@ export class HeaderComponent implements OnInit {
       this.dataUser = store.user || {};
       this.tiendaInfo = store.configuracion || {};
       this.submitChat();
+          // Actualizar el color de fondo y texto cuando cambia
+      if (this.dataUser.usu_color) {
+        this.tiendaInfo.colorTienda = this.dataUser.usu_color;
+        this.updateTextColor(this.dataUser.usu_color);
+      }
     });
     //this.getVentas();
     this.mobileQuery = media.matchMedia('(max-width: 290px)');
@@ -91,6 +99,37 @@ export class HeaderComponent implements OnInit {
     else this.rolUser = 'visitante';
     this.listMenus();
     if(this.rolUser === 'administrador') this.getCarrito();
+  }
+
+  toggleSidenav() {
+    this.sidenav.toggle();
+  }
+  
+  updateTextColor(color: string) {
+    // Convertir HEX a RGB para calcular la luminosidad
+    let rgb = this.hexToRgb(color);
+    if (!rgb) return;
+    
+    let brightness = (rgb.r * 299 + rgb.g * 587 + rgb.b * 114) / 1000;
+    
+    // Si el color es oscuro, el texto será blanco; si es claro, será negro
+    this.textColor = brightness < 128 ? '#FFFFFF' : '#000000';
+    console.log("**ENTRA", this.textColor, this.tiendaInfo.colorTienda)
+  }
+  
+  // Función para convertir HEX a RGB
+  hexToRgb(hex: string): { r: number; g: number; b: number } | null {
+    let shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+    hex = hex.replace(shorthandRegex, (_, r, g, b) => r + r + g + g + b + b);
+  
+    let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result
+      ? {
+          r: parseInt(result[1], 16),
+          g: parseInt(result[2], 16),
+          b: parseInt(result[3], 16)
+        }
+      : null;
   }
 
   getVentas(){
@@ -220,26 +259,26 @@ export class HeaderComponent implements OnInit {
       //   url: '/config/pedidos',
       //   submenus:[]
       // },
-      {
+      /*{
         icons: 'account_circle',
         nombre: 'Mi Cuenta',
         disable: this.rolUser !== 'visitante',
         url: '/config/perfil',
         submenus:[]
-      },
+      },*/
       /*{
         icons: 'shop',
         nombre: 'Mis Bancos',
         url: '/config/bancos',
         submenus:[]
       },*/
-      {
+      /*{
         icons: 'shop',
         nombre: 'Mis Cobros',
         disable: this.rolUser !== 'visitante',
         url: '/config/cobros',
         submenus:[]
-      },
+      },*/
       {
         icons: 'local_grocery_store',
         nombre: 'Mis Ventas',
@@ -247,13 +286,13 @@ export class HeaderComponent implements OnInit {
         url: '/config/ventas',
         submenus:[]
       },
-      {
+      /*{
         icons: 'people_alt',
         nombre: 'Mis Referidos',
         disable: this.rolUser !== 'visitante',
         url: '/config/referidos',
         submenus:[]
-      },
+      },*/
       /*{
         icons: 'security',
         nombre: 'Seguridad',
@@ -288,13 +327,13 @@ export class HeaderComponent implements OnInit {
         disable: this.rolUser == 'administrador',
         submenus:[]
       },
-      {
+      /*{
         icons: 'settings',
         nombre: 'Usuarios',
         url: '/config/usuarios',
         disable: this.rolUser == 'administrador',
         submenus:[]
-      },
+      },*/
       {
         icons: 'settings',
         nombre: 'Configuraciones',
@@ -313,7 +352,7 @@ export class HeaderComponent implements OnInit {
     this.menus = _.filter(this.menus, row=>row.disable);
     
     this.menus2 = [
-      {
+      /*{
         icons: 'account_circle',
         nombre: 'Iniciar Sección',
         disable: this.rolUser === 'visitante',
@@ -334,7 +373,7 @@ export class HeaderComponent implements OnInit {
         url: 'salir()',
         submenus:[]
       },
-
+      */
     ];
     this.menus2 = _.filter(this.menus2, row=>row.disable);
   }

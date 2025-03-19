@@ -43,6 +43,7 @@ export class MainsComponent implements OnInit {
     this.dominio = window.location.host;
     console.log("******HOST", this.dominio)
     if( this.dominio === 'localhost:4300' ) this.dominio = "dilishoponline.com";
+    if( this.dominio === 'localhost:4400' ) this.dominio = "shoppalmastore.firebaseapp.com";
     this.getEmpresa();
   }
 

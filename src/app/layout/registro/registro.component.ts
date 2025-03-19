@@ -19,11 +19,15 @@ const indicativos = Indicativo;
 })
 export class RegistrosComponent implements OnInit {
   
-  data:any = {};
+  data:any = {
+    usu_indicativo: "57"
+  };
   listIndicativos = indicativos;
   dataUser:any = {};
   cabeza:any;
   disableSubmit:boolean = true;
+  hidePasswordConfirm:boolean = true;
+  hidePassword:boolean = true;
 
   constructor(
     private _user: UsuariosService,

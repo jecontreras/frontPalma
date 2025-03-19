@@ -1,83 +1,125 @@
-<div class="main-content">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="card" style="overflow-x: scroll;">
-            <br>
-            <br>
-            <div class="card-header card-header-primary card-header-icon">
-              <div class="card-icon">
-                <i class="material-icons">assignment</i>
-              </div>
-              <h4 class="card-title">Mi configuracion</h4>
-            </div>
-            <div class="row p-3">
-              <div class="col-12">
-                <button class="p-2 btn btn-primary btn-just-icon btn-round" (click)="Actualizar()">
-                  Actualizar Datos
-                </button>
-              </div>
-                <div class="col-12 mx-auto">
-                    <div class="mx-auto" style="width: 200px;">
-                        <img [src]="data.logo" class="imgPerfil">
-                    </div>
-                </div>
-                <div class="col-12">
-                    <div class="row container">
-                        <label>logo de la Tienda</label>
-                        <button class="btn btn-primary btn-just-icon btn-round" (click)="subirFile('logo')" *ngIf="files.length > 0">
-                            Subir Imagen
-                        </button>
-                    </div>
-                    <ngx-dropzone (change)="onSelect($event, false)">
-                        <ngx-dropzone-label>Abrir archivos</ngx-dropzone-label>
-                        <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files"
-                            [file]="f" [removable]="true" (removed)="onRemove(f)" multiple="false">
-                            <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
-                        </ngx-dropzone-image-preview>
-                    </ngx-dropzone>
-                </div>
-                <div class="col-6">
-                    <label>Nombre Tienda</label>
-                    <input type="text" [(ngModel)]="data.nombreTienda" class="form-control form-control-sm">
-                </div>
-                <div class="col-6">
-                    <label>Numero Celular Empresa o Fijo</label>
-                    <input type="text" [(ngModel)]="data.numeroCelular" class="form-control form-control-sm">
-                </div>
-                <div class="col-6">
-                    <label>Email Tienda</label>
-                    <input type="text" [(ngModel)]="data.emailTienda" class="form-control form-control-sm">
-                </div>
-                <div class="col-6">
-                    <label>Direccion</label>
-                    <input type="text" [(ngModel)]="data.direccionTienda" class="form-control form-control-sm">
-                </div>
-                <div class="col-6">
-                    <input class="form-check-input" type="checkbox" [(ngModel)]="data.configV">
-                    <label class="form-check-label" for="defaultCheck1">
-                      Activar Venta
-                    </label>
-                </div>
-                <div class="col-12">
-                    <label>Descripcion de la empresa</label>
-                    <input type="text" [(ngModel)]="data.decripcion" class="form-control form-control-sm">
-                </div>
-                <div class="col-12">
-                    <label>Detalle de transferencia</label>
-                    <input type="text" [(ngModel)]="data.textTransfer" class="form-control form-control-sm">
-                </div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <mat-card class="p-3">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>settings</mat-icon> Mi Configuración
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
 
-                <div class="col-6">
-                    <br>
-                    <button class="p-2 btn btn-primary btn-just-icon btn-round" (click)="Actualizar()">
-                        Actualizar Datos
-                    </button>
-                </div>
-            </div>
+          <!-- 📌 Botón de actualizar -->
+          <div class="d-flex justify-content-end">
+            <button mat-raised-button color="primary" (click)="Actualizar()">
+              <mat-icon>refresh</mat-icon> Actualizar Datos
+            </button>
           </div>
-        </div>
-        <div></div>
-      </div>
+
+          <div class="row p-3">
+            <!-- 📸 Logo de la Tienda -->
+            <div class="col-12 text-center">
+              <img *ngIf="data.logo" [src]="data.logo" class="img-fluid rounded shadow mb-3" style="max-width: 200px;">
+            </div>
+
+            <div class="col-12">
+              <div class="row container">
+                  <label>logo de la Tienda</label>
+                  <button class="btn btn-primary btn-just-icon btn-round" (click)="subirFile('logo')" *ngIf="files.length > 0">
+                      Subir Imagen
+                  </button>
+              </div>
+              <ngx-dropzone (change)="onSelect($event, false)">
+                  <ngx-dropzone-label>Abrir archivos</ngx-dropzone-label>
+                  <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files"
+                      [file]="f" [removable]="true" (removed)="onRemove(f)" multiple="false">
+                      <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                  </ngx-dropzone-image-preview>
+              </ngx-dropzone>
+            </div>
+
+            <!-- 📋 Datos de la Tienda -->
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Nombre Tienda</mat-label>
+                <input matInput type="text" [(ngModel)]="data.nombreTienda">
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Número Celular Empresa o Fijo</mat-label>
+                <input matInput type="text" [(ngModel)]="data.numeroCelular">
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Email Tienda</mat-label>
+                <input matInput type="email" [(ngModel)]="data.emailTienda">
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Dirección</mat-label>
+                <input matInput type="text" [(ngModel)]="data.direccionTienda">
+              </mat-form-field>
+            </div>
+
+            <!-- ✅ Activar Venta -->
+            <div class="col-12">
+              <mat-checkbox [(ngModel)]="data.configV"> Activar Venta</mat-checkbox>
+            </div>
+
+            <!-- 📄 Descripción -->
+            <div class="col-12">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Descripción de la Empresa</mat-label>
+                <textarea matInput rows="3" [(ngModel)]="data.decripcion"></textarea>
+              </mat-form-field>
+            </div>
+
+            <!-- 💰 Detalle de Transferencia -->
+            <div class="col-12">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Detalle de Transferencia</mat-label>
+                <textarea matInput rows="2" [(ngModel)]="data.textTransfer"></textarea>
+              </mat-form-field>
+            </div>
+
+            <!-- 📌 Botón de actualizar (Final) -->
+            <div class="col-12 text-center mt-3">
+              <button mat-raised-button color="primary" (click)="Actualizar()">
+                <mat-icon>refresh</mat-icon> Actualizar Datos
+              </button>
+            </div>
+
+          </div>
+
+        </mat-card-content>
+      </mat-card>
     </div>
+    <div class="col-md-12">
+      <mat-card>
+        <mat-card-title>🎨 Selecciona una Plantilla</mat-card-title>
+        <mat-card-content>
+          <mat-radio-group [(ngModel)]="data.plantilla" (change)="guardarPlantilla()">
+            <mat-radio-button *ngFor="let plantilla of plantillas" [value]="plantilla.id">
+              <mat-card class="plantilla-card">
+                <img [src]="plantilla.imagen" alt="{{ plantilla.nombre }}" class="plantilla-img">
+                <p>{{ plantilla.nombre }}</p>
+              </mat-card>
+            </mat-radio-button>
+          </mat-radio-group>
+        </mat-card-content>
+      </mat-card>
+      
+      <!-- Botón para abrir configuración avanzada -->
+      <button mat-raised-button color="primary" (click)="abrirConfiguracion()">
+        Configurar Apariencia
+      </button>
+      
+    </div>
+  </div>
 </div>

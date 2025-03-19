@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormventasComponent } from '../../form/formventas/formventas.component';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { ToolsService } from 'src/app/services/tools.service';
 import { VentasService } from 'src/app/servicesComponents/ventas.service';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -47,6 +47,11 @@ export class VentasComponent implements OnInit {
     page: 0
   };
   Header:any = [ 'Acciones','Nombre Cliente',"Ya Compro?",'Teléfono Cliente','Fecha Venta','Cantidad','Precio','Imagen Producto','Estado', 'Tallas' ];
+   // Columnas a mostrar en la tabla
+   displayedColumns: string[] = ['acciones', 'nombre', 'compras', 'telefono', 'fecha', 'cantidad', 'total', 'imagen', 'estado'];
+   dataSource:any = [];
+   @ViewChild(MatPaginator) paginator!: MatPaginator;
+   @ViewChild(MatSort) sort!: MatSort;
   $:any;
   public datoBusqueda = '';
 
@@ -54,7 +59,7 @@ export class VentasComponent implements OnInit {
   notEmptyPost:boolean = true;
   dataUser:any = {};
   activando:boolean = false;
-  dateHoy = moment().format("DD/MM/YYYY");
+  dateHoy = new Date().toLocaleDateString();
   sumCantidad:any = 0;
   ShopConfig:any = {};
 
@@ -76,6 +81,8 @@ export class VentasComponent implements OnInit {
    }
 
   async ngOnInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
     this.dataTable = {
       headerRow: this.Header,
       footerRow: this.Header,
@@ -87,7 +94,6 @@ export class VentasComponent implements OnInit {
       dataRows: []
     };
     this.cargarTodos();
-    this.cargarTodos2();
     this.sumCantidad = await this.getVentasHoy();
   }
 
@@ -153,7 +159,7 @@ export class VentasComponent implements OnInit {
     });
   }
 
-  delete(obj:any, idx:any){
+  delete( obj:any ){
     let data:any = {
       id: obj.id,
       ven_sw_eliminado: 1
@@ -162,11 +168,32 @@ export class VentasComponent implements OnInit {
       if(opt.value){
         if(obj.ven_estado == 1) { this._tools.presentToast("Error no puedes ya Eliminar la venta ya esta aprobada"); return false; }
         this._ventas.update(data).subscribe((res:any)=>{
-          this.dataTable.dataRows.splice(idx, 1);
+          //this.dataTable.dataRows.splice(idx, 1);
+          this.dataSource = this.dataSource.filter( row => row.id !== obj.id );
           this._tools.presentToast("Eliminado")
         },(error)=>{console.error(error); this._tools.presentToast("Error de servidor") })
       }
     });
+  }
+
+  // Función para obtener la clase CSS según el estado
+  getEstadoClass(estado: number): string {
+    return {
+      0: 'estado-pendiente',
+      1: 'estado-exitosa',
+      2: 'estado-rechazada',
+      3: 'estado-despachado'
+    }[estado] || '';
+  }
+
+  // Función para obtener el texto del estado
+  getEstadoTexto(estado: number): string {
+    return {
+      0: 'Pendiente',
+      1: 'Venta Exitosa',
+      2: 'Rechazada',
+      3: 'Despachado'
+    }[estado] || 'Desconocido';
   }
 
   onScroll(){
@@ -175,10 +202,6 @@ export class VentasComponent implements OnInit {
        this.query.page++;
        this.cargarTodos();
      }
-  }
-  onScroll2(){
-    this.query2.page++;
-    this.cargarTodos2();
   }
 
   cargarTodos() {
@@ -193,6 +216,7 @@ export class VentasComponent implements OnInit {
         this.dataTable.footerRow = this.dataTable.footerRow;
         this.dataTable.dataRows.push(... response.data)
         this.dataTable.dataRows = _.unionBy(this.dataTable.dataRows || [], this.dataTable.dataRows, 'id');
+        this.dataSource = this.dataTable.dataRows;
         this.loader = false;
           this.spinner.hide();
 
@@ -200,21 +224,6 @@ export class VentasComponent implements OnInit {
             this.notEmptyPost =  false;
           }
           this.notscrolly = true;
-      },
-      error => {
-        console.log('Error', error);
-      });
-  }
-
-  cargarTodos2() {
-    this.spinner.show();
-    this._ventas.get( this.query2 )
-    .subscribe(
-      (response: any) => {
-        this.dataTable2.headerRow = this.dataTable2.headerRow;
-        this.dataTable2.footerRow = this.dataTable2.footerRow;
-        this.dataTable2.dataRows.push(... response.data)
-        this.dataTable2.dataRows = _.unionBy(this.dataTable2.dataRows || [], this.dataTable2.dataRows, 'id');
       },
       error => {
         console.log('Error', error);

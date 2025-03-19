@@ -7,6 +7,8 @@ import { Store } from '@ngrx/store';
 import { ConfiguracionAction } from 'src/app/redux/app.actions';
 import * as _ from 'lodash';
 import { ConfiguracionService } from 'src/app/servicesComponents/configuracion.service';
+import { MatDialog } from '@angular/material';
+import { FormConfigWebComponent } from '../../form/form-config-web/form-config-web.component';
 
 const URLFRON = environment.urlFront;
 
@@ -21,11 +23,32 @@ export class ConfigComponent implements OnInit {
   files: File[] = [];
   list_files: any = [];
   disableRestaure:boolean = false;
+  plantillas = [
+    {
+      id: 'plantilla1',
+      nombre: 'Minimalista',
+      imagen: 'https://cdn.shopify.com/s/files/1/0840/8370/3830/files/1608218265-8.png',
+      descripcion: 'Diseño limpio con enfoque en los productos.'
+    }
+  ];
+  config = {
+    colorFondo: '#ffffff',
+    colorTexto: '#000000',
+    tipografia: 'Arial',
+    colorFondoWeb: "#000000",
+    colorTextoWeb: "#000000",
+    colorBotonCompra: "#000000",
+    colorBotonCarrito: "#000000",
+    txtCompra: "CLIC PARA COMPRAR",
+    txtComprauna: "COMPRAR DE UNA",
+    txtagregarCarrito: "AGREGAR AL CARRITO Y COMPRAR MAS"
+  };
 
   constructor(
     private _tools: ToolsService,
     private _archivos: ArchivosService,
     private _store: Store<STORAGES>,
+    public dialog: MatDialog,
     private _configuracion: ConfiguracionService
   ) { 
 
@@ -33,6 +56,7 @@ export class ConfigComponent implements OnInit {
       console.log(store);
       store = store.name;
       this.data = store.configuracion || {};
+      this.config = this.data.configuracion;
     });
 
   }
@@ -71,16 +95,58 @@ export class ConfigComponent implements OnInit {
 
   }
 
+  handleCacheStorage( res ){
+    let accion = new ConfiguracionAction(res, 'put');
+    this._store.dispatch(accion);
+  }
+
   Actualizar(){
     this.data = _.omit(this.data, ['createdAt', 'updatedAt']);
     this.data = _.omitBy( this.data, _.isNull);
     this._configuracion.update(this.data).subscribe((res:any)=>{
       console.log(res);
       this._tools.presentToast("Actualizado");
-      let accion = new ConfiguracionAction(res, 'put');
-      this._store.dispatch(accion);
+      this.handleCacheStorage( res );
+      
     },(error)=>{console.error(error); this._tools.presentToast("Error de Servidor")})
   }
+
+  // Método para guardar la plantilla seleccionada en la base de datos
+  guardarPlantilla() {
+    let data = this.data;
+    data.plantilla = this.data.plantilla;
+    this._configuracion.update( data ).subscribe((res:any)=>{
+      this._tools.presentToast('Plantilla guardada con éxito.');
+      this.handleCacheStorage( res );
+    });
+  }
+
+  // Método para abrir el diálogo de configuración
+abrirConfiguracion() {
+  console.log("**131", this.config)
+  const dialogRef = this.dialog.open(FormConfigWebComponent, {
+    width: '400px',
+    data: this.config
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      this.config = result;
+      console.log("**135", result)
+      this.guardarConfiguracion();
+    }
+  });
+}
+
+// Método para guardar configuración en la base de datos
+guardarConfiguracion() {
+  let data = this.data;
+  data.configuracion = this.config;
+  this._configuracion.update( data ).subscribe((res:any)=>{
+    this._tools.presentToast('Configuración guardada con éxito.');
+    this.handleCacheStorage( res );
+  });
+}
 
 
 }

@@ -1,98 +1,87 @@
-.anchos{
-  width: 304px !important;
-  top: 0px !important;
-}
-.imgFoto{
-  width: 70px !important;
-  height: 70px !important;
-}
-.colorMenu{
-  color: black !important;
-  background-color: white !important;
-}
-.toolbar{
-  height: 45px !important;
-}
-.anchando{
-  height: 15px;
+.sidenav-container {
+  //height: 100vh; /* Ocupa toda la pantalla */
+  display: flex;
+  flex-direction: column;
 }
 
-mat-sidenav {
-  top: 46px !important;
-  bottom: 0px;
-  transform: none;
-  visibility: visible;
+mat-toolbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
 }
 
-.example-container {
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-  }
-  .mat-toolbar {
-    margin-bottom: 0px !important;
-  }
-  .mat-card-image {
-    width: auto;
-  }
-  .fondo {
-    background: #3f51b5;
-  }
-  #btn-actualizar {
-    margin-left: 15px;
-  }
-  .example-is-mobile .example-toolbar {
-    position: fixed;
-    z-index: 2;
-  }
+.main-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 64px); /* Resta la altura de la barra superior */
+}
 
-  h1.example-app-name {
-    margin-left: 8px;
-  }
+.sidenav {
+  width: 280px;
+}
 
-  .example-sidenav-container {
-    flex: 1;
-  }
+.menu-header {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+}
 
-  .example-is-mobile .example-sidenav-container {
-    flex: 1 0 auto;
-  }
-  .nav-list{
-    padding: 1em;
-  }
-  .menu2 {
-    text-align: end;
-    float: right;
-  }
-  .example-icon {
-    padding: 5px 1em;
-  }
+.logo {
+  width: 180px;
+  max-width: 100%;
+}
 
-  .example-spacer {
-    flex: 1 1 auto;
+mat-sidenav-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.menu-title {
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.menu-text {
+  flex-grow: 1;
+}
+
+.menu-icon {
+  margin-left: auto; /* Empuja el icono hacia la derecha */
+}
+
+.submenu-panel {
+  width: 100%;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .sidenav {
+    width: 250px;
   }
-  .p {
-    padding: 10px;
-  }
-  .margin {
-    margin: 2%;
-  }
-  .perfil {
-    border-radius: 35px;
-    width: 90px;
-    height: 90px;
-  }
-  .border {
-    border: 1px solid black;
-    background: #d8d3d3;
-  }
-  .marginLeft {
-    margin-left: 20px;
-  }
-  .divisor {
-    margin-right: 15px;
-  }
+}
+
+
+/* Fijar toolbar en la parte superior */
+.fixed-toolbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000; /* Asegura que esté sobre los demás elementos */
+}
+
+/* Ajustar el contenido para que respete la toolbar */
+.sidenav-container {
+  //height: 100vh; /* Ocupa toda la pantalla */
+  margin-top: 64px; /* Altura de la toolbar */
+}
+
+.main-content {
+  //height: calc(100vh - 64px); /* Resta la altura del toolbar */
+  overflow: auto; /* Permite scroll si es necesario */
+  padding: 16px; /* Espaciado interno */
+}

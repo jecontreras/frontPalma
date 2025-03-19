@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CategoriasService } from 'src/app/servicesComponents/categorias.service';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatPaginator, MatSort } from '@angular/material';
 import { FormcategoriasComponent } from '../../form/formcategorias/formcategorias.component';
 import { error } from 'protractor';
 import { ToolsService } from 'src/app/services/tools.service';
@@ -30,6 +30,11 @@ export class CategoriasComponent implements OnInit {
     limit: 100
   };
   Header:any = [ 'Acciones','Imagen','Categorias','Descripcion','Categoria Padre','Estado' ];
+  dataSource:any = [];
+  displayedColumns: string[] = ['acciones', 'foto', 'nombre', 'descripcion', 'padre', 'estado'];
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
   $:any;
   public datoBusqueda = '';
 
@@ -52,9 +57,10 @@ export class CategoriasComponent implements OnInit {
       console.log(`Dialog result: ${result}`);
     });
   }
-  delete(obj:any, idx:any){
+  delete(obj:any){
     this._categorias.delete(obj).subscribe((res:any)=>{
-      this.dataTable.dataRows.splice(idx, 1);
+      //this.dataTable.dataRows.splice(idx, 1);
+      this.dataSource = this.dataSource.filter( row => row.id !== obj.id );
       this._tools.presentToast("Eliminado")
     },(error)=>{console.error(error); this._tools.presentToast("Error de servidor") })
   }
@@ -75,6 +81,7 @@ export class CategoriasComponent implements OnInit {
         this.dataTable.headerRow = this.dataTable.headerRow;
         this.dataTable.footerRow = this.dataTable.footerRow;
         this.dataTable.dataRows = response.data;
+        this.dataSource = this.dataTable.dataRows;
         this.paginas = Math.ceil(response.count/10);
         this.loader = false;
         setTimeout(() => {

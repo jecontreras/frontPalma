@@ -1,32 +1,49 @@
-<section id="aa-myaccount">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="aa-myaccount-area">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="container">
-                                <div class="aa-myaccount-login">
-                                    <h4>Login</h4>
-                                    <div action="" class="aa-login-form">
-                                        <label for="">Correo electrónico<span>*</span></label>
-                                        <input type="text" cdkFocusInitial [(ngModel)]="data.usu_email"
-                                            placeholder="Correo electrónico">
-                                        <label for="">Contraseña<span>*</span></label>
-                                        <input type="password" [(ngModel)]="data.usu_clave"
-                                             placeholder="Contraseña">
-                                        <button type="submit" class="aa-browse-btn" (click)="submit()">Iniciar Seccion</button>
-                                        <p class="aa-lost-password"><a cdkFocusInitial target="_blank" class="pointer"
-                                                *ngIf="!disableRestarure"
-                                                [href]="'https://wa.me/573148487506?text=Hola Servicio al cliente, como esta, saludo cordial, necesito recuperar las credenciales de mi cuenta ' + data.usu_email "><span>Recuperar
-                                                    Cuenta</span></a></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<section id="aa-myaccount" class="full-screen">
+    <br><br><br>
+    <div class="container d-flex align-items-center justify-content-center">
+      <mat-card class="login-card">
+        <mat-card-header>
+          <mat-card-title>Iniciar Sesión</mat-card-title>
+        </mat-card-header>
+  
+        <mat-card-content>
+          <!-- 📌 Email -->
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Correo Electrónico</mat-label>
+            <input matInput type="email" [(ngModel)]="data.usu_email" placeholder="Ejemplo: usuario@email.com">
+            <mat-icon matSuffix>email</mat-icon>
+          </mat-form-field>
+  
+          <!-- 📌 Contraseña con icono de ojo -->
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Contraseña</mat-label>
+            <input matInput [type]="hidePassword ? 'password' : 'text'" [(ngModel)]="data.usu_clave"
+              placeholder="Ingrese su contraseña">
+            <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button">
+              <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+          </mat-form-field>
+  
+          <!-- 📌 Botón de Login -->
+          <button mat-raised-button color="primary" class="w-100 mt-2" (click)="submit()">
+            <mat-icon>login</mat-icon> Iniciar Sesión
+          </button>
+        </mat-card-content>
+  
+        <!-- 📌 Opciones adicionales -->
+        <mat-card-actions align="end" class="login-options">
+          <a mat-button color="accent" [routerLink]="'/registro'">
+            <mat-icon>person_add</mat-icon> Registrarse
+          </a>
+  
+          <a mat-button color="warn" *ngIf="!disableRestarure"
+            [href]="'https://wa.me/573148487506?text=Hola Servicio al cliente, necesito recuperar mi cuenta: ' + data.usu_email "
+            target="_blank">
+            <mat-icon>lock_reset</mat-icon> Recuperar Contraseña
+          </a>
+        </mat-card-actions>
+  
+      </mat-card>
     </div>
-</section>
+  </section>
+  

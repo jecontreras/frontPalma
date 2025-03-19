@@ -21,7 +21,7 @@ const dashboardRoutes: Routes = [
    component: MainsComponent,
    canActivate: [AuthService],
    children: [
-     {path: '', redirectTo: 'pedidos', pathMatch: 'full'},
+     {path: '', redirectTo: 'productos', pathMatch: 'full'},
      {path: 'categorias', component: CategoriasComponent},
      {path: 'provedores', component: ProvedoresComponent},
      {path: 'productos', component: ProductosComponent},

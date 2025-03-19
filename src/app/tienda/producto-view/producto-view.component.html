@@ -1,4 +1,6 @@
-<div class="row">
+<div class="row"
+[ngStyle]="{'background-color': data['configuracion']?.colorFondoWeb, 'color': data['configuracion']?.colorTextoWeb}"
+>
   <div class="col-12">
 |   <br><br>
   </div>
@@ -80,13 +82,14 @@
         class="buy-button animated-pop" 
         (click)="comprarArticulo(pedido.cantidad, true, this.data.pro_uni_venta)"
       >
-        COMPRAR DE UNA PAGA EN CASA
+        COMPRAR DE UNA 
       </button>
       <!-- Botón para agregar al carrito -->
        <br><br>
       <button  style="background-color: black !important;"
         class="buy-button animated-pop"
-        (click)="seleccionarOpciones(data)">
+        (click)="seleccionarOpciones(data)"
+         >
         🛒 AGREGAR AL CARRITO Y COMPRA MAS
       </button>
     </div>
@@ -112,8 +115,9 @@
           </div>
           <button style="width: 100%; background: #00e534; font-size: 25px; font-weight: bold; color: white;"
             mat-raised-button class="animated-button buy-button animated-pop"
-            (click)="comprarArticulo(pedido.cantidad,true, this.data.pro_uni_venta )">
-            CLIC PARA COMPRAR <br />PAGA EN CASA 🛒
+            (click)="comprarArticulo(pedido.cantidad,true, this.data.pro_uni_venta )"
+            [ngStyle]="{'background-color': data['configuracion']?.colorBotonCompra, 'color': data['configuracion']?.colorTexto}" >
+            {{ tiendaInfo['configuracion']?.txtCompra ||  'CLIC PARA COMPRAR' }} 🛒
           </button>
         </div>
       </div>
@@ -123,14 +127,17 @@
   <!-- Descripción del producto -->
   <div class="col-12">
     <br>
-    <h2>Descripcion</h2>
-    <p [innerHtml]="data.pro_descripcion "></p>
+    <div class="container" style="text-align: center;">
+      <!--<h2>Descripcion</h2>-->
+      <p [innerHtml]="data.pro_descripcion "></p>
+    </div>
   </div>
-
+<!--
   <div class="col-12">
     <br>
     <h2>Testimonios</h2>
   </div>
+-->
 
   <!-- Comentarios -->
   <div class="col-12">

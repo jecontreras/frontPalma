@@ -315,7 +315,7 @@ export class ChecktDialogComponent implements OnInit {
     if( this.data.envioT === 'priorida' ) this.data.costo+=5000;
     if( this.data.descuento ) this.data.costo-= this.data.descuento;
     if( this.data.metoD === 'anticipado' ) {
-      this.data.costo-=20000;
+      this.data.costo-=this.datas.pro_uni_compra || 20000 ;
     }
     else this.data.costo;
     //console.log( this.data )

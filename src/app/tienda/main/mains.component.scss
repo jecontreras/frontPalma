@@ -4,7 +4,7 @@
   overflow: hidden; /* Oculta el texto fuera del contenedor */
   white-space: nowrap;
   position: relative;
-  background: black; /* Fondo negro */
+  //background: black; /* Fondo negro */
   padding: 10px 0;
 }
 
@@ -218,3 +218,55 @@
 .finalizar-compra-button:hover {
   background: #e55e00;
 }
+
+/* 📌 Contenedor principal del sidenav */
+.sidenav-container {
+  width: 100%;
+  height: 100vh; /* Ocupa toda la pantalla */
+}
+
+/* 📌 Sidebar del carrito */
+.cart-sidenav {
+  width: 350px;
+  max-width: 100%;
+  height: 100vh; /* Fijo en altura */
+  display: flex;
+  flex-direction: column;
+}
+
+/* 📌 Contenido flexible del carrito */
+.cart-container {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+
+/* 📌 Botón flotante del carrito en la parte inferior */
+.cart-footer-fixed {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+}
+
+/* 📌 Botón del carrito */
+.cart-button {
+  background-color: #ff9800;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-size: 16px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* 📌 Animación de rebote para el carrito */
+.animated-bounce {
+  animation: bounce 1.5s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+

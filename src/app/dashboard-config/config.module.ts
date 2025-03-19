@@ -41,6 +41,7 @@ import { NgxCurrencyModule } from 'ngx-currency';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { TestimonioComponent } from './components/testimonio/testimonio.component';
 import { FormTestimonioComponent } from './form/form-testimonio/form-testimonio.component';
+import { FormConfigWebComponent } from './form/form-config-web/form-config-web.component';
 
 
 @NgModule({
@@ -79,7 +80,8 @@ import { FormTestimonioComponent } from './form/form-testimonio/form-testimonio.
     HeaderComponent,
     ConfigComponent,
     TestimonioComponent,
-    FormTestimonioComponent
+    FormTestimonioComponent,
+    FormConfigWebComponent
   ],
   imports: [
     CommonModule,

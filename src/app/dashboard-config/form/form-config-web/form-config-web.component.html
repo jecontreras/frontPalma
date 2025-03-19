@@ -1,0 +1,72 @@
+<h2 mat-dialog-title>🎨 Personalizar Apariencia</h2>
+<mat-dialog-content>
+  
+  <!-- Color de Fondo -->
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Color de Fondo banner</mat-label>
+    <input matInput type="color" [(ngModel)]="config.colorFondo">
+  </mat-form-field>
+
+  <!-- Color del Texto -->
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Color del Texto banner</mat-label>
+    <input matInput type="color" [(ngModel)]="config.colorTexto">
+  </mat-form-field>
+
+  <!-- Color de Fondo -->
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Color de Fondo web</mat-label>
+    <input matInput type="color" [(ngModel)]="config.colorFondoWeb">
+  </mat-form-field>
+
+  <!-- Color del Texto -->
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Color del Texto web</mat-label>
+    <input matInput type="color" [(ngModel)]="config.colorTextoWeb">
+  </mat-form-field>
+
+  <!-- Color del Texto -->
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Color de los botones Compra</mat-label>
+    <input matInput type="color" [(ngModel)]="config.colorBotonCompra">
+  </mat-form-field>
+
+  <!-- Color del Texto -->
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Color de los botones Carrito</mat-label>
+    <input matInput type="color" [(ngModel)]="config.colorBotonCarrito">
+  </mat-form-field>
+
+  <!-- Color del Texto -->
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Texto comprar</mat-label>
+    <input matInput type="text" [(ngModel)]="config.txtCompra">
+  </mat-form-field>
+
+  <!-- Color del Texto -->
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Texto comprar de una</mat-label>
+    <input matInput type="text" [(ngModel)]="config.txtComprauna">
+  </mat-form-field>
+
+  <!-- Color del Texto -->
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Texto agregar Carrito</mat-label>
+    <input matInput type="text" [(ngModel)]="config.txtagregarCarrito">
+  </mat-form-field>
+
+  <!-- Tipografía -->
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Tipografía</mat-label>
+    <mat-select [(ngModel)]="config.tipografia">
+      <mat-option value="Arial">Arial</mat-option>
+      <mat-option value="Roboto">Roboto</mat-option>
+      <mat-option value="Montserrat">Montserrat</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancelar</button>
+  <button mat-button color="primary" (click)="guardarConfiguracion()">Guardar</button>
+</mat-dialog-actions>

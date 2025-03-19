@@ -1,18 +1,38 @@
-.colorCompletado{
-  background: #95ffac !important;
+.mat-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .title {
+    font-size: 18px;
+    font-weight: bold;
+  }
 }
-.colorDespachado{
-  background: #f6ffa8 !important;
+
+.search-bar {
+  width: 100%;
+  margin-bottom: 15px;
 }
-.colorEntrante{
-  background: #83bafa !important;
+
+.table-container {
+  overflow-x: auto;
 }
-.colorDevolucion{
-  background: #ff7598 !important;
+
+.product-image {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 5px;
 }
-.colorPagado{
-  background: #979797 !important;
+
+.ventas-hoy {
+  text-align: center;
+  font-weight: bold;
+  color: #ff3d00;
+  margin-bottom: 15px;
 }
-.colorEliminado{
-  background: #fb1951 !important;
-}
+
+/* Estilos dinámicos según el estado */
+.estado-pendiente { color: orange; font-weight: bold; }
+.estado-exitosa { color: green; font-weight: bold; }
+.estado-rechazada { color: red; font-weight: bold; }
+.estado-despachado { color: blue; font-weight: bold; }

@@ -502,13 +502,14 @@ export class ProductosViewComponent implements OnInit {
       if( !listColores ) return false;
       //console.log("***503", listColores );
       const tallasDisponibles = listColores.tallaSelect.filter( row => row.check === true ); // Tallas asociadas al color
+      console.log("***505", tallasDisponibles)
       let tallaSeleccionada = tallasDisponibles[0];
 
       Swal.fire({
         title: 'Selecciona la Talla',
         input: 'select',
         inputOptions: tallasDisponibles.reduce((acc, talla) => {
-          acc[talla['tal_descripcion']] = talla['tal_descripcion'];
+          acc[talla['tal_descripcion']] = ( talla['tal_descripcion'] || 'unico' );
           return acc;
         }, {}),
         inputPlaceholder: 'Selecciona una talla',

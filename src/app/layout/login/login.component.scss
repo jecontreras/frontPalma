@@ -1,0 +1,36 @@
+/* 📌 Centra el formulario en la pantalla */
+.full-screen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* Ocupa toda la pantalla */
+    background: #f4f4f4;
+  }
+  
+  /* 📌 Tarjeta de login */
+  .login-card {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    background: white;
+  }
+  
+  /* 📌 Inputs */
+  .mat-form-field {
+    width: 100%;
+  }
+  
+  /* 📌 Botón de login */
+  button[mat-raised-button] {
+    font-weight: bold;
+  }
+  
+  /* 📌 Opciones de registro y recuperar contraseña */
+  .login-options {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+  
