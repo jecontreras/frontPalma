@@ -289,6 +289,7 @@ export class ProductosViewComponent implements OnInit {
         this.data = res.data[0] || {};
         this.getTestimonios();
         this.data.listComentarios = this.data.listComment || [];
+        if( this.data.listComentarios.length > 0 ) this.listComentario = this.data.listComentarios;
         this.data.listPrecios = _.orderBy( this.data.listPrecios, ['cantidad'], ['asc']);
         //console.log("***165", this.data.listComentarios)
         try {

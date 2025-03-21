@@ -41,7 +41,8 @@ export class ConfigComponent implements OnInit {
     colorBotonCarrito: "#000000",
     txtCompra: "CLIC PARA COMPRAR",
     txtComprauna: "COMPRAR DE UNA",
-    txtagregarCarrito: "AGREGAR AL CARRITO Y COMPRAR MAS"
+    txtagregarCarrito: "AGREGAR AL CARRITO Y COMPRAR MAS",
+    listComent: []
   };
 
   constructor(
@@ -125,7 +126,8 @@ export class ConfigComponent implements OnInit {
 abrirConfiguracion() {
   console.log("**131", this.config)
   const dialogRef = this.dialog.open(FormConfigWebComponent, {
-    width: '400px',
+    width: '100%',
+    maxWidth: '100%',
     data: this.config
   });
 

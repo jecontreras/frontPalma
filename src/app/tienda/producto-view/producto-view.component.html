@@ -1,5 +1,5 @@
 <div class="row"
-[ngStyle]="{'background-color': data['configuracion']?.colorFondoWeb, 'color': data['configuracion']?.colorTextoWeb}"
+[ngStyle]="{'background-color': tiendaInfo['configuracion']?.colorFondoWeb, 'color': tiendaInfo['configuracion']?.colorTextoWeb}"
 >
   <div class="col-12">
 |   <br><br>
@@ -36,8 +36,6 @@
         <small class="text-muted"><s>{{ _formato.monedaChange( 3, 2, ( data.pro_uni_venta * 2 ) || 0 )  }}</s></small>
       </h3>
     </div>
-    
-    <p class="text-success mb-2">¡Paga En tu casa!</p>
 
     <div class="product-header">
       <div class="product-stars" style="    font-size: 12px;">⭐⭐⭐⭐⭐ +2.500 Clientes satisfechos</div>
@@ -77,20 +75,22 @@
     </div>
 
     <div class="product-footer" style="text-align: center;">
-      <p>✅ Compra con confianza | 👟 Camina con estilo</p>
+      <p>✅ Compra con confianza </p>
       <button 
         class="buy-button animated-pop" 
         (click)="comprarArticulo(pedido.cantidad, true, this.data.pro_uni_venta)"
+        [ngStyle]="{'background-color': tiendaInfo['configuracion']?.colorBotonCompra, 'color': tiendaInfo['configuracion']?.colorTextoWeb}"
       >
-        COMPRAR DE UNA 
+        {{ tiendaInfo['configuracion']?.txtComprauna || 'COMPRAR DE UNA' }}
       </button>
       <!-- Botón para agregar al carrito -->
        <br><br>
       <button  style="background-color: black !important;"
         class="buy-button animated-pop"
         (click)="seleccionarOpciones(data)"
+        [ngStyle]="{'background-color': tiendaInfo['configuracion']?.colorBotonCarrito, 'color': tiendaInfo['configuracion']?.colorTextoWeb}"
          >
-        🛒 AGREGAR AL CARRITO Y COMPRA MAS
+         🛒 {{ tiendaInfo['configuracion']?.txtagregarCarrito || 'AGREGAR AL CARRITO Y COMPRA MAS' }}
       </button>
     </div>
 
@@ -116,7 +116,7 @@
           <button style="width: 100%; background: #00e534; font-size: 25px; font-weight: bold; color: white;"
             mat-raised-button class="animated-button buy-button animated-pop"
             (click)="comprarArticulo(pedido.cantidad,true, this.data.pro_uni_venta )"
-            [ngStyle]="{'background-color': data['configuracion']?.colorBotonCompra, 'color': data['configuracion']?.colorTexto}" >
+            [ngStyle]="{'background-color': tiendaInfo['configuracion']?.colorBotonCompra, 'color': tiendaInfo['configuracion']?.colorTexto}" >
             {{ tiendaInfo['configuracion']?.txtCompra ||  'CLIC PARA COMPRAR' }} 🛒
           </button>
         </div>
@@ -160,6 +160,17 @@
 
   <!-- Sección de seguridad y envío -->
   <div class="col-12">
+    <div class="secure-section"
+      *ngFor="let item of tiendaInfo['configuracion']?.listComent"
+    >
+      <div class="delivery-info">
+        <img [src]="item.foto" alt="Pago Contra Entrega" />
+        <h4>{{ item.titulo }}</h4>
+        <p>{{ item.descripcion }}</p>
+      </div>
+    </div>
+   </div>
+  <!--<div class="col-12">
     <div class="secure-section">
       <div class="delivery-info">
         <img src="./assets/img/envios.png" alt="Pago Contra Entrega" />
@@ -172,6 +183,6 @@
         <p>Garantizamos la seguridad de tu compra en cada paso del proceso.</p>
       </div>
     </div>
-  </div>
+  </div>-->
 
 </div>
