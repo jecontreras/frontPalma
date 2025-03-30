@@ -9,6 +9,8 @@ import * as _ from 'lodash';
 import { ConfiguracionService } from 'src/app/servicesComponents/configuracion.service';
 import { MatDialog } from '@angular/material';
 import { FormConfigWebComponent } from '../../form/form-config-web/form-config-web.component';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { ChatService } from 'src/app/servicesComponents/chat.service';
 
 const URLFRON = environment.urlFront;
 
@@ -44,25 +46,50 @@ export class ConfigComponent implements OnInit {
     txtagregarCarrito: "AGREGAR AL CARRITO Y COMPRAR MAS",
     listComent: []
   };
+  configForm!: FormGroup;
+  qrCodeDownloadLink = '';
+  flagWhatsapp = false;
 
   constructor(
     private _tools: ToolsService,
     private _archivos: ArchivosService,
     private _store: Store<STORAGES>,
     public dialog: MatDialog,
-    private _configuracion: ConfiguracionService
+    private _configuracion: ConfiguracionService,
+    private fb: FormBuilder,
+    private chatService: ChatService
   ) { 
 
     this._store.subscribe((store: any) => {
       console.log(store);
       store = store.name;
       this.data = store.configuracion || {};
-      this.config = this.data.configuracion;
+      this.config = this.data;
     });
 
   }
 
   ngOnInit(): void {
+    // Crear el formulario reactivo
+    this.configForm = this.fb.group({
+      urlSocket: [''],
+      urlBackend: [''],
+      urlBackendFile: [''],
+      userDropi: [''],
+      claveDropi: [''],
+      rolDropi: ['']
+    });
+    this.configForm.patchValue(this.config);
+    // Obtener QR y estado de WhatsApp
+    this.chatService.qrWhatsapp().subscribe(data => {
+      this.qrCodeDownloadLink = data;
+    });
+
+    this.chatService.statusWhatsapp().subscribe(data => {
+      if (this.data.empresa === data.company) {
+        this.flagWhatsapp = data.status;
+      }
+    });
   }
 
   onSelect(event:any, opt) {
@@ -101,9 +128,21 @@ export class ConfigComponent implements OnInit {
     this._store.dispatch(accion);
   }
 
+  handleSubmit(): void {
+    if (this.configForm.valid) {
+      this.data = { ...this.data, ...this.configForm.value };
+
+      this.Actualizar();
+
+      // Cerrar el diálogo y recargar la página después de actualizar
+      setTimeout(() => location.reload(), 2000);
+    }
+  }
+
   Actualizar(){
     this.data = _.omit(this.data, ['createdAt', 'updatedAt']);
     this.data = _.omitBy( this.data, _.isNull);
+    if( !this.data.textTransfer ) this.data.textTransfer = " ";
     this._configuracion.update(this.data).subscribe((res:any)=>{
       console.log(res);
       this._tools.presentToast("Actualizado");

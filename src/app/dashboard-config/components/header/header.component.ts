@@ -259,13 +259,13 @@ export class HeaderComponent implements OnInit {
       //   url: '/config/pedidos',
       //   submenus:[]
       // },
-      /*{
+      {
         icons: 'account_circle',
         nombre: 'Mi Cuenta',
         disable: this.rolUser !== 'visitante',
         url: '/config/perfil',
         submenus:[]
-      },*/
+      },
       /*{
         icons: 'shop',
         nombre: 'Mis Bancos',

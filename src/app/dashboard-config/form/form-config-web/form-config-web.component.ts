@@ -19,7 +19,7 @@ export class FormConfigWebComponent implements OnInit {
     txtCompra: "CLIC PARA COMPRAR",
     txtComprauna: "COMPRAR DE UNA",
     txtagregarCarrito: "AGREGAR AL CARRITO Y COMPRAR MAS",
-    txtbanner: "🚀 Envío Gratis - Pagos Contra Entrega 🚀",
+    txtbanner: "Envío Gratis - Pagos Contra Entrega",
     listComent: [
       {
         titulo: "",

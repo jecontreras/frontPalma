@@ -12,9 +12,8 @@ const headers = new HttpHeaders({
   'X-Api-Key': ""
 });
 
-const URL = environment.url;
-const URL2 = environment.urlEnvios;
-const URLFILE = environment.URLFILE;
+let URL = environment.url;
+let URLFILE = environment.URLFILE;
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +25,7 @@ export class ServiciosService {
   public dataUser:any = {};
   activador: boolean = false;
   dataConfig:any = {};
+  public URL = URL;
 
   constructor(
     private http: HttpClient,
@@ -38,6 +38,8 @@ export class ServiciosService {
       store = store.name;
       if(!store) return false;
       this.dataConfig = store.configuracion || {};
+      if( store.configuracion.urlBackend ) URL = store.configuracion.urlBackend || URL;
+      if( store.configuracion.user.urlFile ) URLFILE = store.configuracion.urlFile || URLFILE;
       try {
         this.activador = store.userpr.id ? true : false;
       } catch (error) {
@@ -47,7 +49,7 @@ export class ServiciosService {
     //this.conectionSocket();
     //this.createsocket("emitir", {mensaje:"inicial"});
     if( !this.activador ) this.privateDataUser();
-    this.getConfig();
+    //this.getConfig();
   }
   getConfig(){
     this.querys('admin/querys',{
@@ -65,17 +67,17 @@ export class ServiciosService {
       store = store.name;
       if(!store) return false;
       this.dataUser = store.user || {};
+      //this.dataUser.id = "635c2fdab0f6ff3068000fef";
     });
     if(Object.keys(this.dataUser).length >0 ){
-      this.querys('tblusuario/querys',{
+      this.querys('user/querys',{
         where:{
            id: this.dataUser.id
           //id: 1016
         }
       }, 'post').subscribe((res:any)=>{
         res = res.data[0];
-        //console.log("****", res)
-        //localStorage.removeItem('user');
+        localStorage.removeItem('user');
         if(!res) {
           let accion = new UserAction(this.dataUser,'delete')
           this._store.dispatch(accion);
@@ -110,13 +112,6 @@ export class ServiciosService {
     data.limit = datas.limit ? datas.limit : 10;
     query = URLFILE+`/${query}`;
     delete data.where.app;
-    return this.ejecutarQuery(query, data, METODO);
-  }
-
-  querysFlete( query:string, datas:any, METODO:string ){
-    let data = datas;
-    if( !datas.where ) datas.where = {};
-    query = URL2+`/${query}`;
     return this.ejecutarQuery(query, data, METODO);
   }
 

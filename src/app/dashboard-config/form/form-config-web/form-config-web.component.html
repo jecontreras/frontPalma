@@ -24,6 +24,36 @@
   </mat-form-field>
 
   <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Color de boton de compra</mat-label>
+    <input matInput type="color" [(ngModel)]="config.colorBotonCompra">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Color de boton de carrito</mat-label>
+    <input matInput type="color" [(ngModel)]="config.colorBotonCarrito">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Texto compra</mat-label>
+    <input matInput type="text" [(ngModel)]="config.txtCompra">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Texto compra de una</mat-label>
+    <input matInput type="text" [(ngModel)]="config.txtComprauna">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Texto agregar al carrito</mat-label>
+    <input matInput type="text" [(ngModel)]="config.txtagregarCarrito">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Texto texto del banner</mat-label>
+    <input matInput type="text" [(ngModel)]="config.txtbanner">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="w-100">
     <mat-label>Tipografía</mat-label>
     <mat-select [(ngModel)]="config.tipografia">
       <mat-option value="Arial">Arial</mat-option>

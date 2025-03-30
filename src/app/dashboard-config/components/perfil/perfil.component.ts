@@ -24,7 +24,7 @@ export class PerfilComponent implements OnInit {
   data:any = {};
   files: File[] = [];
   list_files: any = [];
-  urlTienda:string = `${ URLFRON }/pedidos/`;
+  urlTienda:string = `${ window.location.origin }/pedidos/`;
   urlRegistro:string = `${ URLFRON }/registro/`;
   restaure:any = {};
   disableRestaure:boolean = false;
@@ -72,6 +72,7 @@ export class PerfilComponent implements OnInit {
       console.log(res);
       this.data[opt] = res.files; //URL+`/${res}`;
       this._tools.presentToast("Exitoso");
+      this.files = [];
       this.Actualizar();
     },(error)=>{console.error(error); this._tools.presentToast("Error de servidor")});
 

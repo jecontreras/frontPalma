@@ -100,6 +100,93 @@
         </mat-card-content>
       </mat-card>
     </div>
+    <div class="col-12">
+      <h1>Configuraciones primordiales</h1>
+    </div>
+    <div class="col-md-12">
+      <form [formGroup]="configForm">
+  
+        <div class="col-12 col-sm-6">
+          <!-- URL Socket -->
+          <mat-form-field appearance="outline">
+            <mat-label>URL Socket</mat-label>
+            <mat-icon matPrefix>link</mat-icon>
+            <input matInput formControlName="urlSocket">
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-sm-6">
+          <!-- URL Backend -->
+          <mat-form-field appearance="outline">
+            <mat-label>URL Backend</mat-label>
+            <mat-icon matPrefix>cloud</mat-icon>
+            <input matInput formControlName="urlBackend">
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-sm-6">
+          <!-- URL File -->
+          <mat-form-field appearance="outline">
+            <mat-label>URL File</mat-label>
+            <mat-icon matPrefix>folder</mat-icon>
+            <input matInput formControlName="urlBackendFile">
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-sm-6">
+          <!-- User Dropi -->
+          <mat-form-field appearance="outline">
+            <mat-label>Usuario Dropi</mat-label>
+            <mat-icon matPrefix>person</mat-icon>
+            <input matInput formControlName="userDropi" autocomplete="off">
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-sm-6">
+          <!-- Clave Dropi -->
+          <mat-form-field appearance="outline">
+            <mat-label>Clave Dropi</mat-label>
+            <mat-icon matPrefix>lock</mat-icon>
+            <input matInput type="password" formControlName="claveDropi" autocomplete="off">
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-sm-6">
+          <!-- Rol Dropi -->
+          <mat-form-field appearance="outline">
+            <mat-label>Rol Dropi</mat-label>
+            <mat-icon matPrefix>verified_user</mat-icon>
+            <mat-select formControlName="rolDropi">
+              <mat-option value="dropshipping">DropShipping</mat-option>
+              <mat-option value="proveedor">Bodeguero o Proveedor</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-sm-6">
+            <!-- Estado del WhatsApp -->
+          <div>
+            <p>
+              <strong>Estado del WhatsApp:</strong> 
+              <span [ngClass]="flagWhatsapp ? 'text-success' : 'text-danger'">
+                {{ flagWhatsapp ? 'Conectado ✅' : 'No Conectado ❌' }}
+              </span>
+            </p>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6">
+          <!-- QR WhatsApp -->
+          <div class="qr-container">
+            <p><strong>QR WhatsApp</strong></p>
+            <div *ngIf="qrCodeDownloadLink; else loading">
+              <img [src]="qrCodeDownloadLink" alt="Código QR">
+            </div>
+            <ng-template #loading>
+              <p>Cargando QR...</p>
+            </ng-template>
+          </div>
+        </div>
+        
+      </form>
+      <button mat-raised-button color="primary" (click)="handleSubmit()">
+        <mat-icon>update</mat-icon> Actualizar
+      </button>
+      
+    </div>
     <div class="col-md-12">
       <mat-card>
         <mat-card-title>🎨 Selecciona una Plantilla</mat-card-title>

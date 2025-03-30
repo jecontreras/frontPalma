@@ -9,7 +9,6 @@ import { CarritoComponent } from './carrito/carrito.component';
 import { ChecktComponent } from './checkt/checkt.component';
 import { DetallePedidoComponent } from './detalle-pedido/detalle-pedido.component';
 import { CatalogoComponent } from './catalogo/catalogo.component';
-import { ProductoViewDeComponent } from './producto-view-de/producto-view-de.component';
 
 
 const routes: Routes = [
@@ -32,10 +31,6 @@ const routes: Routes = [
           {
             path: 'productosView/:id',
             component: ProductosViewComponent
-          },
-          {
-            path: 'productosViewDe/:id',
-            component: ProductoViewDeComponent
           },
           {
             path: 'contacto',

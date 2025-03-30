@@ -2,155 +2,173 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12">
-          <div class="card" style="overflow-x: scroll;">
-            <br>
-            <br>
-            <div class="card-header card-header-primary card-header-icon">
-              <div class="card-icon">
-                <i class="material-icons">assignment</i>
-              </div>
-              <h4 class="card-title">Mi cuenta</h4>
-            </div>
-            <div class="card-header card-header-primary card-header-icon">
-                <div class="card-icon">
+          <mat-card class="p-3">
+            <mat-card-header>
+              <mat-card-title>
+                <mat-icon>assignment</mat-icon> Mi Cuenta
+              </mat-card-title>
+            </mat-card-header>
+  
+            <!-- Sección de Usuario -->
+            <mat-card>
+              <mat-card-header class="d-flex justify-content-between align-items-center">
+                <mat-card-title>
                   <h5>{{ data.usu_nombre }}</h5>
+                </mat-card-title>
+              </mat-card-header>
+  
+              <mat-card-content>
+                <h6>Este es el Link de su tienda:</h6>
+                <div class="btn-group">
+                  <button mat-raised-button color="primary" (click)="copiarLink()">Copiar link de su tienda</button>
+                  <!--<button mat-raised-button color="accent" (click)="copiarLinkRegistro()">Invitar Personas</button>
+                  <button mat-raised-button color="primary" (click)="abrrirTienda()">Abrir tienda</button>-->
                 </div>
-                <div class="row">
-                    <h6 class="card-title">
-                        Este es el Link de su tienda:
-                    </h6>
-                    <div>
-                        <button (click)="copiarLink()" class="btn btn-primary btn-just-icon btn-round saltoButton">Copiar link de su tienda</button>
-                        <button (click)="copiarLinkRegistro()" class="btn btn-success btn-just-icon btn-round saltoButton">Invitar Personas</button>
-                        <button (click)="abrrirTienda()" class="btn btn-primary btn-just-icon btn-round saltoButton">Abrir tienda en una pestaña nueva</button>
-                    </div>
-                </div>
-            </div>
+              </mat-card-content>
+            </mat-card>
+  
+            <!-- Foto de Perfil -->
             <div class="row p-3">
-                <div class="col-12 mx-auto">
-                    <div class="mx-auto" style="width: 200px;">
-                        <img [src]="data.usu_imagen" class="imgPerfil">
-                    </div>
-                </div>
-                <div class="col-12">
-                    <div class="row">
-                        <label>Subir Foto de Perfil</label>
-                        <button class="btn btn-primary btn-just-icon btn-round" (click)="subirFile('usu_imagen')" *ngIf="files.length > 0">
-                            Subir Imagen
-                        </button>
-                    </div>
-                    <ngx-dropzone (change)="onSelect($event)">
-                        <ngx-dropzone-label>Abrir archivos</ngx-dropzone-label>
-                        <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files"
-                            [file]="f" [removable]="true" (removed)="onRemove(f)" multiple="false">
-                            <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
-                        </ngx-dropzone-image-preview>
-                    </ngx-dropzone>
-                </div>
-                <div class="col-4">
-                    <label>Nombre(s)</label>
-                    <input type="text" [(ngModel)]="data.usu_nombre" class="form-control form-control-sm">
-                </div>
-                <div class="col-4">
-                    <label>Apellido(s)</label>
-                    <input type="text" [(ngModel)]="data.usu_apellido" class="form-control form-control-sm">
-                </div>
-                <div class="col-4">
-                    <label>Documento</label>
-                    <input type="number" [(ngModel)]="data.usu_documento" class="form-control form-control-sm">
-                </div>
-                <!-- <div class="col-6">
-                    <label>Pais</label>
-                    <input type="text" [(ngModel)]="data.usu_pais" class="form-control form-control-sm">
-                </div> -->
-                <div class="col-6">
-                    <label>Celular</label>
-                    <input type="text" [(ngModel)]="data.usu_telefono" class="form-control form-control-sm">
-                </div>
-                <!-- <div class="col-6">
-                    <label>Ciudad</label>
-                    <input type="text" [(ngModel)]="data.usu_ciudad" class="form-control form-control-sm">
-                </div> -->
-                <div class="col-6">
-                    <label for="colorTienda">Selecciona un color:</label>
-                    <input type="color" id="colorTienda" [(ngModel)]="data.usu_color"/>
-                  </div>
-                <div class="form-group col-6">
-                    <label for="exampleFormControlInput1">Departamento</label>
-                    <select class="form-control form-control-sm" [(ngModel)]="data.usu_pais" (change)="selectDepartamento( )">
-                        <option [value]="item.departamento" *ngFor="let item of listDepartamento">{{ item.departamento }} </option>
-                    </select>
-                </div>
-                <div class="form-group col-6">
-                    <label for="exampleFormControlInput1">Ciudad</label>
-                    <select class="form-control form-control-sm" [disabled]="!data.usu_pais" [(ngModel)]="data.usu_ciudad" (change)="selectDepartamento( )">
-                        <option [value]="item" *ngFor="let item of listCiudad">{{ item }} </option>
-                    </select>
-                </div>
-                <div class="col-6">
-                    <label>Dirección</label>
-                    <input type="text" [(ngModel)]="data.usu_direccion" class="form-control form-control-sm">
-                </div>
-                <div class="col-6">
-                    <label>Correo Electronico</label>
-                    <input type="text" [(ngModel)]="data.usu_email" class="form-control form-control-sm">
-                </div>
-                <div class="col-6">
-                    <label>Url de Facebook</label>
-                    <input type="text" [(ngModel)]="data.url_facebook" class="form-control form-control-sm">
-                </div>
-                <div class="col-6">
-                    <label>Url de Instagram</label>
-                    <input type="text" [(ngModel)]="data.url_instagram" class="form-control form-control-sm">
-                </div>
-                <div class="col-6">
-                    <label>Url de youtube</label>
-                    <input type="text" [(ngModel)]="data.url_youtube" class="form-control form-control-sm">
-                </div>
-                <div class="col-6">
-                    <label>Fecha Nacimiento(s)</label>
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                        <input type="date" class="form-control"
-                            [(ngModel)]="data.usu_fec_nacimiento">
-                    </div>
-                </div>
-                <div class="col-6">
-                    <label>Genero</label>
-                    <select class="form-control form-control-sm" [(ngModel)]="data.usu_genero">
-                        <option value="masculino">Masculino</option>
-                        <option value="feminino">Feminino</option>
-                    </select>
-                </div>
-                <!--<div class="col-12">
-                    <label>Confirmar Contraseña Para Actualizar</label>
-                    <input type="text" [(ngModel)]="data.cat_nombre" class="form-control form-control-sm">
-                </div>-->
-                <div class="col-6">
-                    <br>
-                    <button class="p-2 btn btn-primary btn-just-icon btn-round" (click)="Actualizar()">
-                        Actualizar Datos
-                    </button>
-                </div>
-                <div class="col-6">
-                    <br>
-                    <div class="col-6" *ngIf="disableRestaure">
-                        <label>Clave Nueva</label>
-                        <input type="password" [(ngModel)]="restaure.passNew" class="form-control form-control-sm">
-                        <br>
-                    </div>
-                    <button class="p-2 btn btn-primary btn-just-icon btn-round" (click)="disableRestaure = true;" *ngIf="!disableRestaure">
-                        Cambiar Contraseña
-                    </button>
-                    <button class="p-2 btn btn-primary btn-just-icon btn-round" (click)="CambiarPassword()" *ngIf="disableRestaure">
-                        Actualizar Contraseña
-                    </button>
-                    <br><br><br><br>
-                </div>
+              <div class="col-12 text-center">
+                <img [src]="data.usu_imagen" class="imgPerfil">
+                <br>
+                <label>Subir Foto de Perfil</label>
+                <button mat-raised-button color="primary" (click)="subirFile('usu_imagen')" *ngIf="files.length > 0">
+                  Subir Imagen
+                </button>
+                <ngx-dropzone (change)="onSelect($event)">
+                  <ngx-dropzone-label>Abrir archivos</ngx-dropzone-label>
+                  <ngx-dropzone-image-preview *ngFor="let f of files" [file]="f" [removable]="true" (removed)="onRemove(f)">
+                    <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                  </ngx-dropzone-image-preview>
+                </ngx-dropzone>
+              </div>
             </div>
-          </div>
+  
+            <!-- Formulario -->
+            <div class="row p-3">
+              <div class="col-md-4">
+                <mat-form-field appearance="outline">
+                  <mat-label>Nombre(s)</mat-label>
+                  <input matInput type="text" [(ngModel)]="data.usu_nombre">
+                </mat-form-field>
+              </div>
+  
+              <div class="col-md-4">
+                <mat-form-field appearance="outline">
+                  <mat-label>Apellido(s)</mat-label>
+                  <input matInput type="text" [(ngModel)]="data.usu_apellido">
+                </mat-form-field>
+              </div>
+  
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Celular</mat-label>
+                  <input matInput type="text" [(ngModel)]="data.usu_telefono">
+                </mat-form-field>
+              </div>
+  
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Color de la Tienda</mat-label>
+                  <input matInput type="color" [(ngModel)]="data.usu_color">
+                </mat-form-field>
+              </div>
+  
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Departamento</mat-label>
+                  <mat-select [(ngModel)]="data.usu_pais" (selectionChange)="selectDepartamento()">
+                    <mat-option *ngFor="let item of listDepartamento" [value]="item.departamento">
+                      {{ item.departamento }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+  
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Ciudad</mat-label>
+                  <mat-select [(ngModel)]="data.usu_ciudad" [disabled]="!data.usu_pais">
+                    <mat-option *ngFor="let item of listCiudad" [value]="item">
+                      {{ item }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+  
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Dirección</mat-label>
+                  <input matInput type="text" [(ngModel)]="data.usu_direccion">
+                </mat-form-field>
+              </div>
+  
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Correo Electrónico</mat-label>
+                  <input matInput type="email" [(ngModel)]="data.usu_email">
+                </mat-form-field>
+              </div>
+  
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Facebook</mat-label>
+                  <input matInput type="text" [(ngModel)]="data.url_facebook">
+                </mat-form-field>
+              </div>
+  
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Instagram</mat-label>
+                  <input matInput type="text" [(ngModel)]="data.url_instagram">
+                </mat-form-field>
+              </div>
+  
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>YouTube</mat-label>
+                  <input matInput type="text" [(ngModel)]="data.url_youtube">
+                </mat-form-field>
+              </div>
+  
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Fecha de Nacimiento</mat-label>
+                  <input matInput type="date" [(ngModel)]="data.usu_fec_nacimiento">
+                </mat-form-field>
+              </div>
+  
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Género</mat-label>
+                  <mat-select [(ngModel)]="data.usu_genero">
+                    <mat-option value="masculino">Masculino</mat-option>
+                    <mat-option value="feminino">Feminino</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+  
+              <div class="col-md-6 text-center">
+                <button mat-raised-button color="primary" (click)="Actualizar()">Actualizar Datos</button>
+              </div>
+  
+              <div class="col-md-6 text-center">
+                <button mat-raised-button color="warn" (click)="disableRestaure = true;" *ngIf="!disableRestaure">
+                  Cambiar Contraseña
+                </button>
+                <div *ngIf="disableRestaure">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Nueva Clave</mat-label>
+                    <input matInput type="password" [(ngModel)]="restaure.passNew">
+                  </mat-form-field>
+                  <button mat-raised-button color="primary" (click)="CambiarPassword()">Actualizar Contraseña</button>
+                </div>
+              </div>
+            </div>
+          </mat-card>
         </div>
-        <div></div>
       </div>
     </div>
-</div>
+  </div>
+  
