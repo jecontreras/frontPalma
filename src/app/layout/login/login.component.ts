@@ -4,7 +4,7 @@ import { ToolsService } from 'src/app/services/tools.service';
 import { Router } from '@angular/router';
 import { STORAGES } from 'src/app/interfaces/sotarage';
 import { Store } from '@ngrx/store';
-import { UserAction } from 'src/app/redux/app.actions';
+import { ConfiguracionAction, UserAction } from 'src/app/redux/app.actions';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -28,7 +28,7 @@ export class LoginsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    if (this._authSrvice.isLoggedIn()) this._router.navigate(['/config/ventas']);
+    if (this._authSrvice.isLoggedIn()) this._router.navigate(['/config/estadisticas']);
   }
 
   submit(){
@@ -41,7 +41,9 @@ export class LoginsComponent implements OnInit {
         localStorage.setItem('user', JSON.stringify(res.data));
         let accion = new UserAction( res.data, 'post');
         this._store.dispatch(accion);
-        this._router.navigate(['/config/ventas']);
+        let accionR = new ConfiguracionAction( res.data.usu_empresa, 'post');
+        this._store.dispatch(accionR);
+        this._router.navigate(['/config/estadisticas']);
         //location.reload();
       }else{
         this._tools.presentToast("Error de sesión")

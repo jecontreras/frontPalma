@@ -1,0 +1,452 @@
+<div class="row">
+    <div class="main-content">
+      <div class="container-fluid" [ngStyle]="{'background-color': tiendaInfo['configuracion']?.colorFondoWeb, 'color': tiendaInfo['configuracion']?.colorTextoWeb}">
+        <div *ngIf="view === 'one'">
+              <div class="centered-content" (click)="view='three'">
+                <div class="row" style="text-align: center;">
+                  <img src="./assets/imagenes/txt1.png" alt="">
+                </div>
+              </div>
+  
+              <footer class="footer" (click)="view='three'">
+                <p>Realiza tu Pedido</p>
+              </footer>
+        </div>
+        <div *ngIf="view === 'three'">
+          <!-- src/app/app.component.html -->
+  
+          <div class="container">
+            <div class="row justify-content-center" style="width: 110%;">
+              <div class="col-12">
+                <br>
+              </div>
+              <div class="col-md-6 mb-4" *ngIf="dataPro.id === 1456 ">
+                <div class="d-flex justify-content-center">
+                  <div>
+                    <div class="card" style="width: 18rem;     color: white; background: #19173d; border-radius: 20px;     height: 250px;">
+                      <div class="card-body" style="padding: 12px 31px !important;">
+                        <h1 class="card-title" style="    color: #ff008a; font-size: 45px;">
+                          Pack6
+                        </h1>
+                        <h6 class="card-subtitle mb-2 text-muted" style="    font-size: 13px; background: white; border-radius: 10px;">
+                          SANDALIAS
+                        </h6>
+                        <p class="card-text" style="text-align: center; color: white;">
+                          Para que aplique el precio de {{ _ToolServices.monedaChange( 3,2, ( this.price2 || 0 ), code ) }} tu compra minima debe ser de 6 pares en adelante.
+                        </p>
+                        <p class="card-link" style="text-align: center; color: white;">
+                          Ejemplo: 6 pares por {{ _ToolServices.monedaChange( 3,2, ( ( this.price2 * 6 ) || 0 ), code ) }} + envió.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 mb-4" *ngIf="dataPro.id !== 1456 ">
+                <div class="d-flex justify-content-center">
+                  <div>
+                    <h1 class="text-pink" style="text-align: center;  font-size: 55px;"
+                      [ngStyle]="{'color': tiendaInfo['configuracion']?.colorTextoWeb}"
+                    >Descripcion</h1>
+                    <h5 style="text-align: center;margin: 10px 10px;" [innerHtml]=" dataPro.pro_descripcion"></h5>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="col-12" *ngIf="dataPro.id !== 1456 ">
+                <div class="d-flex justify-content-center">
+                  <div style="width: 100%;">
+                    <h1 class="text-pink" style="text-align: center;  font-size: 55px;"
+                      [ngStyle]="{'color': tiendaInfo['configuracion']?.colorTextoWeb}"
+                    >Promos</h1>
+                    <div class="mb-4">
+                      <br><br>
+                      <div class="quantity-breaks-container" *ngFor="let item of dataPro.listPrecios; let i = index">
+                        <!-- Opción 1 -->
+                        <input [id]="item.cantidad" type="radio" name="quantity" [value]="item.cantidad" />
+                        <label [for]="item.cantidad" class="quantity-break">
+                          <span class="quantity-break__badge">
+                            <p *ngIf="item.cantidad === 1" >OFERTA DEL DÍA 💥</p>
+                            <p *ngIf="item.cantidad === 2" >MEGA OFERTA 🔥</p>
+                            <p *ngIf="item.cantidad >= 3" >AHORRA MÁS 🚀</p>
+                          </span>
+                          <div class="quantity-break__content">
+                            <div class="quantity-break__left">
+                              <span class="quantity-break__label">LLEVA {{ item.cantidad }} <label for="" *ngIf="item.cantidad === 1 ">PAR</label> <label for="" *ngIf="item.cantidad !== 1 ">PARES</label></span>
+                              <span class="quantity-break__benefit"> Envío gratis</span>
+                            </div>
+                            <div class="quantity-break__right">
+                              <span class="quantity-break__price">{{ _formato.monedaChange(3, 2, item.precios || 0) }}</span>
+                            </div>
+                          </div>
+                        </label>
+                      </div>
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 mb-4" *ngIf="namePais === 'Colombia' && dataPro.id === 1456">
+                <div class="d-flex justify-content-center">
+                  <div>
+                    <div class="card" style="width: 18rem;     color: white; background: #19173d; border-radius: 20px;     height: 250px;">
+                      <div class="card-body" style="padding: 12px 31px !important;">
+                        <h1 class="card-title" style="    color: #ff008a; font-size: 45px;">
+                          Pack
+                        </h1>
+                        <h6 class="card-subtitle mb-2 text-muted" style="    font-size: 13px; background: white; border-radius: 10px;">
+                          PERSONAL
+                        </h6>
+                        <p class="card-text" style="text-align: center; color: white;">
+                          Si lo que quieres es realizar tu compra para tu uso de 1 a 5 pares te saldria la unidad en {{ _ToolServices.monedaChange( 3,2, ( this.price3 || 0 ), code ) }}.
+                        </p>
+                        <p class="card-link" style="text-align: center; color: white;">
+                          Ejemplo: 2 pares por {{ _ToolServices.monedaChange( 3,2, ( this.price3 * 2 || 0 ), code ) }} + envió.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <footer class="footer text-center py-3" *ngIf="dataPro.id === 1456 ">
+            <label class="exTrega">Pago Contra entrega</label>
+            <p class="m-0">Emprende por tan solo {{ _ToolServices.monedaChange( 3,2, ( this.price2 || 0 ), code ) }}</p>
+          </footer>
+  
+  
+        </div>
+  
+        <div *ngIf="view === 'three'">
+          <div class="row">
+            <div class="col-12" *ngIf="dataPro.id === 1456 ">
+              <br>
+              <div class="d-flex justify-content-center">
+                <div>
+                  <div  style="width: 100%">
+                    <div class="card-body" style="padding: 12px 31px !important;">
+                      <p class="card-text" style="text-align: center;     font-size: 16px;">
+                        <strong>Recuerda</strong> que para que <strong>aplique</strong> el precio de <strong>{{ _ToolServices.monedaChange( 3,2, ( this.price2 || 0 ), code ) }} </strong> la compra <strong>mínima</strong> debe <strong>ser</strong> de <strong>6 pares</strong> <span *ngIf="namePais === 'Colombia'"> en adelante de lo <strong>contrario</strong> de 1 a 5 el <strong>valor</strong> unidad seria <strong>{{ _ToolServices.monedaChange( 3,2, ( this.price3 || 0 ), code ) }}</strong></span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <br>
+            </div>
+            <div class="col-12" style="    padding: 0 35px;">
+              <div class="d-flex justify-content-center">
+                <div>
+                  <img src="./assets/imagenes/colombia.jpg" alt="" *ngIf="namePais === 'Colombia'" style="    width: 90px;"> <img src="./assets/imagenes/panama.jpg" alt="" *ngIf="namePais === 'Panama'" style="    width: 90px;">
+                </div>
+              </div>
+              <h1 class="text-pink" style="text-align: center;     font-size: 55px;"
+              [ngStyle]="{'color': tiendaInfo['configuracion']?.colorTextoWeb}">Paso 1</h1>
+              <h5 style="text-align: center;margin: 10px 10px;">Seleccione las referencias, tallas y colores y la cantidad que deseas</h5>
+              <!--<div class="d-flex justify-content-center">
+                <div>
+                  <button type="button" class="btn btn-success" (click)="handleOpenPhoto()">Ver Todas Las Fotos</button>
+                </div>
+              </div>-->
+              <br>
+            </div>
+            <div class="col-12">
+              <div class="row" style="margin: 0;">
+                <div class="col-md-3 col-sm-6 mb-4 col-6" *ngFor="let row of dataPro.listColor">
+                  <div class="card custom-card">
+                    <img [src]="row.foto" class="card-img-top" alt="Ref 10" (click)="handleOpenDialogPhoto(row)">
+                    <div class="card-body text-center">
+                      <h6 class="product-title">{{ row.talla }}</h6>
+                      <!--<p class="product-stock">Stock disponible: <strong>{{ row.stock || 0 }}</strong></p>-->
+                      <button mat-flat-button style="background:#317931;" color="accent" class="animated-button" (click)="handleOpenDialogPhoto(row)">
+                        Seleccionar
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-12" style="    padding: 0 35px;"  #nextStep id="next-step">
+              <h1 class="text-pink" style="text-align: center;     font-size: 55px;" [ngStyle]="{'color': tiendaInfo['configuracion']?.colorTextoWeb}">Paso 2</h1>
+              <h5 style="text-align: center;margin: 10px 10px;">Estos son los productos que haz agregado a tu compra, si esta completo tu pedido continua el paso 3</h5>
+              <br>
+            </div>
+            <div class="col-12">
+              <div class="container mt-4">
+                <div class="row mb-3" *ngFor="let item of listDataAggregate">
+                  <div class="col-6">
+                    <img [src]="item.foto" class="img-fluid rounded" style="    border-radius: 20px;" alt="Ref 20">
+                  </div>
+                  <div class="col-6">
+                    <div class="row">
+                      <div class="col-12">
+                        <h5> {{ item.ref | slice: 0: 10 }} </h5>
+                      </div>
+                      <div class="col-12" *ngIf="dataPro.pro_sw_tallas !== 5">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Talla</mat-label>
+                            <input matInput [(ngModel)]="item.talla" disabled>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-12">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Cantidad</mat-label>
+                            <input matInput [(ngModel)]="item.amountAd" (change)="suma()" type="number">
+                        </mat-form-field>
+                      </div>
+                      <div class="col-12">
+                        <div class="d-flex bd-highlight">
+                          <div class="p-2 flex-grow-1 bd-highlight"></div>
+                          <!--<div class="p-2 bd-highlight"><span><p style="font-size: 10px;">Agregar Más</p></span></div>-->
+                          <!--<div class="p-2 bd-highlight"><mat-icon style="background-color: #f14e95;border-radius: 25px; color: white;">add</mat-icon></div>-->
+                          <div class="p-2 bd-highlight"><mat-icon style="background-color: #ff0000;border-radius: 25px; color: white;" (click)="handleDeleteItem( item )">close</mat-icon></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="content" style="margin: 0 44px;">
+                <div class="row">
+                  <div class="col-12">
+                    <h2 style="text-align: center;" [ngStyle]="{'color': tiendaInfo['configuracion']?.colorTextoWeb}">Resumen de mi Pedido</h2>
+                  </div>
+                  <div class="col-12">
+                    <div class="d-flex justify-content-between">
+                      <div><p>Cantidad de Pares:</p></div>
+                      <div></div>
+                      <div>
+                        <p>{{ data.sumAmount }}</p>
+                      </div>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                      <div><p>Precio:</p></div>
+                      <div></div>
+                      <div>
+                        <p>{{ _ToolServices.monedaChange( 3, 2, ( price || 0 ), code ) }}</p>
+                      </div>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                      <div><p>Total a Pagar sin envió:</p></div>
+                      <div></div>
+                      <div>
+                        <p>{{ _ToolServices.monedaChange( 3, 2, ( data.priceTotal || 0 ), code ) }}</p>
+                      </div>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                      <div><p>Precio envió:</p></div>
+                      <div></div>
+                      <div>
+                        <p *ngIf="this.dataPro.cobreEnvio === 0">{{ _ToolServices.monedaChange( 3, 2, ( data.totalFlete || 0 ), code ) }}</p>
+                        <p *ngIf="this.dataPro.cobreEnvio === 1">Envio Gratis</p>
+                      </div>
+                    </div>
+                    <div class="d-flex justify-content-between" *ngIf="data.totalFlete">
+                      <div><p>Total a Pagar:</p></div>
+                      <div></div>
+                      <div>
+                        <p>
+                          {{ _ToolServices.monedaChange( 3, 2, ( ( data.totalAPagar || 0 )), code ) }}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+  
+            </div>
+            <div class="col-12" style="    padding: 0 35px;">
+              <h1 class="text-pink" style="text-align: center;     font-size: 55px;"
+                [ngStyle]="{'color': tiendaInfo['configuracion']?.colorTextoWeb}">Paso 3</h1>
+                <h5 style="text-align: center;margin: 10px 10px;">Diligencia tus datos personales de manera correcta, especifica tu dirección exacta para que sea posible la entrega.</h5>
+                <br>
+              </div>
+              <div class="col-12">
+                <h3 style="text-align: center;" class="text-pink"
+                [ngStyle]="{'color': tiendaInfo['configuracion']?.colorTextoWeb}">Tus Datos</h3>
+              </div>
+              
+              <div class="col-12">
+                <div fxLayout="column" fxLayoutGap="16px" class="mat-elevation-z2 p-4">
+
+                <!-- Nombre completo -->
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Nombre completo</mat-label>
+                  <mat-icon matPrefix>person</mat-icon>
+                  <input matInput type="text" placeholder="Tu nombre completo" [(ngModel)]="data.nombre">
+                </mat-form-field>
+
+                <!-- País y Teléfono -->
+                <div fxLayout="row" fxLayoutGap="16px" fxFlexFill fxLayout.lt-sm="column">
+                  
+                  <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>País</mat-label>
+                    <mat-select [(ngModel)]="data.ven_indicativo_cliente">
+                      <mat-option *ngFor="let country of americanCountries" [value]="country">
+                        <img [src]="country.flag" class="flag-icon" width="20" /> +{{ country.dialCode }} - {{ country.name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Teléfono</mat-label>
+                    <mat-icon matPrefix>phone</mat-icon>
+                    <input matInput type="tel" [(ngModel)]="data.numero">
+                  </mat-form-field>
+
+                </div>
+
+                <!-- Correo -->
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Correo electrónico</mat-label>
+                  <mat-icon matPrefix>email</mat-icon>
+                  <input matInput type="email" [(ngModel)]="data.email">
+                </mat-form-field>
+
+                <!-- Departamento / Provincia -->
+                <ng-select class="full-width"
+                          [(ngModel)]="data.departamento"
+                          [items]="listCiudades"
+                          bindLabel="departamento"
+                          bindValue="id_ciudad"
+                          placeholder="Selecciona {{ namePais === 'Colombia' ? 'Departamento' : 'Provincia' }}"
+                          [searchable]="true"
+                          (change)="handleSelectDepartament()">
+                </ng-select>
+
+                <!-- Ciudad -->
+                <ng-container *ngIf="!data.checkCity">
+                  <ng-select class="full-width"
+                            [(ngModel)]="data.ciudades"
+                            [items]="listCiudadesRSelect"
+                            bindLabel="ciudad"
+                            bindValue="id_ciudad"
+                            placeholder="Seleccione tu ciudad"
+                            [searchable]="true"
+                            (change)="handleProcesFlete()">
+                  </ng-select>
+                </ng-container>
+
+                <!-- Ciudad texto si no se encuentra -->
+                <mat-form-field *ngIf="data.checkCity" appearance="outline" class="full-width">
+                  <mat-label>Ciudad de destino</mat-label>
+                  <mat-icon matPrefix>store</mat-icon>
+                  <input matInput type="text" [(ngModel)]="data.ciudad">
+                </mat-form-field>
+
+                <!-- Checkbox ciudad no encontrada -->
+                <mat-checkbox [(ngModel)]="data.checkCity" (change)="handleCheckContra(); data.ciudad = ''; data.ciudades = '';">
+                  No encontré mi ciudad
+                </mat-checkbox>
+
+                <!-- Dirección -->
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Dirección exacta</mat-label>
+                  <mat-icon matPrefix>room</mat-icon>
+                  <input matInput type="text" [(ngModel)]="data.direccion">
+                </mat-form-field>
+
+                <!-- Barrio -->
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Barrio o sector</mat-label>
+                  <mat-icon matPrefix>place</mat-icon>
+                  <input matInput type="text" [(ngModel)]="data.barrio">
+                </mat-form-field>
+
+                <!-- Transporte -->
+                <div *ngIf="dataEnvioDetails.transportadora">
+                  <h6>
+                    Precio envío:
+                    <span *ngIf="dataPro.cobreEnvio === 0">
+                      {{ _ToolServices.monedaChange(3, 2, (data.totalFlete || 0), code) }}
+                    </span>
+                    <span *ngIf="dataPro.cobreEnvio === 1">
+                      Gratis
+                    </span>
+                  </h6>
+                </div>
+
+                <!-- Alerta contraentrega -->
+                <div *ngIf="contraentregaAlert" class="text-center">
+                  <h3>Para este destino no manejamos pago contraentrega.</h3>
+                  <h4 style="color:#6610f2;">
+                    Un asesor se comunicará contigo para una solución.
+                  </h4>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="col-12" style="    padding: 0 35px;">
+              <h1 class="text-pink" style="text-align: center;     font-size: 55px;" [ngStyle]="{'color': tiendaInfo['configuracion']?.colorTextoWeb}">Paso 4</h1>
+              <h5 style="text-align: center;margin: 10px 10px;">Click</h5>
+              <div class="d-flex justify-content-center">
+                <div>
+                  <img src="./assets/imagenes/colombia.jpg" alt="" *ngIf="namePais === 'Colombia'" style="    width: 90px;"> <img src="./assets/imagenes/panama.jpg" alt="" *ngIf="namePais === 'Panama'" style="    width: 90px;">
+                </div>
+              </div>
+              <br>
+            </div>
+            <div style="width: 100%;">
+              <div class="d-flex justify-content-center">
+                <div>
+                  <h2 *ngIf=" finalizarBoton && namePais ==='Panama' ">La Compra Minima es de 6 Pares en Adelante. Gracias</h2>
+                </div>
+              </div>
+              <div class="d-flex justify-content-center">
+                <div>
+                  <button type="submit" class="btn btn-pink" (click)="pedidoConfirmar()" [disabled]="finalizarBoton" [ngStyle]="{'color': tiendaInfo['configuracion']?.colorTextoWeb}">Continuar Pedido</button>
+                  <div *ngIf="btnDisabled" class="loader">
+                    <div class="spinner-border text-primary" role="status">
+                      <span class="sr-only"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+        </div>
+  
+        <div *ngIf="view === 'foor'">
+          <br>
+          <div class="text-white text-center py-4" style="height: 75px;">
+            <img src="./assets/imagenes/txtheader2.png" alt="">
+          </div>
+  
+          <div class="row col-12">
+            <div class="col-12 text-center">
+              <img src="./assets/imagenes/txtcubo3.png" alt="">
+            </div>
+            <div class="col-12 text-center">
+              <h1 [ngStyle]="{'color': tiendaInfo['configuracion']?.colorTextoWeb}">Gracias</h1>
+              <h6 class="mx-3 my-4">Hemos recibido tu pedido pronto un asesor te contactará y te enviará la guía</h6>
+            </div>
+            <div class="col-12">
+              <div class="d-flex justify-content-center">
+                <!--<button type="button"
+                  class="btn btn-primary btn-lg btn-block" style="width: 250px;text-align: center; display: grid;"
+                  (click)="openWhatsapp( data )"
+                >Ok</button>-->
+              </div>
+            </div>
+            <div class="col-12">
+              <br>
+              <br>
+              <div class="d-flex justify-content-center">
+                <button type="button" class="btn btn-outline-secondary" (click)="HandleOpenNewBuy()">Realizar otra Compra</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <br><br><br>
+        </div>
+      </div>
+    </div>
+  </div>

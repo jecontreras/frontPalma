@@ -12,3 +12,9 @@ export interface Fruit {
   foto: string;
   listTallas: any;
 }
+
+export interface EstadoDespacho {
+  fecha: Date;
+  descripcion: string;
+}
+

@@ -24,4 +24,8 @@ export class EstadistService {
   delete(query:any){
     return this._model.querys('tblestadisticas/'+query.id, query, 'delete');
   }
+  getEstadisticas(query: any) {
+    return this._model.querys('tblestadisticas/getEstadisticas', query, 'post');
+  }
+  
 }

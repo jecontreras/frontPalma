@@ -12,6 +12,7 @@ import { ToolsService } from 'src/app/services/tools.service';
 import { FormatosService } from 'src/app/services/formatos.service';
 import { ChecktDialogComponent } from '../checkt-dialog/checkt-dialog.component';
 import { PizzaPartyComponent } from '../catalogo/catalogo.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-productos',
@@ -19,7 +20,6 @@ import { PizzaPartyComponent } from '../catalogo/catalogo.component';
   styleUrls: ['./productos.component.scss']
 })
 export class ProductosComponent implements OnInit {
-
   products = [
     { name: 'Invicta K51', price: '$149.900,00', image: 'assets/invicta_k51.jpg' },
     { name: 'Tissot T902', price: '$89.900,00', image: 'assets/tissot_t902.jpg' },
@@ -60,7 +60,7 @@ export class ProductosComponent implements OnInit {
     public dialog: MatDialog,
     private _tools: ToolsService,
     public _formato: FormatosService,
-    private _snackBar: MatSnackBar,
+    private _snackBar: MatSnackBar
   ) {
     this._store.subscribe((store: any) => {
       store = store.name;
@@ -75,10 +75,15 @@ export class ProductosComponent implements OnInit {
       window.document.scrollingElement.scrollTop=0;
     },1000 );
     //this.getProductos();
-    this.getCategorias();
+    let intervalS = setInterval(()=>{
+      if( this.tiendaInfo.id ) {
+        this.getCategorias();
+        clearInterval( intervalS );
+      }
+    }, 1000 )
     let interV = 0;
-    setInterval(() => {
-      console.log("******78", this.showNotification, interV)
+    /*setInterval(() => {
+      //console.log("******78", this.showNotification, interV)
       interV++;
       this.showNotification = true;
       if( interV === 5 ) {
@@ -86,6 +91,7 @@ export class ProductosComponent implements OnInit {
         interV = 0;
       }
     }, 3000); // Simular la compra después de 3 segundos
+    */
   }
 
   getCategorias(){

@@ -104,8 +104,16 @@
       <h1>Configuraciones primordiales</h1>
     </div>
     <div class="col-md-12">
-      <form [formGroup]="configForm">
-  
+      <form [formGroup]="configForm" class="row">
+        
+        <div class="col-12 col-sm-12">
+          <!-- URL Socket -->
+          <mat-form-field appearance="outline">
+            <mat-label>Texto de compra</mat-label>
+            <mat-icon matPrefix>apps</mat-icon>
+            <textarea matInput rows="2" formControlName="txtCompra"></textarea>
+          </mat-form-field>
+        </div>
         <div class="col-12 col-sm-6">
           <!-- URL Socket -->
           <mat-form-field appearance="outline">
@@ -122,6 +130,16 @@
             <input matInput formControlName="urlBackend">
           </mat-form-field>
         </div>
+
+        <div class="col-12 col-sm-6">
+          <!-- URL Backend -->
+          <mat-form-field appearance="outline">
+            <mat-label>URL Backend Social</mat-label>
+            <mat-icon matPrefix>cloud</mat-icon>
+            <input matInput formControlName="urlBackendSocial">
+          </mat-form-field>
+        </div>
+
         <div class="col-12 col-sm-6">
           <!-- URL File -->
           <mat-form-field appearance="outline">
@@ -185,6 +203,11 @@
       <button mat-raised-button color="primary" (click)="handleSubmit()">
         <mat-icon>update</mat-icon> Actualizar
       </button>
+      <!-- reiniciar-bot.component.html -->
+      <button mat-raised-button color="warn" (click)="reiniciarBot()">
+        🔄 Reiniciar Bot WhatsApp
+      </button>
+
       
     </div>
     <div class="col-md-12">

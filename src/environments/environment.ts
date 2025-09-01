@@ -4,12 +4,12 @@
 
 export const environment = {
   production: false,
-  //url: "https://1337-jecontreras-backpalma-ezjjyazy62y.ws-us117.gitpod.io",
-  url: "https://backpalmaapi1-54896635487f.herokuapp.com",
+  url: "http://localhost:1337",
+  //url: "https://backpalmaapi1-54896635487f.herokuapp.com",
   urlFront: "http://localhost:4200",
-  URLFILE: "https://apilokomproaqui3-8479ed1ed46c.herokuapp.com",
+  //URLFILE: "https://apilokomproaqui3-8479ed1ed46c.herokuapp.com",
   urlEnvios: "https://apienviosrapidos1-52a38e8052ee.herokuapp.com",
-  //URLFILE: "http://localhost:1339"
+  URLFILE: "http://localhost:1339"
 };
 
 /*

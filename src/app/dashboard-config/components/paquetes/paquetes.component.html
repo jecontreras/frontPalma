@@ -1,0 +1,36 @@
+<div class="paquetes-container">
+  <h2 class="titulo">✨ Escoge el Paquete Ideal para tu Tienda ✨</h2>
+
+  <div class="grid">
+    <mat-card *ngFor="let paquete of paquetes" class="paquete-card"
+              [class.active]="miTienda?.paquete_id === paquete.id">
+
+      <!-- Imagen de portada -->
+      <img mat-card-image [src]="paquete.imagen || 'assets/noimagen.jpg'" alt="{{ paquete.nombre }}" style="width: 100%; height: 250px;">
+
+      <mat-card-header>
+        <mat-card-title>{{ paquete.nombre }}</mat-card-title>
+        <mat-card-subtitle>{{ paquete.descripcion }}</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <p><strong>📦 Productos permitidos:</strong> {{ paquete.productos_max }}</p>
+        <p><strong>💰 Ventas mensuales:</strong> {{ paquete.ventas_max }}</p>
+        <p class="precio"><strong>💵 Precio:</strong> {{ paquete.precio | currency:'USD':'symbol':'1.0-2' }}</p>
+      </mat-card-content>
+
+      <mat-card-actions align="end">
+        <button mat-raised-button color="primary"
+                [disabled]="loading || miTienda?.paquete_id === paquete.id"
+                *ngIf="miTienda?.paquete_id !== paquete.id"
+                (click)="pagarPaquete(paquete)">
+          Comprar - {{ paquete.precio | currency:'COP':'symbol':'1.0-0' }}
+        </button>
+
+        <button mat-raised-button color="accent" disabled *ngIf="miTienda?.paquete_id === paquete.id">
+          Paquete Actual
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

@@ -1,94 +1,100 @@
-<h2 mat-dialog-title>{{ titulo }} Usuarios</h2>
-<mat-dialog-content class="mat-typography">
-    <div class="form row">
-        <div class="form-group col-md-6 col-sm-4 col-lg-4 col-xs-6">
-            <label for="exampleFormControlInput1">Username / avatar</label>
-            <input type="text" [(ngModel)]="data.usu_usuario" class="form-control form-control-sm">
-        </div>
-        <div class="form-group col-md-6 col-sm-4 col-lg-4 col-xs-6">
-            <label for="exampleFormControlInput1">Nombre</label>
-            <input type="text" [(ngModel)]="data.usu_nombre" class="form-control form-control-sm">
-        </div>
-        <div class="form-group col-md-6 col-sm-4 col-lg-4 col-xs-6">
-            <label for="exampleFormControlInput1">Apellido</label>
-            <input type="text" [(ngModel)]="data.usu_apellido" class="form-control form-control-sm">
-        </div>
-        <div class="form-group col-12">
-            <label for="exampleFormControlInput1">Fecha de nacimiento</label>
-            <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                <input type="date" class="form-control"
-                    [(ngModel)]="data.usu_fecha_nacimiento">
-            </div>
-        </div>
-        <div class="form-group col-md-6 col-sm-4 col-lg-4 col-xs-6">
-            <label for="exampleFormControlInput1">N°Documento</label>
-            <input type="text" [(ngModel)]="data.usu_documento" class="form-control form-control-sm">
-        </div>
-        <div class="form-group col-md-6 col-sm-4 col-lg-4 col-xs-6">
-            <label for="exampleFormControlInput1">Email</label>
-            <input type="text" [(ngModel)]="data.usu_email" class="form-control form-control-sm">
-        </div>
-        <div class="form-group col-md-6 col-sm-4 col-lg-4 col-xs-6" *ngIf="!id">
-            <label for="exampleFormControlInput1">Contraseña</label>
-            <input type="password" [(ngModel)]="data.usu_clave" class="form-control form-control-sm">
-        </div>
-        <div class="form-group col-md-6 col-sm-4 col-lg-4 col-xs-6" *ngIf="!id">
-            <label for="exampleFormControlInput1">Verificar Contraseña</label>
-            <input type="password" [(ngModel)]="data.usu_confir" class="form-control form-control-sm">
-        </div>
-        <div class="form-group col-md-6 col-sm-4 col-lg-4 col-xs-6">
-            <label for="exampleFormControlInput1">Telefonos</label>
-            <input type="text" [(ngModel)]="data.usu_telefono" class="form-control form-control-sm">
-        </div>
-        <div class="form-group col-md-6 col-sm-4 col-lg-4 col-xs-6">
-            <label for="exampleFormControlInput1">Porcentaje %</label>
-            <input type="text" [(ngModel)]="data.porcentaje" class="form-control form-control-sm">
-        </div>
-        <div class="form-group col-md-6 col-sm-4 col-lg-4 col-xs-6">
-            <label for="exampleFormControlSelect1">Perfil</label>
-            <select class="form-control form-control-sm" [(ngModel)]="data.usu_perfil">
-                <option *ngFor="let item of listPerfil" [value]="item.id">{{ item.prf_descripcion }}</option>
-            </select>
-        </div>
-        <div class="form-group col-12" *ngIf="id">
-            <div class="p-3 mb-2 bg-info text-white">
-                Cambiar Password
-            </div>
-        </div>
-        <div class="form-group col-5" *ngIf="id">
-            <label for="exampleFormControlInput1">Contraseña</label>
-            <input type="password" [(ngModel)]="restaure.passNew" class="form-control form-control-sm">
-        </div>
-        <div class="form-group col-5" *ngIf="id">
-            <div>
-                <br>
-                <button class="p-2 btn btn-primary btn-just-icon btn-round" (click)="CambiarPassword()">
-                    Actualizar Contraseña
-                </button>
-            </div>
-        </div>
-        <!-- <div class="form-group col-12">
-            <ngx-dropzone (change)="onSelect($event)">
-                <ngx-dropzone-label>Abrir archivos</ngx-dropzone-label>
-                <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files"
-                    [file]="f" [removable]="true" (removed)="onRemove(f)" multiple="false">
-                    <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
-                </ngx-dropzone-image-preview>
-            </ngx-dropzone>
-        </div> -->
-        <!-- <div class="form-group col-12">
-            <input class="form-check-input" type="radio" name="exampleRadios" [(ngModel)]="data.prv_activo">
-            <label class="form-check-label" for="exampleRadios2">
-                Activo
-            </label>
-        </div> -->
+<div class="d-flex bd-highlight">
+    <div class="p-2 flex-grow-1 bd-highlight">
+        <h2 mat-dialog-title>{{ titulo }} Usuarios</h2>
     </div>
+    <div class="p-2 bd-highlight">
+        <button mat-mini-fab mat-dialog-close>
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+  </div>
+
+<mat-dialog-content>
+  <div class="mat-typography" fxLayout="row wrap" fxLayoutGap="16px">
+
+    <mat-form-field appearance="outline" fxFlex="40%">
+      <mat-label>Username / avatar</mat-label>
+      <input matInput [(ngModel)]="data.usu_usuario">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" fxFlex="40%">
+      <mat-label>Nombre</mat-label>
+      <input matInput [(ngModel)]="data.usu_nombre">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" fxFlex="40%">
+      <mat-label>Apellido</mat-label>
+      <input matInput [(ngModel)]="data.usu_apellido">
+    </mat-form-field>
+<!--
+    <mat-form-field appearance="outline" fxFlex="100%">
+      <mat-label>Fecha de nacimiento</mat-label>
+      <input matInput [matDatepicker]="picker" [(ngModel)]="data.usu_fecha_nacimiento">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+-->
+
+    <mat-form-field appearance="outline" fxFlex="40%">
+      <mat-label>N° Documento</mat-label>
+      <input matInput [(ngModel)]="data.usu_documento">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" fxFlex="40%">
+      <mat-label>Email</mat-label>
+      <input matInput [(ngModel)]="data.usu_email">
+    </mat-form-field>
+
+    <ng-container *ngIf="!id">
+      <mat-form-field appearance="outline" fxFlex="40%">
+        <mat-label>Contraseña</mat-label>
+        <input matInput [(ngModel)]="data.usu_clave" type="password">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" fxFlex="40%">
+        <mat-label>Verificar Contraseña</mat-label>
+        <input matInput [(ngModel)]="data.usu_confir" type="password">
+      </mat-form-field>
+    </ng-container>
+
+    <mat-form-field appearance="outline" fxFlex="40%">
+      <mat-label>Teléfonos</mat-label>
+      <input matInput [(ngModel)]="data.usu_telefono">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" fxFlex="40%">
+      <mat-label>Perfil</mat-label>
+      <mat-select [(ngModel)]="data.usu_perfil">
+        <mat-option *ngFor="let item of listPerfil" [value]="item.id">
+          {{ item.prf_descripcion }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <ng-container *ngIf="id">
+      <div fxFlex="100%" class="mat-elevation-z1 p-2 mb-2 bg-info text-white">
+        <strong>Cambiar Password</strong>
+      </div>
+
+      <mat-form-field appearance="outline" fxFlex="40%">
+        <mat-label>Contraseña</mat-label>
+        <input matInput type="password" [(ngModel)]="restaure.passNew">
+      </mat-form-field>
+
+      <div fxFlex="40%" fxLayoutAlign="center center">
+        <button mat-raised-button color="primary" (click)="cambiarPassword()">
+          Actualizar Contraseña
+        </button>
+      </div>
+    </ng-container>
+
+  </div>
 </mat-dialog-content>
+
 <mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close>Cerrar</button>
-  <button mat-button cdkFocusInitial (click)="submit()">
-      <span *ngIf="!id">Guardar Cambios</span>
-      <span *ngIf="id">Actulizar Cambios</span>
+  <button mat-raised-button color="primary" (click)="submit()">
+    <span *ngIf="!id">Guardar Cambios</span>
+    <span *ngIf="id">Actualizar Cambios</span>
   </button>
 </mat-dialog-actions>

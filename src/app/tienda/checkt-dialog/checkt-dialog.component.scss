@@ -1,45 +1,158 @@
+/* ==== ICONOS ==== */
 .altosIcons {
-	height: 19px;
+  height: 19px;
 }
 
-.form-control-sm{
-  font-size: 1.875rem !important;
+/* ==== FORMULARIOS ==== */
+.form-control-sm {
+  font-size: 1.875rem;
 }
 
 .has-error .form-control {
   border-color: red;
 }
 
-.error-message {
+.error-message,
+mat-error {
   color: red;
   font-size: 12px;
   margin-top: 5px;
 }
+
 .example-form {
   min-width: 150px;
   max-width: 500px;
   width: 100%;
 }
 
-.example-full-width {
+.example-full-width,
+.full-width {
   width: 100%;
 }
 
+.form-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 16px;
+}
 
+.form-row,
+.phone-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+}
+
+/* ==== LISTA DE PROMOCIONES ==== */
+.promotion-list-section {
+  margin: 20px 0;
+}
+
+.list-header {
+  margin-bottom: 10px;
+}
+
+.list-item-container {
+  margin-bottom: 16px;
+  padding: 15px;
+  border-radius: 15px;
+  //background-color: #e5e5e5;
+}
+
+/* ==== TOTAL / RESUMEN ==== */
+.tyslo-group {
+  background-color: #fefefe;
+  color: rgba(18, 18, 18, 0.75);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  letter-spacing: 0.6px;
+  margin-bottom: 10px;
+}
+
+.total-container {
+  color: black;
+  margin: 10px 0;
+  padding: 10px;
+}
+
+.p-1 {
+  padding: 0.25rem;
+}
+
+.row-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+}
+
+.label-title {
+  color: #535353;
+  font-weight: 600;
+}
+
+.label-value {
+  font-weight: 600;
+}
+
+.total-row {
+  border-top: 1px solid rgba(175, 175, 175, 0.34);
+  font-weight: bold;
+}
+
+.total {
+  font-size: 20px;
+}
+
+.total-value {
+  font-size: 20px;
+}
+
+/* ==== RADIO ENVÍO ==== */
+.radio-btn {
+  font-size: 12px;
+  margin-right: 10px;
+}
+
+/* ==== PAÍS Y TELÉFONO ==== */
+.flag-icon {
+  width: 20px;
+  height: auto;
+  margin-right: 8px;
+  vertical-align: middle;
+  border-radius: 2px;
+}
+
+.country-select {
+  width: 100px;
+  min-width: 75px;
+}
+
+.phone-input {
+  flex: 1;
+}
+
+/* ==== BADGES ==== */
 .quantity-breaks-container {
   display: flex;
   flex-direction: column;
-  gap: 15px; /* Espaciado entre las opciones */
+  gap: 15px;
   max-width: 400px;
   margin: 0 auto;
   font-family: Arial, sans-serif;
 }
 
 input[type="radio"] {
-  display: none; /* Oculta los botones de radio */
+  display: none;
 }
 
-/* Estilo para las opciones */
 .quantity-break {
   display: flex;
   align-items: flex-start;
@@ -53,14 +166,12 @@ input[type="radio"] {
   transition: all 0.3s ease;
 }
 
-/* Estilo al seleccionar una opción */
 input[type="radio"]:checked + .quantity-break {
   border-color: #28a745;
   box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
   background-color: #f8f9fa;
 }
 
-/* Etiqueta de oferta (badge) */
 .quantity-break__badge {
   font-size: 14px;
   font-weight: bold;
@@ -73,7 +184,6 @@ input[type="radio"]:checked + .quantity-break {
   left: 46%;
 }
 
-/* Contenido de la opción */
 .quantity-break__content {
   display: flex;
   justify-content: space-between;
@@ -102,7 +212,38 @@ input[type="radio"]:checked + .quantity-break {
   color: #000;
 }
 
-/* Responsividad */
+/* ==== WHATSAPP ==== */
+.chat-image {
+  width: 80%;
+  cursor: pointer;
+}
+
+/* ==== HEADER & TEXTO ==== */
+.header-section {
+  margin-bottom: 20px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.warning-text {
+  color: red;
+  font-weight: 500;
+  padding: 0 15px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+/* ==== BOTÓN ==== */
+.confirm-button {
+  background-color: #28a745 !important;
+  color: white;
+  font-weight: 600;
+  padding: 8px 16px;
+}
+
+/* ==== RESPONSIVE ==== */
 @media (max-width: 768px) {
   .quantity-breaks-container {
     max-width: 100%;
@@ -118,57 +259,17 @@ input[type="radio"]:checked + .quantity-break {
     flex-direction: column;
     align-items: flex-start;
   }
-}
 
-.tyslo-group {
-  background-color: #fefefe;
-  color: rgba(18, 18, 18, 0.75);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  font-size: 16px;
-  letter-spacing: 0.6px;
-  margin-bottom: 10px;
-}
+  .form-section {
+    flex-direction: column;
+  }
 
-.total-container {
-  color: black;
-  margin: 10px 0;
-  padding: 10px;
-}
+  .form-row,
+  .phone-row {
+    flex-direction: column;
+  }
 
-.p-1 {
-  padding: 0.25rem !important;
-}
-
-.row-section {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  padding: 10px 0;
-}
-
-.label-title {
-  color: #535353;
-  font-weight: 600;
-}
-
-.label-value {
-  font-weight: 600;
-}
-
-.total-row {
-  border-top: 1px solid rgba(175, 175, 175, 0.34);
-  font-weight: bold;
-}
-
-.total {
-  font-size: 20px;
-}
-
-.total-value {
-  font-size: 20px;
-}
-
-.radio-btn {
-  font-size: 9px;
-  margin-right: 10px;
+  .country-select {
+    width: 100%;
+  }
 }

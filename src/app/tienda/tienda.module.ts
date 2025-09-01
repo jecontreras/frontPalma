@@ -29,10 +29,17 @@ import { ProductosTComponent } from './productos-t/productos-t.component';
 import { ProductoView2Component } from './producto-view2/producto-view2.component';
 import { LightboxModule } from 'ngx-lightbox';
 import { DialogPagoComponent } from './dialog-pago/dialog-pago.component';
+import { ProductosViewMComponent } from './productos-view-m/productos-view-m.component';
+import { DialogPedidoArmaComponent } from './dialog-pedido-arma/dialog-pedido-arma.component';
+import { AlertDialogLocationComponent } from './alert-dialog-location/alert-dialog-location.component';
+import { ListGaleryLandingComponent } from './list-galery-landing/list-galery-landing.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   entryComponents: [ InfoProductoComponent,ChecktDialogComponent, DialogPagoComponent ],
-  declarations: [MainsComponent, TiendaComponent, ProductosComponent, FooterComponent, MenuComponent, InfoProductoComponent, ProductosViewComponent, ContactoComponent, ChecktComponent, CarritoComponent, CompletarComponent, ChecktDialogComponent, DetallePedidoComponent, CatalogoComponent, AlertBannerComponent, SliderComponent, MenuLateralComponent, ProductosTComponent, ProductoView2Component, DialogPagoComponent ],
+  declarations: [MainsComponent, TiendaComponent, ProductosComponent, FooterComponent, MenuComponent, InfoProductoComponent, ProductosViewComponent, ContactoComponent, ChecktComponent, CarritoComponent, CompletarComponent, ChecktDialogComponent, DetallePedidoComponent, CatalogoComponent, AlertBannerComponent, SliderComponent, MenuLateralComponent, ProductosTComponent, ProductoView2Component, DialogPagoComponent, ProductosViewMComponent,
+    DialogPedidoArmaComponent, AlertDialogLocationComponent, ListGaleryLandingComponent
+   ],
   imports: [
     TiendaRoutingModule,
     CommonModule,
@@ -43,7 +50,8 @@ import { DialogPagoComponent } from './dialog-pago/dialog-pago.component';
     NgxImageZoomModule,
     NgImageSliderModule,
     SwiperModule,
-    LightboxModule
+    LightboxModule,
+    NgSelectModule
   ],
   exports: [ InfoProductoComponent, SliderComponent ]
 })

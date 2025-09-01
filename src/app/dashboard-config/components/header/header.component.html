@@ -1,80 +1,69 @@
-<!-- Barra de navegación superior siempre fija -->
-<mat-toolbar [ngStyle]="{'background-color': tiendaInfo.colorTienda, 'color': textColor}"
-  class="example-toolbar mat-elevation-z5 row toolbar fixed-toolbar" style="width: 101% !important;">
-
-  <button mat-icon-button (click)="snav.toggle()" translate="no">
+<!-- Toolbar fija -->
+<mat-toolbar class="toolbar mat-elevation-z4" [ngStyle]="{'background-color': tiendaInfo.colorTienda, 'color': textColor}">
+  <button mat-icon-button (click)="snav.toggle()" class="menu-button">
     <mat-icon>menu</mat-icon>
   </button>
 
-  <h5 class="textInf">
-    <span class="textInf">{{ tiendaInfo.nombreTienda }}</span>
-  </h5>
+  <span class="toolbar-title">{{ tiendaInfo.nombreTienda }}</span>
 
-  <div class="row col">
-    <div class="col"></div>
-    <div style="margin-top: 7px;">
-      <label>
-        <span (click)="this.opcionoView = 'notificaciones'; sidenav.toggle();" class="p-1 pointer"
-          [matBadge]="notificando">
-          <mat-icon>notification_important</mat-icon>
-        </span>
-      </label>
+  <span class="spacer"></span>
 
-      <span *ngIf="!dataUser.id" [routerLink]="['/login']" class="p-1 pointer">
-        <mat-icon>person_pin</mat-icon>
-      </span>
-      <span *ngIf="dataUser.id" [routerLink]="['/config/perfil']" class="p-1 pointer">
-        <mat-icon>person_pin</mat-icon>
-      </span>
-    </div>
-  </div>
+  <button mat-icon-button [routerLink]="dataUser.id ? '/config/perfil' : '/login'">
+    <mat-icon>person_pin</mat-icon>
+  </button>
 </mat-toolbar>
 
-<!-- Contenedor Principal -->
+<!-- Contenedor principal -->
 <mat-sidenav-container class="sidenav-container">
-  
-  <!-- Menú lateral (Izquierda) -->
-  <mat-sidenav #snav mode="over" position="start" class="sidenav">
+
+  <!-- Menú lateral -->
+  <mat-sidenav #snav class="sidenav" mode="side" [opened]="isDesktop">
+    <!-- Logo y cabecera -->
     <div class="menu-header">
-      <img class="logo" [src]="tiendaInfo.logo || './assets/img/logo.png'" alt="Logo de la Tienda">
+      <img [src]="tiendaInfo.logo || './assets/img/logo.png'" alt="Logo" class="logo">
     </div>
 
-    <mat-nav-list>
-      <h3 class="menu-title">MENÚ PRINCIPAL</h3>
+    <!-- Botón cerrar sesión -->
+    <div class="logout-section">
+      <button mat-raised-button color="warn" (click)="salir()">Cerrar sesión</button>
+    </div>
 
-      <!-- Opción de menú principal -->
+    <!-- Lista de menús -->
+    <mat-nav-list class="menu-scroll">
+      <h3 class="menu-title">Menú Principal</h3>
+
       <ng-container *ngFor="let item of menus">
-        <a mat-list-item [routerLink]="item.url" routerLinkActive="active" *ngIf="item.submenus.length === 0">
-          <span class="menu-text">{{ item.nombre }}</span>
+        <!-- Menú sin submenú -->
+        <a mat-list-item [routerLink]="item.url" routerLinkActive="active" *ngIf="!item.submenus.length">
           <mat-icon class="menu-icon">{{ item.icons }}</mat-icon>
+          <span class="menu-text">{{ item.nombre }}</span>
         </a>
 
-        <!-- Submenús con acordeón -->
-        <mat-expansion-panel class="submenu-panel" *ngIf="item.submenus.length > 0">
+        <!-- Menú con submenú -->
+        <mat-expansion-panel class="submenu-panel" *ngIf="item.submenus.length">
           <mat-expansion-panel-header>
-            <span class="menu-text">{{ item.nombre }}</span>
             <mat-icon class="menu-icon">{{ item.icons }}</mat-icon>
+            <span class="menu-text">{{ item.nombre }}</span>
           </mat-expansion-panel-header>
-
           <mat-nav-list>
             <a mat-list-item *ngFor="let sub of item.submenus" [routerLink]="sub.url" routerLinkActive="active">
-              <span class="menu-text">{{ sub.nombre }}</span>
+              {{ sub.nombre }}
             </a>
           </mat-nav-list>
         </mat-expansion-panel>
       </ng-container>
 
-      <!-- Otros Menús -->
+      <!-- Otros menús -->
       <ng-container *ngFor="let item of menus2">
         <a mat-list-item (click)="EventMenus(item)">
-          <span class="menu-text">{{ item.nombre }}</span>
           <mat-icon class="menu-icon">{{ item.icons }}</mat-icon>
+          <span class="menu-text">{{ item.nombre }}</span>
         </a>
       </ng-container>
     </mat-nav-list>
   </mat-sidenav>
 
-  <!-- Contenedor de contenido principal -->
+  <!-- Contenido -->
   <mat-sidenav-content class="main-content">
     <ng-content></ng-content>
   </mat-sidenav-content>

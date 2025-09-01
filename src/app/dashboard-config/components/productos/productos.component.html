@@ -5,7 +5,7 @@
         <mat-card>
           <mat-card-header>
             <mat-card-title>
-              <mat-icon>assignment</mat-icon> Productos
+              <mat-icon>assignment</mat-icon> Productos <button mat-mini-fab color="accent" (click)="crear(false)"> <mat-icon>add_circle_outline</mat-icon> </button>
             </mat-card-title>
           </mat-card-header>
 
@@ -23,28 +23,46 @@
                 <mat-icon matSuffix>search</mat-icon>
               </mat-form-field>
 
-              <button mat-raised-button color="primary" (click)="buscar()" [disabled]="loader">
+              <button mat-mini-fab color="primary" (click)="buscar()" [disabled]="loader">
                 <mat-icon>search</mat-icon>
               </button>
-              <button mat-raised-button color="accent" (click)="crear(false)">
-                <mat-icon>add_circle_outline</mat-icon> Nuevo Producto
-              </button>
+              
             </div>
 
             <!-- Tabla de productos -->
-            <div class="table-container">
+            <div class="table-container"
+            infiniteScroll [infiniteScrollDistance]="3"
+              [infiniteScrollThrottle]="50" (scrolled)="onScroll()"
+              style="width: 100%;"
+            >
               <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" style="width: 100%;">
 
                 <!-- Acciones -->
                 <ng-container matColumnDef="acciones">
                   <th mat-header-cell *matHeaderCellDef> Acciones </th>
                   <td mat-cell *matCellDef="let row">
-                    <button mat-icon-button color="primary" (click)="crear(row)">
-                      <mat-icon>remove_red_eye</mat-icon>
+                    <button mat-icon-button [matMenuTriggerFor]="menuAcciones">
+                      <mat-icon>more_vert</mat-icon>
                     </button>
-                    <button mat-icon-button color="warn" (click)="delete(row)">
-                      <mat-icon>delete_forever</mat-icon>
-                    </button>
+                
+                    <mat-menu #menuAcciones="matMenu">
+                      <button mat-menu-item (click)="crear(row)">
+                        <mat-icon>remove_red_eye</mat-icon>
+                        <span>Ver</span>
+                      </button>
+                      <button mat-menu-item (click)="delete(row)">
+                        <mat-icon>delete_forever</mat-icon>
+                        <span>Eliminar</span>
+                      </button>
+                      <button mat-menu-item (click)="openTienda(row, 'normal')">
+                        <mat-icon>pageview</mat-icon>
+                        <span>Ver Tienda</span>
+                      </button>
+                      <button mat-menu-item (click)="openTienda(row, 'alMayor')">
+                        <mat-icon>pageview</mat-icon>
+                        <span>Ver al Mayor</span>
+                      </button>
+                    </mat-menu>
                   </td>
                 </ng-container>
 
@@ -103,7 +121,7 @@
               </table>
               
               <!-- Paginador -->
-              <mat-paginator [length]="dataSource?.data?.length || 0" [pageSize]="10" showFirstLastButtons>
+              <mat-paginator [length]="count || 0" [pageSize]="10" showFirstLastButtons (page)="onScroll()">
               </mat-paginator>
             </div>
 

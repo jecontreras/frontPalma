@@ -17,6 +17,10 @@ export class UsuariosService {
     private _store: Store<STORAGES>,
   ) { }
 
+  getCount(query:any){
+    return this._model.querys('tblusuario/countVenta',query, 'post');
+  }
+
   get(query:any){
     return this._model.querys('tblusuario/querys',query, 'post');
   }

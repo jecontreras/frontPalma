@@ -1,0 +1,19 @@
+<div class="response-container" [ngClass]="estado?.toLowerCase()">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Resultado del Pago</mat-card-title>
+      <mat-card-subtitle>Referencia: {{ referencia }}</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <h2>{{ mensaje }}</h2>
+      <p *ngIf="estado === 'Aceptada'">Tu cuenta será actualizada automáticamente con el nuevo paquete.</p>
+      <p *ngIf="estado === 'Rechazada'">Verifica tu método de pago e intenta nuevamente.</p>
+      <p *ngIf="estado === 'Pendiente'">Recibirás una notificación cuando el pago sea confirmado.</p>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button mat-raised-button color="primary" routerLink="/paquetes">Volver a Paquetes</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

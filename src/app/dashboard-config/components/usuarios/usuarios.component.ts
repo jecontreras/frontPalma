@@ -5,15 +5,8 @@ import { MatDialog } from '@angular/material';
 import { FormusuariosComponent } from 'src/app/dashboard-config/form/formusuarios/formusuarios.component';
 import { NgxSpinnerService } from 'ngx-spinner';
 import * as _ from 'lodash';
-
-declare interface DataTable {
-  headerRow: string[];
-  footerRow: string[];
-  dataRows: any[][];
-}
-
-declare const swal: any;
-declare const $: any;
+import { STORAGES } from 'src/app/interfaces/sotarage';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-usuarios',
@@ -22,118 +15,133 @@ declare const $: any;
 })
 export class UsuariosComponent implements OnInit {
 
-  dataTable: DataTable;
-  pagina = 10;
-  paginas = 0;
-  loader = true;
-  query:any = {
-    where:{},
+  dataTable = {
+    headerRow: [],
+    footerRow: [],
+    dataRows: []
+  };
+
+  displayedColumns: string[] = [
+    'acciones',
+    'usu_nombre',
+    'usu_perfil',
+    'usu_email',
+    'usu_telefono',
+    'createdAt',
+    'pro_estado'
+  ];
+
+  query: any = {
+    where: {},
     page: 0
   };
-  Header:any = [ 'Acciones','Nombre','Perfil','E-mail','Telefonos','Fecha Registro','Activo' ];
-  $:any;
-  public datoBusqueda = '';
 
-  notscrolly:boolean=true;
-  notEmptyPost:boolean = true;
+  datoBusqueda = '';
+  loader = true;
+  scrollLoading = false;
+  notscrolly = true;
+  notEmptyPost = true;
+  ShopConfig:any = {};
+  dataUser:any = {};
 
   constructor(
     public dialog: MatDialog,
     private _tools: ToolsService,
     private _usuarios: UsuariosService,
-    private spinner: NgxSpinnerService
-  ) { }
+    private spinner: NgxSpinnerService,
+    private store: Store<STORAGES>,
+  ) {
+    this.store.subscribe((storeData: any) => {
+      const state = storeData.name;
+      this.ShopConfig = state.configuracion || {};
+      this.dataUser = state.user || {};
+    });
+  }
 
   ngOnInit() {
-    this.dataTable = {
-      headerRow: this.Header,
-      footerRow: this.Header,
-      dataRows: []
-    };
     this.cargarTodos();
   }
 
-  crear(obj:any){
-    const dialogRef = this.dialog.open(FormusuariosComponent,{
-      data: {datos: obj || {}}
+  crear(obj: any) {
+    const dialogRef = this.dialog.open(FormusuariosComponent, {
+      data: { datos: obj || {} }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+    dialogRef.afterClosed().subscribe(( txt ) => {
+      if( txt === 'creo' ) this.refresh();
     });
   }
-  delete(obj:any, idx:any){
-    this._usuarios.delete(obj).subscribe((res:any)=>{
+
+  delete(obj: any, idx: number) {
+    this._usuarios.delete(obj).subscribe(() => {
       this.dataTable.dataRows.splice(idx, 1);
-      this._tools.presentToast("Eliminado")
-    },(error)=>{console.error(error); this._tools.presentToast("Error de servidor") })
+      this._tools.presentToast("Eliminado");
+    }, error => {
+      console.error(error);
+      this._tools.presentToast("Error del servidor");
+    });
   }
 
-  onScroll(){
-    if (this.notscrolly && this.notEmptyPost) {
-       this.notscrolly = false;
-       this.query.page++;
-       this.cargarTodos();
-     }
-   }
+onScroll() {
+  console.log("***73 scroll")
+  if (this.notscrolly && this.notEmptyPost) {
+    this.notscrolly = false;
+    this.query.page++;
+    this.cargarTodos();
+  }
+}
 
-  cargarTodos() {
+  cargarTodos() { 
     this.spinner.show();
-    this._usuarios.get(this.query)
-    .subscribe(
-      (response: any) => {
-        this.dataTable.headerRow = this.dataTable.headerRow;
-        this.dataTable.footerRow = this.dataTable.footerRow;
-        this.dataTable.dataRows.push(... response.data);
-        this.dataTable.dataRows =_.unionBy(this.dataTable.dataRows || [], response.data, 'id');
+    this.scrollLoading = true;
+    if( this.dataUser.usu_perfil.prf_descripcion !== 'administrador' ) this.query.where.empresa = this.ShopConfig.id;
+    this._usuarios.get(this.query).subscribe(
+      (res: any) => {
+        this.dataTable.dataRows.push(...res.data);
+        this.dataTable.dataRows = _.unionBy(this.dataTable.dataRows, res.data, 'id');
+
         this.loader = false;
-          this.spinner.hide();
-          
-          if (response.data.length === 0 ) {
-            this.notEmptyPost =  false;
-          }
-          this.notscrolly = true;
+        this.scrollLoading = false;
+        this.spinner.hide();
+
+        if (res.data.length === 0) {
+          this.notEmptyPost = false;
+        }
+
+        this.notscrolly = true;
       },
       error => {
-        console.log('Error', error);
-      });
-  }
-  buscar() {
-    this.loader = false;
-    this.notscrolly = true 
-    this.notEmptyPost = true;
-    //console.log(this.datoBusqueda);
-    this.datoBusqueda = this.datoBusqueda.trim();
-    this.dataTable.dataRows = [];
-    if (this.datoBusqueda === '') {
-      this.query = {where:{},page: 0};
-      this.cargarTodos();
-    } else {
-      this.query.page = 0;
-      this.query.where.or = [
-        {
-          usu_nombre: {
-            contains: this.datoBusqueda|| ''
-          }
-        },
-        {
-          usu_email: {
-            contains: this.datoBusqueda|| ''
-          }
-        },
-        {
-          usu_apellido: {
-            contains: this.datoBusqueda|| ''
-          }
-        },
-        {
-          usu_telefono: {
-            contains: this.datoBusqueda|| ''
-          }
-        },
-      ];
-      this.cargarTodos();
-    }
+        console.error('Error', error);
+        this.spinner.hide();
+      }
+    );
   }
 
+  buscar() {
+    this.query.page = 0;
+    this.notscrolly = true;
+    this.notEmptyPost = true;
+    this.dataTable.dataRows = [];
+
+    this.datoBusqueda = this.datoBusqueda.trim();
+
+    if (this.datoBusqueda === '') {
+      this.query.where = {};
+    } else {
+      this.query.where.or = [
+        { usu_nombre: { contains: this.datoBusqueda } },
+        { usu_email: { contains: this.datoBusqueda } },
+        { usu_apellido: { contains: this.datoBusqueda } },
+        { usu_telefono: { contains: this.datoBusqueda } }
+      ];
+    }
+
+    this.cargarTodos();
+  }
+
+  refresh() {
+    this.query.page = 0;
+    this.dataTable.dataRows = [];
+    this.cargarTodos();
+  }
 }

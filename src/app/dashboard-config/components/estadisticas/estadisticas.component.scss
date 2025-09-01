@@ -1,0 +1,45 @@
+.estadisticas-container {
+  padding: 1rem;
+  border-radius: 12px;
+  background: #fff;
+
+  .filtros {
+    display:flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 16px;
+
+    mat-form-field { width: 180px; }
+  }
+
+  .kpi-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-bottom: 16px;
+
+    .kpi-box {
+      color: #fff;
+      padding: 12px;
+      border-radius: 8px;
+      text-align: center;
+      .kpi-title { font-size: 0.95rem; opacity: 0.9; }
+      .kpi-value { font-size: 1.5rem; font-weight: bold; margin-top: 6px; }
+    }
+  }
+
+  .graficas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+
+    .grafica-box { padding: 12px; background: #fafafa; border-radius: 8px; }
+    .fullwidth { grid-column: 1 / -1; }
+  }
+
+  .tabla-card {
+    margin-top: 8px;
+    .table-wrap { overflow:auto; }
+  }
+}

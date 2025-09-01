@@ -19,6 +19,12 @@ export class ArchivosService {
     return this._model.querys2('archivos/file',query, 'post');
   }
 
+  createPdf(query:any){
+    //this.FileFirebase( query );
+    //return this._model.querys('archivos/file',query, 'post');
+    return this._model.querys2('archivos/fileapiwhatsapp',query, 'post');
+  }
+
   createGif(query:any){
     //this.FileFirebase( query );
     return this._model.querys2('archivos/fileGif',query, 'post');

@@ -1,0 +1,77 @@
+<div class="admin-formulario" *ngIf="!loading; else loadingTpl">
+
+  <h2>⚙️ Administración de Formulario de Compra</h2>
+
+  <div class="campos-list">
+    <mat-card *ngFor="let campo of config.campos" class="campo-card">
+      <mat-card-title>{{ campo.campo }}</mat-card-title>
+      <mat-card-content>
+        
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Etiqueta (Label)</mat-label>
+          <input matInput [(ngModel)]="campo.label">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Placeholder</mat-label>
+          <input matInput [(ngModel)]="campo.placeholder">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Mensaje de Error</mat-label>
+          <input matInput [(ngModel)]="campo.mensajeError">
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" (click)="saveCampo(campo)">
+          Guardar Campo
+        </button>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Configuración del Botón -->
+  <mat-card class="boton-card" *ngIf="config.boton">
+    <mat-card-title>Botón del Formulario</mat-card-title>
+    <mat-card-content>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Texto del Botón</mat-label>
+        <input matInput [(ngModel)]="config.boton.texto">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Color del Botón</mat-label>
+        <input matInput type="color" [(ngModel)]="config.boton.color">
+      </mat-form-field>
+
+      
+      <!-- Descuento -->
+      <mat-slide-toggle [(ngModel)]="config.boton.descuento_activo" name="descuento_activo">
+        Activar descuento en popup
+      </mat-slide-toggle>
+
+      <mat-form-field appearance="outline" class="full-width" *ngIf="config.boton.descuento_activo">
+        <mat-label>Porcentaje de Descuento</mat-label>
+        <input matInput type="number" [(ngModel)]="config.boton.descuento_porcentaje" name="descuento_porcentaje" min="1" max="100">
+        <mat-hint>Ej: 10 para 10%</mat-hint>
+      </mat-form-field>
+
+      <button mat-raised-button [ngStyle]="{ 'background-color': config.boton.color, 'color': '#fff' }"
+              (click)="saveBoton()">
+        Guardar Configuración: {{ config.boton.texto }}
+      </button>
+    </mat-card-content>
+  </mat-card>
+
+
+  <!-- Reset -->
+  <div class="reset-section">
+    <button mat-stroked-button color="warn" (click)="resetDefaults()">
+      Restaurar valores por defecto
+    </button>
+  </div>
+
+</div>
+
+<ng-template #loadingTpl>
+  <mat-spinner></mat-spinner>
+</ng-template>

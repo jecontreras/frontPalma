@@ -1,0 +1,118 @@
+<div class="d-flex bd-highlight">
+    <div class="p-2 flex-grow-1 bd-highlight">
+        <h2 mat-dialog-title>Lista de Productos</h2>
+    </div>
+    <div class="p-2 bd-highlight">
+        <button mat-mini-fab mat-dialog-close>
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+  </div>
+<mat-dialog-content class="mat-typography">
+    <div class="d-flex justify-content-center" *ngIf="disableSpinner">
+        <mat-spinner></mat-spinner>
+    </div>
+
+    <div class="resumen">
+        <h3>Resumen de selección</h3>
+        <table *ngIf="seleccionados.length > 0">
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th>Talla</th>
+              <th>Cantidad</th>
+              <th>Precio Unitario</th>
+              <th>Subtotal</th>
+              <th>Opciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of seleccionados">
+              <td>{{ item.pro_nombre | slice:0:40 }}</td>
+              <td>{{ item.tallaSeleccionada || 'Única' }}</td>
+              <td>{{ item.cantidadSeleccionada }}</td>
+              <td>${{ item.precioAplicado | number}}</td>
+              <td>${{ item.subtotal | number}}</td>
+              <td>
+                <button mat-raised-button color="warn"
+                    (click)="handleDropCart( item )"
+                >
+                    Borrar
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      
+        <h3><strong>Total cantidad:</strong> {{ totalCantidad }}</h3>
+        <h3><strong>Total valor:</strong> 
+            {{ totalValor | number }}
+        </h3>
+      </div>
+      
+    <mat-form-field appearance="outline" class="buscador">
+        <mat-label>Buscar producto</mat-label>
+        <input matInput [(ngModel)]="filtro" placeholder="Ej: Zapatos">
+      </mat-form-field>
+      
+      <div class="productos-container">
+        <mat-card *ngFor="let producto of productosFiltrados()" class="producto-card">
+          <img [src]="producto.foto" alt="Producto" />
+          <mat-card-content>
+            <h4>{{ producto.pro_nombre | slice:0:50 }}{{ producto.pro_nombre.length > 50 ? '...' : '' }}</h4>
+      
+            <ng-container>
+                <mat-form-field appearance="fill">
+                  <mat-label>Color</mat-label>
+                      <mat-icon matPrefix>class</mat-icon>
+                      <mat-select [(ngModel)]="producto.colorSeleccionada" placeholder="Color del Producto" required (change)="handleColor( producto )">
+                        <mat-option *ngFor="let keyOf of producto.listColor" [value]="keyOf.talla">
+                          {{ keyOf.talla }}
+                        </mat-option>
+                      </mat-select>
+                </mat-form-field>
+              </ng-container>
+
+            <ng-container *ngIf="producto.talla !== 'Unica'">
+              <mat-form-field appearance="fill">
+                <mat-label>Talla</mat-label>
+                    <mat-icon matPrefix>straighten</mat-icon>
+                    <mat-select [(ngModel)]="producto.tallaSeleccionada" placeholder="Talla del Producto" required>
+                      <mat-option *ngFor="let keyOf of producto.listTallas" [value]="keyOf.tal_descripcion">
+                        {{ keyOf.tal_descripcion }}
+                      </mat-option>
+                    </mat-select>
+              </mat-form-field>
+            </ng-container>
+      
+            <mat-form-field appearance="fill">
+              <mat-label>Cantidad</mat-label>
+              <input matInput type="number" min="1" [(ngModel)]="producto.cantidadSeleccionada">
+            </mat-form-field>
+            <div>
+                <label>Precio</label>
+                <input currencyMask class="form-control form-control-sm" [(ngModel)]="producto.pro_uni_venta" [disabled]="!producto.checkPrice"
+                            [options]="formatoMoneda" />
+            </div>
+            <mat-checkbox class="example-margin" [(ngModel)]="producto.checkPrice">
+                <span *ngIf="!producto.checkPrice">Precio default</span>
+                <span *ngIf="producto.checkPrice">Precio especial</span>
+            </mat-checkbox>
+            <div class="d-flex justify-content-center">
+                <div>
+                    <button mat-raised-button color="primary" (click)="agregarProducto(producto)">Agregar</button>
+                </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      
+      <mat-divider></mat-divider>
+      
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button cdkFocusInitial (click)="handleContinue()" color="primary">
+        <span>Continuar</span>
+    </button>
+</mat-dialog-actions>

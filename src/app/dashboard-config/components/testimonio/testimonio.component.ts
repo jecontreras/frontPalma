@@ -33,6 +33,8 @@ export class TestimonioComponent implements OnInit {
   Header:any = [ 'Acciones','Imagen','Nombre','Descripcion','Producto','Estado' ];
   $:any;
   public datoBusqueda = '';
+  notscrolly:boolean=true;
+  notEmptyPost:boolean = true;
 
   constructor(
     private _testimonios: TestimoniosService,
@@ -64,6 +66,15 @@ export class TestimonioComponent implements OnInit {
       this._tools.presentToast("Eliminado")
     },(error)=>{console.error(error); this._tools.presentToast("Error de servidor") })
   }
+  
+  async onScroll(){
+    console.log("SCROLL")
+    if (this.notscrolly && this.notEmptyPost) {
+       this.notscrolly = false;
+       this.query.page++;
+       await this.cargarTodos();
+     }
+   }
 
   cargarTodos() {
     this._testimonios.get(this.query)

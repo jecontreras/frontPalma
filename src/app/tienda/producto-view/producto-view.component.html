@@ -1,8 +1,8 @@
-<div class="row"
+<div *ngIf="data.id" class="row" style="margin-right: 0px !important;"
 [ngStyle]="{'background-color': tiendaInfo['configuracion']?.colorFondoWeb, 'color': tiendaInfo['configuracion']?.colorTextoWeb}"
 >
   <div class="col-12">
-|   <br><br>
+   <br><br>
   </div>
   <div class="col-md-6 col-12">
     <!-- Imagen Principal -->
@@ -85,7 +85,7 @@
       </button>
       <!-- Botón para agregar al carrito -->
        <br><br>
-      <button  style="background-color: black !important;"
+      <button 
         class="buy-button animated-pop"
         (click)="seleccionarOpciones(data)"
         [ngStyle]="{'background-color': tiendaInfo['configuracion']?.colorBotonCarrito, 'color': tiendaInfo['configuracion']?.colorTextoWeb}"
@@ -107,13 +107,20 @@
 
   <!-- Miniaturas -->
   <div class="col-12">
+    <h1 
+      class="titulo-galeria" 
+      [ngStyle]="{'background-color': tiendaInfo['configuracion']?.colorFondo, 'color': tiendaInfo['configuracion']?.colorTexto}"
+    >
+      Galería
+    </h1>
+
     <div class="product-thumbnails mt-3 d-flex">
       <div class="row">
         <div class="col-12 col-sm-4 col-md-4" *ngFor="let item of imageObject2; let i = index">
           <div class="product-image">
             <img (click)="openLightbox(i)" [src]="item.image" alt="Miniatura" class="img-fluid main-image"/>
           </div>
-          <button style="width: 100%; background: #00e534; font-size: 25px; font-weight: bold; color: white;"
+          <button style="width: 100%; background: #00e534; font-size: 180%; font-weight: bold; color: white;"
             mat-raised-button class="animated-button buy-button animated-pop"
             (click)="comprarArticulo(pedido.cantidad,true, this.data.pro_uni_venta )"
             [ngStyle]="{'background-color': tiendaInfo['configuracion']?.colorBotonCompra, 'color': tiendaInfo['configuracion']?.colorTexto}" >
@@ -126,6 +133,12 @@
 
   <!-- Descripción del producto -->
   <div class="col-12">
+      <h1 
+        class="titulo-galeria" 
+        [ngStyle]="{'background-color': tiendaInfo['configuracion']?.colorFondo, 'color': tiendaInfo['configuracion']?.colorTexto}"
+      >
+        Decripcion
+      </h1>
     <br>
     <div class="container" style="text-align: center;">
       <!--<h2>Descripcion</h2>-->
@@ -141,9 +154,15 @@
 
   <!-- Comentarios -->
   <div class="col-12">
+    <h1 
+        class="titulo-galeria" 
+        [ngStyle]="{'background-color': tiendaInfo['configuracion']?.colorFondo, 'color': tiendaInfo['configuracion']?.colorTexto}"
+      >
+        Comentarios
+    </h1>
     <div class="reviews-container">
       <div *ngFor="let comment of listComentario" class="review-card">
-        <h3 style="font-size: 20px;">{{ comment.name }}</h3>
+        <h3 style="font-size: 180%;">{{ comment.name }}</h3>
         <p>{{ '★'.repeat(comment.rating) }}</p>
         <p style="font-size: 15px;">{{ comment.comment }}</p>
       </div>
@@ -153,23 +172,37 @@
   <div class="col-12 text-center">
     <button class="btn btn-primary btn-lg" [routerLink]="['/tienda']" style="background: green;
     width: 95%;
-    font-size: 25px;">
+    font-size: 180%;">
       Ver Más Productos
     </button>
   </div>
 
   <!-- Sección de seguridad y envío -->
   <div class="col-12">
-    <div class="secure-section"
+  <div class="row">
+    <div 
+      class="col-12 col-md-6 mb-4"
       *ngFor="let item of tiendaInfo['configuracion']?.listComent"
     >
-      <div class="delivery-info">
-        <img [src]="item.foto" alt="Pago Contra Entrega" />
+      <div class="delivery-info p-3 text-center"
+        [ngStyle]="{
+          'background-color': tiendaInfo['configuracion']?.colorFondoWeb,
+          'color': tiendaInfo['configuracion']?.colorTextoWeb
+        }"
+      >
+        <img 
+          [src]="item.foto" 
+          alt="Pago Contra Entrega"
+          class="img-fluid mb-2" 
+          style="max-height: 100px; object-fit: contain;"
+        />
         <h4>{{ item.titulo }}</h4>
         <p>{{ item.descripcion }}</p>
       </div>
     </div>
-   </div>
+  </div>
+</div>
+
   <!--<div class="col-12">
     <div class="secure-section">
       <div class="delivery-info">
@@ -185,4 +218,10 @@
     </div>
   </div>-->
 
+</div>
+
+<div class="row" *ngIf="!data.id" style="margin-right: 0px !important;">
+  <div class="col-12 spinner-container">
+    <mat-spinner></mat-spinner>
+  </div>
 </div>

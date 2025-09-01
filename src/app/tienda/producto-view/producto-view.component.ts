@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CART } from 'src/app/interfaces/sotarage';
 import { ToolsService } from 'src/app/services/tools.service';
 import { Store } from '@ngrx/store';
-import { SeleccionCategoriaAction, CartAction, ProductoHistorialAction, UserCabezaAction } from 'src/app/redux/app.actions';
+import { SeleccionCategoriaAction, CartAction, ProductoHistorialAction, UserCabezaAction, ConfiguracionAction } from 'src/app/redux/app.actions';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductoService } from 'src/app/servicesComponents/producto.service';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -20,6 +20,7 @@ import { Lightbox } from 'ngx-lightbox';
 import { EstadistService } from 'src/app/servicesComponents/estadist.service';
 import { DialogPagoComponent } from '../dialog-pago/dialog-pago.component';
 import Swal from 'sweetalert2';
+import { ConfiguracionService } from 'src/app/servicesComponents/configuracion.service';
 
 
 // Declara jQuery para que Angular lo reconozca
@@ -99,7 +100,8 @@ export class ProductosViewComponent implements OnInit {
     urlwhat:string
     listGaleria:any = [];
     listGaleria1:any = [];
-    viewsImagen:string;
+    // Cambia la imagen principal al hacer clic en una miniatura
+    viewsImagen: string = '';
     listTallas:any = [];
     number:any;
     isClicked: boolean = false;
@@ -115,6 +117,7 @@ export class ProductosViewComponent implements OnInit {
     listComentario:any =[];
 
     carrito: any[] = [];
+    empresa:any = {};
 
     constructor(
       private _store: Store<CART>,
@@ -129,7 +132,8 @@ export class ProductosViewComponent implements OnInit {
       private _testimonio: TestimoniosService,
       private _snackBar: MatSnackBar,
       private _lightbox: Lightbox,
-      private _estadist: EstadistService
+      private _estadist: EstadistService,
+      private _config: ConfiguracionService
   
     ) {
       this._store.subscribe((store: any) => {
@@ -161,7 +165,8 @@ export class ProductosViewComponent implements OnInit {
       //console.log("**127", this.activate.snapshot.params)
       if((this.activate.snapshot.paramMap.get('id'))){
         this.id = this.activate.snapshot.paramMap.get('id');
-        this.getProducto();
+        await this.getProducto();
+        this.getEmpresa( { where: { id: this.data.empresa }, limit: 1 } );
         this.handleEstadistCheck();
         this.listComentario = this.handleComent();
         //this.getProductos();
@@ -174,6 +179,18 @@ export class ProductosViewComponent implements OnInit {
         window.document.scrollingElement.scrollTop=0;
       });
   
+    }
+    
+    getEmpresa( querys:any ){
+      this._config.get( querys ).subscribe(( res:any )=>{
+        //console.log(res);
+        res = res.data[0];
+        if( !res ) return false;
+        if( res.id != this.empresa.id){
+          let accion = new ConfiguracionAction( res, 'post');
+          this._store.dispatch( accion );
+        }
+      },( error:any )=> console.error( error ));
     }
 
     ngOnDestroy() {
@@ -208,18 +225,14 @@ export class ProductosViewComponent implements OnInit {
       }, 20000); // 20 segundos
     }
 
-    scrollThumbnails(direction: string) {
-      const container = this.thumbnailWrapper.nativeElement;
-      const scrollAmount = 150; // Cantidad de desplazamiento
-  
-      if (direction === 'left') {
-        container.scrollLeft -= scrollAmount;
-      } else {
-        container.scrollLeft += scrollAmount;
-      }
+    // Desplazar miniaturas (izquierda o derecha)
+    scrollThumbnails(direction: 'left' | 'right') {
+      const wrapper = this.thumbnailWrapper.nativeElement;
+      const scrollAmount = 100;
+      wrapper.scrollLeft += direction === 'left' ? -scrollAmount : scrollAmount;
     }
 
-    openLightbox(index: number): void {
+    openLightbox(index: number) {
       this._lightbox.open(this.imageObject2.map(img => ({
         src: img.image,
         thumb: img.thumbImage,
@@ -284,56 +297,59 @@ export class ProductosViewComponent implements OnInit {
     }
   
     getProducto(){
-      this.queryId.where.id = this.id;
-      this._producto.get( this.queryId ).subscribe((res:any)=>{
-        this.data = res.data[0] || {};
-        this.getTestimonios();
-        this.data.listComentarios = this.data.listComment || [];
-        if( this.data.listComentarios.length > 0 ) this.listComentario = this.data.listComentarios;
-        this.data.listPrecios = _.orderBy( this.data.listPrecios, ['cantidad'], ['asc']);
-        //console.log("***165", this.data.listComentarios)
-        try {
-          this.data.listTallas = this.data.listColor[0].tallaSelect.filter( item => item.check === true );
-          //for( let row of this.data.listTallas ) row.tal_descripcion = ( Number( row.tal_descripcion ) || row.tal_descripcion );
-          //this.data.listTallas = _.orderBy( this.data.listTallas , ['tal_descripcion'], ['DEC'] );
-          //console.log( "129", this.data )
-        } catch (error) {}
-        this.viewsImagen = this.data.foto;
-        this.viewsImagen2 = this.data.foto;
-        if( !this.data.listComentarios ) this.data.listComentarios = [];
-        this.listGaleria1 = this.data.listaGaleria || [];
-        if( !this.data.listColor ) this.data.listColor = [];
-        for( let row of this.data.listColor){
-          this.listTallas.push( ... ( _.filter( row.tallaSelect, off=> off.check == true ) ) );
-          this.listTallas = _.unionBy( this.listTallas || [], this.listTallas, 'id');
-        }
-        for( let row of this.data.listColor ) {
-          let filtro = this.listGaleria.find( item => item.pri_imagen == row.foto );
-          if( !filtro ) this.listGaleria.push( { id: this._tools.codigo(), pri_imagen: row.foto } );
-        }
-        this.listGaleria.push( { id: this._tools.codigo(), pri_imagen: this.data.foto})
-        this.imageObject2 = _.map( this.listGaleria, ( item )=>{
-          return {
-            image: item.pri_imagen,
-            thumbImage: item.pri_imagen,
-            alt: '',
-            check: true,
-            id: item.id,
-            title: ""
+      return new Promise( resolve =>{
+        this.queryId.where.id = this.id;
+        this._producto.get( this.queryId ).subscribe((res:any)=>{
+          this.data = res.data[0] || {};
+          resolve( this.data );
+          this.getTestimonios();
+          this.data.listComentarios = this.data.listComment || [];
+          if( this.data.listComentarios.length > 0 ) this.listComentario = this.data.listComentarios;
+          this.data.listPrecios = _.orderBy( this.data.listPrecios, ['cantidad'], ['asc']);
+          //console.log("***165", this.data.listComentarios)
+          try {
+            this.data.listTallas = this.data.listColor[0].tallaSelect.filter( item => item.check === true );
+            //for( let row of this.data.listTallas ) row.tal_descripcion = ( Number( row.tal_descripcion ) || row.tal_descripcion );
+            //this.data.listTallas = _.orderBy( this.data.listTallas , ['tal_descripcion'], ['DEC'] );
+            //console.log( "129", this.data )
+          } catch (error) {}
+          this.viewsImagen = this.data.foto;
+          this.viewsImagen2 = this.data.foto;
+          if( !this.data.listComentarios ) this.data.listComentarios = [];
+          this.listGaleria1 = this.data.listaGaleria || [];
+          if( !this.data.listColor ) this.data.listColor = [];
+          for( let row of this.data.listColor){
+            this.listTallas.push( ... ( _.filter( row.tallaSelect, off=> off.check == true ) ) );
+            this.listTallas = _.unionBy( this.listTallas || [], this.listTallas, 'id');
           }
-        });
-        for( let row of this.listGaleria1 ) this.imageObject2.push(
-          {
-            image: row.foto,
-            thumbImage: row.foto,
-            alt: '',
-            check: true,
-            id: row.id,
-            title: ""
+          for( let row of this.data.listColor ) {
+            let filtro = this.listGaleria.find( item => item.pri_imagen == row.foto );
+            if( !filtro ) this.listGaleria.push( { id: this._tools.codigo(), pri_imagen: row.foto } );
           }
-        )
-        this.bucleImg();
-      }, error=> { console.error(error); this._tools.presentToast('Error de servidor'); });
+          this.listGaleria.push( { id: this._tools.codigo(), pri_imagen: this.data.foto})
+          this.imageObject2 = _.map( this.listGaleria, ( item )=>{
+            return {
+              image: item.pri_imagen,
+              thumbImage: item.pri_imagen,
+              alt: '',
+              check: true,
+              id: item.id,
+              title: ""
+            }
+          });
+          for( let row of this.listGaleria1 ) this.imageObject2.push(
+            {
+              image: row.foto,
+              thumbImage: row.foto,
+              alt: '',
+              check: true,
+              id: row.id,
+              title: ""
+            }
+          )
+          this.bucleImg();
+        }, error=> { console.error(error); this._tools.presentToast('Error de servidor'); });
+      });
     }
   
     async bucleImg(){
@@ -663,23 +679,29 @@ export class ProductosViewComponent implements OnInit {
         this.solicitarDatosWhatsApp(datar, cantidad, price );
         return; // Evita que se abra el diálogo de pago normal
       }
-    
-      // 🔹 Proceso normal de compra con diálogo de pago
-      const dialogRef = this.dialog.open(DialogPagoComponent, {
-        width: '400px',
-        data: this.data
-      });
-    
-      dialogRef.afterClosed().subscribe(metodoPago => {
-        if (metodoPago === 'anticipado') {
-          datar.metoD = metodoPago;
-        } else if (metodoPago === 'casa') {
-          datar.metoD = metodoPago;
-        }
-    
-        // 🔹 Ejecutar la compra después de seleccionar el método de pago
+
+      if( datar.pro_uni_compra !== 0 ){
+        // 🔹 Proceso normal de compra con diálogo de pago
+        const dialogRef = this.dialog.open(DialogPagoComponent, {
+          width: '400px',
+          data: this.data
+        });
+      
+        dialogRef.afterClosed().subscribe(metodoPago => {
+          if (metodoPago === 'anticipado') {
+            datar.metoD = metodoPago;
+          } else if (metodoPago === 'casa') {
+            datar.metoD = metodoPago;
+          }
+      
+          // 🔹 Ejecutar la compra después de seleccionar el método de pago
+          this.finalizarCompra(datar, opt, price, cantidad);
+        });
+      }else{
+        datar.metoD = 'casa';
         this.finalizarCompra(datar, opt, price, cantidad);
-      });
+      }
+    
     }
 
     solicitarDatosWhatsApp(datar: any, cantidad, price ) {

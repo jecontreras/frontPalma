@@ -1,0 +1,13 @@
+<!-- alert-dialog.component.html -->
+<h2 mat-dialog-title>{{ ds.titulo || 'Aviso Importante' }}</h2>
+
+<mat-dialog-content class="contenido">
+  <p>{{ ds.mensaje }}</p>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cerrar()">Cerrar</button>
+  <button mat-raised-button color="primary" (click)="irAUpgrade()">
+    Ver Paquetes
+  </button>
+</mat-dialog-actions>

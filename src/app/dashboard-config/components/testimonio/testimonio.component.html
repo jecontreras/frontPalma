@@ -35,7 +35,11 @@
             </div>
 
             <!-- 📋 Tabla con Angular Material -->
-            <mat-table [dataSource]="dataTable.dataRows" class="mat-elevation-z8" *ngIf="!loader">
+            <mat-table 
+            infiniteScroll [infiniteScrollDistance]="3"
+            [infiniteScrollThrottle]="50" (scrolled)="onScroll()"
+            style="width: 100%;"
+            [dataSource]="dataTable.dataRows" class="mat-elevation-z8" *ngIf="!loader">
 
               <!-- 🏷️ Columnas de la tabla -->
               <ng-container matColumnDef="acciones">

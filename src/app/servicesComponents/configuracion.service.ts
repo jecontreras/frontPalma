@@ -22,5 +22,8 @@ export class ConfiguracionService {
   delete(query:any){
     return this._model.querys('empresa/'+query.id, query, 'delete');
   }
+  botReiniciar( url:string, query:any ){
+    return this._model.querysUrl(url, query, 'post');
+  }
 
 }

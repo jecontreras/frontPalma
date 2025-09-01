@@ -1,0 +1,44 @@
+.venta-card {
+  margin-bottom: 20px;
+
+  mat-form-field {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  input[type="file"] {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  button {
+    margin-top: 10px;
+  }
+}
+
+.buscador {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.productos-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  margin-bottom: 10px;
+
+  th, td {
+    border: 1px solid #ccc;
+    padding: 6px;
+    text-align: center;
+  }
+
+  img {
+    border-radius: 4px;
+  }
+}
+
+
+.succes-row{
+  background: #baffba;
+}

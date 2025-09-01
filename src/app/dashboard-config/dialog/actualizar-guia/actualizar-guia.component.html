@@ -1,0 +1,95 @@
+<div class="d-flex bd-highlight">
+    <div class="p-2 flex-grow-1 bd-highlight">
+      <h1 mat-dialog-title class="text-success">Datos de Ventas</h1>
+    </div>
+    <div class="p-2 bd-highlight">
+        <button mat-mini-fab (click)="closeDialog()">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+  </div>
+  
+  <mat-form-field appearance="outline" class="buscador">
+    <mat-label>Buscar por cliente, teléfono o código de venta</mat-label>
+    <input matInput [(ngModel)]="filtro" placeholder="Ej: María, 3001234567, 22879">
+  </mat-form-field>
+
+<div 
+    *ngFor="let venta of ventas | filtroVentas:filtro; let i = index;" class="venta-card" [class.mat-elevation-z8]="true"
+    [ngClass]="{'succes-row': venta.numeroGuia}"
+    >
+    <mat-card-title>
+        <strong>Código: {{ venta.id }}</strong> - {{ venta.ven_nombre_cliente }} - {{ venta.ven_ciudad }}
+      </mat-card-title>
+      
+      <mat-card-content>
+        <p><strong>Dirección:</strong> {{ venta.ven_direccion_cliente }}</p>
+        <p><strong>Teléfono:</strong> {{ venta.ven_telefono_cliente }}</p>
+        <p><strong>Fecha:</strong> {{ venta.ven_fecha_venta }}</p>
+        <p><strong>Cantidad:</strong> {{ venta.ven_cantidad }} | <strong>Total:</strong> ${{ venta.ven_total | number }}</p>
+      
+        <!-- Tabla de productos -->
+        <table *ngIf="venta.listProductoJson?.length > 0" class="productos-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Talla</th>
+              <th>Cantidad</th>
+              <th>Color</th>
+              <th>Foto</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let p of venta.listProductoJson; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ p.Talla }}</td>
+              <td>{{ p.Cantidad }}</td>
+              <td>{{ p.Color }}</td>
+              <td>
+                <img *ngIf="p.Foto" [src]="p.Foto" width="50" alt="Producto" />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="row">
+            <div class="col-12 col-sm-6">
+                <!-- Campos para actualizar -->
+                <mat-form-field appearance="outline">
+                  <mat-label>Número de guía</mat-label>
+                  <input matInput [(ngModel)]="venta.numeroGuia">
+                </mat-form-field>
+            </div>
+            <div class="col-12 col-sm-6">
+                <mat-form-field appearance="outline">
+                    <mat-label>Transportadora de envio</mat-label>
+                    <mat-select [(ngModel)]="venta.transportadora" name="transportadora">
+                        <mat-option value="INTERRAPIDISIMO">INTER RAPIDISIMO</mat-option>
+                        <mat-option value="ENVIA">ENVIA</mat-option>
+                        <mat-option value="SERVIENTREGA">SERVIENTREGA</mat-option>
+                        <mat-option value="COORDINADORA">COORDINADORA</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-12 col-sm-6">
+                <label>Precio del flete</label>
+                <input currencyMask class="form-control form-control-sm" [(ngModel)]="venta.precioFlete"
+                            [options]="formatoMoneda" />
+            </div>
+            <div class="col-12 col-sm-6">
+                <input type="file" accept="application/pdf,image/*" (change)="seleccionarArchivo($event, venta.id)">
+            </div>
+            <div class="col-12">
+                <div class="d-flex flex-row-reverse">
+                    <div class="p-2">
+                        <button mat-raised-button color="warn" (click)="guardarGuia(venta, i)" [disabled]="venta.ven_estado === 3">
+                            Guardar
+                        </button>
+                    </div>
+                  </div>
+            </div>
+        </div>
+      </mat-card-content>
+      
+  </div>
+  

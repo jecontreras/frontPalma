@@ -1,0 +1,17 @@
+.paquetes-container {
+  margin: 20px;
+
+  mat-card {
+    padding: 20px;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  .preview-img {
+    max-width: 100px;
+    margin-top: 10px;
+    border-radius: 8px;
+  }
+}

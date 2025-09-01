@@ -14,6 +14,7 @@ import { Fruit } from 'src/app/interfaces/interfaces';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {MatChipInputEvent} from '@angular/material/chips';
 import { FormTestimonioComponent } from '../form-testimonio/form-testimonio.component';
+import { AlertDialogComponent } from '../../components/alert-dialog/alert-dialog.component';
 
 const URL = environment.url;
 
@@ -149,7 +150,7 @@ export class FormproductosComponent implements OnInit {
   }
 
   getTipoTallas() {
-    this._tipoTallas.get({ where: { tit_sw_activo: "1" }, limit: 100 }).subscribe((res: any) => {
+    this._tipoTallas.get({ where: { tit_sw_activo: 0 }, limit: 100 }).subscribe((res: any) => {
       this.listTipoTallas = res.data;
       if( this.data.id ) this.blurTalla(2);
     }, error => this._tools.presentToast("error servidor"));
@@ -186,9 +187,9 @@ export class FormproductosComponent implements OnInit {
 
   finixCorteImg(){
     //Usage example:
-    var file = this._tools.converBase64ImgToBynare(this.croppedImage,'hello');
+    //var file = this._tools.converBase64ImgToBynare(this.croppedImage,'hello');
     //console.log(file);
-    this.files.push( file );
+    this.files.push( this.imageChangedEvent.target.files[0] );
     this.subirFile(this.data, 'usu_imagen');
     this.croppedImage = "";
     this.imageChangedEvent = "";
@@ -222,6 +223,7 @@ export class FormproductosComponent implements OnInit {
     if( opt === 'galeria') lista = this.files2;
     if( opt === 'colorGaleria') lista = this.files3;
     for( let row of lista ){
+      console.log("***225", row)
       let form: any = new FormData();
       form.append('file', row );
       this._tools.ProcessTime({});
@@ -374,8 +376,19 @@ export class FormproductosComponent implements OnInit {
       this.data.empresa = this.ShopConfig.id;
       this._productos.create(this.data).subscribe((res: any) => {
         //console.log(res);
-        this._tools.presentToast("Exitoso");
-        this.data.id = res.id;
+        if (!res.ok) {
+          this.dialog.open(AlertDialogComponent, {
+            width: '400px',
+                  data: {
+                    titulo: 'Límite alcanzado 🚨',
+                    mensaje: 'Has superado el límite de tu paquete actual. Para seguir vendiendo, necesitas mejorar tu plan.'
+                  }
+          });
+        }else{
+          this._tools.presentToast("Exitoso");
+          this.data.id = res.id;
+          this.nextFunctionPriceAlElderly( this.data.pro_uni_venta, this.data.pro_uni_venta );
+        }
         resolve(res);
       }, (error) => { this._tools.presentToast("Error"); resolve(false) });
     });
@@ -689,6 +702,55 @@ export class FormproductosComponent implements OnInit {
 
   eventoDescripcion() {
     // console.log("HP")
+  }
+
+  async handleAddStore(){
+    let coinAlert = await this._tools.alertInput({
+      // title: "Valor a Vender <br>¡sin puntos solo numerico!",
+      title: this.data.id === 1456 ? "Vender de 1 - 5 en cuanto" :"Lo vas a vender en",
+      input: "text",
+      value: String( this.data.encuanto || this.data.pro_uni_venta ),
+      confirme: "Agregar"
+    });
+    console.log("***383", coinAlert);
+    console.log("coin alert", coinAlert)
+    coinAlert = Number( coinAlert['value']);
+
+    const nuevoValor:number = Number( coinAlert )
+    if( !coinAlert || coinAlert == "" ) return false
+    else{
+      console.log("nuevoValor", nuevoValor)
+      let coinAlert2:any = 0;
+        if( this.data.id === 1456 ){
+          coinAlert2 = await this._tools.alertInput({
+            // title: "Valor a Vender <br>¡sin puntos solo numerico!",
+            title: "Vender de 6 - en adelante",
+            input: "text",
+            value: String( this.data.encuanto2 || this.data.pro_uni_venta ),
+            confirme: "Agregar"
+          });
+          console.log("***383", coinAlert2);
+          console.log("coin alert", coinAlert2)
+          coinAlert2 = Number( coinAlert2['value']);
+        }
+
+      this.nextFunctionPriceAlElderly( coinAlert, coinAlert2 );      
+
+    }
+  }
+
+  nextFunctionPriceAlElderly( coinAlert, coinAlert2 ){
+    let data = {
+      article: this.data.id,
+      user: this.dataUser.id,
+      price: coinAlert,
+      price2: coinAlert2
+    };
+
+    this._productos.createPrice( data ).subscribe( res =>{
+      this._tools.tooast({ title: "Completo", detalle: "Este Producto ha sido Agregado a tu Cuenta."})
+      //this.dialogRef.close('creo');
+    });
   }
 
   async cargarVideo(imageInput){ console.log("Cargar video ev")

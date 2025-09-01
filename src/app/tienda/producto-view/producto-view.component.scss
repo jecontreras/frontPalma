@@ -633,3 +633,17 @@ input[type="radio"]:checked + .quantity-break {
   border: 3px solid #ff9900;
 }
 
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px; // o usa 100vh para pantalla completa
+}
+
+.titulo-galeria {
+  text-align: center;
+  padding: 10px;
+  font-size: 2rem;
+  font-weight: bold;
+  border-radius: 6px;
+}

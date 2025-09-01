@@ -1,172 +1,347 @@
-<h2 mat-dialog-title>{{ titulo }} Ventas</h2>
+<div class="d-flex bd-highlight">
+  <div class="p-2 flex-grow-1 bd-highlight">
+    <h2 mat-dialog-title>{{ titulo }} Ventas</h2>
+  </div>
+  <div class="p-2 bd-highlight">
+      <button mat-mini-fab mat-dialog-close>
+          <mat-icon>close</mat-icon>
+      </button>
+  </div>
+</div>
 
 <mat-dialog-content class="mat-typography">
-    <div class="row">
-      
-      <!-- Tipo de Venta -->
-      <div class="col-md-4">
-        <mat-form-field appearance="outline">
-          <mat-label>Tipo de Venta</mat-label>
-          <input matInput [(ngModel)]="data.ven_tipo" name="tipoVenta">
-        </mat-form-field>
-      </div>
+  <mat-tab-group mat-align-tabs="center">
+    <mat-tab label="Informacion">
+      <div class="content">
+        <div class="row">
 
-      <!-- Estado de la Venta -->
-      <div class="col-md-4" *ngIf="data.id && superSub">
-        <mat-form-field appearance="outline">
-          <mat-label>Estado de la Venta</mat-label>
-          <mat-select [(ngModel)]="data.ven_estado" name="estadoVenta">
-            <mat-option [value]="0">Pendiente</mat-option>
-            <mat-option [value]="1">Venta exitosa</mat-option>
-            <mat-option [value]="2">Rechazada</mat-option>
-            <mat-option [value]="3">Despachado</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
+          <!-- Estado de la Venta -->
+          <div class="col-md-4" *ngIf="data.id">
+            <mat-form-field appearance="outline">
+              <mat-label>Tipo de Pago</mat-label>
+              <mat-select [(ngModel)]="data.ven_tipo" name="estadoVenta">
+                <mat-option [value]="'PAGO ADELANTADO'">Pago Adelantado</mat-option>
+                <mat-option [value]="'PAGA EN CASA'">Pago en Casa</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          
+          <!-- Estado de la Venta -->
+          <div class="col-md-4" *ngIf="data.id">
+            <mat-form-field appearance="outline">
+              <mat-label>Estado de la Venta</mat-label>
+              <mat-select [(ngModel)]="data.ven_estado" name="estadoVenta">
+                <mat-option [value]="0">Pendiente</mat-option>
+                <mat-option [value]="1">Venta exitosa</mat-option>
+                <mat-option [value]="2">Rechazada</mat-option>
+                <mat-option [value]="3">Despachado</mat-option>
+                <mat-option [value]="5">Imprimida</mat-option>
+                <mat-option [value]="6">Devolucion</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+    
+          <!-- transportadora -->
+          <div class="col-md-4" *ngIf="data.id">
+            <mat-form-field appearance="outline">
+              <mat-label>Transportadora de envio</mat-label>
+              <mat-select [(ngModel)]="data.transport" name="transport">
+                <mat-option value="INTERRAPIDISIMO">INTER RAPIDISIMO</mat-option>
+                <mat-option value="ENVIA">ENVIA</mat-option>
+                <mat-option value="SERVIENTREGA">SERVIENTREGA</mat-option>
+                <mat-option value="COORDINADORA">COORDINADORA</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
 
-      <!-- Número de Rastreo -->
-      <div class="col-md-4" *ngIf="data.id && superSub">
-        <mat-form-field appearance="outline">
-          <mat-label>Número de Rastreo de Guía</mat-label>
-          <input matInput [(ngModel)]="data.ven_numero_guia" name="rastreoGuia">
-        </mat-form-field>
-      </div>
+        <!-- Usuario responsable de la venta -->
+        <div class="col-md-6" *ngIf="superSub || isAdmin">
+          <mat-form-field appearance="outline" >
+            <mat-label>Responsable de la Venta</mat-label>
+            <mat-select [(ngModel)]="data.usu_clave_int" name="usu_clave_int" required>
+              <mat-option *ngFor="let usuario of listaUsuarios" [value]="usuario.id">
+                {{ usuario.usu_email }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
 
-      <!-- Imagen del Producto -->
-      <div class="col-md-12 text-center" *ngIf="data.ven_imagen_producto && id">
-        <a [href]="data.ven_imagen_producto" target="_blank">
-          <img [src]="data.ven_imagen_producto" class="img-thumbnail">
-        </a>
-      </div>
+          <mat-card *ngIf="!superSub && !isAdmin && data?.usu_clave_int?.usu_email">
+            <mat-card-content>
+              <mat-icon>person</mat-icon>
+              <strong>Venta registrada por:</strong> {{ data.usu_clave_int.usu_email }}
+            </mat-card-content>
+          </mat-card>
+        </div>
 
-      <!-- Cargar Imagen WhatsApp -->
-      <div class="col-12" *ngIf="(data.ven_tipo.toLowerCase() == 'whatsapp') && superSub">
-        <mat-label>Subir Imagen</mat-label>
-        <ngx-dropzone (change)="onSelect($event)">
-          <ngx-dropzone-label>Abrir archivos</ngx-dropzone-label>
-          <ngx-dropzone-image-preview *ngFor="let f of files" [file]="f" (removed)="onRemove(f)">
-            <ngx-dropzone-label>{{ f.name }}</ngx-dropzone-label>
-          </ngx-dropzone-image-preview>
-        </ngx-dropzone>
-      </div>
 
-      <div class="col-md-4">
-        <mat-form-field appearance="outline">
-          <mat-label>Nombre y Apellidos</mat-label>
-          <input matInput [(ngModel)]="data.ven_nombre_cliente" name="nombreCliente">
-        </mat-form-field>
-      </div>
+    
+          <!-- Número de Rastreo -->
+          <div class="col-md-4" *ngIf="data.id">
+            <mat-form-field appearance="outline">
+              <mat-label>Número de Rastreo de Guía</mat-label>
+              <input matInput [(ngModel)]="data.ven_numero_guia" name="rastreoGuia">
+            </mat-form-field>
+          </div>
 
-      <div class="col-md-4">
-        <mat-form-field appearance="outline">
-          <mat-label>Teléfono</mat-label>
-          <input matInput [(ngModel)]="data.ven_telefono_cliente" name="telefonoCliente">
-        </mat-form-field>
-      </div>
-
-      <!-- Dirección del Cliente -->
-      <div class="col-md-4">
-        <mat-form-field appearance="outline">
-          <mat-label>Ciudad</mat-label>
-          <input matInput [(ngModel)]="data.ven_ciudad" name="ciudadCliente">
-        </mat-form-field>
-      </div>
-
-      <div class="col-md-4">
-        <mat-form-field appearance="outline">
-          <mat-label>Barrio</mat-label>
-          <input matInput [(ngModel)]="data.ven_barrio" name="barrioCliente">
-        </mat-form-field>
-      </div>
-
-      <div class="col-md-4">
-        <mat-form-field appearance="outline">
-          <mat-label>Dirección</mat-label>
-          <input matInput [(ngModel)]="data.ven_direccion_cliente" name="direccionCliente">
-        </mat-form-field>
-      </div>
-
-      <!-- Fecha de Venta -->
-      <div class="col-md-4">
-        <mat-form-field appearance="outline">
-          <mat-label>Fecha Venta</mat-label>
-          <input matInput type="date" [(ngModel)]="data.ven_fecha_venta" name="fechaVenta">
-        </mat-form-field>
-      </div>
-
-      <!-- Productos -->
-      <div class="col-md-4" *ngIf="data.ven_tipo.toLowerCase() == 'carrito'">
-        <mat-form-field appearance="outline">
-          <mat-label>Producto</mat-label>
-          <mat-select [(ngModel)]="data.pro_clave_int" name="producto" (selectionChange)="PrecioPush(); suma();">
-            <mat-option *ngFor="let item of listProductos" [value]="item.id">
-              {{ item.pro_codigo }} - {{ item.pro_nombre }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-
-      <!-- Cantidad -->
-      <div class="col-md-4">
-        <mat-form-field appearance="outline">
-          <mat-label>Cantidad</mat-label>
-          <input matInput type="number" [(ngModel)]="data.ven_cantidad" name="cantidad" (change)="suma()">
-        </mat-form-field>
-      </div>
-
-      <!-- Talla -->
-      <div class="col-md-4">
-        <mat-form-field appearance="outline">
-          <mat-label>Talla</mat-label>
-          <mat-select [(ngModel)]="data.ven_tallas" *ngIf="listTallas.length">
-            <mat-option *ngFor="let item of listTallas" [value]="item.tal_descripcion">
-              {{ item.tal_descripcion }} Talla
-            </mat-option>
-          </mat-select>
-          <input matInput *ngIf="!listTallas.length" [(ngModel)]="data.ven_tallas">
-        </mat-form-field>
-      </div>
-
-      <!-- Precio Unidad -->
-      <div class="col-md-4">
-        <mat-form-field appearance="outline">
-          <mat-label>Precio Unidad</mat-label>
-          <input matInput type="number" [(ngModel)]="data.ven_precio" (change)="suma()">
-        </mat-form-field>
-      </div>
-
-      <!-- Precio Total -->
-      <div class="col-md-4">
-        <p><strong>Precio Total:</strong> ${{ data.ven_total | number }} COP</p>
-      </div>
-
-      <div class="col-12">
-        <div class="card-grid">
-            <mat-card class="example-card" *ngFor="let item of listCart"> 
-              <img mat-card-image [src]="item.Foto">
+          <div class="form-group col-5">
+              <label for="exampleInputEmail1">Precios del flete</label>
+              <input currencyMask class="form-control form-control-sm" [(ngModel)]="data.priceFlete"
+                      [options]="formatoMoneda" />
+          </div>
+    
+          <!-- Imagen del Producto -->
+          
+          <div class="col-md-12 text-center" *ngIf="data.ven_imagen_guia && id">
+            <mat-card>
+              <mat-card-title>Guía de Envío</mat-card-title>
               <mat-card-content>
-                <p>Color: {{ item.Color }}</p>
-                <p>Talla: {{ item.Talla || 'unica' }}</p>
-                <p>Cantidad: {{ item.Cantidad }}</p>
+                <button mat-button color="primary" (click)="mostrarGuia = !mostrarGuia">
+                  {{ mostrarGuia ? 'Ocultar guía' : 'Ver guía' }}
+                </button>
+                <button mat-raised-button color="accent"(click)="handleEnviarGuiaWhatsapp( data )">
+                  Enviar Guia al Cliente
+                </button>
+
+                <div *ngIf="mostrarGuia" class="iframe-container">
+                  <iframe
+                    *ngIf="urlGuia"
+                    [src]="urlGuia | safeUrl"
+                    width="100%"
+                    height="500px"
+                    frameborder="0">
+                  </iframe>
+                </div>
               </mat-card-content>
+            </mat-card>
+
+          </div>
+  
+    
+          <div class="col-md-4">
+            <mat-form-field appearance="outline">
+              <mat-label>Nombre y Apellidos</mat-label>
+              <input matInput [(ngModel)]="data.ven_nombre_cliente" name="nombreCliente">
+            </mat-form-field>
+          </div>
+  
+          <div class="form-group col-12 col-sm-6" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
+            <!-- Selector de país con bandera -->
+            <mat-form-field appearance="outline" class="country-select" style="width: 80px;">
+              <mat-label>Indicativo</mat-label>
+              <mat-select [(ngModel)]="data.ven_indicativo_cliente" name="ven_indicativo_cliente" placeholder="Indicativo" required>
+                <mat-option *ngFor="let country of americanCountries" [value]="country.dialCode">
+                  <img [src]="country.flag" class="flag-icon" /> +{{ country.dialCode }} - {{ country.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          
+            <!-- Campo del teléfono -->
+            <mat-form-field appearance="outline" class="phone-input" style="width: 50%;">
+              <mat-label>Número de Teléfono</mat-label>
+              <mat-icon matPrefix>phone</mat-icon>
+              <input matInput type="number" [(ngModel)]="data.ven_telefono_cliente">
+            </mat-form-field>
+          </div>
+  
+          <!-- Ciudad o Municipio -->
+          <div class="col-md-4">
+            <mat-form-field appearance="outline" class="example-full-width">
+              <mat-label>Departamento</mat-label>
+              <mat-icon matPrefix>straighten</mat-icon>
+              <mat-select [(ngModel)]="data.departamento" placeholder="Departamento" required (selectionChange)="handleProcessDepartament();" >
+                <mat-option *ngFor="let keyOf of listDepartament" [value]="keyOf.id">
+                  {{ keyOf.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+  
+          <!-- Ciudad o Municipio -->
+          <div class="col-md-4">
+            <mat-form-field appearance="outline" class="example-full-width">
+              <mat-label>Ciudad o Municipio</mat-label>
+              <mat-icon matPrefix>straighten</mat-icon>
+              <mat-select [(ngModel)]="data.ven_ciudad" placeholder="Ciudad o Municipio" required >
+                <mat-option *ngFor="let keyOf of listCiudad" [value]="keyOf.name">
+                  {{ keyOf.name }}
+                </mat-option>
+              </mat-select>
+              <mat-spinner *ngIf="loadingCity" diameter="20"></mat-spinner>
+            </mat-form-field>
+          </div>
+    
+          <div class="col-md-4">
+            <mat-form-field appearance="outline">
+              <mat-label>Barrio</mat-label>
+              <input matInput [(ngModel)]="data.ven_barrio" name="barrioCliente">
+            </mat-form-field>
+          </div>
+    
+          <div class="col-md-4">
+            <mat-form-field appearance="outline">
+              <mat-label>Dirección</mat-label>
+              <input matInput [(ngModel)]="data.ven_direccion_cliente" name="direccionCliente">
+            </mat-form-field>
+          </div>
+    
+          <!-- Fecha de Venta -->
+          <div class="col-md-4">
+            <mat-form-field appearance="outline">
+              <mat-label>Fecha Venta</mat-label>
+              <input matInput type="date" [(ngModel)]="data.ven_fecha_venta" name="fechaVenta">
+            </mat-form-field>
+          </div>
+    
+    
+          <!-- Cantidad -->
+          <div class="col-md-4" *ngIf="id">
+            <mat-form-field appearance="outline">
+              <mat-label>Cantidad</mat-label>
+              <input matInput type="number" [(ngModel)]="data.ven_cantidad" name="cantidad" (change)="suma()">
+            </mat-form-field>
+          </div>
+    
+          <!-- Precio Total -->
+          <div class="col-md-4">
+            <p><strong>Precio Total:</strong> ${{ data.ven_total | number }}</p>
+          </div>
+    
+          <div class="col-12">
+            <div class="d-flex">
+              <div class="mr-auto p-2">
+                <h1>Producto</h1>
+              </div>
+              <div class="p-2">
+                <button mat-raised-button color="primary" (click)="handleOpenCart()">Abrir Articulos</button>
+              </div>
+            </div>
+          </div>
+  
+          <div class="col-12">
+            <mat-card>
+              <mat-card-title>Lista de Productos en el Carrito</mat-card-title>
+              <div class="table-responsive">
+                <table mat-table  [dataSource]="dataSource" class="mat-elevation-z8 full-width-table">
+          
+                  <!-- Imagen -->
+                  <ng-container matColumnDef="foto">
+                    <th mat-header-cell *matHeaderCellDef> Foto </th>
+                    <td mat-cell *matCellDef="let item">
+                      <img [src]="item.Foto" alt="Producto" class="thumbnail-img" />
+                    </td>
+                  </ng-container>
+          
+                  <!-- Color -->
+                  <ng-container matColumnDef="color">
+                    <th mat-header-cell *matHeaderCellDef> Color </th>
+                    <td mat-cell *matCellDef="let item"> {{ item.Color || '-' }} </td>
+                  </ng-container>
+          
+                  <!-- Talla -->
+                  <ng-container matColumnDef="talla">
+                    <th mat-header-cell *matHeaderCellDef> Talla </th>
+                    <td mat-cell *matCellDef="let item"> {{ item.Talla || 'Única' }} </td>
+                  </ng-container>
+          
+                  <!-- Cantidad -->
+                  <ng-container matColumnDef="cantidad">
+                    <th mat-header-cell *matHeaderCellDef> Cantidad </th>
+                    <td mat-cell *matCellDef="let item"> {{ item.Cantidad }} </td>
+                  </ng-container>
+          
+                  <!-- Precio -->
+                  <ng-container matColumnDef="precio">
+                    <th mat-header-cell *matHeaderCellDef> Precio </th>
+                    <td mat-cell *matCellDef="let item"> ${{ item.precioAplicado | number }} </td>
+                  </ng-container>
+          
+                  <!-- Acciones -->
+                  <ng-container matColumnDef="acciones">
+                    <th mat-header-cell *matHeaderCellDef> Acciones </th>
+                    <td mat-cell *matCellDef="let item">
+                      <button  mat-raised-button color="warn" (click)="handleDropCart(item)">
+                        <mat-icon>delete</mat-icon> Borrar
+                      </button>
+                    </td>
+                  </ng-container>
+          
+                  <!-- Encabezado y Cuerpo -->
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+              </div>
             </mat-card>
           </div>
           
-    </div>
-
-      <!-- Observaciones -->
-      <div class="col-12">
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Observaciones</mat-label>
-          <textarea matInput rows="3" [(ngModel)]="data.ven_observacion"></textarea>
-        </mat-form-field>
+        </div>
       </div>
+    </mat-tab>
+    <mat-tab label="Estados" *ngIf="id">
+      <div class="container">
+        <h1>Estados de la venta</h1>
+        <br>
+        <mat-card *ngFor="let estado of estados" class="estado-card">
+          <mat-card-header>
+            <mat-card-title>{{ estado.fecha | date: 'short' }}</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <p>{{ estado.descripcion }}</p>
+          </mat-card-content>
+        </mat-card>
+        <mat-card *ngIf="estados.length === 0" class="estado-card">
+          <mat-card-content>
+            <p>No se encontro datos</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      
+    </mat-tab>
+  </mat-tab-group>
+  <div class="venta-resumen">
 
-    </div>
+    <!-- Precio del artículo -->
+    <mat-card class="precio-card">
+      <mat-card-content>
+        <h1>Resumen de Venta</h1>
+
+        <div class="resumen-row">
+          <span>Precio del artículo:</span>
+          <strong>{{ data.ven_precio | currency:'COP':'symbol' }}</strong>
+        </div>
+
+        <!-- Input para precio del flete -->
+         <div class="input-group form-group col-5">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="">Precios del flete</span>
+          </div>
+          <input currencyMask class="form-control form-control-sm" [(ngModel)]="data.priceFlete" (blur)="suma()"
+                    [options]="formatoMoneda" />
+        </div>
+        <!-- Select o radio para quien paga el flete -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Quién paga el envío</mat-label>
+          <mat-select [(value)]="data.pagaFlete" (selectionChange)="suma()">
+            <mat-option value="cliente">Cliente</mat-option>
+            <mat-option value="vendedor">Vendedor</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-divider></mat-divider>
+
+        <!-- Totales -->
+        <div class="resumen-row total">
+          <span>Total a cobrar:</span>
+          <strong>{{ data.ven_total | currency:'COP':'symbol' }}</strong>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+
+
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close>Cerrar</button>
   <button mat-button color="primary" (click)="submit()" [disabled]="disabledButton">
     {{ id ? 'Actualizar Cambios' : 'Guardar Venta' }}
   </button>

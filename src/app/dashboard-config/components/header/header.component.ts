@@ -1,4 +1,4 @@
-import { Component, OnDestroy, ChangeDetectorRef, OnInit, VERSION, ViewChild } from '@angular/core';
+import { Component, OnDestroy, ChangeDetectorRef, OnInit, VERSION, ViewChild, HostListener } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatSidenav } from '@angular/material';
@@ -7,7 +7,7 @@ import { RegistroComponent } from '../../../components/registro/registro.compone
 import { ServiciosService } from 'src/app/services/servicios.service';
 import { Store } from '@ngrx/store';
 import { CART } from 'src/app/interfaces/sotarage';
-import { CartAction, UserAction } from 'src/app/redux/app.actions';
+import { CartAction, ConfiguracionAction, UserAction } from 'src/app/redux/app.actions';
 import { UsuariosService } from 'src/app/servicesComponents/usuarios.service';
 import * as _ from 'lodash';
 import { environment } from 'src/environments/environment';
@@ -15,6 +15,8 @@ import { ToolsService } from 'src/app/services/tools.service';
 import { VentasService } from 'src/app/servicesComponents/ventas.service';
 import { NotificacionesService } from 'src/app/servicesComponents/notificaciones.service';
 import { FormventasComponent } from 'src/app/dashboard-config/form/formventas/formventas.component';
+import { AlertDialogComponent } from '../alert-dialog/alert-dialog.component';
+import { EmpresaService } from 'src/app/servicesComponents/empresa.service';
 
 const URLFRON = environment.urlFront;
 
@@ -51,6 +53,7 @@ export class HeaderComponent implements OnInit {
   tiendaInfo:any = {};
   textColor: string = '#000000'; // Color inicial del texto (negro por defecto)
   @ViewChild('sidenav') sidenav!: MatSidenav;
+  isDesktop: boolean = true;
 
   
   constructor(
@@ -62,6 +65,7 @@ export class HeaderComponent implements OnInit {
     private _tools: ToolsService,
     private _notificaciones: NotificacionesService,
     private _venta: VentasService,
+    private tiendaService: EmpresaService
 
   ) { 
     this._store.subscribe((store: any) => {
@@ -89,6 +93,7 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.checkScreen();
     this.breakpoint = (window.innerWidth <= 400) ? 1 : 6;
     this.onResize(null);
     if(Object.keys(this.dataUser).length > 0 ) {
@@ -98,7 +103,33 @@ export class HeaderComponent implements OnInit {
     }
     else this.rolUser = 'visitante';
     this.listMenus();
-    if(this.rolUser === 'administrador') this.getCarrito();
+    this.verificarLimites();
+    //if(this.rolUser === 'administrador') this.getCarrito();
+  }
+
+  verificarLimites() {
+    this.tiendaService.get({ where: { id: this.tiendaInfo.id } }).subscribe(res => {
+      res = res.data[0];
+      let accion = new ConfiguracionAction( res, 'post');
+      this._store.dispatch( accion );
+      if (res.superoLimite) {
+          this.dialog.open(AlertDialogComponent, {
+            width: '400px',
+            data: {
+              titulo: 'Límite alcanzado 🚨',
+              mensaje: 'Has llegado al límite de tu paquete. Actualiza tu plan para continuar.'
+            }
+          });
+        } else {
+
+        }
+    });
+  }
+
+  // Detecta cambio de tamaño de pantalla
+  @HostListener('window:resize')
+  checkScreen() {
+    this.isDesktop = window.innerWidth > 768;
   }
 
   toggleSidenav() {
@@ -242,16 +273,30 @@ export class HeaderComponent implements OnInit {
         icons: 'home',
         nombre: 'Inicio',
         disable: true,
-        url: '.',
+        url: '/estadisticas',
         submenus:[]
       },
       {
         icons: 'storefront',
         nombre: 'Tienda',
         disable: true,
-        url: '/tienda',
+        url: '/tienda/productos/'+this.tiendaInfo.id,
         submenus:[]
       },
+      {
+         icons: 'settings',
+         nombre: 'Paquetes',
+         disable: ( this.rolUser == 'administrador' || this.rolUser == 'vendedor' || this.rolUser == 'subAdministrador' ),
+         url: '/config/paquetes',
+         submenus:[]
+       },
+      /*{
+        icons: 'account_circle',
+        nombre: 'Mi Cuenta',
+        disable: this.rolUser !== 'visitante',
+        url: '/config/perfil',
+        submenus:[]
+      },*/
       // {
       //   icons: 'menu_book',
       //   nombre: 'Productos',
@@ -259,13 +304,7 @@ export class HeaderComponent implements OnInit {
       //   url: '/config/pedidos',
       //   submenus:[]
       // },
-      {
-        icons: 'account_circle',
-        nombre: 'Mi Cuenta',
-        disable: this.rolUser !== 'visitante',
-        url: '/config/perfil',
-        submenus:[]
-      },
+
       /*{
         icons: 'shop',
         nombre: 'Mis Bancos',
@@ -281,10 +320,25 @@ export class HeaderComponent implements OnInit {
       },*/
       {
         icons: 'local_grocery_store',
-        nombre: 'Mis Ventas',
+        nombre: 'Administracion de Ventas',
         disable: this.rolUser !== 'visitante',
         url: '/config/ventas',
-        submenus:[]
+        submenus:[
+          {
+            icons: 'home',
+            nombre: 'Estadisticas',
+            disable: true,
+            url: '/estadisticas',
+            submenus:[]
+          },
+          {
+            icons: 'local_grocery_store',
+            nombre: 'Mis Ventas',
+            disable: this.rolUser !== 'visitante',
+            url: '/config/ventas',
+            submenus:[]
+          },
+        ]
       },
       /*{
         icons: 'people_alt',
@@ -308,24 +362,39 @@ export class HeaderComponent implements OnInit {
       // },
       {
         icons: 'settings',
-        nombre: 'Categorias',
+        nombre: 'Edicion de Articulos',
         url: '/config/categorias',
-        disable: this.rolUser == 'administrador',
-        submenus:[]
-      },
-      {
-        icons: 'settings',
-        nombre: 'Productos',
-        url: '/config/productos',
-        disable: this.rolUser == 'administrador',
-        submenus:[]
-      },
-      {
-        icons: 'settings',
-        nombre: 'Testimonios',
-        url: '/config/testimonios',
-        disable: this.rolUser == 'administrador',
-        submenus:[]
+        disable: ( this.rolUser == 'administrador' || this.rolUser == 'vendedor' || this.rolUser == 'subAdministrador' ),
+        submenus:[
+          {
+            icons: 'settings',
+            nombre: 'Categorias',
+            url: '/config/categorias',
+            disable: (this.rolUser == 'administrador' || this.rolUser == 'subAdministrador'  ),
+            submenus:[]
+          },
+          {
+            icons: 'settings',
+            nombre: 'Productos',
+            url: '/config/productos',
+            disable: (this.rolUser == 'administrador'  || this.rolUser == 'subAdministrador' ),
+            submenus:[]
+          },
+          {
+            icons: 'settings',
+            nombre: 'Tipo Medidas Tallas',
+            url: '/config/tipoMedida',
+            disable: (this.rolUser == 'administrador'  || this.rolUser == 'subAdministrador' ),
+            submenus:[]
+          },
+          {
+            icons: 'settings',
+            nombre: 'Testimonios',
+            url: '/config/testimonios',
+            disable: ( this.rolUser == 'administrador'  || this.rolUser == 'subAdministrador' ),
+            submenus:[]
+          }
+        ]
       },
       /*{
         icons: 'settings',
@@ -338,8 +407,51 @@ export class HeaderComponent implements OnInit {
         icons: 'settings',
         nombre: 'Configuraciones',
         url: '/config/configuracion',
-        disable: this.rolUser == 'administrador',
-        submenus:[]
+        disable: ( this.rolUser == 'administrador'  || this.rolUser == 'subAdministrador' ),
+        submenus:[
+          {
+            icons: 'settings',
+            nombre: 'Administrar tienda',
+            url: '/config/configuracion',
+            disable: ( this.rolUser == 'administrador' || this.rolUser == 'subAdministrador'),
+            submenus:[]
+          },
+          {
+            icons: 'settings',
+            nombre: 'Usuarios',
+            url: '/config/usuarios',
+            disable: ( this.rolUser == 'administrador' || this.rolUser == 'subAdministrador'),
+            submenus:[]
+          },
+          {
+            icons: 'settings',
+            nombre: 'Roles',
+            url: '/config/roles',
+            disable: this.rolUser == 'administrador',
+            submenus:[]
+          },
+          {
+            icons: 'settings',
+            nombre: 'Administrar Paquetes',
+            url: '/config/adminpaquete',
+            disable: this.rolUser == 'administrador',
+            submenus:[]
+          },
+          {
+            icons: 'settings',
+            nombre: 'Empresas',
+            url: '/config/empresa',
+            disable: ( this.rolUser == 'administrador'),
+            submenus:[]
+          },
+          {
+            icons: 'settings',
+            nombre: 'Configuracion de Formulario de Compra',
+            url: '/config/configFormCompra',
+            disable: ( this.rolUser == 'administrador'  || this.rolUser == 'subAdministrador' ),
+            submenus:[]
+          },
+        ]
       }
       /*{
         icons: 'assessment',

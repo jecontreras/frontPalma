@@ -1,0 +1,47 @@
+<div class="paquetes-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Administración de Paquetes</mat-card-title>
+      <button mat-raised-button color="primary" (click)="abrirDialogo()">Nuevo Paquete</button>
+    </mat-card-header>
+
+    <mat-card-content>
+      <table mat-table [dataSource]="paquetes" class="mat-elevation-z8 full-width">
+
+        <ng-container matColumnDef="nombre">
+          <th mat-header-cell *matHeaderCellDef> Título </th>
+          <td mat-cell *matCellDef="let p"> {{p.nombre}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="precio">
+          <th mat-header-cell *matHeaderCellDef> Precio </th>
+          <td mat-cell *matCellDef="let p"> ${{p.precio | number}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="ventas_max">
+          <th mat-header-cell *matHeaderCellDef> Límite Ventas </th>
+          <td mat-cell *matCellDef="let p"> {{p.ventas_max || 'Ilimitado'}} </td>
+        </ng-container>
+        <ng-container matColumnDef="productos_max">
+          <th mat-header-cell *matHeaderCellDef> Límite Producto </th>
+          <td mat-cell *matCellDef="let p"> {{p.productos_max || 'Ilimitado'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="acciones">
+          <th mat-header-cell *matHeaderCellDef> Acciones </th>
+          <td mat-cell *matCellDef="let p">
+            <button mat-icon-button color="primary" (click)="editar(p)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="eliminar(p)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="['nombre','precio','ventas_max','productos_max','acciones']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['nombre','precio','ventas_max','productos_max','acciones']"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+</div>

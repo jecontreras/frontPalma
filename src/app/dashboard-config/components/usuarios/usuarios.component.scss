@@ -1,3 +1,47 @@
-.foto {
-    height: 43px;
+.main-content {
+  padding: 1rem;
+
+  .toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+
+    .search-field {
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .toolbar-buttons {
+      display: flex;
+      gap: 0.5rem;
+      margin-left: 1rem;
+    }
+  }
+
+  .full-width-table {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .text-success {
+    color: green;
+  }
+
+  .text-danger {
+    color: red;
+  }
+
+  .mat-card-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
 }
+
+.scroll-container {
+  height: 600px; // O lo que necesites
+  overflow-y: auto;
+}
+

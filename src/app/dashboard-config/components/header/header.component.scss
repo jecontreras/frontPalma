@@ -1,87 +1,96 @@
 .sidenav-container {
-  //height: 100vh; /* Ocupa toda la pantalla */
-  display: flex;
-  flex-direction: column;
+  height: 100vh;
 }
 
-mat-toolbar {
+.toolbar {
   position: fixed;
   top: 0;
   width: 100%;
   z-index: 1000;
 }
 
-.main-content {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: calc(100vh - 64px); /* Resta la altura de la barra superior */
+.menu-button {
+  margin-right: 8px;
+}
+
+.toolbar-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.spacer {
+  flex: 1 1 auto;
 }
 
 .sidenav {
-  width: 280px;
+  width: 260px;
+  background: #ffffff;
+  border-right: 1px solid #e0e0e0;
+  position: fixed;
+  top: 64px; /* Altura del toolbar */
+  height: calc(100vh - 64px);
+  overflow: hidden;
 }
 
 .menu-header {
-  display: flex;
-  justify-content: center;
-  padding: 10px;
+  padding: 16px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
 }
 
 .logo {
-  width: 180px;
-  max-width: 100%;
+  width: 100%;
+  max-height: 80px;
+  object-fit: contain;
 }
 
-mat-sidenav-content {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+.logout-section {
+  padding: 8px 16px;
+  text-align: center;
+}
+
+.menu-scroll {
+  height: calc(100% - 140px); /* Ajustar para logo y botón logout */
+  overflow-y: auto;
 }
 
 .menu-title {
-  text-align: center;
-  font-size: 18px;
-  font-weight: bold;
-  margin: 10px 0;
-}
-
-.menu-text {
-  flex-grow: 1;
+  padding: 8px 16px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #666;
 }
 
 .menu-icon {
-  margin-left: auto; /* Empuja el icono hacia la derecha */
+  margin-right: 12px;
+  color: #666;
 }
 
-.submenu-panel {
-  width: 100%;
+.menu-text {
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.active {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.main-content {
+  margin-left: 220px;
+  padding: 80px 20px 20px; /* espacio para toolbar y margen */
+  min-height: 100vh;
+  overflow-y: auto;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
   .sidenav {
-    width: 250px;
+    position: fixed;
+    top: 0;
+    height: 100vh;
   }
-}
-
-
-/* Fijar toolbar en la parte superior */
-.fixed-toolbar {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 1000; /* Asegura que esté sobre los demás elementos */
-}
-
-/* Ajustar el contenido para que respete la toolbar */
-.sidenav-container {
-  //height: 100vh; /* Ocupa toda la pantalla */
-  margin-top: 64px; /* Altura de la toolbar */
-}
-
-.main-content {
-  //height: calc(100vh - 64px); /* Resta la altura del toolbar */
-  overflow: auto; /* Permite scroll si es necesario */
-  padding: 16px; /* Espaciado interno */
+  .main-content {
+    margin-left: 0;
+    padding: 80px 10px;
+  }
 }

@@ -13,6 +13,7 @@ const headers = new HttpHeaders({
 });
 
 let URL = environment.url;
+const URL2 = environment.urlEnvios;
 let URLFILE = environment.URLFILE;
 
 @Injectable({
@@ -38,13 +39,19 @@ export class ServiciosService {
       store = store.name;
       if(!store) return false;
       this.dataConfig = store.configuracion || {};
-      if( store.configuracion.urlBackend ) URL = store.configuracion.urlBackend || URL;
-      if( store.configuracion.user.urlFile ) URLFILE = store.configuracion.urlFile || URLFILE;
+      try {
+        if( this.dataConfig.urlBackend ) URL = this.dataConfig.urlBackend || URL;
+        if( this.dataConfig.urlBackendFile ) URLFILE = this.dataConfig.urlBackendFile || URLFILE;
+      } catch (error) {
+        URL = URL;
+        URLFILE = URLFILE;
+      }
       try {
         this.activador = store.userpr.id ? true : false;
       } catch (error) {
         this.activador = false;
       }
+      //console.log("***54", URL,URLFILE)
     });
     //this.conectionSocket();
     //this.createsocket("emitir", {mensaje:"inicial"});
@@ -70,14 +77,14 @@ export class ServiciosService {
       //this.dataUser.id = "635c2fdab0f6ff3068000fef";
     });
     if(Object.keys(this.dataUser).length >0 ){
-      this.querys('user/querys',{
+      this.querys('tblusuario/querys',{
         where:{
            id: this.dataUser.id
           //id: 1016
         }
       }, 'post').subscribe((res:any)=>{
         res = res.data[0];
-        localStorage.removeItem('user');
+        //localStorage.removeItem('user');
         if(!res) {
           let accion = new UserAction(this.dataUser,'delete')
           this._store.dispatch(accion);
@@ -102,6 +109,7 @@ export class ServiciosService {
     data.skip = datas.page ? datas.page : 0;
     data.limit = datas.limit ? datas.limit : 10;
     query = URL+`/${query}`;
+    console.log("***RRR", query, data, METODO)
     return this.ejecutarQuery(query, data, METODO);
   }
 
@@ -112,6 +120,22 @@ export class ServiciosService {
     data.limit = datas.limit ? datas.limit : 10;
     query = URLFILE+`/${query}`;
     delete data.where.app;
+    return this.ejecutarQuery(query, data, METODO);
+  }
+
+  querysUrl(query:string, datas:any, METODO:string){
+    let data = datas;
+    if(!datas.where) datas.where = {};
+    data.skip = datas.page ? datas.page : 0;
+    data.limit = datas.limit ? datas.limit : 10;
+    delete data.where.app;
+    return this.ejecutarQuery(query, data, METODO);
+  }
+
+  querysFlete( query:string, datas:any, METODO:string ){
+    let data = datas;
+    if( !datas.where ) datas.where = {};
+    query = URL2+`/${query}`;
     return this.ejecutarQuery(query, data, METODO);
   }
 

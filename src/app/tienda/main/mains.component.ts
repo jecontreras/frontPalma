@@ -8,6 +8,7 @@ import { FormatosService } from 'src/app/services/formatos.service';
 import { DialogPagoComponent } from '../dialog-pago/dialog-pago.component';
 import { MatDialog } from '@angular/material';
 import { ChecktDialogComponent } from '../checkt-dialog/checkt-dialog.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-mains',
@@ -15,6 +16,7 @@ import { ChecktDialogComponent } from '../checkt-dialog/checkt-dialog.component'
   styleUrls: ['./mains.component.scss']
 })
 export class MainsComponent implements OnInit {
+  idT:number;
   data:any = {};
   id:string;
   urlwhat:string;
@@ -30,25 +32,36 @@ export class MainsComponent implements OnInit {
     private _store: Store<CART>,
     private _config: ConfiguracionService,
     public _formato: FormatosService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private activate: ActivatedRoute,
   ) {
     this._store.subscribe((store: any) => {
       store = store.name;
       if(!store) return false;
-      if( store.usercabeza ) this.data = store.configuracion || {}
+      this.data = store.configuracion || {}
       this.carrito = store.cart || [];
       this.handleEvent();
       this.calcularTotales();
     });
     this.dominio = window.location.host;
-    console.log("******HOST", this.dominio)
-    if( this.dominio === 'localhost:4300' ) this.dominio = "dilishoponline.com";
-    if( this.dominio === 'localhost:4400' ) this.dominio = "shoppalmastore.firebaseapp.com";
-    this.getEmpresa();
+    //console.log("******HOST", this.dominio)
+    let originId:any = window.location.pathname;
+    originId = originId.split("productos/");
+    if( originId[1] ) this.idT = Number( originId[1] );
+    //console.log("***51", this.idT );
+    if( !this.idT ){
+      if( this.dominio === 'localhost:4300' ) this.dominio = "dilishoponline.com";
+      if( this.dominio === 'localhost:4400' ) this.dominio = "shoppalmastore.firebaseapp.com";
+      if( this.dominio === 'localhost:4600' ) this.dominio = "palmacop.com";
+      this.getEmpresa( { where: { dominio: this.dominio }, limit: 1 } );
+    }else{
+      this.getEmpresa( { where: { id: this.idT }, limit: 1 } );
+    }
+    
   }
 
   ngOnInit() {
-    this.urlwhat = `https://api.whatsapp.com/send?phone=57${ this.data.numeroCelular }&amp;text=Hola%2C%20estoy%20interesado%20en%20los%20tenis%20NIKE%2C%20gracias...`
+    this.urlwhat = `https://api.whatsapp.com/send?phone=57${ this.data.numeroCelular }&amp;text=Hola%2C%20estoy%20interesado%20en%20los%20tenis%20NIKE%2C%20gracias...`;
   }
 
   handleEvent(){
@@ -62,8 +75,8 @@ export class MainsComponent implements OnInit {
     }
   }
 
-  getEmpresa(){
-    this._config.get({ where: { dominio: this.dominio }, limit: 1 }).subscribe(( res:any )=>{
+  getEmpresa( querys:any ){
+    this._config.get( querys ).subscribe(( res:any )=>{
       //console.log(res);
       res = res.data[0];
       if( !res ) return false;
@@ -105,6 +118,7 @@ export class MainsComponent implements OnInit {
   
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
+      if( result === 'creo') this.cerrarCarrito();
     });
   }
 

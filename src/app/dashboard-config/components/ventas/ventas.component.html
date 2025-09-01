@@ -1,20 +1,45 @@
 <div class="main-content">
   <div class="container-fluid">
     <div class="row">
-      <div class="col-md-12">
-        <mat-card class="card">
-          <mat-card-header>
-            <mat-toolbar color="primary">
-              <mat-icon>assignment</mat-icon>
-              <span class="title">Ventas</span>
-              <span class="spacer"></span>
-              <button mat-icon-button (click)="crear(false)">
-                <mat-icon>add_circle_outline</mat-icon>
+      <div class="col-12">
+        
+        <!-- Caso: Usuario alcanzó el límite -->
+        <div *ngIf="ventasRealizadas >= limiteVentas" class="upgrade-container">
+          <mat-card class="upgrade-card mat-elevation-z8">
+            <mat-card-header>
+              <mat-icon class="warning-icon" color="warn">block</mat-icon>
+              <mat-card-title>Has alcanzado tu límite de ventas</mat-card-title>
+              <mat-card-subtitle>
+                Tu paquete actual solo permite <strong>{{ limiteVentas }}</strong> ventas mensuales.
+              </mat-card-subtitle>
+            </mat-card-header>
+
+            <mat-card-content>
+              <p>
+                Para seguir vendiendo y gestionando tus pedidos sin interrupciones, 
+                actualiza a un paquete superior con más capacidad.
+              </p>
+              <img src="./assets/imagenes/upgrade.svg" alt="Upgrade" class="upgrade-image">
+            </mat-card-content>
+
+            <mat-card-actions>
+              <button mat-raised-button color="primary" (click)="irAPaquetes()">
+                <mat-icon>upgrade</mat-icon> Subir de Paquete
               </button>
-            </mat-toolbar>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+
+        <!-- Caso: Usuario aún está dentro del límite -->
+        <mat-card *ngIf="ventasRealizadas < limiteVentas">
+          <mat-card-header>
+            <mat-card-title>
+              <mat-icon>assignment</mat-icon> Ventas
+            </mat-card-title>
           </mat-card-header>
 
-          <mat-card-content>
+          <mat-card-content>    
+            <span class="spacer"><h3 class="ventas-hoy text-success">Ventas de Hoy {{ dateHoy }}: <span class="text-success">{{ sumCantidad }}</span></h3></span>
             <!-- Barra de búsqueda -->
             <mat-form-field appearance="outline" class="search-bar">
               <mat-label>Buscar Ventas</mat-label>
@@ -22,7 +47,32 @@
               <mat-icon matSuffix>search</mat-icon>
             </mat-form-field>
 
-            <h3 class="ventas-hoy">Ventas de Hoy {{ dateHoy }}: <span class="text-danger">{{ sumCantidad }}</span></h3>
+            <!-- Botones de acción -->
+            <div class="action-buttons">
+              <button mat-button color="primary" (click)="generarVenta({})">
+                <span>Generar Venta</span>
+              </button>
+              <button mat-button color="primary" (click)="generarGuia()" [disabled]="!selectedRows.length">
+                <mat-spinner *ngIf="loading" diameter="20"></mat-spinner>
+                <span *ngIf="!loading">Generar Guías</span>
+              </button>
+              <button mat-button color="warn" (click)="eliminarSeleccionados()" [disabled]="!selectedRows.length">
+                Eliminar Seleccionados
+              </button>
+              <button mat-button color="primary" (click)="handleUpdateBuyGuide()" [disabled]="!selectedRows.length">
+                <mat-spinner *ngIf="loading" diameter="20"></mat-spinner>
+                <span *ngIf="!loading">Agregar # Guia</span>
+              </button>
+              <!--<button mat-raised-button color="accent"  (click)="handleCancelGuide()" [disabled]="selectedRows.length === 0 || cargando2">
+                <mat-spinner *ngIf="cargando2" diameter="20"></mat-spinner>
+                <span *ngIf="!cargando2">Cancelar Guia</span>
+              </button>
+              <button mat-raised-button color="primary" class="btn-imprimir" (click)="imprimirGuia()" [disabled]="selectedRows.length === 0 || cargando2">
+                <mat-spinner *ngIf="cargando2" diameter="20"></mat-spinner>
+                <span *ngIf="!cargando2">Imprimir Guía</span>
+              </button>
+            -->
+            </div>
 
             <!-- Tabla de Ventas -->
             <div class="table-container"
@@ -30,32 +80,64 @@
               [infiniteScrollThrottle]="50" (scrolled)="onScroll()"
               style="width: 100%;"
             >
-              <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" style="width: 100%;"
-              >
+              <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" style="width: 100%;">
                 
+                <!-- Checkbox para seleccionar -->
+                <ng-container matColumnDef="seleccion">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <mat-checkbox (change)="toggleAll($event)" [checked]="isAllSelected()"></mat-checkbox>
+                  </th>
+                  <td mat-cell *matCellDef="let row">
+                    <mat-checkbox (change)="toggleSelection(row)" [checked]="isSelected(row)"></mat-checkbox>
+                  </td>
+                </ng-container>
+
                 <!-- Acciones -->
                 <ng-container matColumnDef="acciones">
                   <th mat-header-cell *matHeaderCellDef>Acciones</th>
                   <td mat-cell *matCellDef="let row">
-                    <button mat-icon-button color="primary" (click)="crear(row)">
-                      <mat-icon>remove_red_eye</mat-icon>
+                    <!-- Botón que despliega el menú -->
+                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Menú de acciones">
+                      <mat-icon>more_vert</mat-icon>
                     </button>
-                    <button mat-icon-button color="warn" (click)="delete(row)">
-                      <mat-icon>delete_forever</mat-icon>
-                    </button>
+
+                    <!-- Menú de opciones -->
+                    <mat-menu #menu="matMenu">
+                      <button mat-menu-item (click)="generarVenta(row)" color="primary">
+                        <mat-icon>remove_red_eye</mat-icon>
+                        <span>Ver Detalles</span>
+                      </button>
+                      <button mat-menu-item (click)="handleDropItem(row)" color="warn">
+                        <mat-icon>delete_forever</mat-icon>
+                        <span>Eliminar</span>
+                      </button>
+                      <!--<button mat-menu-item (click)="cambiarEstado(row)" color="accent">
+                        <mat-icon>local_shipping</mat-icon>
+                        <span>Estado del Pedido</span>
+                      </button>-->
+                    </mat-menu>
                   </td>
                 </ng-container>
+
+
+                <!-- Nombre Cliente -->
+                <ng-container matColumnDef="#Guia">
+                  <th mat-header-cell *matHeaderCellDef># Guia</th>
+                  <td mat-cell *matCellDef="let row">
+                    <img src="./assets/imagenes/envia.jpg" *ngIf="row.transport === 'ENVIA'" alt="ENVIA" class="guia-img">
+                    <img src="./assets/imagenes/tcc.png" *ngIf="row.transport === 'TCC'" alt="TCC" class="guia-img">
+                    <img src="./assets/imagenes/logoCordinadora.png" *ngIf="row.transport === 'COORDINADORA'" alt="COORDINADORA" class="guia-img">
+                    <img src="./assets/imagenes/servientrega.png" *ngIf="row.transport === 'SERVIENTREGA'" alt="SERVIENTREGA" class="guia-img">
+                    <img src="./assets/imagenes/logoInter.png" *ngIf="row.transport === 'INTERRAPIDISIMO'" alt="INTERRAPIDISIMO" class="guia-img">
+                    {{ row.ven_numero_guia }}
+                  </td>
+                </ng-container>
+                
 
                 <!-- Nombre Cliente -->
                 <ng-container matColumnDef="nombre">
                   <th mat-header-cell *matHeaderCellDef>Cliente</th>
                   <td mat-cell *matCellDef="let row">{{ row.ven_nombre_cliente }}</td>
-                </ng-container>
-
-                <!-- Veces que compró -->
-                <ng-container matColumnDef="compras">
-                  <th mat-header-cell *matHeaderCellDef>Compras</th>
-                  <td mat-cell *matCellDef="let row">{{ row.ventasAndCount }}</td>
                 </ng-container>
 
                 <!-- Teléfono -->
@@ -76,12 +158,11 @@
                   <td mat-cell *matCellDef="let row">{{ row.ven_cantidad }}</td>
                 </ng-container>
 
-                <!-- Total -->
-                <ng-container matColumnDef="total">
-                  <th mat-header-cell *matHeaderCellDef>Total</th>
-                  <td mat-cell *matCellDef="let row">
-                    ${{ row.ven_total | number }} COP
-                  </td>
+                
+                <!-- Veces que compró -->
+                <ng-container matColumnDef="compras">
+                  <th mat-header-cell *matHeaderCellDef>Compras</th>
+                  <td mat-cell *matCellDef="let row">{{ row.ventasAndCount }}</td>
                 </ng-container>
 
                 <!-- Imagen -->
@@ -92,23 +173,37 @@
                   </td>
                 </ng-container>
 
+                <!-- Total -->
+                <ng-container matColumnDef="total">
+                  <th mat-header-cell *matHeaderCellDef>Total</th>
+                  <td mat-cell *matCellDef="let row">
+                    ${{ row.ven_total | number }} COP
+                  </td>
+                </ng-container>
+
                 <!-- Estado -->
-                <ng-container matColumnDef="estado">
-                  <th mat-header-cell *matHeaderCellDef>Estado</th>
+                <ng-container matColumnDef="Estadoventa">
+                  <th mat-header-cell *matHeaderCellDef>Estado de Venta</th>
                   <td mat-cell *matCellDef="let row" [ngClass]="getEstadoClass(row.ven_estado)">
                     {{ getEstadoTexto(row.ven_estado) }}
                   </td>
                 </ng-container>
 
+                
+                <ng-container matColumnDef="EstadoGuia">
+                  <th mat-header-cell *matHeaderCellDef>Esado de la Guia</th>
+                  <td mat-cell *matCellDef="let row">{{ row.stateGuide }}</td>
+                </ng-container>
+
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'error-row': row.ven_sw_aprobada === 1,'succes-row': row.ven_sw_aprobada === 1, 'succesPrint-row': row.ven_estado === 5 }" ></tr>
 
               </table>
 
+              <mat-spinner *ngIf="loader" diameter="20"></mat-spinner>
+
                <!-- Paginación -->
-               <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 50]" showFirstLastButtons></mat-paginator>
-
-
+               <mat-paginator [length]="counstItem || 0" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 50]" (page)="onScroll()" showFirstLastButtons></mat-paginator>
             </div>
           </mat-card-content>
         </mat-card>
@@ -116,3 +211,4 @@
     </div>
   </div>
 </div>
+

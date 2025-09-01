@@ -13,7 +13,7 @@ const socketOptions = {
 export class ChatService {
 
   private socket: any;
-  private url = "http://localhost:3000"; // Cambia esto por la URL de tu servidor Sails.js
+  private url = "http://localhost:3001"; // Cambia esto por la URL de tu servidor Sails.js
   //private url = "https://whatsappemulator-349d443b5acb.herokuapp.com"; // Cambia esto por la URL de tu servidor Sails.js
   dataConfig:any;
   constructor(
@@ -28,6 +28,7 @@ export class ChatService {
     this.socket = io(this.url, socketOptions);
     this.socket.on('connect', () => {
       console.log('Conexión establecida con el servidor');
+      this.initBootWhatsappEmit();
     });
     this.socket.on('nuevoMensaje', (data) => {
       console.log('Mensaje recibido del servidor:', data);
@@ -96,6 +97,38 @@ export class ChatService {
   statusWhatsapp( ): Observable<any> {
     return new Observable<any>(observer => {
       this.socket.on('statusWhatsapp', (data: any) => observer.next(data) );
+    });
+  }
+
+  initBootWhatsappEmit(  ) {
+    this.socket.emit('iniciar-bot', { tiendaId: "Tienda-"+this.dataConfig.id } );
+    console.log("EMITE EL BOOT")
+  }
+
+  validarBootActivoEmit(  ) {
+    this.socket.emit('validate-bot-activeEmit', { tiendaId: "Tienda-"+this.dataConfig.id } );
+  }
+
+  validarBootActivoOn( ): Observable<any> {
+    return new Observable<any>(observer => {
+      this.socket.on('validate-bot-activeOn', (data) => {
+        //console.log("**115", data )
+        if (data.idBoot === "Tienda-"+this.dataConfig.id) {
+          observer.next( data.boot )
+          //this.qrCode = data.qr; // Mostrar en Angular con angularx-qrcode o img
+        }
+      });
+    });
+  }
+
+  initBootWhatsappOn( ): Observable<any> {
+    return new Observable<any>(observer => {
+      this.socket.on('qr', (data) => {
+        if (data.tiendaId === "Tienda-"+this.dataConfig.id) {
+          observer.next( data.qr )
+          //this.qrCode = data.qr; // Mostrar en Angular con angularx-qrcode o img
+        }
+      });
     });
   }
 

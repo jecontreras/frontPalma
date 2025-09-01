@@ -1,0 +1,17 @@
+.full-width-table {
+  width: 100%;
+  overflow: auto;
+
+  img {
+    border-radius: 4px;
+  }
+
+  th, td {
+    padding: 8px;
+    text-align: left;
+  }
+}
+
+.mat-form-field {
+  min-width: 250px;
+}

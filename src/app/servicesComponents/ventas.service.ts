@@ -16,6 +16,28 @@ export class VentasService {
   getDBI(query:any){
     return this._model.querys('ventasDBI/querys',query, 'post');
   }
+  enviarGuiaWhatsapp(query:any){
+    return this._model.querys('tblventas/enviarFacturaPdf',query, 'post');
+  }
+  createGuide(url:string,query:any){
+    return this._model.querysUrl(url,query, 'post');
+  }
+  getDepartment(url:string,query:any){
+    return this._model.querysUrl(url,query, 'post');
+  }
+  getCiudadesTridy(query:any){
+    return this._model.querysFlete('CiudadesTridy/querys',query, 'post');
+  }
+  getCity(url:string,query:any){
+    return this._model.querysUrl(url,query, 'post');
+  }
+  cancelGuide(url:string,query:any){
+    return this._model.querysUrl(url,query, 'post');
+  }
+  getFleteValorTriidy(query:any){
+    return this._model.querysFlete('fletes/getFleteTriidy',query, 'post');
+  }
+  
   create(query:any){
     return this._model.querys('tblventas',query, 'post');
   }

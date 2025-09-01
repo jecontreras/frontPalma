@@ -49,6 +49,7 @@ export class ProductosComponent implements OnInit {
   notEmptyPost:boolean = true;
   tiendaInfo:any = {};
   listEstadist:any = [];
+  count:number = 0;
 
   constructor(
     public dialog: MatDialog,
@@ -78,7 +79,7 @@ export class ProductosComponent implements OnInit {
 
   getEstadistica(){
     return new Promise( resolve =>{
-      this._estadist.getProduct( {} ).subscribe( res =>{
+      this._estadist.getProduct( { where: { empresa: this.tiendaInfo.id }} ).subscribe( res =>{
         this.listEstadist = res;
         resolve( res );
       },()=> resolve( [ ] ) );
@@ -88,7 +89,7 @@ export class ProductosComponent implements OnInit {
   ProccesStatis(){
     for( let row of this.dataTable.dataRows ){
       let filter = this.listEstadist.find( item => item.id === row['id'] )
-      console.log("+*86", filter)
+      //console.log("+*86", filter)
       if( !filter ) continue;
       row['estadistCount'] = filter.total_visitas;
     }
@@ -122,6 +123,7 @@ export class ProductosComponent implements OnInit {
     });
   }
   async onScroll(){
+    console.log("SCROLL")
     if (this.notscrolly && this.notEmptyPost) {
        this.notscrolly = false;
        this.query.page++;
@@ -138,6 +140,7 @@ export class ProductosComponent implements OnInit {
       .subscribe(
         (response: any) => {
           console.log(response);
+          this.count = response.count;
           this.dataTable.headerRow = this.dataTable.headerRow;
           this.dataTable.footerRow = this.dataTable.footerRow;
           this.dataTable.dataRows.push(... response.data);
@@ -199,6 +202,24 @@ export class ProductosComponent implements OnInit {
       ];
       this.cargarTodos();
     }
+  }
+
+  async openTienda( item:any, opt:string ){
+    if( opt === 'normal' ) window.open( window.location.origin+ "/tienda/productosView/"+ item.id );
+    if( opt === 'alMayor' ) {
+      let valid = await this.getProduct( item.id );
+      if( valid ){
+        window.open( window.location.origin+ "/tienda/productosViewM/123AB/"+"COP&"+ this.tiendaInfo.numeroCelular + "/" + item.id );
+      }else{
+        this._tools.presentToast("Por favor primero agreges precio al mayor en edicion del producto...")
+      }
+    }
+  }
+
+  getProduct( item:number ){
+    return new Promise( resolve =>{
+      this._productos.getStore( { where: { article: item } } ).subscribe( res => resolve( res.data[0] ), error => resolve( error ) );
+    })
   }
 
 }

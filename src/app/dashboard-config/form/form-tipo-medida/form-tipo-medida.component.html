@@ -1,0 +1,28 @@
+<h2 mat-dialog-title>{{ tipoId ? 'Editar Tipo de Medida' : 'Crear Tipo de Medida' }}</h2>
+<mat-dialog-content>
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Nombre del tipo de medida</mat-label>
+    <input matInput [(ngModel)]="descripcionTipo">
+  </mat-form-field>
+
+  <div class="tallas-section">
+    <h4>Tallas</h4>
+    <div *ngFor="let talla of tallas; let i = index" class="talla-row">
+      <mat-form-field appearance="outline" class="talla-field">
+        <mat-label>Descripción</mat-label>
+        <input matInput [(ngModel)]="talla.tal_descripcion">
+      </mat-form-field>
+      <button mat-icon-button color="warn" (click)="eliminarTalla(i)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+    <button mat-stroked-button color="primary" (click)="agregarTalla()">
+      + Agregar Talla
+    </button>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cerrar()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="guardar()">Guardar</button>
+</mat-dialog-actions>

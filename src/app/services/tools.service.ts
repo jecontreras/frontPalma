@@ -5,6 +5,36 @@ import * as _ from 'lodash';
 import { CART } from '../interfaces/sotarage';
 import { Store } from '@ngrx/store';
 import { DomSanitizer } from '@angular/platform-browser';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
+
+function imgToBase64(url: string): Promise<string> {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.crossOrigin = 'Anonymous';
+    img.onload = () => {
+      try {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext('2d');
+        ctx?.drawImage(img, 0, 0);
+        const dataURL = canvas.toDataURL('image/jpeg'); // Usa 'jpeg' si es .jpg
+        resolve(dataURL);
+      } catch (e) {
+        console.error('❌ Error al convertir imagen a base64:', e);
+        resolve('');
+      }
+    };
+    img.onerror = () => {
+      console.warn('⚠️ No se pudo cargar la imagen:', url);
+      resolve('');
+    };
+    img.src = url;
+  });
+}
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -70,7 +100,7 @@ export class ToolsService {
       footer: text.footer || ''
     });
   }
-  modalInputSelect( ){
+  modalInputSelect( id:number = 1456  ){
     return new Promise(resolve => {
       Swal.fire({
         title: 'Selecciona una Talla',
@@ -85,6 +115,7 @@ export class ToolsService {
                 <option>38</option>
                 <option>39</option>
                 <option>40</option>
+                ${ id === 1456 ? '' : '<option>42</option><option>43</option>'}
               </select>
               <i class="fas fa-chevron-down"></i>
             </div>
@@ -107,7 +138,8 @@ export class ToolsService {
     });
 
   }
-  modaHtmlEnd( data ){
+  
+  modaHtmlEnd( data, dataPro ){
     return new Promise(resolve => {
       if( data.contraEntrega === 0 ){
         Swal.fire({
@@ -136,7 +168,7 @@ export class ToolsService {
               <label>Precio Articulos: </label> <span> ${  this.monedaChange( 3, 2, ( data.priceTotal || 0 ) ) }</span>
             </div>
             <div class="col-12">
-              <label>Precio de Envio: </label> <span> ${  this.monedaChange( 3, 2, ( data.totalFlete || 0 ) ) }</span>
+              <label>Precio de Envio: </label> <span> ${  dataPro.cobreEnvio === 0 ? ( this.monedaChange( 3, 2, ( data.totalFlete || 0 ) ) ) : "Gratis" }</span>
             </div>
             <div class="col-12">
               <label>Precio Total a Pagar: </label> <span> ${  this.monedaChange( 3, 2, ( Number( data.totalAPagar ) || 0 ) ) }</span>
@@ -224,7 +256,7 @@ export class ToolsService {
     });
   }
 
-  desigPromo(){
+  desigPromo( data:any ){
     return new Promise( resolve =>{
       Swal.fire({
         title: '¡Espera!',
@@ -232,14 +264,14 @@ export class ToolsService {
           <p>¡Tenemos un regalo para ti! 🎁</p>
           <h3>OBTÉN UN DESCUENTO EXTRA EN TU PEDIDO:</h3>
           <div style="background: blue; color: white; font-size: 24px; font-weight: bold; padding: 15px; border-radius: 10px; display: inline-block;">
-            5%
+            ${ data.boton.descuento_porcentaje || '5' }%
           </div>
           <p>¿Quieres completar tu pedido?</p>
         `,
         showCancelButton: true,
-        confirmButtonColor: '#007bff',
+        confirmButtonColor: '#00ff44ff',
         cancelButtonColor: '#000',
-        confirmButtonText: 'COMPLETA TU PEDIDO CON 5% DE DESCUENTO',
+        confirmButtonText: `COMPLETA TU PEDIDO CON ${ data.boton.descuento_porcentaje || '5%' }5% DE DESCUENTO`,
         cancelButtonText: 'No gracias',
         customClass: {
           title: 'swal-title',
@@ -660,6 +692,106 @@ export class ToolsService {
       shareUrl = encodeURIComponent(shareUrl);
       window.open(`https://www.linkedin.com/shareArticle?url=${shareUrl}&title=${title}&summary=${summary}`, 'sharer');
     }
+    
+    
+  async generarResumen(ventas: any[]): Promise<void> {
+  const doc = new jsPDF();
+  const logoBase64 = await imgToBase64(this.dataConfig.logo || 'assets/noimagen.jpg');
+
+  for (let index = 0; index < ventas.length; index++) {
+    const venta = ventas[index];
+    if (index !== 0) doc.addPage();
+
+    if (logoBase64) {
+      doc.addImage(logoBase64, 'PNG', 150, 5, 40, 15);
+    }
+
+    doc.setFontSize(18);
+    doc.text('Resumen de Ventas', 14, 15);
+
+    doc.setFontSize(12);
+    doc.text(`Código: ${venta.id}`, 14, 25);
+    doc.text(`Cliente: ${venta.ven_nombre_cliente}`, 14, 32);
+    doc.text(`Teléfono: ${venta.ven_telefono_cliente}`, 14, 39);
+    doc.text(`Dirección: ${venta.ven_direccion_cliente}`, 14, 46);
+    doc.text(`Barrio: ${venta.ven_barrio || ''}`, 14, 53);
+    doc.text(`Ciudad: ${venta.ven_ciudad}`, 14, 60);
+    doc.text(`Departamento: ${venta.departamento}`, 14, 67);
+    doc.text(`Fecha de Venta: ${venta.ven_fecha_venta}`, 14, 74);
+    doc.text(`Tipo de Pago: ${venta.ven_tipo}`, 14, 81);
+    doc.text(`Total: $${venta.ven_total.toLocaleString()}`, 14, 88);
+    doc.text(`Cantidad: ${venta.ven_cantidad}`, 14, 95);
+    doc.text(`Precio Unitario: $${venta.ven_precio.toLocaleString()}`, 14, 102);
+
+    const productos = venta.listProductoJson || [];
+
+    const tabla = [];
+
+    for (let i = 0; i < productos.length; i++) {
+      const p = productos[i];
+      let imgBase64 = '';
+
+      if (p.Foto) {
+        imgBase64 = await imgToBase64(p.Foto);
+      }
+
+      tabla.push([
+        `${i + 1}`,
+        p.Talla || 'N/A',
+        p.Cantidad || 'N/A',
+        p.Color || 'N/A',
+        imgBase64 ? '🖼️ Imagen' : '❌ Sin imagen'
+      ]);
+    }
+
+    autoTable(doc, {
+      startY: 112,
+      head: [['#', 'Talla', 'Cantidad', 'Color', 'Imagen']],
+      body: tabla,
+      styles: {
+        fontSize: 10,
+        halign: 'center'
+      },
+      headStyles: {
+        fillColor: [63, 81, 181], // azul Material Design
+        textColor: [255, 255, 255],
+        fontStyle: 'bold'
+      },
+      bodyStyles: {
+        fillColor: [245, 245, 245]
+      },
+      alternateRowStyles: {
+        fillColor: [255, 255, 255]
+      },
+      theme: 'striped'
+    });
+
+    // Insertar imágenes de los productos aparte
+    let startY = 120;
+
+
+    for (let i = 0; i < productos.length; i++) {
+      const p = productos[i];
+      if (p.Foto) {
+        const imgBase64 = await imgToBase64(p.Foto);
+        if (imgBase64) {
+          doc.text(`Imagen Producto ${i + 1}`, 14, startY);
+          doc.addImage(imgBase64, 'JPEG', 14, startY + 5, 40, 40);
+          startY += 50;
+
+          if (startY > 260) {
+            doc.addPage();
+            startY = 20;
+          }
+        }
+      }
+    }
+  }
+
+  doc.save('resumen_ventas_' + this.codigo() + '.pdf');
+}
+
+
 
     print() {
       let printContents, popupWin;

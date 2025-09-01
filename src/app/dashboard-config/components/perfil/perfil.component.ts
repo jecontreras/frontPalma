@@ -10,6 +10,7 @@ import { STORAGES } from 'src/app/interfaces/sotarage';
 import { Store } from '@ngrx/store';
 import { UserAction } from 'src/app/redux/app.actions';
 import { departamento } from 'src/app/JSON/departamentos';
+import { EmpresaService } from 'src/app/servicesComponents/empresa.service';
 
 const URL = environment.url;
 const URLFRON = environment.urlFront;
@@ -31,6 +32,8 @@ export class PerfilComponent implements OnInit {
 
   listDepartamento:any = departamento;
   listCiudad:any = [];
+  superoLimite = false;
+  tiendaInfo:any;
 
   constructor(
     private _model: ServiciosService,
@@ -38,11 +41,13 @@ export class PerfilComponent implements OnInit {
     private _tools: ToolsService,
     private _archivos: ArchivosService,
     private _store: Store<STORAGES>,
+    private _empresaServices: EmpresaService
   ) { 
     this._store.subscribe((store: any) => {
       console.log(store);
       store = store.name;
       this.data = store.user;
+      this.tiendaInfo = store.configuracion || {};
     });
   }
 
@@ -52,6 +57,12 @@ export class PerfilComponent implements OnInit {
     this.urlTienda+=this.data.id;
     this.urlRegistro+=this.data.id;
     this.selectDepartamento();
+     this._empresaServices.get({ where: { id: this.tiendaInfo.id }}).subscribe(tienda => {
+      tienda = tienda.data[0];
+    this.tiendaInfo = tienda;
+    this.superoLimite = tienda.productos_count >= tienda.listPaquete.productos_max || 
+                        tienda.ventas_mes >= tienda.listPaquete.ventas_max;
+  });
   }
 
   onSelect(event:any) {

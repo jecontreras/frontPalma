@@ -5,7 +5,7 @@
         <mat-card>
           <mat-card-header>
             <mat-card-title>
-              <mat-icon>assignment</mat-icon> Categorías
+              <mat-icon>assignment</mat-icon> Categorías <button mat-mini-fab color="accent" (click)="crear(false)"> <mat-icon>add_circle_outline</mat-icon> </button>
             </mat-card-title>
           </mat-card-header>
 
@@ -23,16 +23,18 @@
                 <mat-icon matSuffix>search</mat-icon>
               </mat-form-field>
 
-              <button mat-raised-button color="primary" (click)="buscar()" [disabled]="loader">
+              <button mat-mini-fab color="primary" (click)="buscar()" [disabled]="loader">
                 <mat-icon>search</mat-icon>
               </button>
-              <button mat-raised-button color="accent" (click)="crear(false)">
-                <mat-icon>add_circle_outline</mat-icon> Nueva Categoría
-              </button>
+              
             </div>
 
             <!-- Tabla de categorías -->
-            <div class="table-container">
+            <div class="table-container"
+            infiniteScroll [infiniteScrollDistance]="3"
+              [infiniteScrollThrottle]="50" (scrolled)="onScroll()"
+              style="width: 100%;"
+              >
               <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" style="width: 100%;">
 
                 <!-- Acciones -->

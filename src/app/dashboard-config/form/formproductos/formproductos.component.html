@@ -1,4 +1,13 @@
-<h2 mat-dialog-title>{{ titulo }} Productos</h2>
+<div class="d-flex bd-highlight">
+    <div class="p-2 flex-grow-1 bd-highlight">
+        <h2 mat-dialog-title>{{ titulo }} Productos</h2>
+    </div>
+    <div class="p-2 bd-highlight">
+        <button mat-mini-fab mat-dialog-close>
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+  </div>
 <mat-dialog-content class="mat-typography">
     <div class="d-flex justify-content-center" *ngIf="disableSpinner">
         <mat-spinner></mat-spinner>
@@ -19,7 +28,7 @@
                         <label>Precio Vendedor</label>
                         <input currencyMask class="form-control form-control-sm" [(ngModel)]="data.precioFabrica" [options]="formatoMoneda" />
                     </div> -->
-                    <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-4" *ngIf="rolUser == 'administrador'">
+                    <div class="form-group col-md-4 col-sm-4 col-lg-4 col-xs-4">
                         <label>Precio Cliente final</label>
                         <input currencyMask class="form-control form-control-sm" [(ngModel)]="data.pro_uni_venta"
                             [options]="formatoMoneda" />
@@ -92,28 +101,12 @@
                         <img [src]="croppedImage" class="imgFoto" *ngIf="croppedImage">
                     </div>
                     <div class="d-flex justify-content-center">
-                        <div>
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="d-flex justify-content-center">
-                                        <div>
-                                            <button class="contenedor-btn-file">
-                                                <i class="material-icons">file_upload</i>
-                                                Agregar Foto
-                                                <label for="btn-file"></label>
-                                                <input type="file" id="btn-file" (change)="fileChangeEvent($event)">
-                                            </button>
-                                            <button *ngIf="croppedImage" style="height: 55px;" type="button" class="btn btn-success"
+                        <div class="form-group">
+                            <label for="exampleFormControlFile1">Foto de Portada</label>
+                            <input type="file" class="form-control-file" id="exampleFormControlFile1" (change)="fileChangeEvent($event)">
+                            <button style="height: 55px;" type="button" class="btn btn-success"
                                             (click)="finixCorteImg()">Terminar y Subir Imagen</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <image-cropper style="width: 800px;" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
-                                [aspectRatio]="1 / 1" format="png" (imageCropped)="imageCropped( $event )"
-                                (imageLoaded)="imageLoaded( $event )" (cropperReady)="cropperReady( $event )"
-                                (loadImageFailed)="loadImageFailed( $event )"></image-cropper>
-                        </div>
+                          </div>
                     </div>
                 </div>
                 <div class="form-group col-md-6 col-sm-4 col-lg-4 col-xs-4">
@@ -142,10 +135,6 @@
                     <input type="checkbox" [(ngModel)]="data.checkMayor" value="second_checkbox"> <label
                         for="cbox2">Precios al Mayor</label>
                 </div>
-                <!-- <div class="form-group col-md-6 col-sm-4 col-lg-4 col-xs-6">
-                    <label>Precio Vendedor</label>
-                    <input currencyMask class="form-control form-control-sm"  [(ngModel)]="data.precioFabrica" [options]="formatoMoneda" />
-                </div> -->
                 <div class="form-group col-md-6 col-sm-4 col-lg-4 col-xs-6" *ngIf="rolUser == 'administrador'">
                     <label>Precio Cliente Final</label>
                     <input currencyMask class="form-control form-control-sm" [(ngModel)]="data.pro_uni_venta"
@@ -188,7 +177,8 @@
                                 </div>
                                 <div class="form-group col-5">
                                     <label for="exampleInputEmail1">Precios</label>
-                                    <input type="number" [(ngModel)]="item.precios" class="form-control">
+                                    <input currencyMask class="form-control form-control-sm" [(ngModel)]="item.precios"
+                                            [options]="formatoMoneda" />
                                 </div>
                                 <div class="form-group col-2">
                                     <div class="marginTop">
@@ -206,42 +196,7 @@
                         </li>
                     </ul>
                 </div>
-                <!--<div class="form-group col-md-6 col-sm-6 col-lg-6 col-xs-6" *ngIf="data.checkMayor">
-                    <header class="main-box-header clearfix col-12 row">
-                        <h2 class="col">Precios por cantidad Cliente</h2>
-                        <div>
-                            <button type="button" class="btn btn-success" (click)="PrecioPush('cliente')">
-                                <i class="fa fa-plus" aria-hidden="true"></i>
-                            </button>
-                        </div>
-                    </header>
-                    <ul class="col list-group list-group-flush">
-                        <li class="list-group-item" *ngFor="let item of listPreciosCliente;let idx=index">
-                            <div class="row">
-                                <div class="form-group col-5">
-                                    <label for="exampleInputEmail1">Cantidad</label>
-                                    <input type="text" [(ngModel)]="item.cantidad" class="form-control">
-                                </div>
-                                <div class="form-group col-5">
-                                    <label for="exampleInputEmail1">Precios</label>
-                                    <input type="text" [(ngModel)]="item.precios" class="form-control">
-                                </div>
-                                <div class="form-group col-2">
-                                    <div class="marginTop">
-                                        <button *ngIf="!item.check" type="button" class="btn btn-success"
-                                            (click)="guardarPrecios( item, 'cliente' )">
-                                            <span>Agregar</span>
-                                        </button>
-                                        <button *ngIf="item.check" type="button" class="btn btn-danger"
-                                            (click)="EliminarTalla( idx, 'vendedor' )">
-                                            <span>Eliminar</span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>-->
+                
                 <div class="form-group col-md-6 col-sm-4 col-lg-4 col-xs-6">
                     <label for="exampleFormControlSelect1">Tipo de medida:</label>
                     <select class="form-control form-control-sm" [(ngModel)]="data.pro_sw_tallas"
@@ -297,10 +252,6 @@
                                 <div class="form-group col-12" *ngIf="item.checkFoto">
                                     <div class="row">
                                         <label class="col">Subir Imagen</label>
-                                        <!--<button class="btn btn-primary btn-just-icon btn-round"
-                                            (click)="subirFile(item)" *ngIf="files.length > 0">
-                                            Subir Imagen
-                                        </button>-->
                                         <button type="button" (click)="item.checkFoto = false"
                                             class="btn btn-success">Ocultar</button>
                                     </div>
@@ -339,10 +290,6 @@
                                 <div class="form-group col-12" *ngIf="item.checkFotoGaleri">
                                     <div class="row">
                                         <label class="col">Subir Imagen Galeria</label>
-                                        <!--<button class="btn btn-primary btn-just-icon btn-round"
-                                            (click)="subirFile(item)" *ngIf="files.length > 0">
-                                            Subir Imagen
-                                        </button>-->
                                         <button type="button" (click)="item.checkFotoGaleri = false"
                                             class="btn btn-success">Ocultar</button>
                                     </div>
@@ -390,14 +337,6 @@
                         </div>
                     </div>
                 </div>
-                <!--<div class="form-group col-md-6 col-sm-4 col-lg-4 col-xs-6" *ngIf="tallaSelect.length > 0">
-                    <label for="exampleFormControlSelect1">Medidas Disponibles:</label>
-                    <div class="row">
-                        <div class="col-6 col-sm-4 col-md-3 col-xs-2 col-lg-4" *ngFor="let tallas of tallaSelect">
-                            <mat-checkbox (ngModelChange)="tallaSeleccionando( tallas )"  [(ngModel)]="tallas.check" class="example-margin">{{ tallas.tal_descripcion }}</mat-checkbox>
-                        </div>
-                    </div>
-                </div>-->
                 <div class="form-group col-12">
                     <label for="exampleFormControlSelect1">Galeria:</label>
                     <div class="row">
@@ -446,30 +385,20 @@
                         <option type="number" value="1">Eliminado</option>
                     </select>
                 </div>
-                <!--<div class="form-group col-12">
-                    <label for="exampleFormControlInput1">Video</label>
-                    <div class="col">
-                        <input #imageInput type="file" value="cargar" >
-                        <input type="submit" (click)="cargarVideo(imageInput)" value="subir">
-                    </div>
-                    <div *ngIf="data.pro_video_token">
-                        <a target="_blank" href="https://firebasestorage.googleapis.com/v0/b/shoppalmastore.appspot.com/o/3DBG1F11?alt=media&token={{data.pro_video_token}}">
-                            <h2>Ver Video</h2>
-                        </a>
-                    </div>
-                </div>-->
             </div>
         </div>
     </div>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>Cerrar</button>
     <button mat-button cdkFocusInitial (click)="handleTestimonios()" color="warn" *ngIf="( this.id ) ">
       <span>Crear Testimonio</span>
   </button>
     <button mat-button cdkFocusInitial (click)="submit()" *ngIf="( this.id ) " color="primary">
         <span *ngIf="!id">Guardar Cambios</span>
         <span *ngIf="id">Actualizar Cambios</span>
+    </button>
+    <button mat-button cdkFocusInitial (click)="handleAddStore()" *ngIf="( this.id ) " color="warn">
+        <span>Crear Precio al Mayor</span>
     </button>
 </mat-dialog-actions>

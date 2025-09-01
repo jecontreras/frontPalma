@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import * as moment from 'moment';
 import { STORAGES } from 'src/app/interfaces/sotarage';
-import { ConfiguracionAction, UserAction } from 'src/app/redux/app.actions';
+import { CartAction, ConfiguracionAction, UserAction } from 'src/app/redux/app.actions';
 import { ToolsService } from 'src/app/services/tools.service';
 import { UsuariosService } from 'src/app/servicesComponents/usuarios.service';
 import { VentasService } from 'src/app/servicesComponents/ventas.service';
@@ -12,6 +12,10 @@ import  { SocialAuthService, FacebookLoginProvider, SocialUser }  from 'angularx
 import { FormatosService } from 'src/app/services/formatos.service';
 import { ConfiguracionService } from 'src/app/servicesComponents/configuracion.service';
 import * as _ from 'lodash';
+import { departamentDrop } from 'src/app/JSON/departmentDrop';
+import { dataAmerica } from 'src/app/JSON/dataAmericaPhone';
+import { CampoForm, FormularioConfig, FormularioConfigService } from 'src/app/servicesComponents/config-form.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-checkt-dialog',
@@ -28,6 +32,12 @@ export class ChecktDialogComponent implements OnInit {
   listCantidad = [];
   listCarrito:any = [];
   totalPares: number = 0;
+  listDepartament:any = departamentDrop;
+  listCiudad:any = [];
+  loadingCity:boolean = false;
+  
+  americanCountries = dataAmerica;
+   config: FormularioConfig = { campos: [], boton: { tiendaId: 1, texto: 'Confirmar Compra', color: '#1976d2' } };
 
   constructor(
     public dialogRef: MatDialogRef<ChecktDialogComponent>,
@@ -40,7 +50,8 @@ export class ChecktDialogComponent implements OnInit {
     private socialAuthService: SocialAuthService,
     public _formato: FormatosService,
     private _empresa: ConfiguracionService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private formularioService: FormularioConfigService
   ) {
     this._store.subscribe((store: any) => {
       store = store.name;
@@ -54,6 +65,8 @@ export class ChecktDialogComponent implements OnInit {
   async ngOnInit() {
     console.log( this.datas );
     this.datas = this.datas.datos || {};
+    this.getDepartament();
+    this.loadConfig();
     console.log("***57", this.datas)
     if( this.datas.view !== 'carrito'){
       this.data.talla = this.datas.talla;
@@ -65,6 +78,7 @@ export class ChecktDialogComponent implements OnInit {
       this.data.pro_vendedor = this.datas.pro_vendedor;
       this.data.envioT = "priorida";
       this.data.metoD = this.datas.metoD;
+      this.data.ven_indicativo_cliente = this.americanCountries.find( row => row.name === 'Colombia');
       //this.suma();
       this.handleCantidad( false );
       this.socialAuthService.authState.subscribe( async (user) => {
@@ -97,6 +111,44 @@ export class ChecktDialogComponent implements OnInit {
       this.data.metoD = "casa";
       this.suma();
     }
+  }
+
+   /**
+   * Traer configuración de la tienda
+   */
+  loadConfig() {
+    const tiendaId = this.ShopConfig.id; // 👈 luego dinámico
+    this.formularioService.getConfig( {tiendaId: tiendaId } ).subscribe(res => {
+      this.config = res;
+    });
+  }
+
+    /**
+   * Devuelve la config de un campo
+   */
+  getCampo(nombre: string): CampoForm | undefined {
+    return this.config.campos.find(c => c.campo === nombre);
+  }
+
+
+  getDepartament(){
+    this._ventas.getDepartment( this.ShopConfig.urlBackendSocial+"/googleSheet/getDepartamento", { } ).subscribe( res =>{
+      this.listDepartament = res.objects || this.listDepartament;
+    });
+  }
+
+  handleProcessDepartament(){
+    let idDepartamen = this.listDepartament.find( row => row.id === this.data.departament );
+    if( !idDepartamen ) return this._tools.presentToast("No encontre departamento");
+    this.listCiudad =  idDepartamen.listCity;
+    this.loadingCity= true;
+    this._ventas.getDepartment( this.ShopConfig.urlBackendSocial+"/googleSheet/getCity", {  where: { 
+      idDept: idDepartamen.id,
+      rate_type: "CON RECAUDO"
+    } } ).subscribe( res =>{
+      this.listCiudad = res.objects.cities || this.listCiudad;
+      this.loadingCity= false;
+    });
   }
 
   handleCantidad( opt:boolean ){
@@ -175,8 +227,15 @@ export class ChecktDialogComponent implements OnInit {
     });
   }
 
+  /*
   isInvalid(form: any, fieldName: string): boolean {
     return form.controls[fieldName] && form.controls[fieldName].invalid && form.controls[fieldName].touched;
+  }
+  */
+
+  isInvalid(form: NgForm, name: string): boolean {
+    const control = form.controls[name];
+    return control ? control.invalid && control.touched : false;
   }
 
   onSubmit(form: any) {
@@ -195,6 +254,7 @@ export class ChecktDialogComponent implements OnInit {
     if( !this.data.direccion ) return this.disabled = true;
     if( !this.data.barrio ) return this.disabled = true;
     if( !this.data.ciudad  ) return this.disabled = true;
+    if( !this.data.departament  ) return this.disabled = true;
     //if( !this.data.talla ) return this.disabled = true;
     //if( !this.data.color ) return this.disabled = true;
     this.disabled = false;
@@ -202,10 +262,10 @@ export class ChecktDialogComponent implements OnInit {
 
   async finalizando(){
     if( this.disabled ) return false;
-    console.log("***162", this.disabled );
+    //console.log("***162", this.disabled );
     this.disabled = true;
     let validador = await this.validador();
-    console.log("***162", validador );
+    //console.log("***162", validador );
     if( !validador ) { this.disabled = false; return false;}
     let data:any = {
       "ven_tipo": this.data.metoD !== 'casa' ? 'PAGO ADELANTADO' : 'PAGA EN CASA',
@@ -220,17 +280,19 @@ export class ChecktDialogComponent implements OnInit {
       "ven_direccion_cliente": this.data.direccion,
       "ven_cantidad": this.datas.cantidadAd1 || 1,
       "ven_tallas": this.data.talla || 0,
-      "ven_precio": this.datas.pro_uni_venta,
+      "ven_precio": this.datas.pro_uni_venta || ( this.data.costo + ( this.data.pro_vendedor || 0 ) ) || 0,
       "ven_total": ( this.data.costo + ( this.data.pro_vendedor || 0 ) ) || 0,
       "ven_ganancias": 0,
       "ven_observacion": this.formatCantidad(),
       "ven_estado": 0,
       "create": moment().format("DD/MM/YYYY"),
-      "apartamento": this.data.apartamento || '',
-      "departamento": this.data.departamento || '',
+      "idCiudad": ( this.listCiudad.find( row => row.name === this.data.ciudad ) ).id || '',
+      "departamento": ( this.listDepartament.find( row => row.id === this.data.departament ) ).name || '',
+      "departament": this.data.departament,
       "ven_imagen_producto": this.datas.foto,
       "empresa": this.ShopConfig.id,
-      "ven_imagen_conversacion": this.data.metoD
+      "ven_imagen_conversacion": this.data.metoD,
+      "ven_indicativo_cliente": this.data.ven_indicativo_cliente.dialCode
     };
     await this.crearUser();
     data.usu_clave_int = this.dataUser.id;
@@ -240,7 +302,10 @@ export class ChecktDialogComponent implements OnInit {
     setTimeout(()=>this._tools.tooast( { title: "Tu pedido esta siendo procesado "}) ,3000);
     this.mensajeWhat();
     //this._router.navigate(['/tienda/detallepedido']);
+    console.log("***270", this.data)
     this._router.navigate(['/tienda/detallepedido', this.data.id]);
+    let accionn = new CartAction( {}, 'drop' );
+    this._store.dispatch( accionn );
     this.dialogRef.close('creo');
 
   }
@@ -248,7 +313,7 @@ export class ChecktDialogComponent implements OnInit {
   formatCantidad(){
     let txtEnd = "";
     for( let item of this.listCantidad ){
-      txtEnd+= `{"Foto": "${ item.foto }", "Color":"${ item.color }", "Talla": "${ item.talla }", "Cantidad": "${ item.cantidadAd }"},`;
+      txtEnd+= `{"Foto": "${ item.foto }", "Color":"${ item.color }", "Talla": "${ item.talla }", "Cantidad": "${ item.cantidadAd }", "codigo": "${ this._tools.codigo() }", "precioAplicado": "${this.precioAplicado }"},`;
     }
     return txtEnd;
   }
@@ -287,9 +352,10 @@ export class ChecktDialogComponent implements OnInit {
     return new Promise( resolve => {
       this._user.create( data ).subscribe( ( res:any )=> {
         if( !res.success ) { resolve ( false ) }
-        let accion:any = new UserAction( res.data , 'post' );
-        this._store.dispatch( accion );
+        /*let accion:any = new UserAction( res.data , 'post' );
+        this._store.dispatch( accion );*/
         this.urlRotulado();
+        this.dataUser = res.data;
         resolve( true );
       });
     });
@@ -298,15 +364,28 @@ export class ChecktDialogComponent implements OnInit {
   urlRotulado(){
 
   }
-
+  precioAplicado:number = 0;
   suma(){
-    if( this.datas.view === 'carrito') return this.suma2();
+    //if( this.datas.view === 'carrito') return this.suma2();
     this.data.cantidadAd1 = 0;
     let priceReal = 0;
     for( let item of this.listCantidad ) this.data.cantidadAd1+= item.cantidadAd;
-    let filterPrice = this.datas.listPrecios.find( row => this.data.cantidadAd1 === row.cantidad );
-    console.log("***249", filterPrice, this.data.cantidadAd1 )
-    if( filterPrice ) priceReal = filterPrice.precios / filterPrice.cantidad ;
+    let filterPrice = this.datas.listPrecios.find(row => this.data.cantidadAd1 === row.cantidad);
+
+    if (!filterPrice) {
+      // buscar el precio con la mayor cantidad <= cantidad solicitada
+      filterPrice = this.datas.listPrecios
+        .filter(row => row.cantidad <= this.data.cantidadAd1)
+        .sort((a, b) => b.cantidad - a.cantidad)[0];  // el más grande que no se pasa
+    }
+
+    console.log("***249", filterPrice, this.data.cantidadAd1);
+
+    if (filterPrice) {
+      this.precioAplicado = Number(filterPrice.precios);
+      priceReal = filterPrice.precios;
+    }
+
     //console.log("****269", filterPrice)
     let sumaR = ( ( priceReal ) || this.datas.pro_uni_venta ) * this.data.cantidadAd1;
     this.data.costo = sumaR;
@@ -334,9 +413,10 @@ export class ChecktDialogComponent implements OnInit {
     banderaClose:boolean = true;
     // Mostrar la alerta de descuento
     async mostrarAlerta() {
+      if( this.config.boton.descuento_activo === false ) return this.dialogRef.close('creo');;
       if( this.banderaClose === true ){
         this.banderaClose = false;
-        let result = await this._tools.desigPromo();
+        let result = await this._tools.desigPromo( this.config );
         if( result ) this.aplicarDescuento();
         else this.dialogRef.close('creo');
       }else{
@@ -347,7 +427,7 @@ export class ChecktDialogComponent implements OnInit {
 
       // Aplicar el 5% de descuento
   aplicarDescuento() {
-    this.data.descuento = ( this.data.costo1 * 5 )/100;
+    this.data.descuento = ( this.data.costo1 * ( this.config.boton.descuento_porcentaje || 0 ) )/100;
     console.log("***314", this.data.descuento)
     this.data.costo = this.data.costo1 * 0.95; // Aplica el descuento al total
     this._tools.tooast( {
@@ -369,7 +449,6 @@ export class ChecktDialogComponent implements OnInit {
       *Ciudad:* ${ this.data.ciudad }
       *Barrio:*${ this.data.barrio }
       *Dirección:* ${ this.data.direccion }
-      *Nombre Cliente:*${ this.datas.pro_nombre }
       *Detalles:* ${ this.formatCantidad() }
       *Tipo de Envio* ${ this.data.metoD }
 

@@ -1,0 +1,50 @@
+<h2 mat-dialog-title>{{ data?.id ? 'Editar Paquete' : 'Crear Paquete' }}</h2>
+
+<mat-dialog-content class="form-container">
+
+  <!-- Vista previa de imagen -->
+  <div class="imagen-preview">
+    <img *ngIf="data.imagen" [src]="data.imagen" alt="Imagen del paquete">
+    <div *ngIf="!data.imagen" class="no-image">Sin imagen</div>
+  </div>
+
+  <!-- Subir imagen -->
+  <button mat-raised-button color="accent" (click)="fileInput.click()" [disabled]="loading">
+    <mat-icon>cloud_upload</mat-icon> Subir Imagen
+  </button>
+  <input #fileInput type="file" hidden (change)="subirImagen($event)">
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Título</mat-label>
+    <input matInput [(ngModel)]="data.nombre">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Descripción</mat-label>
+    <textarea matInput rows="3" [(ngModel)]="data.descripcion"></textarea>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Precio</mat-label>
+    <input matInput type="number" [(ngModel)]="data.precio">
+  </mat-form-field>
+
+  <div class="grid-2">
+    <mat-form-field appearance="outline">
+      <mat-label>Máx. Productos</mat-label>
+      <input matInput type="number" [(ngModel)]="data.productos_max">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Máx. Ventas/Mes</mat-label>
+      <input matInput type="number" [(ngModel)]="data.ventas_max">
+    </mat-form-field>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-stroked-button (click)="cancelar()" [disabled]="loading">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="guardar()" [disabled]="loading">
+    {{ data?.id ? 'Actualizar' : 'Guardar' }}
+  </button>
+</mat-dialog-actions>

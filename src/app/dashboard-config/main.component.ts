@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ChatService } from '../servicesComponents/chat.service';
 
 @Component({
   selector: 'app-dashboard-root',
@@ -7,6 +8,9 @@ import { Component } from '@angular/core';
 })
 export class MainsComponent {
   title = 'Dashboard config';
-  constructor () {
+  constructor (
+    private chatService: ChatService
+  ) {
+    this.chatService.validarBootActivoEmit();
   }
 }

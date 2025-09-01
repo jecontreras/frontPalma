@@ -30,6 +30,9 @@ import { RegistrosComponent } from './layout/registro/registro.component';
 import { TerminosComponent } from './layout/terminos/terminos.component';
 import  { FacebookLoginProvider, GoogleLoginProvider, SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
 import { NgxCurrencyModule } from 'ngx-currency';
+import { MatNativeDateModule } from '@angular/material/core'; // Para usar Date nativo
+
+
 @NgModule({
   entryComponents:[
     LoginComponent,
@@ -62,6 +65,7 @@ import { NgxCurrencyModule } from 'ngx-currency';
     NgxImageZoomModule,
     SocialLoginModule,
     NgxCurrencyModule,
+    MatNativeDateModule,
     StoreModule.forRoot({ name: appReducer }),
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states

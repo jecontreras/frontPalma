@@ -1,57 +1,60 @@
-<div class="container">
-  <div class="row">
-    <div class="col-12">
-      <div class="d-flex flex-column bd-highlight mb-3">
-          <div class="p-2 bd-highlight">
-              <h2 style="text-align: center;">
-                  Tu pedido esta en proceso en estos momentos lo recibirás entre 4 o 8 dias si se precenta algun inconveniente se notificara por via whatsap. 
-                  ¡Recuerda el valor del envio es gratis!
-              </h2>
-          </div>
-      </div>
-      <div class="col-12">
-        <div class="woocommerce-order">
-          <div class="thankyoucustom_wrapper">
-            <h3 class="thankyoutitle">Gracias por tu compra, {{ dataUltV.ven_nombre_cliente }}!</h3>
-            <p class="subtitle">
-              Lineas Disponibles de Pago
-            </p>
-            <p class="subtitle">
-                {{ ShopConfig.textTransfer }}
-            </p>
+<div class="container mat-elevation-z4" style="padding: 16px; border-radius: 8px; margin: 16px auto; max-width: 800px;">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title class="text-center">
+        Tu pedido está en proceso
+      </mat-card-title>
+      <mat-card-subtitle class="text-center">
+        Lo recibirás entre 4 y 8 días. Si se presenta algún inconveniente, se notificará por WhatsApp.<br>
+        <strong>¡Recuerda que tienes un compromiso con nosotros!</strong>
+      </mat-card-subtitle>
+    </mat-card-header>
 
-            <a
-              id="sendbtn"
-              (click)="handleWhatsapp(dataUltV)"
-              class="pointer"
-            >
-              Enviar detalles del pedido por Whatsapp
-            </a>
-          </div>
-        
-          <ul class="woocommerce-order-overview order_details">
-            <li class="order">Número del pedido: <strong>{{ dataUltV.id }}</strong></li>
-            <li class="date">Fecha: <strong>{{ dataUltV.ven_fecha_venta }} </strong></li>
-            <li class="total">Total: <strong>{{ _tools.monedaChange2( 3,2, ( this.dataUltV.ven_total ) ) }}</strong></li>
-            <li class="method">Método de pago: <strong>{{ dataUltV.ven_tipo }}</strong></li>
-          </ul>
-        
-          <span *ngIf="dataUltV.ven_tipo !== 'PAGO ADELANTADO' ">
+    <mat-divider></mat-divider>
+
+    <mat-card-content>
+      <div class="text-center" style="margin-top: 16px;">
+        <h3>Gracias por tu compra, {{ dataUltV.ven_nombre_cliente }}!</h3>
+        <p>Líneas Disponibles de Pago</p>
+        <p>{{ ShopConfig.textTransfer }}</p>
+        <button mat-raised-button color="primary" (click)="handleWhatsapp(dataUltV)" style="background: #008e33;">
+          <mat-icon>whatsapp</mat-icon> Enviar detalles del pedido por WhatsApp
+        </button>
+      </div>
+
+      <div style="margin-top: 24px;">
+        <mat-card>
+          <mat-card-title>Detalles del Pedido</mat-card-title>
+          <mat-card-content>
+            <p><strong>Número del pedido:</strong> {{ dataUltV.id }}</p>
+            <p><strong>Fecha:</strong> {{ dataUltV.ven_fecha_venta }}</p>
+            <p><strong>Total:</strong> {{ _tools.monedaChange2(3,2, dataUltV.ven_total) }}</p>
+            <p><strong>Método de pago:</strong> {{ dataUltV.ven_tipo }}</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <div *ngIf="dataUltV.ven_tipo !== 'PAGO ADELANTADO'" style="margin-top: 16px;">
+        <mat-card>
+          <mat-card-title>Información Adicional</mat-card-title>
+          <mat-card-content>
             <p>💡 Ofrecemos el servicio de pago contra entrega para mayor comodidad de nuestros clientes.</p>
             <p>Recuerda estar disponible en la dirección proporcionada.</p>
-          </span>
-        
-          <section class="woocommerce-customer-details">
-            <h2>Dirección de facturación</h2>
-            <address>
-              {{ dataUltV.ven_nombre_cliente }}<br />
-              {{ dataUltV.ven_direccion_cliente }} - {{ dataUltV.ven_barrio }}<br />
-              {{ dataUltV.ven_ciudad }}<br />
-              <p>{{ dataUltV.ven_telefono_cliente }}</p>
-            </address>
-          </section>
-        </div>          
+          </mat-card-content>
+        </mat-card>
       </div>
-      
-  </div>
+
+      <div style="margin-top: 16px;">
+        <mat-card>
+          <mat-card-title>Dirección de Facturación</mat-card-title>
+          <mat-card-content>
+            <p>{{ dataUltV.ven_nombre_cliente }}</p>
+            <p>{{ dataUltV.ven_direccion_cliente }} - {{ dataUltV.ven_barrio }}</p>
+            <p>{{ dataUltV.ven_ciudad }}</p>
+            <p>{{ dataUltV.ven_telefono_cliente }}</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </mat-card-content>
+  </mat-card>
 </div>

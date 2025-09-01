@@ -33,7 +33,7 @@ export class ConfigComponent implements OnInit {
       descripcion: 'Diseño limpio con enfoque en los productos.'
     }
   ];
-  config = {
+  config:any = {
     colorFondo: '#ffffff',
     colorTexto: '#000000',
     tipografia: 'Arial',
@@ -44,7 +44,8 @@ export class ConfigComponent implements OnInit {
     txtCompra: "CLIC PARA COMPRAR",
     txtComprauna: "COMPRAR DE UNA",
     txtagregarCarrito: "AGREGAR AL CARRITO Y COMPRAR MAS",
-    listComent: []
+    listComent: [],
+    where: {}
   };
   configForm!: FormGroup;
   qrCodeDownloadLink = '';
@@ -64,9 +65,26 @@ export class ConfigComponent implements OnInit {
       console.log(store);
       store = store.name;
       this.data = store.configuracion || {};
-      this.config = this.data;
+      this.config = this.data.configuracion;
     });
+    let time = 0;
+    this.validateStatuswhatsapp();
+    setInterval(async ()=>{
+      if( time === 25 ) await this.validateStatuswhatsapp();    
+      time++;
+    }, 8000 );
+  }
 
+  validateStatuswhatsapp(){
+    return new Promise( async ( resolve ) =>{
+        this.chatService.validarBootActivoEmit();
+        this.chatService.validarBootActivoOn().subscribe(data => {
+          console.log("**102", data);
+          this.flagWhatsapp = data;
+          if( data === true ) this.qrCodeDownloadLink = "";
+          resolve( this.flagWhatsapp );
+        });
+      })
   }
 
   ngOnInit(): void {
@@ -77,16 +95,22 @@ export class ConfigComponent implements OnInit {
       urlBackendFile: [''],
       userDropi: [''],
       claveDropi: [''],
-      rolDropi: ['']
+      rolDropi: [''],
+      txtCompra: [''],
+      urlBackendSocial: ['']
     });
-    this.configForm.patchValue(this.config);
+    this.configForm.patchValue(this.data);
+    this.chatService.initBootWhatsappOn().subscribe( data =>{
+      console.log("**87", data)
+      this.qrCodeDownloadLink = data;
+    });
     // Obtener QR y estado de WhatsApp
     this.chatService.qrWhatsapp().subscribe(data => {
       this.qrCodeDownloadLink = data;
     });
 
     this.chatService.statusWhatsapp().subscribe(data => {
-      if (this.data.empresa === data.company) {
+      if ( "Tienda-"+this.data.id === data.company.id ) {
         this.flagWhatsapp = data.status;
       }
     });
@@ -173,6 +197,7 @@ abrirConfiguracion() {
   dialogRef.afterClosed().subscribe(result => {
     if (result) {
       this.config = result;
+      this.data.configuracion = this.config;
       console.log("**135", result)
       this.guardarConfiguracion();
     }
@@ -182,12 +207,27 @@ abrirConfiguracion() {
 // Método para guardar configuración en la base de datos
 guardarConfiguracion() {
   let data = this.data;
-  data.configuracion = this.config;
+  //data.configuracion = this.config;
+  console.log("***189", data)
   this._configuracion.update( data ).subscribe((res:any)=>{
     this._tools.presentToast('Configuración guardada con éxito.');
     this.handleCacheStorage( res );
   });
 }
+
+reiniciarBot() {
+    this._configuracion.botReiniciar( this.data.urlSocket + '/api/reiniciar-bot', {
+      tiendaId: `Tienda-${this.config.id}`
+    }).subscribe({
+      next: (res: any) => {
+        this._tools.basic('✅ Bot reiniciado correctamente');
+      },
+      error: err => {
+        console.error('❌ Error reiniciando bot', err);
+        this._tools.basic('❌ No se pudo reiniciar el bot');
+      }
+    });
+  }
 
 
 }

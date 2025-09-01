@@ -27,7 +27,6 @@
 .ventas-hoy {
   text-align: center;
   font-weight: bold;
-  color: #ff3d00;
   margin-bottom: 15px;
 }
 
@@ -36,3 +35,54 @@
 .estado-exitosa { color: green; font-weight: bold; }
 .estado-rechazada { color: red; font-weight: bold; }
 .estado-despachado { color: blue; font-weight: bold; }
+
+.error-row {
+  background-color: #ffcccc !important; /* Rojo claro */
+  color: red !important; /* Texto rojo */
+}
+.succes-row {
+  background-color: #c0fab9 !important; /* Rojo claro */
+  color: rgb(0, 255, 72) !important; /* Texto rojo */
+}
+.guia-img {
+  width: 40px;  /* Ancho fijo */
+  height: 40px; /* Alto fijo */
+  object-fit: contain; /* Ajusta la imagen sin distorsión */
+}
+
+.succesPrint-row{
+  color:white;
+  background: orange;
+}
+
+.upgrade-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+}
+
+.upgrade-card {
+  max-width: 500px;
+  text-align: center;
+  padding: 2rem;
+  border-radius: 20px;
+  background: #fff;
+}
+
+.warning-icon {
+  font-size: 60px;
+  margin-right: 10px;
+}
+
+.upgrade-image {
+  width: 100%;
+  max-width: 250px;
+  margin: 20px auto;
+  display: block;
+}
+
+.upgrade-card button {
+  margin-top: 20px;
+  font-size: 16px;
+}

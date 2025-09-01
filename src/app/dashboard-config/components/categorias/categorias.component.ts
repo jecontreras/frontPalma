@@ -57,15 +57,27 @@ export class CategoriasComponent implements OnInit {
       console.log(`Dialog result: ${result}`);
     });
   }
-  delete(obj:any){
-    this._categorias.delete(obj).subscribe((res:any)=>{
-      //this.dataTable.dataRows.splice(idx, 1);
-      this.dataSource = this.dataSource.filter( row => row.id !== obj.id );
-      this._tools.presentToast("Eliminado")
-    },(error)=>{console.error(error); this._tools.presentToast("Error de servidor") })
+  async delete(obj:any) {
+    let opt = await this._tools.confirm({title:"Eliminar", detalle:"Deseas Eliminar Dato", confir:"Si Eliminar"})
+      if(opt.value){
+        this._categorias.delete(obj).subscribe((res:any)=>{
+          //this.dataTable.dataRows.splice(idx, 1);
+          this.dataSource = this.dataSource.filter( row => row.id !== obj.id );
+          this._tools.presentToast("Eliminado")
+        },(error)=>{console.error(error); this._tools.presentToast("Error de servidor") })
+      }
   }
 
-
+  notscrolly:boolean=true;
+  notEmptyPost:boolean = true;
+  async onScroll(){
+    console.log("SCROLL")
+    if (this.notscrolly && this.notEmptyPost) {
+       this.notscrolly = false;
+       this.query.page++;
+       await this.cargarTodos();
+     }
+   }
 
 
   cargarTodos() {

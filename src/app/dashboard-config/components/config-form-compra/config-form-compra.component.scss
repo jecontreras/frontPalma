@@ -1,0 +1,24 @@
+.admin-formulario {
+  padding: 16px;
+
+  h2 {
+    margin-bottom: 20px;
+  }
+
+  .campos-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 16px;
+  }
+
+  .campo-card, .boton-card {
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 12px;
+  }
+
+  .reset-section {
+    margin-top: 20px;
+    text-align: right;
+  }
+}

@@ -1,0 +1,22 @@
+.alert-msg {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 6px 0;
+  font-size: 14px;
+  color: #b71c1c; // rojo de advertencia
+}
+
+mat-dialog-content {
+  margin: 10px 0;
+}
+
+/* alert-dialog.component.scss */
+.contenido {
+  font-size: 16px;
+  padding: 10px 0;
+}
+
+mat-dialog-actions {
+  margin-top: 20px;
+}
