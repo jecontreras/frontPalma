@@ -2,36 +2,9 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-12">
-        
-        <!-- Caso: Usuario alcanzó el límite -->
-        <div *ngIf="ventasRealizadas >= limiteVentas" class="upgrade-container">
-          <mat-card class="upgrade-card mat-elevation-z8">
-            <mat-card-header>
-              <mat-icon class="warning-icon" color="warn">block</mat-icon>
-              <mat-card-title>Has alcanzado tu límite de ventas</mat-card-title>
-              <mat-card-subtitle>
-                Tu paquete actual solo permite <strong>{{ limiteVentas }}</strong> ventas mensuales.
-              </mat-card-subtitle>
-            </mat-card-header>
-
-            <mat-card-content>
-              <p>
-                Para seguir vendiendo y gestionando tus pedidos sin interrupciones, 
-                actualiza a un paquete superior con más capacidad.
-              </p>
-              <img src="./assets/imagenes/upgrade.svg" alt="Upgrade" class="upgrade-image">
-            </mat-card-content>
-
-            <mat-card-actions>
-              <button mat-raised-button color="primary" (click)="irAPaquetes()">
-                <mat-icon>upgrade</mat-icon> Subir de Paquete
-              </button>
-            </mat-card-actions>
-          </mat-card>
-        </div>
 
         <!-- Caso: Usuario aún está dentro del límite -->
-        <mat-card *ngIf="ventasRealizadas < limiteVentas">
+        <mat-card >
           <mat-card-header>
             <mat-card-title>
               <mat-icon>assignment</mat-icon> Ventas

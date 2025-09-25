@@ -7,6 +7,7 @@ import { ArchivosService } from 'src/app/servicesComponents/archivos.service';
 import { FormusuariosComponent } from '../formusuarios/formusuarios.component';
 import { UsuariosService } from 'src/app/servicesComponents/usuarios.service';
 import { PaqueteService } from 'src/app/servicesComponents/paquete.service';
+import { SuscripcionService } from 'src/app/servicesComponents/suscripcion.service';
 
 @Component({
   selector: 'app-form-empresa',
@@ -21,6 +22,8 @@ export class FormEmpresaComponent implements OnInit {
   usuarios: any[] = [];
   paquetes: any[] = [];
   paqueteSeleccionado: any;
+  suscripciones: any[] = [];
+  paqueteActual: any = null;
 
 
   constructor(
@@ -32,7 +35,8 @@ export class FormEmpresaComponent implements OnInit {
     private _archivos: ArchivosService,
     private dialog: MatDialog,
     private _usuarios: UsuariosService,
-    private _paquetes: PaqueteService
+    private _paquetes: PaqueteService,
+    private suscripcionService: SuscripcionService
   ) {
     this.data = this.datas || {};
   }
@@ -65,6 +69,7 @@ export class FormEmpresaComponent implements OnInit {
       urlSocket: [ this.data.urlSocket || '' ],
       urlBackendFile: [ this.data.urlBackendFile || '' ],
       urlBackendSocial: [ this.data.urlBackendSocial || '' ],
+      pixel_facebook: [ this.data.pixel_facebook || ''],
       paquete: [this.data.paquete || null]   // 👈 agregado para seleccionar paquete
     });
 
@@ -73,11 +78,9 @@ export class FormEmpresaComponent implements OnInit {
     }
     if (this.data.id) {
       this.cargarUsuariosEmpresa(this.data.id);
+      this.cargarSuscripciones();
     }
-        this._paquetes.get({ where: {} }).subscribe((res: any) => {
-      this.paquetes = res.data || [];
-      this.actualizarPreviewPaquete();
-    });
+     this.cargarPaquetes();
     console.log("***51", this.data)
 
   }
@@ -90,6 +93,53 @@ export class FormEmpresaComponent implements OnInit {
   cargarUsuariosEmpresa(idEmpresa: number) {
     this._usuarios.get({ where: { usu_empresa: idEmpresa } }).subscribe((res: any) => {
       this.usuarios = res.data || [];
+    });
+  }
+
+  cargarSuscripciones() {
+    this.suscripcionService.reporte(this.data.id).subscribe({
+      next: (res: any) => {
+        this.suscripciones = res;
+        this.paqueteActual = this.suscripciones.find((s: any) => s.estado === 'activo') || null;
+      },
+      error: (err) => console.error(err)
+    });
+  }
+
+  cargarPaquetes() {
+    this._paquetes.get({ where: {} }).subscribe({
+      next: (res: any) => {
+        this.paquetes = res.data || res;
+      },
+      error: (err) => console.error(err)
+    });
+  }
+
+  cambiarPaquete() {
+    if (!this.paqueteSeleccionado || !this.data.id) return;
+
+    this.suscripcionService.create({
+      empresa_id: this.data.id,
+      paquete_id: this.paqueteSeleccionado
+    }).subscribe({
+      next: () => {
+        this._tools.basic("Paquete asignado/actualizado con éxito");
+        this.cargarSuscripciones();
+      },
+      error: (err) => this._tools.basic(err.error.message || 'Error al cambiar de paquete')
+    });
+  }
+
+  renovarPaquete(paqueteId: number) {
+    this.suscripcionService.renovar({
+      empresa_id: this.data.id,
+      paquete_id: paqueteId
+    }).subscribe({
+      next: () => {
+        alert('Suscripción renovada con éxito');
+        this.cargarSuscripciones();
+      },
+      error: (err) => alert(err.error.message || 'Error al renovar')
     });
   }
 

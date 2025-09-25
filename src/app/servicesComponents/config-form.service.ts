@@ -48,7 +48,7 @@ export class FormularioConfigService {
   /**
    * Obtener configuración del formulario de una tienda
    */
-  getConfig(tiendaId: any): Observable<FormularioConfig> {
+  getConfig(tiendaId: any): any {
     return this._model.querys('tblconfigform/getConfig', tiendaId, 'post');
   }
 
@@ -62,14 +62,14 @@ export class FormularioConfigService {
   /**
    * Actualizar un campo del formulario
    */
-  updateCampo(campo: CampoForm): Observable<CampoForm> {
+  updateCampo(campo: CampoForm): any {
     return this._model.querys('tblconfigform/'+campo.id, campo, 'put');
   }
 
   /**
    * Actualizar el botón del formulario
    */
-  updateBoton(boton: BotonForm): Observable<BotonForm> {
+  updateBoton(boton: BotonForm): any {
     return this._model.querys('Tblformulariobotones/'+boton.id, boton, 'put');
   }
 }

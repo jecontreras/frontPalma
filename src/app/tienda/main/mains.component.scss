@@ -5,61 +5,58 @@
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
-
 @keyframes bounce {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-10px); }
 }
-
 @keyframes splash {
   0% { transform: scale(1); opacity: 1; }
   50% { transform: scale(1.3); opacity: 0.7; }
   100% { transform: scale(1); opacity: 1; }
 }
 
-
 /* ============================= */
-/* 🚀 Banner animado            */
+/* 🚀 Banner animado             */
 /* ============================= */
+.banner {
+  text-align: center;
+}
 .moving-banner {
   width: 100%;
   overflow: hidden;
   white-space: nowrap;
-  position: relative;
   padding: 10px 0;
 }
-
 .moving-text {
   display: flex;
   width: 200%;
   animation: move-left 10s linear infinite;
 }
-
 .moving-text h4 {
-  display: inline-block;
   font-size: 20px;
   font-weight: bold;
-  color: white;
   padding: 0 20px;
 }
 
+/* 🏪 Nombre tienda */
+.store-name {
+  text-align: center;
+  margin: 20px 0;
+}
 
 /* ============================= */
-/* 🛒 Carrito - Sidebar        */
+/* 🛒 Carrito - Sidebar          */
 /* ============================= */
 .sidenav-container {
   width: 100%;
   height: 100vh;
 }
-
 .cart-sidenav {
   width: 350px;
   max-width: 100%;
-  height: 100vh;
   display: flex;
   flex-direction: column;
 }
-
 .cart-header {
   display: flex;
   justify-content: space-between;
@@ -68,26 +65,22 @@
   background: #333;
   color: white;
 }
-
 .cart-container {
   flex-grow: 1;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
   padding: 16px;
 }
-
 .cart-items {
   flex-grow: 1;
   overflow-y: auto;
-  padding: 15px;
 }
-
 .cart-item {
   display: flex;
   align-items: center;
   border-bottom: 1px solid #ddd;
   padding: 10px 0;
 }
-
 .cart-img {
   width: 75px;
   height: 75px;
@@ -95,19 +88,16 @@
   border-radius: 5px;
   margin-right: 10px;
 }
-
 .cart-title {
   font-weight: bold;
 }
-
 .cart-item-info {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-
 .remove-button {
-  background: #ffafaf;
+  background: #ff4d4d;
   color: white;
   border: none;
   padding: 5px 10px;
@@ -115,10 +105,10 @@
   cursor: pointer;
 }
 
-
-/* ============================= */
-/* 📦 Finalizar Compra          */
-/* ============================= */
+/* 📦 Finalizar Compra */
+.cart-footer {
+  padding-top: 10px;
+}
 .finalizar-compra-button {
   width: 100%;
   background: #ff6600;
@@ -129,68 +119,116 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  margin-top: 10px;
 }
-
 .finalizar-compra-button:hover {
   background: #e55e00;
 }
 
-
-/* ============================= */
-/* 🧼 Estado vacío              */
-/* ============================= */
+/* 🧼 Estado vacío */
 .empty-cart {
   text-align: center;
   font-size: 18px;
   color: #888;
+  margin-top: 20px;
 }
 
-
-/* ============================= */
-/* 💥 Efecto de Splash          */
-/* ============================= */
+/* 💥 Splash */
 .splash-effect {
   animation: splash 0.4s ease-out;
 }
 
-
-/* ============================= */
-/* 📌 Botón flotante carrito    */
-/* ============================= */
-.cart-footer-fixed {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1000;
-}
-
-.cart-button {
-  background-color: #ff9800;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 30px;
-  font-size: 16px;
-  font-weight: bold;
-  border: none;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
-  animation: bounce 1.5s infinite;
-  transition: transform 0.2s ease-in-out;
-}
-
-.cart-button:hover {
-  background: #ffaa00;
-  transform: scale(1.1);
-}
-
-
-/* ============================= */
-/* ❌ Botón cerrar              */
-/* ============================= */
+/* ❌ Botón cerrar */
 .close-btn {
   background: none;
   border: none;
   font-size: 18px;
   cursor: pointer;
+}
+
+/* ============================= */
+/* 📱 RESPONSIVE                 */
+/* ============================= */
+@media (max-width: 768px) {
+  /* El carrito ocupa toda la pantalla en mobile */
+  .cart-sidenav {
+    width: 100% !important;
+  }
+
+  .cart-img {
+    width: 60px;
+    height: 60px;
+  }
+
+  .cart-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .cart-item-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+
+  .finalizar-compra-button {
+    font-size: 16px;
+    padding: 12px;
+  }
+
+  .moving-text h4 {
+    font-size: 16px;
+  }
+
+  .store-name h1 {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 480px) {
+  .cart-header h1 {
+    font-size: 18px;
+  }
+  .cart-title {
+    font-size: 14px;
+  }
+  .finalizar-compra-button {
+    font-size: 14px;
+    padding: 10px;
+  }
+}
+
+/* ============================= */
+/* 🟢 Botón flotante carrito FAB */
+/* ============================= */
+.cart-fab {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #ff6600;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  font-size: 22px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  z-index: 2000;
+  animation: bounce 1.5s infinite;
+  transition: background 0.3s;
+}
+
+.cart-fab:hover {
+  background: #e55e00;
+}
+
+/* Mostrar solo en móviles */
+@media (min-width: 769px) {
+  .cart-fab {
+    display: none;
+  }
 }

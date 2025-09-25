@@ -51,19 +51,17 @@
     </div>
     <div class="mb-4">
       <br><br>
-      <div class="quantity-breaks-container" *ngFor="let item of data.listPrecios; let i = index">
+      <div class="quantity-breaks-container" *ngFor="let item of data.combos; let i = index">
         <!-- Opción 1 -->
         <input [id]="item.cantidad" type="radio" name="quantity" [value]="item.cantidad" />
         <label [for]="item.cantidad" class="quantity-break" (click)="comprarArticulo(item.cantidad, true, item.precios)">
           <span class="quantity-break__badge">
-            <p *ngIf="item.cantidad === 1" >OFERTA DEL DÍA 💥</p>
-            <p *ngIf="item.cantidad === 2" >MEGA OFERTA 🔥</p>
-            <p *ngIf="item.cantidad >= 3" >AHORRA MÁS 🚀</p>
+            <p> {{ item.tipo }}</p>
           </span>
           <div class="quantity-break__content">
             <div class="quantity-break__left">
-              <span class="quantity-break__label">LLEVA {{ item.cantidad }} <label for="" *ngIf="item.cantidad === 1 ">PAR</label> <label for="" *ngIf="item.cantidad !== 1 ">PARES</label></span>
-              <span class="quantity-break__benefit">Envío gratis</span>
+              <span class="quantity-break__label"> {{ item.rango }} x {{ item.subtext }}</span>
+              <span class="quantity-break__benefit">{{ data.pro_vendedor === 0 ? 'Envío gratis': ''}}</span>
             </div>
             <div class="quantity-break__right">
               <span class="quantity-break__price">{{ _formato.monedaChange(3, 2, item.precios || 0) }}</span>
@@ -85,13 +83,13 @@
       </button>
       <!-- Botón para agregar al carrito -->
        <br><br>
-      <button 
+      <!--<button 
         class="buy-button animated-pop"
         (click)="seleccionarOpciones(data)"
         [ngStyle]="{'background-color': tiendaInfo['configuracion']?.colorBotonCarrito, 'color': tiendaInfo['configuracion']?.colorTextoWeb}"
          >
          🛒 {{ tiendaInfo['configuracion']?.txtagregarCarrito || 'AGREGAR AL CARRITO Y COMPRA MAS' }}
-      </button>
+      </button>-->
     </div>
 
     <!-- Tallas disponibles -->

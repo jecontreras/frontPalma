@@ -60,6 +60,8 @@ import { PaquetesComponent } from './components/paquetes/paquetes.component';
 import { ResponsePaymentComponent } from './components/response-payment/response-payment.component';
 import { AdminPaquetesComponent } from './components/admin-paquetes/admin-paquetes.component';
 import { FormAdminPaquetesComponent } from './form/form-admin-paquetes/form-admin-paquetes.component';
+import { ReporteSuscripcionesComponent } from './components/reporte-suscripciones/reporte-suscripciones.component';
+import { EdicionFabricaArticuloComponent } from './dialog/edicion-fabrica-articulo/edicion-fabrica-articulo.component';
 
 @NgModule({
   entryComponents: [
@@ -75,7 +77,8 @@ import { FormAdminPaquetesComponent } from './form/form-admin-paquetes/form-admi
     ProductoCartComponent,
     FormEmpresaComponent,
     FormTipoMedidaComponent,
-    FormAdminPaquetesComponent
+    FormAdminPaquetesComponent,
+    EdicionFabricaArticuloComponent
   ],
   declarations: [
     MainsComponent,
@@ -119,7 +122,9 @@ import { FormAdminPaquetesComponent } from './form/form-admin-paquetes/form-admi
     PaquetesComponent,
     ResponsePaymentComponent,
     AdminPaquetesComponent,
-    FormAdminPaquetesComponent
+    FormAdminPaquetesComponent,
+    ReporteSuscripcionesComponent,
+    EdicionFabricaArticuloComponent
   ],
   imports: [
     CommonModule,

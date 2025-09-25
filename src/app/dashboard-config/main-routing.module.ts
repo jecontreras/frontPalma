@@ -22,6 +22,7 @@ import { ConfigFormCompraComponent } from './components/config-form-compra/confi
 import { PaquetesComponent } from './components/paquetes/paquetes.component';
 import { ResponsePaymentComponent } from './components/response-payment/response-payment.component';
 import { AdminPaquetesComponent } from './components/admin-paquetes/admin-paquetes.component';
+import { ReporteSuscripcionesComponent } from './components/reporte-suscripciones/reporte-suscripciones.component';
 
 const dashboardRoutes: Routes = [
  {
@@ -50,6 +51,7 @@ const dashboardRoutes: Routes = [
      {path: 'paquetes', component: PaquetesComponent},
       { path: 'response', component: ResponsePaymentComponent },
       { path: 'adminpaquete', component: AdminPaquetesComponent },
+      { path: 'reporteSuscripcion', component: ReporteSuscripcionesComponent },
      {path: '**', redirectTo: 'categorias', pathMatch: 'full'}
    ]
   }

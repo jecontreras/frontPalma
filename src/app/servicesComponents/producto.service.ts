@@ -21,6 +21,10 @@ export class ProductoService {
   getStore(query:any){
     return this._model.querys('tblproductos/filtroStore',query, 'post');
   }
+
+  createEdicion(query:any){
+    return this._model.querys('tblproductos/saveConfig',query, 'post');
+  }
   
   create(query:any){
     return this._model.querys('tblproductos',query, 'post');

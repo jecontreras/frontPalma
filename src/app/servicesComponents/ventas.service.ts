@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ServiciosService } from '../services/servicios.service';
+import { catchError, timeout } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -23,11 +25,23 @@ export class VentasService {
     return this._model.querysUrl(url,query, 'post');
   }
   getDepartment(url:string,query:any){
-    return this._model.querysUrl(url,query, 'post');
+    return this._model.querys(url,query, 'post');
   }
   getCiudadesTridy(query:any){
     return this._model.querysFlete('CiudadesTridy/querys',query, 'post');
   }
+  getFlete(query: any) {
+    return this._model.querysFlete('CiudadesTridy/getFleteValor', query, 'post')
+    .pipe(
+      timeout(60000), // ⏳ 1 minuto
+      catchError(err => {
+        if (err.name === 'TimeoutError') {
+          console.error('⏱ La petición de flete tardó demasiado y fue cancelada.');
+        }
+        return throwError(() => err);
+      })
+    );
+}
   getCity(url:string,query:any){
     return this._model.querysUrl(url,query, 'post');
   }
@@ -35,7 +49,7 @@ export class VentasService {
     return this._model.querysUrl(url,query, 'post');
   }
   getFleteValorTriidy(query:any){
-    return this._model.querysFlete('fletes/getFleteTriidy',query, 'post');
+    return this._model.querysFlete('CiudadesTridy/getFleteTriidy',query, 'post');
   }
   
   create(query:any){

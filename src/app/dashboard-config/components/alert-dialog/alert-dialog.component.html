@@ -1,13 +1,22 @@
-<!-- alert-dialog.component.html -->
-<h2 mat-dialog-title>{{ ds.titulo || 'Aviso Importante' }}</h2>
 
-<mat-dialog-content class="contenido">
-  <p>{{ ds.mensaje }}</p>
+<mat-dialog-content class="alerta-container">
+  <h2 mat-dialog-title [ngClass]="{'vencido': ds.estado === 'Vencido', 'por-vencer': ds.estado === 'Por vencer'}">
+    {{ ds.estado === 'Vencido' ? '⚠️ Suscripción vencida' : '⏳ Suscripción por vencer' }}
+  </h2>
+
+  <p>
+    Tu paquete <strong>{{ ds.paquete }}</strong> para la tienda
+    <strong>{{ ds.empresa }}</strong> vence el <strong>{{ ds.fecha_fin | date }}</strong>.
+  </p>
+
+  <p *ngIf="ds.dias_restantes > 0">
+    Te quedan <strong>{{ ds.dias_restantes }}</strong> días de uso.
+  </p>
+  <p *ngIf="ds.estado === 'Vencido'">
+    Debes renovar tu suscripción para seguir usando la plataforma.
+  </p>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-button (click)="cerrar()">Cerrar</button>
-  <button mat-raised-button color="primary" (click)="irAUpgrade()">
-    Ver Paquetes
-  </button>
+  <button mat-raised-button color="primary" (click)="cerrar()">Entendido</button>
 </mat-dialog-actions>

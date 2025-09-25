@@ -1,0 +1,8 @@
+<div class="loading-overlay" *ngIf="loading$ | async">
+  <mat-progress-spinner
+    mode="indeterminate"
+    diameter="70"
+    color="accent">
+  </mat-progress-spinner>
+  <p class="loading-text">Cargando...</p>
+</div>

@@ -6,6 +6,8 @@ import { STORAGES } from 'src/app/interfaces/sotarage';
 import { Store } from '@ngrx/store';
 import { ConfiguracionAction, UserAction } from 'src/app/redux/app.actions';
 import { AuthService } from 'src/app/services/auth.service';
+import { MatDialog } from '@angular/material';
+import { RecoverDialogComponent } from '../recover-dialog/recover-dialog.component';
 
 @Component({
   selector: 'app-login',
@@ -24,7 +26,8 @@ export class LoginsComponent implements OnInit {
     private _tools: ToolsService,
     private _router: Router,
     private _store: Store<STORAGES>,
-    private _authSrvice: AuthService
+    private _authSrvice: AuthService,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -54,6 +57,16 @@ export class LoginsComponent implements OnInit {
 
   registre(){
 
+  }
+
+  openRecoverDialog(){
+        const dialogRef = this.dialog.open(RecoverDialogComponent,{
+          data: {}
+        });
+    
+        dialogRef.afterClosed().subscribe(result => {
+          console.log(`Dialog result: ${result}`);
+        });
   }
 
 }

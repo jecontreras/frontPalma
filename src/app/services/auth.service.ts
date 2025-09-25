@@ -4,6 +4,7 @@ import * as moment from 'moment';
 import { tap } from 'rxjs/operators';
 import {Router, CanActivate } from '@angular/router';
 import { UsuariosService } from '../servicesComponents/usuarios.service';
+import { ServiciosService } from './servicios.service';
 export interface User {
   heroesUrl: string;
   textfile: string;
@@ -18,9 +19,17 @@ export class AuthService implements CanActivate {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private _usuario: UsuariosService
+    private _usuario: UsuariosService,
+    private _model: ServiciosService
     // private route: ActivatedRoute
   ) {}
+
+  recoverPassword(query: any) {
+      return this._model.querys('tblusuario/recover', query, 'post');
+    }
+  cambiarClave(query: any) {
+    return this._model.querys('tblusuario/cambiarClave', query, 'post');
+  }
 
    private setSession(authResult) {
         const expiresAt = moment().add(authResult.expiresIn, 'second');

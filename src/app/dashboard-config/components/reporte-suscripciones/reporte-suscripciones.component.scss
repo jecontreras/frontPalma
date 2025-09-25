@@ -1,0 +1,32 @@
+.reporte-container {
+  padding: 20px;
+
+  h2 {
+    margin-bottom: 20px;
+    font-weight: 600;
+  }
+
+  .acciones {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  table {
+    width: 100%;
+  }
+}
+
+.estado-activo {
+  color: green;
+  font-weight: bold;
+}
+.estado-warning {
+  color: orange;
+  font-weight: bold;
+}
+.estado-error {
+  color: red;
+  font-weight: bold;
+}

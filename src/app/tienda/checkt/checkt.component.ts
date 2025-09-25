@@ -89,7 +89,7 @@ export class ChecktComponent implements OnInit {
 
   getEmpresa2(){
     return new Promise( resolve =>{
-      this._empresa.get( { where: { id: 2 }, limit: 1 } ).subscribe( res =>{
+      this._empresa.get( { where: { id: 2 }, limit: 1 } ).subscribe( (res:any) =>{
         return resolve( res.data[0] );
       });
     });
@@ -97,7 +97,7 @@ export class ChecktComponent implements OnInit {
 
   async validateProcessVenta(){
     return new Promise( resolve =>{
-      this._ventas.get( { where: { empresa: 2, create: moment().format("DD/MM/YYYY") }, limit:5 } ).subscribe( res =>{
+      this._ventas.get( { where: { empresa: 2, create: moment().format("DD/MM/YYYY") }, limit:5 } ).subscribe( (res:any) =>{
         if( res.count === 4 ) return resolve( true );
         else return resolve( false );
       });
@@ -106,7 +106,7 @@ export class ChecktComponent implements OnInit {
 
   async getUltimaV(){
     return new Promise( resolve =>{
-      this._ventas.get( { where: { }, limit: 1 } ).subscribe( async ( res ) =>{
+      this._ventas.get( { where: { }, limit: 1 } ).subscribe( async ( res:any ) =>{
         if( res.data[0].empresa === 1 ) {
           let validate = await this.validateProcessVenta( );
           if( validate === true ) res.data[0].empresa = 1;

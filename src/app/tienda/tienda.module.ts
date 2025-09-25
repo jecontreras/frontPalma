@@ -10,7 +10,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { InfoProductoComponent } from './info-producto/info-producto.component';
 import { MyOwnCustomMaterialModule } from '../app.material.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProductosViewComponent } from './producto-view/producto-view.component';
 import { NgxImageZoomModule } from 'ngx-image-zoom';
 import { ContactoComponent } from './contacto/contacto.component';
@@ -36,7 +36,7 @@ import { ListGaleryLandingComponent } from './list-galery-landing/list-galery-la
 import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
-  entryComponents: [ InfoProductoComponent,ChecktDialogComponent, DialogPagoComponent ],
+  entryComponents: [ InfoProductoComponent,ChecktDialogComponent, DialogPagoComponent, DialogPedidoArmaComponent ],
   declarations: [MainsComponent, TiendaComponent, ProductosComponent, FooterComponent, MenuComponent, InfoProductoComponent, ProductosViewComponent, ContactoComponent, ChecktComponent, CarritoComponent, CompletarComponent, ChecktDialogComponent, DetallePedidoComponent, CatalogoComponent, AlertBannerComponent, SliderComponent, MenuLateralComponent, ProductosTComponent, ProductoView2Component, DialogPagoComponent, ProductosViewMComponent,
     DialogPedidoArmaComponent, AlertDialogLocationComponent, ListGaleryLandingComponent
    ],
@@ -51,7 +51,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
     NgImageSliderModule,
     SwiperModule,
     LightboxModule,
-    NgSelectModule
+    NgSelectModule,
+    ReactiveFormsModule
   ],
   exports: [ InfoProductoComponent, SliderComponent ]
 })

@@ -25,7 +25,7 @@ export class AdminPaquetesComponent implements OnInit {
   cargarPaquetes() {
     this.loading = true;
     this.paqueteService.get({ where: { }, limit: 1000 } ).subscribe({
-      next: (res) => {
+      next: (res:any) => {
         this.paquetes = res.data;
         this.loading = false;
       },

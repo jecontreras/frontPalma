@@ -57,7 +57,7 @@ export class PerfilComponent implements OnInit {
     this.urlTienda+=this.data.id;
     this.urlRegistro+=this.data.id;
     this.selectDepartamento();
-     this._empresaServices.get({ where: { id: this.tiendaInfo.id }}).subscribe(tienda => {
+     this._empresaServices.get({ where: { id: this.tiendaInfo.id }}).subscribe((tienda:any) => {
       tienda = tienda.data[0];
     this.tiendaInfo = tienda;
     this.superoLimite = tienda.productos_count >= tienda.listPaquete.productos_max || 

@@ -3,6 +3,8 @@ import { ConfiguracionService } from './servicesComponents/configuracion.service
 import { STORAGES } from './interfaces/sotarage';
 import { Store } from '@ngrx/store';
 import { ConfiguracionAction } from './redux/app.actions';
+import { PixelService } from './services/pixel.service';
+import { EmpresaService } from './servicesComponents/empresa.service';
 
 @Component({
   selector: 'app-root',
@@ -17,17 +19,21 @@ export class AppComponent {
   constructor(
     private _config: ConfiguracionService,
     private _store: Store<STORAGES>,
+    private pixelService: PixelService,
+    private empresaServices: EmpresaService
   ){
     this._store.subscribe((store: any) => {
       //console.log(store);
       store = store.name;
       this.empresa = store.configuracion || {};
     });
-    //this.dominio = window.location.host;
-    //console.log("******HOST", this.dominio)
-    //if( this.dominio === 'localhost:4300' ) this.dominio = "dilishoponline.com";
-    //if( this.dominio === 'localhost:4400' ) this.dominio = "shoppalmastore.firebaseapp.com";
-    //this.getEmpresa();
+    if( this.empresa.id ){
+      this.empresaServices.getPixel( this.empresa.id ).subscribe((res:any)=>{
+        if( res.success ){
+          this.pixelService.loadFacebookPixel( res.pixel || '557786259653482');
+        }
+      });
+    }
   }
 
   getEmpresa(){

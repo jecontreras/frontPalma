@@ -33,51 +33,34 @@
           Finalizar Compra ({{ _formato.monedaChange(3, 2, totalPagar) }})
         </button>
       </div>
-
     </div>
   </mat-sidenav>
 
   <!-- Contenido Principal -->
   <mat-sidenav-content class="main-content">
     
-    <div class="row" style="margin-right: 0px !important;">
-      <div class="col-12">
-        <div class="d-flex justify-content-center text-center"
-             [ngStyle]="{'background-color': data['configuracion']?.colorFondo, 'color': data['configuracion']?.colorTexto}">
-          <div class="moving-banner">
-            <div class="moving-text">
-              <ng-container *ngFor="let i of [1,2,3,4,5,6]">
-                <h4>{{ '🚀 ' + (data['configuracion']?.txtbanner || 'Envío Gratis - Pagos Contra Entrega') + ' 🚀' }}</h4>
-              </ng-container>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 mt-3">
-          <div class="d-flex justify-content-center text-center"
-               [ngStyle]="{'background-color': data['configuracion']?.colorFondo, 'color': data['configuracion']?.colorTexto}">
-            <div class="moving-banner">
-              <div>
-                <h1>{{ data?.nombreTienda }}</h1>
-              </div>
-            </div>
-          </div>
+    <!-- Banner -->
+    <div class="banner" [ngStyle]="{'background-color': data['configuracion']?.colorFondo, 'color': data['configuracion']?.colorTexto}">
+      <div class="moving-banner">
+        <div class="moving-text">
+          <ng-container *ngFor="let i of [1,2,3,4,5,6]">
+            <h4>{{ (data['configuracion']?.txtbanner || 'Envío Gratis - Pagos Contra Entrega') }}</h4>
+          </ng-container>
         </div>
       </div>
     </div>
 
+    <!-- Nombre tienda -->
+    <!--<div class="store-name" [ngStyle]="{'background-color': data['configuracion']?.colorFondo, 'color': data['configuracion']?.colorTexto}">
+      <h1>{{ data?.nombreTienda }}</h1>
+    </div>-->
+
     <app-menu-lateral></app-menu-lateral>
     <router-outlet></router-outlet>
-
-    <!-- Footer flotante del carrito -->
+    <!-- Botón flotante carrito (solo mobile) -->
      <!--
-    <footer class="cart-footer-fixed" *ngIf="carrito.length > 0">
-      <button class="cart-button animated-bounce" (click)="abrirCarrito()">
-        🛒 Mi Carrito ({{ carrito.length }})
-      </button>
-    </footer>
-
-  -->
-
+    <button class="cart-fab" (click)="sidenav.open()" *ngIf="carrito.length > 0">
+      🛒 {{ carrito.length }}
+    </button>-->
   </mat-sidenav-content>
-
 </mat-sidenav-container>

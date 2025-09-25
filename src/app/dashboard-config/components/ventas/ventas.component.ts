@@ -111,7 +111,7 @@ export class VentasComponent implements OnInit {
     };
     this.cargarTodos();
     this.sumCantidad = await this.getVentasHoy();
-    this.cargarLimitePaquete();
+    //this.cargarLimitePaquete();
     this.cargarVentas();
   }
 
@@ -126,7 +126,7 @@ export class VentasComponent implements OnInit {
           "empresa": this.ShopConfig.id,
           "create": this.dateHoy
       }
-      } ).subscribe( res => resolve( res.data ) )
+      } ).subscribe( (res:any) => resolve( res.data ) )
     })
   }
 

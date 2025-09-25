@@ -1,0 +1,63 @@
+<div class="reporte-container">
+  <h2>Reporte de Suscripciones</h2>
+
+  <div class="acciones">
+    <mat-form-field appearance="outline">
+      <mat-label>Filtrar por estado</mat-label>
+      <mat-select [(value)]="filtroEstado" (selectionChange)="aplicarFiltro($event.value)">
+        <mat-option value="">Todos</mat-option>
+        <mat-option value="Activo">Activo</mat-option>
+        <mat-option value="Por vencer">Por vencer</mat-option>
+        <mat-option value="Vencido">Vencido</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" (click)="exportExcel()">Exportar Excel</button>
+    <button mat-raised-button color="accent" (click)="exportPDF()">Exportar PDF</button>
+  </div>
+
+  <mat-spinner *ngIf="loading" diameter="40"></mat-spinner>
+
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" *ngIf="!loading">
+    <!-- Columnas iguales a antes -->
+    <ng-container matColumnDef="empresa">
+      <th mat-header-cell *matHeaderCellDef> Empresa </th>
+      <td mat-cell *matCellDef="let row">{{ row.empresa }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="paquete">
+      <th mat-header-cell *matHeaderCellDef> Paquete </th>
+      <td mat-cell *matCellDef="let row">{{ row.paquete }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="fecha_inicio">
+      <th mat-header-cell *matHeaderCellDef> Inicio </th>
+      <td mat-cell *matCellDef="let row">{{ row.fecha_inicio | date }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="fecha_fin">
+      <th mat-header-cell *matHeaderCellDef> Fin </th>
+      <td mat-cell *matCellDef="let row">{{ row.fecha_fin | date }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="dias_restantes">
+      <th mat-header-cell *matHeaderCellDef> Días restantes </th>
+      <td mat-cell *matCellDef="let row">{{ row.dias_restantes }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="estado">
+      <th mat-header-cell *matHeaderCellDef> Estado </th>
+      <td mat-cell *matCellDef="let row" [ngClass]="getEstadoClass(row.estado)">
+        {{ row.estado }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="valor">
+      <th mat-header-cell *matHeaderCellDef> Valor </th>
+      <td mat-cell *matCellDef="let row">${{ row.valor | number }}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>

@@ -8,7 +8,7 @@ export const environment = {
   //url: "https://backpalmaapi1-54896635487f.herokuapp.com",
   urlFront: "http://localhost:4200",
   //URLFILE: "https://apilokomproaqui3-8479ed1ed46c.herokuapp.com",
-  urlEnvios: "https://apienviosrapidos1-52a38e8052ee.herokuapp.com",
+  urlEnvios: "http://localhost:1337",
   URLFILE: "http://localhost:1339"
 };
 

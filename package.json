@@ -1,10 +1,10 @@
 {
   "name": "locompro-aqui",
-  "version": "0.0.0",
+  "version": "10",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --port 4400 --disable-host-check",
-    "build": "ng build --configuration production",
+    "build": "node set-version.js && ng build --configuration production",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -59,6 +59,7 @@
     "sweetalert2": "^9.8.2",
     "swiper": "^6.8.4",
     "tslib": "^1.10.0",
+    "xlsx": "^0.18.5",
     "yarn": "^1.22.0",
     "zone.js": "~0.10.2"
   },

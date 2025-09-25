@@ -1,39 +1,61 @@
-<h2 mat-dialog-title style="text-align: center;">
-    SELECCIÓNE UNA TALLA
+<h2 mat-dialog-title class="text-center">
+  Selecciona el producto
 </h2>
 
-<mat-dialog-content class="mat-typography">
-    <div class="row" style="display: flex; flex-direction: column; align-items: center;">
-        <div class="col-12" style="text-align: center; margin-bottom: 20px;">
-            <img [src]="data.foto" style="width: 100%; height: auto; max-height: 300px; border-radius: 30px;">
+<mat-dialog-content class="dialog-content">
+  <form [formGroup]="form">
+    <!-- 📌 Selección de color -->
+    <div class="color-section">
+      <h3>Color</h3>
+      <div class="color-gallery">
+        <div 
+          class="color-option"
+          *ngFor="let g of datas.row.galeriaList"
+          [ngClass]="{ 'selected': selectedFoto === g.foto }"
+          (click)="selectColor(g)">
+          <img [src]="g.foto" alt="Color" />
         </div>
-        
-        <!-- Talla Única -->
-            <div class="form-group" style="text-align: center; margin-bottom: 20px;" *ngIf="datas.pro_sw_tallas === 5">
-                <a class="mouse tEstile colorFondo">
-                Talla Única
-                </a>
-            </div>
-            
-            <!-- Tallas normales -->
-            <div class="form-group" style="text-align: center; margin-bottom: 20px;" *ngIf="datas.pro_sw_tallas !== 5">
-                <a class="mouse tEstile" *ngFor="let t of [35,36,37,38,39,40,41,42,43]"
-                [ngClass]="{'colorFondo': data.talla === t}"
-                (click)="handleSelectT(t)">
-                {{ t }}
-                </a>
-            </div>
-  
-        <mat-form-field class="example-full-width" style="width: 80%; text-align: center;">
-            <mat-label>Cantidad</mat-label>
-            <input matInput type="number" [(ngModel)]="data.cantidad" class="form-control" placeholder="Cantidad a adquirir">
-        </mat-form-field>
+      </div>
     </div>
+
+    <!-- 📌 Selección de talla -->
+    <div class="talla-section" *ngIf="datas.pro_sw_tallas !== 5">
+      <h3>Tallas</h3>
+      <div class="tallas-grid">
+        <button mat-stroked-button 
+          *ngFor="let t of datas.row.tallaSelect"
+          [color]="selectedTalla === t.tal_descripcion ? 'primary' : ''"
+          [ngClass]="{ 'selected-talla': selectedTalla === t.tal_descripcion }"
+          (click)="handleSelectT(t)">
+          {{ t.tal_descripcion }}
+        </button>
+      </div>
+    </div>
+
+    <!-- 📌 Talla única -->
+    <div class="talla-section" *ngIf="datas.pro_sw_tallas === 5">
+      <h3>Talla</h3>
+      <div class="unique-size">Talla Única</div>
+    </div>
+
+    <!-- 📌 Cantidad -->
+    <mat-form-field appearance="outline" class="w-100 cantidad-field">
+      <mat-label>Cantidad</mat-label>
+      <input matInput type="number" formControlName="cantidad" placeholder="Cantidad a adquirir">
+      <mat-error *ngIf="form.controls.cantidad.hasError('required')">
+        La cantidad es obligatoria
+      </mat-error>
+      <mat-error *ngIf="form.controls.cantidad.hasError('min')">
+        La cantidad mínima es 1
+      </mat-error>
+    </mat-form-field>
+  </form>
 </mat-dialog-content>
 
+<!-- 📌 Acciones -->
 <mat-dialog-actions align="center">
-    <button mat-button mat-dialog-close mat-raised-button color="warn">Cerrar</button>
-    <button mat-button cdkFocusInitial mat-raised-button color="primary" (click)="finalizando()">
-        <span>Agregar</span>
-    </button>
+  <button mat-stroked-button color="warn" mat-dialog-close>Cerrar</button>
+  <button mat-raised-button color="primary" (click)="finalizando()" [disabled]="!isFormValid()">
+    Agregar
+  </button>
 </mat-dialog-actions>

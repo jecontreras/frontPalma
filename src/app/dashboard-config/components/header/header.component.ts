@@ -17,6 +17,7 @@ import { NotificacionesService } from 'src/app/servicesComponents/notificaciones
 import { FormventasComponent } from 'src/app/dashboard-config/form/formventas/formventas.component';
 import { AlertDialogComponent } from '../alert-dialog/alert-dialog.component';
 import { EmpresaService } from 'src/app/servicesComponents/empresa.service';
+import { SuscripcionService } from 'src/app/servicesComponents/suscripcion.service';
 
 const URLFRON = environment.urlFront;
 
@@ -65,7 +66,8 @@ export class HeaderComponent implements OnInit {
     private _tools: ToolsService,
     private _notificaciones: NotificacionesService,
     private _venta: VentasService,
-    private tiendaService: EmpresaService
+    private tiendaService: EmpresaService,
+    private suscripcionService: SuscripcionService
 
   ) { 
     this._store.subscribe((store: any) => {
@@ -108,6 +110,33 @@ export class HeaderComponent implements OnInit {
   }
 
   verificarLimites() {
+     this.suscripcionService.getReporte().subscribe((res: any[]) => {
+      const miSuscripcion = res[0]; // 👉 asumiendo que traes solo la suscripción activa de la empresa
+
+      if (miSuscripcion.estado === 'Vencido' || miSuscripcion.estado === 'Por vencer') {
+        this.dialog.open(AlertDialogComponent, {
+          width: '400px',
+          data: miSuscripcion
+        });
+      }
+    });
+    /*
+     this.suscripcionService.getEstado(this.tiendaInfo.id).subscribe((res: any) => {
+      console.log("**114", res )
+      if (res.estado === 'vencido' || res.estado === 'sin_suscripcion' || res.diasRestantes <= 5) {
+        const dialogRef = this.dialog.open(AlertDialogComponent, {
+          width: '400px',
+          data: res
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+          if (result === 'paquetes') {
+            // redirigir al módulo de paquetes
+          }
+        });
+      }
+    });*/
+    /*
     this.tiendaService.get({ where: { id: this.tiendaInfo.id } }).subscribe(res => {
       res = res.data[0];
       let accion = new ConfiguracionAction( res, 'post');
@@ -124,6 +153,7 @@ export class HeaderComponent implements OnInit {
 
         }
     });
+    */
   }
 
   // Detecta cambio de tamaño de pantalla
@@ -413,6 +443,13 @@ export class HeaderComponent implements OnInit {
             icons: 'settings',
             nombre: 'Administrar tienda',
             url: '/config/configuracion',
+            disable: ( this.rolUser == 'administrador' || this.rolUser == 'subAdministrador'),
+            submenus:[]
+          },
+          {
+            icons: 'settings',
+            nombre: 'Administrar Reporte Suscripcion',
+            url: '/config/reporteSuscripcion',
             disable: ( this.rolUser == 'administrador' || this.rolUser == 'subAdministrador'),
             submenus:[]
           },

@@ -130,11 +130,13 @@
                         <option [value]="item.id" *ngFor="let item of listSubCategorias">{{ item.cat_nombre }}</option>
                     </select>
                 </div>
+            <!--
                 <div class="form-group col-md-6 col-sm-4 col-lg-4 col-xs-6">
                     <br>
                     <input type="checkbox" [(ngModel)]="data.checkMayor" value="second_checkbox"> <label
                         for="cbox2">Precios al Mayor</label>
                 </div>
+            -->
                 <div class="form-group col-md-6 col-sm-4 col-lg-4 col-xs-6" *ngIf="rolUser == 'administrador'">
                     <label>Precio Cliente Final</label>
                     <input currencyMask class="form-control form-control-sm" [(ngModel)]="data.pro_uni_venta"
@@ -159,6 +161,7 @@
                     <label>Venta Directo al whatsapp ( 0 es no 1 es si)</label>
                     <input type="number" class="form-control form-control-sm" [(ngModel)]="data.ventaPorWhatsApp" />
                 </div>
+                <!--
                 <div class="form-group col-md-6 col-sm-6 col-lg-6 col-xs-6" *ngIf="data.checkMayor">
                     <header class="main-box-header clearfix col-12 row">
                         <h2 class="col">Precios Por Cantidad</h2>
@@ -195,7 +198,7 @@
                             </div>
                         </li>
                     </ul>
-                </div>
+                </div> -->
                 
                 <div class="form-group col-md-6 col-sm-4 col-lg-4 col-xs-6">
                     <label for="exampleFormControlSelect1">Tipo de medida:</label>
@@ -398,7 +401,7 @@
         <span *ngIf="!id">Guardar Cambios</span>
         <span *ngIf="id">Actualizar Cambios</span>
     </button>
-    <button mat-button cdkFocusInitial (click)="handleAddStore()" *ngIf="( this.id ) " color="warn">
-        <span>Crear Precio al Mayor</span>
+    <button mat-button cdkFocusInitial (click)="handleAddStore()" *ngIf="( this.id ) " color="primary">
+        <span>Edicion de Plantilla</span>
     </button>
-</mat-dialog-actions>
+</mat-dialog-actions> 

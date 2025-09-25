@@ -280,7 +280,7 @@ export class ProductosViewComponent implements OnInit {
   
     getUser(){
       return new Promise( resolve =>{
-        this._user.get({ where:{ usu_telefono: this.number }, limit: 1 } ).subscribe( item =>{
+        this._user.get({ where:{ usu_telefono: this.number }, limit: 1 } ).subscribe( (item:any) =>{
           item = item.data[0];
           if( item ) {
             this.GuardarStoreUser( item );

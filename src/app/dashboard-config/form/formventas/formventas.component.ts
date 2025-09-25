@@ -158,7 +158,7 @@ export class FormventasComponent implements OnInit {
   }
 
   getDepartament(){
-    this._ventas.getDepartment( this.ShopConfig.urlBackendSocial+"/googleSheet/getDepartamento", { } ).subscribe( res =>{
+    this._ventas.getDepartment( this.ShopConfig.urlBackendSocial+"/googleSheet/getDepartamento", { } ).subscribe( (res:any) =>{
       this.listDepartament = res.objects || this.listDepartament;
     });
   }
@@ -178,7 +178,7 @@ export class FormventasComponent implements OnInit {
   }
 
   getEstados(){
-    this.estadoService.get({ where: { idVenta: this.id } } ).subscribe(data => {
+    this.estadoService.get({ where: { idVenta: this.id } } ).subscribe((data:any) => {
       this.estados = data.sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime());
     });
   }
@@ -414,7 +414,10 @@ export class FormventasComponent implements OnInit {
   }
 
   async updates() {
-    this.data = _.omit(this.data, ['usu_clave_int']);
+    try {
+      this.data.usu_clave_int = this.data.usu_clave_int.id || this.data.usu_clave_int;
+    } catch (error) { }
+    //this.data = _.omit(this.data, ['usu_clave_int']);
     this.data = _.omitBy( this.data, _.isNull);
     this.updateVenta( this.data );  
   }

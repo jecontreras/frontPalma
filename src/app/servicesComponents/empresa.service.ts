@@ -13,6 +13,9 @@ export class EmpresaService {
   get(query:any){
     return this._model.querys('empresa/querys',query, 'post');
   }
+  getPixel(query:any){
+    return this._model.querys(`empresa/getPixel?empresaId=${query}`, {},'get');
+  }
   getLimit( query:any ){
     return this._model.querys('empresa/verificarLimite',query, 'post');
   }

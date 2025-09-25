@@ -15,6 +15,7 @@ import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {MatChipInputEvent} from '@angular/material/chips';
 import { FormTestimonioComponent } from '../form-testimonio/form-testimonio.component';
 import { AlertDialogComponent } from '../../components/alert-dialog/alert-dialog.component';
+import { EdicionFabricaArticuloComponent } from '../../dialog/edicion-fabrica-articulo/edicion-fabrica-articulo.component';
 
 const URL = environment.url;
 
@@ -87,12 +88,24 @@ export class FormproductosComponent implements OnInit {
   ngOnInit() {
     this.disableSpinner = true;
     this.inicial();
+    this.getIdProducto();
   }
-  inicial(){
+
+  getIdProducto(){
+    return new Promise( resolve =>{
+      this._productos.get( { where: { id: this.id } } ).subscribe( ( res:any ) =>{
+        resolve( res.data[0] );
+      },( error => resolve( {} ) ) );
+    });
+  }
+
+  async inicial(){
 
     if (Object.keys(this.datas.datos).length > 0) {
       this.data = _.clone(this.datas.datos);
       this.id = this.data.id;
+      let result:any = await this.getIdProducto();
+      this.data = result || this.data;
       //this.data
       try {
         for(let row of this.data.listColor ) { for( let item of row.tallaSelect ) item.tal_descripcion = Number( item.tal_descripcion ); row.tallaSelect = _.orderBy(row.tallaSelect, ['tal_descripcion'], ['DEC']); }
@@ -400,6 +413,7 @@ export class FormproductosComponent implements OnInit {
     if( this.rolUser == 'administrador' ) this.data.pro_activo = 0;
     console.log("updates", this.data)
     this.data.empresa = this.ShopConfig.id;
+    if( this.data.pro_categoria ) this.data.pro_categoria = this.data.pro_categoria.id || this.data.pro_categoria;
     this._productos.update(this.data).subscribe((res: any) => {
       this._tools.presentToast("Actualizado");
       res.listColor = this.data.listColor;
@@ -734,60 +748,63 @@ export class FormproductosComponent implements OnInit {
           coinAlert2 = Number( coinAlert2['value']);
         }
 
-      this.nextFunctionPriceAlElderly( coinAlert, coinAlert2 );      
-
+      await this.nextFunctionPriceAlElderly( coinAlert, coinAlert2 );      
+      this.handleOpenReload();
     }
   }
 
-  nextFunctionPriceAlElderly( coinAlert, coinAlert2 ){
-    let data = {
-      article: this.data.id,
-      user: this.dataUser.id,
-      price: coinAlert,
-      price2: coinAlert2
-    };
+  handleOpenReload(){
+    const dialogRef = this.dialog.open(EdicionFabricaArticuloComponent,{
+      data: {
+        imagenes: this.data.imagenes || [],
+        combos: this.data.combos || [],
+        faqs: this.data.faqs || [],
+        localStats: this.data.stats || [],
+        pagaEnvio: this.data.pagaEnvio || "cliente"
+      },
+      height:  '',
+      width: '100%',
+      maxWidth: "100%"
+    });
 
-    this._productos.createPrice( data ).subscribe( res =>{
-      this._tools.tooast({ title: "Completo", detalle: "Este Producto ha sido Agregado a tu Cuenta."})
-      //this.dialogRef.close('creo');
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+      if (result) {
+        this.data.pagaEnvio = result.pagaEnvio || 'cliente';
+      this._productos.createEdicion({
+        producto_id: this.id,
+        ...result
+      },).subscribe(async () => {
+        console.log('✅ Configuración guardada');
+        this.submit();
+        let result:any = await this.getIdProducto();
+        this.data = result || this.data;
+      });
+    }
     });
   }
 
-  async cargarVideo(imageInput){ console.log("Cargar video ev")
-    //  try{
-    const file: File = imageInput.files[0];
-      console.log("file", file)
-      await this._archivos.VideoFirebase(file, this.data.pro_codigo)
-      .then(async (resultado)=>{
-        console.log(" VideoFirebase token",resultado)
-        let data = { id: this.data.id,
-                pro_video_token : resultado
-              }
-        await this._productos.updateVideoToken(data).subscribe((res)=>{
-          console.log("updateVideoTokeres",res)
-        })
-
-      })
-    // }catch(err){
-    //   this._tools.presentToast("No se pudo subir el video ");
-    // }
-
-
-
-
-
-
-      // if(token=="no"){
-      //   this._tools.presentToast("No se pudo subir el video ");
-      // }else{
-      //   console.log("token" , token)
-      //   if(token){
-      //     // guardar url del video
-      //
-      //     })
-      //   }
-      // }
-  // })
+  nextFunctionPriceAlElderly( coinAlert, coinAlert2 ){
+    return new Promise( resolve =>{
+      let data = {
+        article: this.data.id,
+        user: this.dataUser.id,
+        price: coinAlert,
+        price2: coinAlert2
+      };
+  
+      try {
+        this._productos.createPrice( data ).subscribe( res =>{
+        this._tools.tooast({ title: "Completo", detalle: "Este Producto ha sido Agregado a tu Cuenta."})
+        //this.dialogRef.close('creo');
+        resolve( res );
+      });
+      } catch (error) {
+        
+      }
+    });
   }
+
+  
 
 }

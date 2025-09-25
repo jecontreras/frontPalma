@@ -104,7 +104,7 @@ export class ProductosComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+      console.log(`Dialog result: ${result}`, result );
     });
   }
   delete(obj:any){
@@ -218,7 +218,7 @@ export class ProductosComponent implements OnInit {
 
   getProduct( item:number ){
     return new Promise( resolve =>{
-      this._productos.getStore( { where: { article: item } } ).subscribe( res => resolve( res.data[0] ), error => resolve( error ) );
+      this._productos.getStore( { where: { article: item } } ).subscribe( (res:any) => resolve( res.data[0] ), error => resolve( error ) );
     })
   }
 

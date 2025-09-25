@@ -43,3 +43,50 @@
     font-size: 14px;
   }
 }
+
+.pedido-card {
+  border: 2px solid transparent;
+  border-radius: 16px;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+  padding: 1rem;
+  margin-top: 1rem;
+  background: linear-gradient(145deg, #ffffff, #f9f9f9);
+
+  mat-card-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.6rem 0;
+    font-size: 1rem;
+    border-bottom: 1px dashed #e0e0e0;
+
+    span {
+      color: #444;
+    }
+
+    strong {
+      font-weight: 600;
+      color: #222;
+    }
+
+    &.total {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #2a7a2e;
+      margin-top: 0.5rem;
+    }
+  }
+
+  .gratis {
+    color: #28a745;
+    font-weight: 700;
+  }
+}
+

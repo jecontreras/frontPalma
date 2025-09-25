@@ -36,11 +36,9 @@
             <mat-icon>person_add</mat-icon> Registrarse
           </a>
   
-          <a mat-button color="warn" *ngIf="!disableRestarure"
-            [href]="'https://wa.me/573148487506?text=Hola Servicio al cliente, necesito recuperar mi cuenta: ' + data.usu_email "
-            target="_blank">
-            <mat-icon>lock_reset</mat-icon> Recuperar Contraseña
-          </a>
+            <button mat-button color="warn" (click)="openRecoverDialog()">
+              <mat-icon>lock_reset</mat-icon> ¿Olvidaste tu contraseña?
+            </button>
         </mat-card-actions>
   
       </mat-card>

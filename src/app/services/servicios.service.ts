@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { USER } from '../interfaces/sotarage';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { ConfiguracionAction, UserAction } from '../redux/app.actions';
 import { ToolsService } from './tools.service';
+import { catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
 declare var io: any;
 const headers = new HttpHeaders({
@@ -99,8 +101,32 @@ export class ServiciosService {
       });
     }
   }
-  private ejecutarQuery(url: string, data, METODO){
-    return this.http[METODO]( url, data );
+  private ejecutarQuery(url: string, body, method){
+
+    switch (method) {
+      case 'post':
+        return this.http.post(url, body).pipe(
+          catchError((err: HttpErrorResponse) => {
+            if (err.status === 403) {
+              alert(err.error.error || 'Tu suscripción está vencida.');
+            }
+            return throwError(() => err);
+          })
+        );
+      case 'put':
+        return this.http.put(url, body).pipe(
+          catchError((err: HttpErrorResponse) => throwError(() => err))
+        );
+      case 'delete':
+        return this.http.delete(url).pipe(
+          catchError((err: HttpErrorResponse) => throwError(() => err))
+        );
+      default:
+        return this.http.get(url).pipe(
+          catchError((err: HttpErrorResponse) => throwError(() => err))
+        );
+    }
+    //return this.http[METODO]( url, data );
   }
 
   querys(query:string, datas:any, METODO:string){

@@ -1,0 +1,21 @@
+<div class="container d-flex align-items-center justify-content-center">
+  <mat-card class="w-100 max-w-md">
+    <mat-card-title>Cambiar Contraseña</mat-card-title>
+    <mat-card-content>
+      <form [formGroup]="form">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Nueva Contraseña</mat-label>
+          <input matInput type="password" formControlName="clave">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Confirmar Contraseña</mat-label>
+          <input matInput type="password" formControlName="confirmar">
+        </mat-form-field>
+      </form>
+    </mat-card-content>
+    <mat-card-actions align="end">
+      <button mat-raised-button color="primary" (click)="cambiarClave()">Guardar</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

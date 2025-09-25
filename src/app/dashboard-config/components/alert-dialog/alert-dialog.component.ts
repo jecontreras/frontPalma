@@ -26,7 +26,7 @@ export class AlertDialogComponent implements OnInit {
   }
 
   irAUpgrade(): void {
-    this.router.navigate(['/admin/paquetes']); // 👉 ruta donde tienes el PaquetesComponent
+    this.router.navigate(['/config/paquetes']); // 👉 ruta donde tienes el PaquetesComponent
     this.dialogRef.close('upgrade');
   }
 }

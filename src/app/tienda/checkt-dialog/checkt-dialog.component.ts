@@ -132,7 +132,7 @@ export class ChecktDialogComponent implements OnInit {
 
 
   getDepartament(){
-    this._ventas.getDepartment( this.ShopConfig.urlBackendSocial+"/googleSheet/getDepartamento", { } ).subscribe( res =>{
+    this._ventas.getDepartment( "CiudadesTridy/getDepartamento", { } ).subscribe( (res:any) =>{
       this.listDepartament = res.objects || this.listDepartament;
     });
   }
@@ -142,10 +142,10 @@ export class ChecktDialogComponent implements OnInit {
     if( !idDepartamen ) return this._tools.presentToast("No encontre departamento");
     this.listCiudad =  idDepartamen.listCity;
     this.loadingCity= true;
-    this._ventas.getDepartment( this.ShopConfig.urlBackendSocial+"/googleSheet/getCity", {  where: { 
+    this._ventas.getDepartment( "CiudadesTridy/getCity", {  where: { 
       idDept: idDepartamen.id,
       rate_type: "CON RECAUDO"
-    } } ).subscribe( res =>{
+    } } ).subscribe( (res:any) =>{
       this.listCiudad = res.objects.cities || this.listCiudad;
       this.loadingCity= false;
     });
@@ -200,7 +200,7 @@ export class ChecktDialogComponent implements OnInit {
 
   getEmpresa2(){
     return new Promise( resolve =>{
-      this._empresa.get( { where: { id: 2 }, limit: 1 } ).subscribe( res =>{
+      this._empresa.get( { where: { id: 2 }, limit: 1 } ).subscribe( (res:any) =>{
         return resolve( res.data[0] );
       });
     });
@@ -208,7 +208,7 @@ export class ChecktDialogComponent implements OnInit {
 
   async validateProcessVenta(){
     return new Promise( resolve =>{
-      this._ventas.get( { where: { empresa: 2, create: moment().format("DD/MM/YYYY") }, limit:5 } ).subscribe( res =>{
+      this._ventas.get( { where: { empresa: 2, create: moment().format("DD/MM/YYYY") }, limit:5 } ).subscribe( (res:any) =>{
         if( res.count === 4 ) return resolve( true );
         else return resolve( false );
       });
@@ -217,7 +217,7 @@ export class ChecktDialogComponent implements OnInit {
 
   async getUltimaV(){
     return new Promise( resolve =>{
-      this._ventas.get( { where: { }, limit: 1 } ).subscribe( async ( res ) =>{
+      this._ventas.get( { where: { }, limit: 1 } ).subscribe( async ( res:any ) =>{
         if( res.data[0].empresa === 1 ) {
           let validate = await this.validateProcessVenta( );
           if( validate === true ) res.data[0].empresa = 1;
@@ -300,7 +300,7 @@ export class ChecktDialogComponent implements OnInit {
     this.disabled = false;
     this._tools.presentToast("Exitoso Tu pedido esta en proceso. un accesor se pondra en contacto contigo!");
     setTimeout(()=>this._tools.tooast( { title: "Tu pedido esta siendo procesado "}) ,3000);
-    this.mensajeWhat();
+    //this.mensajeWhat();
     //this._router.navigate(['/tienda/detallepedido']);
     console.log("***270", this.data)
     this._router.navigate(['/tienda/detallepedido', this.data.id]);
@@ -370,13 +370,13 @@ export class ChecktDialogComponent implements OnInit {
     this.data.cantidadAd1 = 0;
     let priceReal = 0;
     for( let item of this.listCantidad ) this.data.cantidadAd1+= item.cantidadAd;
-    let filterPrice = this.datas.listPrecios.find(row => this.data.cantidadAd1 === row.cantidad);
+    let filterPrice = this.datas.combos.find(row => this.data.cantidadAd1 === Number(row.rango));
 
     if (!filterPrice) {
       // buscar el precio con la mayor cantidad <= cantidad solicitada
-      filterPrice = this.datas.listPrecios
-        .filter(row => row.cantidad <= this.data.cantidadAd1)
-        .sort((a, b) => b.cantidad - a.cantidad)[0];  // el más grande que no se pasa
+      filterPrice = this.datas.combos
+        .filter(row => Number( row.rango ) <= this.data.cantidadAd1)
+        .sort((a, b) => Number( b.rango ) - Number( a.rango ) )[0];  // el más grande que no se pasa
     }
 
     console.log("***249", filterPrice, this.data.cantidadAd1);

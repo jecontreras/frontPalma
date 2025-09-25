@@ -164,7 +164,7 @@ export class ConfigComponent implements OnInit {
   }
 
   Actualizar(){
-    this.data = _.omit(this.data, ['createdAt', 'updatedAt']);
+    this.data = _.omit(this.data, ['createdAt', 'updatedAt', 'paquete']);
     this.data = _.omitBy( this.data, _.isNull);
     if( !this.data.textTransfer ) this.data.textTransfer = " ";
     this._configuracion.update(this.data).subscribe((res:any)=>{

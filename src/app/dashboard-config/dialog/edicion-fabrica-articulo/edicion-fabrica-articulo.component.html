@@ -1,0 +1,136 @@
+<h2 mat-dialog-title>Administrar Producto</h2>
+
+<mat-dialog-content class="dialog-content">
+  <!-- 📷 Galería de imágenes -->
+  <section class="admin-section">
+    <h3>Imágenes del Producto (máx. 3)</h3>
+    <div class="imagenes-grid">
+      <div class="img-box" *ngFor="let img of imagenes; let i = index">
+        <img [src]="img.url" alt="Producto" class="preview" />
+        <button mat-icon-button color="warn" (click)="eliminarImagen(i)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+      <div class="upload-box" *ngIf="imagenes.length < 3">
+        <input type="file" accept="image/*" (change)="subirImagen($event)" hidden #fileInput />
+        <button mat-flat-button color="primary" (click)="fileInput.click()">
+          <mat-icon>add_photo_alternate</mat-icon> Subir Imagen
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <mat-divider></mat-divider>
+
+<section class="admin-section">
+  <h3 class="titulo">¿Quién paga el envío?</h3>
+  <mat-radio-group [(ngModel)]="pagaEnvio" class="radio-group" name="pagaEnvio">
+    <mat-radio-button value="cliente">Cliente</mat-radio-button>
+    <mat-radio-button value="empresa">Empresa</mat-radio-button>
+  </mat-radio-group>
+</section>
+
+
+  <!-- 🎯 Combos -->
+  <section class="admin-section">
+    <h3>Combos</h3>
+    <div class="combos-edit">
+      <div class="combo-card" *ngFor="let combo of combos; let i = index">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Tipo</mat-label>
+          <input matInput [(ngModel)]="combo.tipo" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Rango</mat-label>
+          <input matInput [(ngModel)]="combo.rango"/>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Cantidad de Pares</mat-label>
+          <input matInput [(ngModel)]="combo.cantidad" type="number"/>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Precio</mat-label>
+          <input matInput type="number" [(ngModel)]="combo.precios" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Texto Inferior</mat-label>
+          <input matInput [(ngModel)]="combo.subtext" />
+        </mat-form-field>
+
+        <button mat-icon-button color="warn" (click)="eliminarCombo(i)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+
+      <button mat-stroked-button color="accent" (click)="agregarCombo()">
+        <mat-icon>add</mat-icon> Agregar Combo
+      </button>
+    </div>
+  </section>
+
+  <mat-divider></mat-divider>
+
+  <!-- ❓ Preguntas frecuentes -->
+  <section class="admin-section">
+    <h3>Preguntas Frecuentes</h3>
+    <div class="faq-edit">
+      <div class="faq-item" *ngFor="let faq of faqs; let i = index">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Pregunta</mat-label>
+          <input matInput [(ngModel)]="faq.pregunta" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Respuesta</mat-label>
+          <textarea matInput rows="2" [(ngModel)]="faq.respuesta"></textarea>
+        </mat-form-field>
+
+        <button mat-icon-button color="warn" (click)="eliminarFaq(i)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+
+      <button mat-stroked-button color="accent" (click)="agregarFaq()">
+        <mat-icon>add</mat-icon> Agregar Pregunta
+      </button>
+    </div>
+  </section>
+  <section class="admin-section">
+    <h3>Estadisticas</h3>
+    <div class="list">
+      <div class="item" *ngFor="let s of localStats; let i = index">
+        <mat-form-field appearance="outline" class="small">
+          <mat-label>Valor</mat-label>
+          <input matInput type="number" [(ngModel)]="s.valor" />
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline" class="flex">
+          <mat-label>Texto (subtitulo)</mat-label>
+          <input matInput [(ngModel)]="s.texto" />
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline" class="small">
+          <mat-label>Color BG</mat-label>
+          <input matInput [(ngModel)]="s.bg" placeholder="#fff" />
+        </mat-form-field>
+  
+        <button mat-icon-button color="warn" (click)="remove(i)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <div class="actions">
+    <button mat-stroked-button color="accent" (click)="add()"> <mat-icon>add</mat-icon> Agregar Estadística</button>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-stroked-button (click)="onCancel()">Cancelar</button>
+  <button mat-flat-button color="primary" (click)="onSave()">Guardar</button>
+</mat-dialog-actions>
